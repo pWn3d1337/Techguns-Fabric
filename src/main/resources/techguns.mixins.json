@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "techguns.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "TGPlayerEntityMixin"
+  ],
+  "client": [
+    "ItemRendererMixin",
+    "TGPlayerEntityMixinClient",
+    "MouseMixin",
+    "ClientPlayNetworkHandlerMixin",
+    "PlayerEntityRendererMixin",
+    "CrossbowPosingMixin",
+    "CameraAccessor",
+    "WorldRendererMixin",
+    "AbstractClientPlayerEntityMixin"
+   ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

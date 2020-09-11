@@ -1,0 +1,628 @@
+FXLIST ScreenTestFX {
+//ScreenTestFXFlare
+ScreenTestFXFlames
+//TestFlare
+}
+
+TestFlare {
+AnimationSpeed = 1 1
+Texture = techguns:textures/fx/bio.png
+RenderType = ADDITIVE
+Lifetime = 10 10
+SystemLifetime = 0 0
+AnimationSpeed = 1 1
+Size = 5 5
+SizeRate = 0 0
+SizeRateDamping = 1 1
+Alpha = 0.0 0
+Alpha = 1.0 0.5
+Alpha = 0 1.0
+Color = 255 255 255 0
+Color = 255 255 255 1
+ParticleCount = 1 1
+InitialDelay = 0 0
+SpawnDelay = 0 0
+VelocityType = ORTHO
+Velocity1 = 0 0
+Velocity2 = 0 0
+Velocity3 =  0 0
+VelocityDamping = 1 1
+Gravity = 0.0
+VolumeType = POINT
+IsHollow = false
+RemoveOnGround = false
+SystemVelocityFactor = 0 0
+Offset = 0 0 0
+}
+
+
+ScreenTestFXFlames {
+AnimationSpeed = 1 1
+Texture = techguns:textures/fx/flamethrower.png
+RenderType = ADDITIVE
+Rows = 4
+Columns = 4
+Frames = 16
+Angle = 0 360
+AngleRate = -5 5
+AngleRateDamping = 0.95 0.97
+HasVariations = false
+RandomRotation = true
+Lifetime = 3 3
+SystemLifetime = 0 0
+AnimationSpeed = 1 1
+Size = 0.5 0.5
+SizeRate = 1 1
+SizeRateDamping = 0.94 0.97
+Alpha = 0.0 0
+Alpha = 1.0 0.25
+Alpha = 0 1.0
+Color = 255 255 255 0
+Color = 255 255 255 1
+ParticleCount = 25 25
+InitialDelay = 0 0
+SpawnDelay = 0 0
+VelocityType = ORTHO
+Velocity1 = -0.15 0.15
+Velocity2 = 0.5 1
+Velocity3 =  -0.15 0.15
+VelocityDamping = 0.94 0.95
+Gravity = 0.0
+VolumeType = CYLINDER
+Volume1 = 0.1
+Volume2 = 0.85
+IsHollow = false
+RemoveOnGround = false
+SystemVelocityFactor = 0 0
+Offset = 0 0.15 0
+}
+
+
+ScreenTestFXFlare {
+AnimationSpeed = 1 1
+Texture = techguns:textures/fx/tfg_flare.png
+RenderType = ADDITIVE
+Rows = 4
+Columns = 4
+Frames = 16
+//Angle = 0 360
+//AngleRate = -5 5
+//AngleRateDamping = 0.95 0.97
+Lifetime = 15 15
+SystemLifetime = 0 0
+AnimationSpeed = 0.6 0.6
+Size = 100.0 100.0
+SizeRate = 0.25 0.25
+SizeRateDamping = 0.90 0.91
+//StartSizeRate = 0.025 0.025
+Alpha = 0 0
+Alpha = 0.75 0.35
+Alpha = 0 1
+Color = 255 255 255 0
+ParticleCount = 1 1
+InitialDelay = 0 0
+SpawnDelay = 5 5
+VelocityType = NONE
+Gravity = 0.0
+VolumeType = POINT
+IsHollow =false
+RemoveOnGround = false
+Offset = 150 -15 -15
+}
+
+
+//UNUSED
+FXLIST TFGFire {
+TFGFireMainFlare
+TFGFireFlare
+}
+
+
+TFGFireMainFlare {
+AnimationSpeed = 1 1
+Texture = techguns:textures/fx/tfg_flare.png
+RenderType = ADDITIVE
+Rows = 4
+Columns = 4
+Frames = 16
+Angle = 0 360
+AngleRate = -5 5
+AngleRateDamping = 0.95 0.97
+Lifetime = 4 4
+SystemLifetime = 1 1 //MAX CHARGE TIME = 60
+AnimationSpeed = 0.6 0.6
+Size = 1.0 1.0
+SizeRate = 0.25 0.25
+SizeRateDamping = 0.90 0.91
+//StartSizeRate = 0.025 0.025
+Alpha = 0 0
+Alpha = 0.75 0.35
+Alpha = 0 1
+Color = 255 255 255 0
+ParticleCount = 1 1
+InitialDelay = 0 0
+SpawnDelay = 2 2
+VelocityType = NONE
+Gravity = 0.0
+VolumeType = POINT
+IsHollow =false
+RemoveOnGround = false
+ParticlesStickToSystem = true
+particlesMoveWithSystem = true
+}
+
+
+TFGFireFlare {
+AnimationSpeed = 1 1
+Texture = techguns:textures/fx/lensflare3.png
+RenderType = ADDITIVE
+Angle = 0 360
+AngleRate = -5 5
+AngleRateDamping = 0.94 0.95
+Lifetime = 5 6
+SystemLifetime = 1 1 //MAX CHARGE TIME = 60
+AnimationSpeed = 1 1
+Size = 0.1 0.2
+SizeRate = 0.6 0.7
+SizeRateDamping = 0.90 0.93
+StartSizeRate = 0.025 0.025
+Alpha = 0 0
+Alpha = 0.25 0.35
+Alpha = 0 1
+Color = 128 255 128 0
+ParticleCount = 2 2
+InitialDelay = 0 0
+SpawnDelay = 2 2
+VelocityType = NONE
+Gravity = 0.0
+VolumeType = POINT
+IsHollow =false
+RemoveOnGround = false
+ParticlesStickToSystem = true
+particlesMoveWithSystem = true
+//Offset= -0.14 -0.10 0.42
+}
+//----------------
+
+//UNUSED
+TFGExplosionBlast {
+AnimationSpeed = 1 1
+Texture = techguns:textures/fx/explosion4x4_02.png
+RenderType = ADDITIVE
+Rows = 4
+Columns = 4
+Frames = 16
+Angle = 0 360
+AngleRate = -5 5
+AngleRateDamping = 0.92 0.93
+Lifetime = 25 25
+SystemLifetime = 1 1
+AnimationSpeed = 1 1
+Size = 2 3
+SizeRate = 5 6
+SizeRateDamping = 0.89 0.91
+Alpha = 0 0
+Alpha = 0.35 0.25
+Alpha = 0 1
+Color = 128 255 64 0
+ParticleCount = 5 6
+InitialDelay = 0 0
+SpawnDelay = 1 1
+VelocityType = OUTWARD
+Velocity1 = 3 5
+Velocity2 = 0 0
+VelocityDamping = 0.9 0.92
+Gravity = 0.0
+VolumeType = SPHERE
+Volume1 = 0.25
+IsHollow =false
+RemoveOnGround = false
+}
+
+//UNUSED
+TFGExplosionSmoke {
+Texture = techguns:textures/fx/dustclouds02.png
+RenderType = ALPHA
+Rows = 3
+Columns =3
+Frames = 9
+angle = 0 360
+angleRate = -2.5 2.5
+angleRateDamping = 0.95 0.96
+Lifetime = 65 85
+SpawnDelay = 0 0
+SystemLifetime = 6 6
+InitialDelay = 2 2
+Size = 5.8 9.6
+SizeRate = 2.4 2.6
+SizeRateDamping = 0.87 0.91
+Alpha = 0.0 0
+Alpha = 0.5 0.25
+Alpha = 0 1.0
+Color = 128 128 128 0
+Color = 64 64 64 1
+ParticleCount = 4 4
+Gravity = 0.02
+VolumeType = SPHERE
+Volume1 = 2.5
+VelocityType = OUTWARD
+Velocity1 = 1 4 //Outward
+VelocityDamping = 0.94 0.95
+InitialDelay = 2 2
+//HasVariations = true
+}
+
+//UNUSED
+TFGTrailStreak {
+Texture = techguns:textures/fx/missiletrail01.png
+RenderType = ADDITIVE
+Streak = true
+Lifetime = 7 7
+SpawnDelay = 0 0
+SystemLifetime = 0 0
+Size = 3 3
+SizeRate = -0.5 -0.5
+SizeRateDamping = 0.9 0.9
+Alpha = 0.5 0
+Alpha = 0 1
+Color = 32 255 32 0
+ParticleCount = 1 1
+Gravity = 0.0
+VolumeType = POINT
+VelocityType = NONE
+VelocityDamping = 1 1
+InitialDelay = 1 1
+offset = 0 0 0
+}
+
+//UNUSED
+TFGTrailWaves {
+Texture = techguns:textures/fx/shockwave.png
+RenderType = ADDITIVE
+Angle = 0 360
+AngleRate = -10 10
+AngleRateDamping = 0.93 0.97
+Lifetime = 10 10
+SpawnDelay = 2 2
+SystemLifetime = 0 0
+Size = 1 1
+SizeRate = 2 5
+SizeRateDamping = 0.85 0.86
+Alpha = 0 0
+Alpha = 0.25 0.15
+Alpha = 0 1
+Color = 0 255 0 0
+ParticleCount = 1 1
+Gravity = 0.05
+VolumeType = POINT
+VelocityType = NONE
+InitialDelay = 0 0
+ParticlesStickToSystem = true
+//particlesMoveWithSystem = true
+//SystemVelocityFactor = 1.0 1.0
+}
+
+
+FXLIST TestFX {
+MuzzleFXFlare
+}
+
+
+MuzzleFXFlare {
+Texture = techguns:textures/fx/lensflare1.png
+RenderType = ADDITIVE
+Rows = 1
+Columns = 1
+Frames = 1
+angle = 0 360
+angleRate = -10 10
+angleRateDamping = 0.87 0.89
+Lifetime = 5 5
+SpawnDelay = 0 0
+SystemLifetime = 2 2
+Size = 3 4
+SizeRate = -0.50 -0.30
+SizeRateDamping = 0.9 0.9
+Alpha = 0 0
+Alpha = 1 0.25
+Alpha = 0 1
+Color = 255 196 128 0
+//Color = 0 0 0 1
+ParticleCount = 5 6
+Gravity = 0
+VolumeType = POINT
+VelocityType = ORTHO
+Velocity1 = 0 0
+Velocity2 = 0 0
+Velocity3 = 5 15
+VelocityDamping = 0.93 0.95
+InitialDelay = 0 0
+SystemVelocityFactor = 0.0 0.0
+}
+
+
+
+FXLIST TestFXTrail {
+//TestTrail
+GaussTrail
+GaussTrailFlare
+GaussTrailFlare2
+GaussTrailWave
+GaussTrailLightFlash
+}
+
+
+TestTrail {
+Texture = techguns:textures/fx/laser_blue.png
+RenderType = ADDITIVE
+Streak = true
+Lifetime = 25 25
+SpawnDelay = 0 0
+SystemLifetime = 0 0
+Size = 2.5 2.5
+SizeRate = 0.5 0.5
+SizeRateDamping = 0.98 0.99
+//Alpha = 0 0
+//Alpha = 0 1
+Color = 255 255 255 0
+Color = 0 0 0 1
+ParticleCount = 1 1
+Gravity = 0.0
+VolumeType = POINT
+VelocityType = SPHERICAL
+Velocity1 = 0 0.5
+VelocityDamping = 0.92 0.93
+InitialDelay = 0 0
+offset = 0 0 0
+}
+
+
+
+
+TestFX4 {
+Texture = techguns:textures/fx/fireblast.png
+RenderType = ALPHA
+Rows = 5
+Columns = 5
+Frames = 20
+angle = 0 360
+angleRate = -10 10
+angleRateDamping = 0.85 0.88
+Lifetime = 25 35
+SystemLifetime = 1 1
+Size = 5 10
+SizeRate = 3 6
+SizeRateDamping = 0.86 0.91
+Alpha = 0.0 0
+Alpha = 1.0 0.25
+Alpha = 0 1.0
+//Alpha = 1 1 0
+Color = 255 255 255 0
+Color = 255 255 255 1
+ParticleCount = 50 50
+InitialDelay = 0 0
+SpawnDelay = 1 1
+VelocityType = OUTWARD
+Velocity1 = 5 5
+VelocityDamping = 0.99 0.99
+Gravity = 0.0
+VolumeType = HEMISPHERE
+Volume1 = 10
+IsHollow = true
+}
+
+
+FXLIST PenisFX {
+TestFX1
+TestFX2
+TestFX3
+TestFXlel
+}
+
+TestFX1 {
+Texture = techguns:textures/fx/fireblast.png
+RenderType = ALPHA
+Rows = 5
+Columns = 5
+Frames = 20
+angle = 0 360
+angleRate = -10 10
+angleRateDamping = 0.85 0.88
+Lifetime = 25 35
+SystemLifetime = 1 1
+Size = 5 10
+SizeRate = 3 6
+SizeRateDamping = 0.86 0.91
+Alpha = 0.0 0
+Alpha = 1.0 0.25
+Alpha = 0 1.0
+//Alpha = 1 1 0
+Color = 255 255 255 0
+Color = 255 255 255 1
+ParticleCount = 100 100
+InitialDelay = 0 0
+SpawnDelay = 1 1
+VelocityType = OUTWARD
+Velocity1 = 0 0
+Velocity2 = 0 0
+VelocityDamping = 0.85 0.88
+Gravity = 0.0
+VolumeType = CYLINDER
+Volume1 = 5
+Volume2 = 30
+IsHollow = false
+}
+
+TestFX3 {
+Texture = techguns:textures/fx/fireblast.png
+RenderType = ALPHA
+Rows = 5
+Columns = 5
+Frames = 20
+angle = 0 360
+angleRate = -10 10
+angleRateDamping = 0.85 0.88
+Lifetime = 25 35
+SystemLifetime = 1 1
+Size = 5 10
+SizeRate = 3 6
+SizeRateDamping = 0.86 0.91
+Alpha = 0.0 0
+Alpha = 1.0 0.25
+Alpha = 0 1.0
+//Alpha = 1 1 0
+Color = 255 255 255 0
+Color = 255 255 255 1
+ParticleCount = 50 50
+InitialDelay = 0 0
+SpawnDelay = 1 1
+VelocityType = OUTWARD
+Velocity1 = 0 0
+Velocity2 = 0 0
+VelocityDamping = 0.85 0.88
+Gravity = 0.0
+VolumeType = SPHERE
+Volume1 = 5
+IsHollow = false
+Offset = 10 3 0
+}
+
+TestFX2 {
+Texture = techguns:textures/fx/fireblast.png
+RenderType = ALPHA
+Rows = 5
+Columns = 5
+Frames = 20
+angle = 0 360
+angleRate = -10 10
+angleRateDamping = 0.85 0.88
+Lifetime = 25 35
+SystemLifetime = 1 1
+Size = 5 10
+SizeRate = 3 6
+SizeRateDamping = 0.86 0.91
+Alpha = 0.0 0
+Alpha = 1.0 0.25
+Alpha = 0 1.0
+//Alpha = 1 1 0
+Color = 255 255 255 0
+Color = 255 255 255 1
+ParticleCount = 50 50
+InitialDelay = 0 0
+SpawnDelay = 1 1
+VelocityType = OUTWARD
+Velocity1 = 0 0
+Velocity2 = 0 0
+VelocityDamping = 0.85 0.88
+Gravity = 0.0
+VolumeType = SPHERE
+Volume1 = 5
+IsHollow = false
+Offset = -10 3 0
+}
+
+TestFXlel {
+Texture = techguns:textures/fx/lensflare2.png
+RenderType = ADDITIVE
+Lifetime = 35 45
+SpawnDelay = 1 1
+SystemLifetime = 4 4
+InitialDelay = 5 5
+Size = 1.4 1.6
+SizeRate = 0.4 0.6
+SizeRateDamping = 0.95 0.96
+Alpha = 0.0 0
+Alpha = 1.0 0.25
+Alpha = 0 1.0
+Color = 255 192 128 0
+Color = 0 0 0 1
+ParticleCount = 5 5
+Gravity = 0.70
+VolumeType = POINT
+VelocityType = ORTHO
+Velocity1 = -15 15
+Velocity2 = 35 55
+Velocity3 = -15 15
+VelocityDamping = 0.93 0.96
+AttachedSystem = StreakTest2
+Offset = 0 30 0
+}
+
+
+StreakTest2 {
+Texture = techguns:textures/fx/laser3.png
+RenderType = ADDITIVE
+Streak = true
+Lifetime = 25 25
+SpawnDelay = 1 1
+SystemLifetime = 0 0
+Size = 0.5 0.5
+SizeRate = 0.2 0.2
+SizeRateDamping = 0.9 0.9
+Alpha = 0 0
+Alpha = 1 0.25
+Alpha = 0 1
+Color = 0 0 0 0
+Color = 255 255 255 0.25
+Color = 0 0 0 1
+ParticleCount = 1 1
+Gravity = 0.0
+VolumeType = POINT
+VelocityType = SPHERICAL
+Velocity1 = 0 0
+VelocityDamping = 0.92 0.93
+InitialDelay = 0 0
+offset = 0 0 0
+}
+
+StreakTest {
+Texture = techguns:textures/fx/lensflare2.png
+RenderType = ADDITIVE
+Lifetime = 35 45
+SpawnDelay = 1 1
+SystemLifetime = 4 4
+InitialDelay = 5 5
+Size = 1.4 1.6
+SizeRate = 0.4 0.6
+SizeRateDamping = 0.95 0.96
+Alpha = 0.0 0
+Alpha = 1.0 0.25
+Alpha = 0 1.0
+Color = 255 192 128 0
+Color = 0 0 0 1
+ParticleCount = 3 3
+Gravity = 0.40
+VolumeType = POINT
+VelocityType = ORTHO
+Velocity1 = -5 5
+Velocity2 = 15 18
+Velocity3 = -5 5
+VelocityDamping = 0.95 0.97
+AttachedSystem = StreakTest2
+}
+
+StreakTest3 {
+Texture = techguns:textures/fx/laser3.png
+RenderType = ADDITIVE
+Streak = true
+Lifetime = 10 15
+SpawnDelay = 0 0
+SystemLifetime = 1 1
+Size = 0.1 0.1
+SizeRate = 0.25 0.5
+SizeRateDamping = 0.9 0.93
+Alpha = 0 0
+Alpha = 1 0.25
+Alpha = 0 1
+Color = 0 0 0 0
+Color = 255 255 255 0.25
+Color = 0 0 0 1
+ParticleCount = 30 30
+Gravity = 0.0
+VolumeType = POINT
+VelocityType = HEMISPHERICAL
+Velocity1 = 10 20
+VelocityDamping = 0.92 0.93
+InitialDelay = 0 0
+offset = 0 0 0
+}
