@@ -34,9 +34,12 @@ public class ShooterValues {
 		MinecraftClient mc = MinecraftClient.getInstance();
 		if (ent != mc.player){
 			return false;
-		} else if (mc.options.perspective!=0){
-			return false;
 		}
+		//FIXME check if this is still needed
+		/*else if (mc.options.perspective!=0){
+			mc.options.
+			return false;
+		}*/
 
 		AttackTime attack = getAttackTimes(ent, offHand);
 		

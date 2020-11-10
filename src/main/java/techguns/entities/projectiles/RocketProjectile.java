@@ -3,6 +3,7 @@ package techguns.entities.projectiles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.World;
 import techguns.TGEntities;
 import techguns.api.damagesystem.DamageType;
@@ -35,6 +36,12 @@ public class RocketProjectile extends GenericProjectile {
 		this(TGEntities.ROCKET_PROJECTILE, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos, radius, gravity);
 	}
 	
+	public RocketProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
+		super(T, world, shooter, data);
+		if (world.isClient) {
+			this.createTrailFX();
+		}
+	}
 
 	protected void createTrailFX() {
 		ClientProxy.get().createFXOnEntity("RocketLauncherExhaust", this);

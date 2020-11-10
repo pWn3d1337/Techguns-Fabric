@@ -28,7 +28,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
-import net.minecraft.world.RayTraceContext;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import techguns.TGEntities;
 import techguns.TGPacketsS2C;
@@ -38,6 +38,7 @@ import techguns.deatheffects.EntityDeathUtils.DeathType;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.IProjectileFactory;
 import techguns.packets.PacketGunImpactFX;
+import techguns.packets.PacketSpawnEntity;
 
 public class GenericProjectile extends ProjectileEntity {
 	
@@ -72,6 +73,17 @@ public class GenericProjectile extends ProjectileEntity {
 				dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos);
 	}
 
+	/**
+	 * Client side constructor from spawn packet
+	 * @param world
+	 * @param shooter
+	 * @param data
+	 */
+	public GenericProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
+		this(T, world, shooter, 0, 0,0,0,0,0,0,0,false, EnumBulletFirePos.CENTER);
+		this.parseAdditionalData(data);
+	}
+	
 	float damage;
 	public float speed = 1.0f; // speed in blocks per tick
 
@@ -97,10 +109,11 @@ public class GenericProjectile extends ProjectileEntity {
 	float radius=0.0f;
 	double gravity=0.0f;
 	
+	boolean clientSlowDeath = false;
+	
 	public void tick() {
 		super.tick();
-		//System.out.println("Living at: "+ this.getX() +","+this.getY()+","+this.getZ());
-		
+				
 		Vec3d vec3d = this.getVelocity();
 		if (this.prevPitch == 0.0F && this.prevYaw == 0.0F) {
 			float f = MathHelper.sqrt(squaredHorizontalLength(vec3d));
@@ -110,64 +123,66 @@ public class GenericProjectile extends ProjectileEntity {
 			this.prevPitch = this.pitch;
 		}
 
-		BlockPos blockPos = this.getBlockPos();
-		BlockState blockState = this.world.getBlockState(blockPos);
-		Vec3d vec3d4;
-		if (!blockState.isAir()) {
-			VoxelShape voxelShape = blockState.getCollisionShape(this.world, blockPos);
-			if (!voxelShape.isEmpty()) {
-				vec3d4 = this.getPos();
-				Iterator<Box> var7 = voxelShape.getBoundingBoxes().iterator();
-
-				while (var7.hasNext()) {
-					Box box = (Box) var7.next();
-					if (box.offset(blockPos).contains(vec3d4)) {
-						break;
+		if (!this.clientSlowDeath) {
+		
+			BlockPos blockPos = this.getBlockPos();
+			BlockState blockState = this.world.getBlockState(blockPos);
+			Vec3d vec3d4;
+			if (!blockState.isAir()) {
+				VoxelShape voxelShape = blockState.getCollisionShape(this.world, blockPos);
+				if (!voxelShape.isEmpty()) {
+					vec3d4 = this.getPos();
+					Iterator<Box> var7 = voxelShape.getBoundingBoxes().iterator();
+	
+					while (var7.hasNext()) {
+						Box box = (Box) var7.next();
+						if (box.offset(blockPos).contains(vec3d4)) {
+							break;
+						}
 					}
 				}
 			}
-		}
-
-		if (this.isTouchingWaterOrRain()) {
-			this.extinguish();
-		}
-
-		Vec3d vec3d3 = this.getPos();
-		vec3d4 = vec3d3.add(vec3d);
-		HitResult hitResult = this.world.rayTrace(new RayTraceContext(vec3d3, vec3d4,
-				RayTraceContext.ShapeType.COLLIDER, RayTraceContext.FluidHandling.NONE, this));
-		if (((HitResult) hitResult).getType() != HitResult.Type.MISS) {
-			vec3d4 = ((HitResult) hitResult).getPos();
-		}
-
-		while (!this.removed) {
-			EntityHitResult entityHitResult = this.getEntityCollision(vec3d3, vec3d4);
-			if (entityHitResult != null) {
-				hitResult = entityHitResult;
+	
+			if (this.isTouchingWaterOrRain()) {
+				this.extinguish();
 			}
-
-			if (hitResult != null && ((HitResult) hitResult).getType() == HitResult.Type.ENTITY) {
-				Entity entity = ((EntityHitResult) hitResult).getEntity();
-				Entity entity2 = this.getOwner();
-				if (entity instanceof PlayerEntity && entity2 instanceof PlayerEntity
-						&& !((PlayerEntity) entity2).shouldDamagePlayer((PlayerEntity) entity)) {
-					hitResult = null;
-					entityHitResult = null;
+	
+			Vec3d vec3d3 = this.getPos();
+			vec3d4 = vec3d3.add(vec3d);
+			HitResult hitResult = this.world.raycast(new RaycastContext(vec3d3, vec3d4,
+					RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
+			if (hitResult.getType() != HitResult.Type.MISS) {
+				vec3d4 = ((HitResult) hitResult).getPos();
+			}
+	
+			while (!this.removed & !this.clientSlowDeath) {
+				EntityHitResult entityHitResult = this.getEntityCollision(vec3d3, vec3d4);
+				if (entityHitResult != null) {
+					hitResult = entityHitResult;
 				}
+	
+				if (hitResult != null && ((HitResult) hitResult).getType() == HitResult.Type.ENTITY) {
+					Entity entity = ((EntityHitResult) hitResult).getEntity();
+					Entity entity2 = this.getOwner();
+					if (entity instanceof PlayerEntity && entity2 instanceof PlayerEntity
+							&& !((PlayerEntity) entity2).shouldDamagePlayer((PlayerEntity) entity)) {
+						hitResult = null;
+						entityHitResult = null;
+					}
+				}
+	
+				if (hitResult != null) {
+					this.onCollision((HitResult) hitResult);
+					this.velocityDirty = true;
+				}
+	
+				if (entityHitResult == null) {
+					break;
+				}
+	
+				hitResult = null;
 			}
-
-			if (hitResult != null) {
-				this.onCollision((HitResult) hitResult);
-				this.velocityDirty = true;
-			}
-
-			if (entityHitResult == null) {
-				break;
-			}
-
-			hitResult = null;
 		}
-
 		vec3d = this.getVelocity();
 		double d = vec3d.x;
 		double e = vec3d.y;
@@ -201,9 +216,30 @@ public class GenericProjectile extends ProjectileEntity {
 		}
 
 		this.updatePosition(h, j, k);
-		this.checkBlockCollision();
 		
-		if(this.age>=this.ticksToLive) {
+		if (this.clientSlowDeath) {
+			
+			if (this.age>=this.ticksToLive+2) {
+				this.remove();
+			}
+			
+		} else {
+			this.checkBlockCollision();
+			
+			if(this.age>=this.ticksToLive) {
+				this.markForRemoval();
+			}
+		}
+		
+	}
+	
+	/**
+	 * On server instantly set remove flag, on client keep alive for extra ticks
+	 */
+	protected void markForRemoval() {
+		if (this.world.isClient) {
+			this.clientSlowDeath = true;
+		} else {
 			this.remove();
 		}
 	}
@@ -248,7 +284,7 @@ public class GenericProjectile extends ProjectileEntity {
 		System.out.println("HIT ENTITY!");
 		super.onEntityHit(entityHitResult);
 		
-		this.remove();
+		this.markForRemoval();
 
 	}
 
@@ -259,7 +295,7 @@ public class GenericProjectile extends ProjectileEntity {
 		
 		doImpactEffects(blockHitResult);
 		
-		this.remove();
+		this.markForRemoval();
 	}
 	
 	protected void doImpactEffects(BlockHitResult rayTraceResult) {
@@ -353,12 +389,14 @@ public class GenericProjectile extends ProjectileEntity {
 	protected void writeCustomDataToTag(CompoundTag tag) {
 		super.writeCustomDataToTag(tag);
 		tag.putInt("lifetime", this.ticksToLive);
+		tag.putFloat("speed", this.speed);
 	}
 
 	@Override
 	protected void readCustomDataFromTag(CompoundTag tag) {
 		super.readCustomDataFromTag(tag);
 		this.ticksToLive = tag.getInt("lifetime");
+		this.speed = tag.getFloat("speed");
 	}
 
 	public GenericProjectile setSilenced(){
@@ -366,10 +404,27 @@ public class GenericProjectile extends ProjectileEntity {
     	return this;
     }
 
+	public void getAdditionalSpawnData(CompoundTag data) {
+		data.putInt("lifetime", this.ticksToLive);
+		data.putFloat("speed", this.speed);
+	}
+	
+	/**
+	 * Parse additional data from packet in construtor, extend in subclasses
+	 * @param data
+	 */
+	protected void parseAdditionalData(CompoundTag data) {
+		this.ticksToLive = data.getInt("lifetime");
+		this.speed = data.getFloat("speed");
+	}
+	
 	@Override
 	public Packet<?> createSpawnPacket() {
-		Entity entity = this.getOwner();
-	    return new EntitySpawnS2CPacket(this, entity == null ? 0 : entity.getEntityId());
+		Entity owner = this.getOwner();
+		CompoundTag data = new CompoundTag();
+		this.getAdditionalSpawnData(data);
+	    return new PacketSpawnEntity(this, owner == null ? 0 : owner.getEntityId(), data);//new EntitySpawnS2CPacket(this, entity == null ? 0 : entity.getEntityId());
+		//return new PacketSpawnEntity(this.getEntityId(), this.uuid, this.getX(), this.getY(), this.getZ(), this.pitch, this.yaw, this.getType(), owner == null ? 0 : owner.getEntityId(), this.getVelocity(), data);
 	}
 
 	@Override

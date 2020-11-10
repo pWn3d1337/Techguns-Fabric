@@ -56,6 +56,10 @@ public class GuidedMissileProjectile extends RocketProjectile{
 		super(entityType, world);
 	}
 
+	public GuidedMissileProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
+		super(T, world, shooter, data);
+	}
+
 	@Override
 	protected void createTrailFX() {
 		ClientProxy.get().createFXOnEntity("GuidedMissileExhaust", this);
@@ -92,7 +96,21 @@ public class GuidedMissileProjectile extends RocketProjectile{
 			this.target = this.world.getEntityById(entityID); 
 		}
 	}
+		
+	@Override
+	public void getAdditionalSpawnData(CompoundTag data) {
+		super.getAdditionalSpawnData(data);
+		data.putInt("techguns_entityid",target!=null ? target.getEntityId() : -1);
+	}
+
 	
+	
+	@Override
+	protected void parseAdditionalData(CompoundTag data) {
+		super.parseAdditionalData(data);
+		this.target = this.world.getEntityById(data.getInt("techguns_entityid"));
+	}
+
 	@Override
 	public void tick() {
 		//Update Motion

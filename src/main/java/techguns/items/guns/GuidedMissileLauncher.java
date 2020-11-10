@@ -13,13 +13,11 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult.Type;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RayTraceContext;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import techguns.TGSounds;
-import techguns.Techguns;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.entities.projectiles.EnumBulletFirePos;
-import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.sounds.TGSoundCategory;
 import techguns.util.SoundUtil;
@@ -69,7 +67,7 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 		
 		//RayTraceResult raytraceresult = shooter.world.rayTraceBlocks(vec3d1, vec3d, false, true, false);
 
-		BlockHitResult res = shooter.world.rayTrace(new RayTraceContext(vec3d1, vec3d, RayTraceContext.ShapeType.COLLIDER, RayTraceContext.FluidHandling.NONE, shooter));
+		BlockHitResult res = shooter.world.raycast(new RaycastContext(vec3d1, vec3d, RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, shooter));
 		
 		if(res.getType() != Type.MISS) {
 			vec3d = res.getPos();
@@ -134,7 +132,7 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 		Entity entity = null;
 		Vec3d ray = shooter.getRotationVector().multiply((double)LOCK_RANGE);
 		
-		List<Entity> list = shooter.world.getEntities(shooter, shooter.getBoundingBox().expand(ray.x, ray.y, ray.z).expand(1.0D), (ent) -> {
+		List<Entity> list = shooter.world.getOtherEntities(shooter, shooter.getBoundingBox().expand(ray.x, ray.y, ray.z).expand(1.0D), (ent) -> {
 			if (!ent.isSpectator() && ent.isAlive() && ent.collides()) {
 		         return shooter == null || !shooter.isConnectedThroughVehicle(ent);
 		      } else {
@@ -157,7 +155,7 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 			Box axisalignedbb = entity1.getBoundingBox().expand(LOCK_ERROR_THRESHOLD);
 			//RayTraceResult raytraceresult = axisalignedbb.calculateIntercept(start, end);
 
-			Optional<Vec3d> hit = axisalignedbb.rayTrace(start, end);
+			Optional<Vec3d> hit = axisalignedbb.raycast(start, end);
 			if (hit.isPresent()) {
 				if(prevTarget == null || entity  != prevTarget ) {
 					if (entity1 == prevTarget) {

@@ -63,6 +63,8 @@ public class TGParticleStreak extends TGParticle{
         float fPosY = (float)(this.prevPosY + (this.y - this.prevPosY) * (double)partialTickTime - TGParticleManager.interpPosY);
         float fPosZ = (float)(this.prevPosZ + (this.z - this.prevPosZ) * (double)partialTickTime - TGParticleManager.interpPosZ);
 
+        
+        //fPosY -= cam_y;
         //float r = fscale;
         
 		int col = currentFrame % type.columns;
@@ -118,7 +120,7 @@ public class TGParticleStreak extends TGParticle{
                 prev.pos1 = p4;
                 prev.pos2 = p3;
             }
-            
+
 			buffer.vertex(mat, (float)p1.x, (float)p1.y, (float)p1.z).texture(ua, va).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
 			buffer.vertex(mat, (float)p2.x, (float)p2.y, (float)p2.z).texture(ub, vb).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
 			buffer.vertex(mat, (float)p3.x, (float)p3.y, (float)p3.z).texture(uc, vc).color(prev.colorRed, prev.colorGreen, prev.colorBlue, prev.colorAlpha).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
