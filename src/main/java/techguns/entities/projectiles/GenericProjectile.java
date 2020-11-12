@@ -1,22 +1,32 @@
 package techguns.entities.projectiles;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
+import com.google.common.collect.Lists;
+
+import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -110,6 +120,9 @@ public class GenericProjectile extends ProjectileEntity {
 	double gravity=0.0f;
 	
 	boolean clientSlowDeath = false;
+	
+	protected IntOpenHashSet piercedEntities;
+	protected List<Entity> piercingKilledEntities;
 	
 	public void tick() {
 		super.tick();
@@ -281,11 +294,78 @@ public class GenericProjectile extends ProjectileEntity {
 	
 	@Override
 	protected void onEntityHit(EntityHitResult entityHitResult) {
-		System.out.println("HIT ENTITY!");
 		super.onEntityHit(entityHitResult);
-		
-		this.markForRemoval();
+		Entity target = entityHitResult.getEntity();
 
+		if (this.getPierceLevel() > 0) {
+			if (this.piercedEntities == null) {
+				this.piercedEntities = new IntOpenHashSet(5);
+			}
+
+			if (this.piercingKilledEntities == null) {
+				this.piercingKilledEntities = Lists.newArrayListWithCapacity(5);
+			}
+
+			if (this.piercedEntities.size() >= this.getPierceLevel() + 1) {
+				this.markForRemoval();
+				return;
+			}
+
+			this.piercedEntities.add(target.getEntityId());
+		}
+
+		Entity shooter = this.shooter;
+		DamageSource damageSource;
+		if (shooter == null) {
+			damageSource = TGDamageSource.causeBulletDamage(this, this, DeathType.DEFAULT);
+		} else {
+			damageSource = TGDamageSource.causeBulletDamage(this, shooter, DeathType.DEFAULT);
+			if (shooter instanceof LivingEntity) {
+				((LivingEntity) shooter).onAttacking(target);
+			}
+		}
+		
+		// TODO distance drop
+		if (target.damage(damageSource, this.damage)) {
+
+			if (target instanceof LivingEntity) {
+				LivingEntity livingTarget = (LivingEntity) target;
+
+				if (!this.world.isClient && shooter instanceof LivingEntity) {
+					EnchantmentHelper.onUserDamaged(livingTarget, shooter);
+					EnchantmentHelper.onTargetDamaged((LivingEntity) shooter, livingTarget);
+				}
+
+				this.onHitEffect(livingTarget);
+				if (shooter != null && livingTarget != shooter && livingTarget instanceof PlayerEntity
+						&& shooter instanceof ServerPlayerEntity && !this.isSilent()) {
+					((ServerPlayerEntity) shooter).networkHandler.sendPacket(
+							new GameStateChangeS2CPacket(GameStateChangeS2CPacket.PROJECTILE_HIT_PLAYER, 0.0F));
+				}
+
+				if (!target.isAlive() && this.piercingKilledEntities != null) {
+					this.piercingKilledEntities.add(livingTarget);
+				}
+
+			}
+
+
+		}
+		if (this.getPierceLevel() <= 0) {
+			this.markForRemoval();
+		}
+	}
+
+	/**
+	 * Override in subclass for extra hit effects, like burn, etc
+	 * 
+	 * @param livingEntity
+	 */
+	protected void onHitEffect(LivingEntity livingEntity) {
+	}
+
+	protected int getPierceLevel() {
+		return 0;
 	}
 
 	@Override
