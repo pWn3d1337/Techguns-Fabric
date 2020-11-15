@@ -4,7 +4,8 @@
   "package": "techguns.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "TGPlayerEntityMixin"
+    "TGPlayerEntityMixin",
+    "TechgunsMixinLivingEntity"
   ],
   "client": [
     "ItemRendererMixin",

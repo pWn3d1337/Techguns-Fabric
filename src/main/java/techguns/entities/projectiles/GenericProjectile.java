@@ -1,6 +1,5 @@
 package techguns.entities.projectiles;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,7 +8,6 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -17,13 +15,11 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
-import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -71,9 +67,59 @@ public class GenericProjectile extends ProjectileEntity {
 		this.damageDropEnd=dmgDropEnd;
 		this.penetration=penetration;
 		this.blockdamage = blockdamage;
-		//TODO spread?
+
 		this.setOwner(p);
 		this.updatePosition(p.getX(), p.getY()+p.getEyeHeight(p.getPose()), p.getZ());
+		
+		this.setRotation(p.headYaw +(float) (spread - (2 * Math.random() * spread)) * 40.0f,
+				p.pitch + (float) (spread - (2 * Math.random() * spread)) * 40.0f);
+		
+		float offsetSide=0.16F;
+		float offsetHeight=0f;
+		
+		//TODO NPC Shooter
+		/*if(this.shooter!=null && shooter instanceof INPCTechgunsShooter) {
+			INPCTechgunsShooter tgshooter = (INPCTechgunsShooter) this.shooter;
+			offsetSide += tgshooter.getBulletOffsetSide();
+			offsetHeight += tgshooter.getBulletOffsetHeight();
+		}*/
+		
+		double posX, posY, posZ;
+		Vec3d pos = this.getPos();
+		posX = pos.x;
+		posY = pos.y;
+		posZ = pos.z;
+		
+		if (firePos==EnumBulletFirePos.RIGHT) {
+			posX -= (double) (MathHelper.cos(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+			//this.posY -= 0.10000000149011612D;
+			posZ -= (double) (MathHelper.sin(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+		} else if(firePos==EnumBulletFirePos.LEFT) {
+			posX += (double) (MathHelper.cos(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+			//this.posY -= 0.10000000149011612D;
+			posZ += (double) (MathHelper.sin(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+		} 
+		posY += (-0.10000000149011612D+offsetHeight);
+		
+		this.updatePosition(posX, posY, posZ);
+		this.startX = posX;
+		this.startY = posY;
+		this.startZ = posZ;
+		
+		Vec3d motion = this.getVelocity();
+		double motionX = motion.x;
+		double motionY = motion.y;
+		double motionZ = motion.z;
+		// this.yOffset = 0.0F;
+		float f = 0.4F;
+		motionX = (double) (-MathHelper.sin(this.yaw / 180.0F * (float) Math.PI)
+				* MathHelper.cos(this.pitch / 180.0F * (float) Math.PI) * f);
+		motionZ = (double) (MathHelper.cos(this.yaw / 180.0F * (float) Math.PI)
+				* MathHelper.cos(this.pitch / 180.0F * (float) Math.PI) * f);
+		motionY = (double) (-MathHelper.sin((this.pitch) / 180.0F * (float) Math.PI) * f);
+		//this.setVelocity(this.motionX, this.motionY, this.motionZ, 1.5f, 0F);
+
+		this.setVelocity(new Vec3d(motionX, motionY, motionZ).normalize().multiply(speed));
 	}
 	
 	public GenericProjectile(World world, LivingEntity p, float damage, float speed, int TTL, float spread,
@@ -315,18 +361,27 @@ public class GenericProjectile extends ProjectileEntity {
 		}
 
 		Entity shooter = this.shooter;
-		DamageSource damageSource;
+		TGDamageSource damageSource;
+		TGDamageSource damageSourceKnockback;
 		if (shooter == null) {
 			damageSource = TGDamageSource.causeBulletDamage(this, this, DeathType.DEFAULT);
+			damageSource.setNoKnockback();
+			damageSourceKnockback = TGDamageSource.getKnockbackDummyDmgSrc(this, this);
 		} else {
 			damageSource = TGDamageSource.causeBulletDamage(this, shooter, DeathType.DEFAULT);
+			damageSource.setNoKnockback();
+			damageSourceKnockback = TGDamageSource.getKnockbackDummyDmgSrc(this, shooter);
 			if (shooter instanceof LivingEntity) {
 				((LivingEntity) shooter).onAttacking(target);
 			}
 		}
 		
 		// TODO distance drop
-		if (target.damage(damageSource, this.damage)) {
+		target.damage(damageSourceKnockback, 0.1f);
+		float dmg = this.getDamage();
+		double dist = this.getDistanceTravelled();
+		System.out.println("Damage ("+dist+"m): "+dmg);
+		if (target.damage(damageSource, dmg)) {
 
 			if (target instanceof LivingEntity) {
 				LivingEntity livingTarget = (LivingEntity) target;
@@ -346,16 +401,47 @@ public class GenericProjectile extends ProjectileEntity {
 				if (!target.isAlive() && this.piercingKilledEntities != null) {
 					this.piercingKilledEntities.add(livingTarget);
 				}
-
 			}
-
-
 		}
+		
 		if (this.getPierceLevel() <= 0) {
 			this.markForRemoval();
 		}
 	}
 
+	/**
+	 * Get Damage for distance
+	 * 
+	 * @return
+	 */
+    protected float getDamage() {
+
+		if (this.damageDropEnd==0f) { //not having damage drop
+			return this.damage;
+		}
+		
+		double distance = this.getDistanceTravelled();
+
+		if (distance <= this.damageDropStart) {
+			return this.damage;
+		} else if (distance > this.damageDropEnd) {
+			return this.damageMin;
+		} else {
+			float factor = 1.0f - (float) ((distance - this.damageDropStart) / (this.damageDropEnd - this.damageDropStart));
+			return (this.damageMin + (this.damage - this.damageMin) * factor);
+		}
+	}
+	
+	/**
+	 * Return the travelled distance
+	 * 
+	 * @return
+	 */
+	protected double getDistanceTravelled() {
+		Vec3d start = new Vec3d(this.startX, this.startY, this.startZ);
+		return start.distanceTo(this.getPos());
+	}
+    
 	/**
 	 * Override in subclass for extra hit effects, like burn, etc
 	 * 

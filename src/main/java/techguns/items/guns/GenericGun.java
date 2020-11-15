@@ -26,6 +26,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Arm;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
@@ -450,14 +451,9 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 				this.damageDropEnd, this.damageMin * damagebonus, this.penetration, getDoBlockDamage(player), firePos, radius, gravity);
 
 		proj.setProperties(player, player.pitch, player.yaw, 0.0F, speed, 1.0F);
-		
-		/*PersistentProjectileEntity proj = ((ArrowItem) Items.ARROW).createArrow(world,
-				new ItemStack(Items.ARROW), player);
-		
-        proj.setProperties(player, player.pitch, player.yaw, 0.0F, 1.0f * 3.0F, 1.0F);*/
-				
+						
         
-		float f=1.0f;
+		//float f=1.0f;
 		//TODO add lights
 		/*if(this.muzzelight) {
 			Techguns.proxy.createLightPulse(proj.posX+player.getLookVec().x*f, proj.posY+player.getLookVec().y*f, proj.posZ+player.getLookVec().z*f, this.light_lifetime, this.light_radius_start, this.light_radius_end, this.light_r, this.light_g, this.light_b);
@@ -560,7 +556,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 			        	}
 			        	
 			        	EnumBulletFirePos firePos;
-			        	if ((hand == Hand.MAIN_HAND && player.preferredHand == Hand.MAIN_HAND) || (hand == Hand.OFF_HAND && player.preferredHand == Hand.OFF_HAND)) {
+			        	if ((hand == Hand.MAIN_HAND && player.getMainArm() == Arm.RIGHT) || (hand == Hand.OFF_HAND && player.getMainArm() == Arm.LEFT)) {
 			        		firePos = EnumBulletFirePos.RIGHT;
 			        	}else {
 			        		firePos = EnumBulletFirePos.LEFT;
