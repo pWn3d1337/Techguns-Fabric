@@ -364,6 +364,7 @@ public class RenderGunBase extends RenderItemBase {
 			if (this.scopeRecoilAnim != null && fireProgress > 0f) {
 				this.scopeRecoilAnim.play(matrices, fireProgress, Mode.FIRST_PERSON_LEFT_HAND == transform, this.scopeRecoilParams);
 			}
+
 			this.renderScope(matrices,vertexConsumers, fireProgress, leftHand);
 		}
 

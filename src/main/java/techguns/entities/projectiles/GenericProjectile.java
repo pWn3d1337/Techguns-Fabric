@@ -60,6 +60,7 @@ public class GenericProjectile extends ProjectileEntity {
 			EnumBulletFirePos firePos) {
 		super(T, world);
 		this.damage = damage;
+		this.damageMin = dmgMin;
 		this.speed=speed;
 		this.ticksToLive=TTL;
 		this.lifetime=TTL;
@@ -378,10 +379,7 @@ public class GenericProjectile extends ProjectileEntity {
 		
 		// TODO distance drop
 		target.damage(damageSourceKnockback, 0.1f);
-		float dmg = this.getDamage();
-		double dist = this.getDistanceTravelled();
-		System.out.println("Damage ("+dist+"m): "+dmg);
-		if (target.damage(damageSource, dmg)) {
+		if (target.damage(damageSource, this.getDamage())) {
 
 			if (target instanceof LivingEntity) {
 				LivingEntity livingTarget = (LivingEntity) target;
@@ -456,7 +454,6 @@ public class GenericProjectile extends ProjectileEntity {
 
 	@Override
 	protected void onBlockHit(BlockHitResult blockHitResult) {
-		System.out.println("HIT BLOCK!");
 		super.onBlockHit(blockHitResult);
 		
 		doImpactEffects(blockHitResult);

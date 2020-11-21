@@ -105,7 +105,9 @@ public class GenericGunCharge extends GenericGun {
 						} else {
 							x = -this.chargeFXoffsetX;
 						}
-						TGPacketsS2C.sendToAllTracking(new PacketSpawnParticleOnEntity(this.chargeFX, player, x, this.chargeFXoffsetY, this.chargeFXoffsetZ, true, EntityCondition.CHARGING_WEAPON), player);
+						if (!world.isClient) {
+							TGPacketsS2C.sendToAllTracking(new PacketSpawnParticleOnEntity(this.chargeFX, player, x, this.chargeFXoffsetY, this.chargeFXoffsetZ, true, EntityCondition.CHARGING_WEAPON), player);
+						}
 					}
 				}
 

@@ -17,9 +17,11 @@ import techguns.TGItems;
 import techguns.TGPacketsS2C;
 import techguns.TGuns;
 import techguns.client.audio.TGSound;
+import techguns.client.models.guns.ModelBiogun;
 import techguns.client.models.guns.ModelGuidedMissileLauncher;
 import techguns.client.models.guns.ModelM4;
 import techguns.client.models.guns.ModelRocketLauncher;
+import techguns.client.models.guns.ModelScar;
 import techguns.client.models.items.ModelARMagazine;
 import techguns.client.models.items.ModelAS50Mag;
 import techguns.client.models.items.ModelLmgMag;
@@ -29,6 +31,7 @@ import techguns.client.particle.TGParticleManager;
 import techguns.client.particle.TGParticleSystem;
 import techguns.client.render.TGRenderRegistries;
 import techguns.client.render.entities.GenericProjectileRenderer;
+import techguns.client.render.entities.RenderBioGunProjectile;
 import techguns.client.render.entities.RenderRocketProjectile;
 import techguns.client.render.fx.ScreenEffect;
 import techguns.client.render.item.GunAnimation;
@@ -80,6 +83,16 @@ public class ClientProxy implements ClientModInitializer {
 					{0f,0f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.13f, -1f).setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f));
 	
+		TGRenderRegistries.registerItemRenderer(TGuns.SCAR,new RenderGunBase(new ModelScar(),2, new TGIdentifier("textures/guns/scar_texture.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.1f, 0.1f)
+				.setGUIScale(0.35f).setMuzzleFx(ScreenEffect.muzzleFlash_rifle, 0, 0.23f, -1.48f, 0.78f,0).setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 4.0f).setTransformTranslations(new float[][]{
+					{0f,0.04f,-0.15f}, //First Person
+					{0f,0.02f,-0.11f}, //Third Person
+					{0.05f,0f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{0.02f,-0.09f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.14f, -1.04f).setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f).setScope(ScreenEffect.sniperScope).setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 2.0f));
+		
+		
 		this.register_ammo_itemrenderers();
 		
 		TGRenderRegistries.registerItemRenderer(TGuns.GUIDED_MISSLE_LAUNCHER,new RenderGunBase90(new ModelGuidedMissileLauncher(),1, new TGIdentifier("textures/guns/guidedmissilelauncher.png")).setBaseTranslation(-0.4f, -0.2f, RenderItemBase.SCALE*0.5f)
@@ -100,6 +113,15 @@ public class ClientProxy implements ClientModInitializer {
 					{0,0,0f} //frame
 				}).setMuzzleFXPos3P(0.09f, -0.26f));
 		
+		TGRenderRegistries.registerItemRenderer(TGuns.BIOGUN,new RenderGunBase90(new ModelBiogun(),1, new TGIdentifier("textures/guns/biogun.png")).setBaseTranslation(0.35f, -0.2f, RenderItemBase.SCALE-0.1f)
+				.setGUIScale(0.45f).setMuzzleFx(ScreenEffect.muzzleGreenFlare, 0, 0.23f, -0.51f, 0.55f,0).setTransformTranslations(new float[][]{
+					{0f,0.16f,0.05f}, //First Person
+					{0f,0.07f,-0.05f}, //Third Person
+					{0f,0f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{0f,0f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.1f, -0.51f).setChargeTranslationAmount(0.05f));
+		
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (dispatcher, context) -> {
             return new GenericProjectileRenderer(dispatcher);
         });
@@ -110,6 +132,10 @@ public class ClientProxy implements ClientModInitializer {
 		
 		EntityRendererRegistry.INSTANCE.register(TGEntities.ROCKET_PROJECTILE, (dispatcher, context) -> {
             return new RenderRocketProjectile(dispatcher);
+        });
+		
+		EntityRendererRegistry.INSTANCE.register(TGEntities.BIOGUN_PROJECTILE,  (dispatcher, context) -> {
+            return new RenderBioGunProjectile(dispatcher);
         });
 		
         keybinds = new Keybinds();

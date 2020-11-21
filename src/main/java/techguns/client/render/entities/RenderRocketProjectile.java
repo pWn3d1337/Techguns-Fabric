@@ -35,7 +35,7 @@ public class RenderRocketProjectile extends EntityRenderer<RocketProjectile>{
 		
 		//GlStateManager.translate(par2,par4,par6);
 		//matrices.translate(x, y, z);
-		VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntityCutout(this.getTexture(entity)));	
+		VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(this.getTexture(entity)));	
 		
        	TGMatrixOps.rotate(matrices, entity.prevYaw + (entity.yaw-entity.prevYaw)*tickDelta -90.0f, 0F, 1F, 0F);
        	TGMatrixOps.rotate(matrices, entity.prevPitch + (entity.pitch-entity.prevPitch)*tickDelta, 0F, 0F, 1F);

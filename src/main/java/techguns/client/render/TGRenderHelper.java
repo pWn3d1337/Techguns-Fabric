@@ -5,7 +5,8 @@ import org.lwjgl.opengl.GL11;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.MinecraftClient;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
 import net.minecraft.client.render.VertexFormats;
@@ -14,15 +15,24 @@ import techguns.client.render.fx.IScreenEffect.RenderType;
 
 //import net.minecraft.client.render.OpenGlHelper;
 
-public class TGRenderHelper {
+/**
+ * The inheritance is dummy, to get access to all the protected static fields
+ */
+@Environment(EnvType.CLIENT)
+public class TGRenderHelper extends RenderPhase {
 	
+	//Never instantiated, pure static
+	private TGRenderHelper() {
+		super(null, null, null);
+	}
+
 	protected static float lastBrightnessX=0;
 	protected static float lastBrightnessY=0;
 	
 	protected static int lastBlendFuncSrc=0;
 	protected static int lastBlendFuncDest=0;
 
-	protected static final RenderPhase.Transparency LIGHTNING_TRANSPARENCY = new RenderPhase.Transparency("techguns_lightning_transparency", () -> {
+	/*protected static final RenderPhase.Transparency LIGHTNING_TRANSPARENCY = new RenderPhase.Transparency("techguns_lightning_transparency", () -> {
 	      RenderSystem.enableBlend();
 	      RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
 	   }, () -> {
@@ -30,7 +40,15 @@ public class TGRenderHelper {
 	      RenderSystem.defaultBlendFunc();
 	   });
 	
-	protected static final RenderPhase.Target PARTICLES_TARGET = new RenderPhase.Target("tg_particles_target", () -> {
+   protected static final RenderPhase.Transparency TRANSLUCENT_TRANSPARENCY = new RenderPhase.Transparency("techguns_translucent_transparency", () -> {
+	      RenderSystem.enableBlend();
+	      RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+	   }, () -> {
+	      RenderSystem.disableBlend();
+	      RenderSystem.defaultBlendFunc();
+	   });*/
+
+	/*protected static final RenderPhase.Target PARTICLES_TARGET = new RenderPhase.Target("tg_particles_target", () -> {
         if (MinecraftClient.isFabulousGraphicsOrBetter()) {
            MinecraftClient mc = MinecraftClient.getInstance();
            mc.worldRenderer.getParticlesFramebuffer().beginWrite(false);
@@ -41,20 +59,39 @@ public class TGRenderHelper {
            MinecraftClient.getInstance().getFramebuffer().beginWrite(false);
         }
 
-     });
-	protected static final RenderPhase.WriteMaskState ALL_MASK = new RenderPhase.WriteMaskState(true, true);
+     });*/
+	/*protected static final RenderPhase.WriteMaskState ALL_MASK = new RenderPhase.WriteMaskState(true, true);
 	protected static final RenderPhase.WriteMaskState COLOR_MASK = new RenderPhase.WriteMaskState(true, false);
 	protected static final RenderPhase.ShadeModel SMOOTH_SHADE_MODEL = new RenderPhase.ShadeModel(true);
 	
-	protected static final RenderPhase.Cull DISABLE_CULLING = new RenderPhase.Cull(false);
+	protected static final RenderPhase.Cull DISABLE_CULLING = new RenderPhase.Cull(false);*/
 	
 	public static RenderLayer get_fx_renderlayer(Identifier texture) {
-		return RenderLayer.of("techguns_fx", VertexFormats.POSITION_TEXTURE_COLOR, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).writeMaskState(COLOR_MASK).transparency(LIGHTNING_TRANSPARENCY).target(PARTICLES_TARGET).shadeModel(SMOOTH_SHADE_MODEL).cull(DISABLE_CULLING).build(false));
+		return RenderLayer.of("techguns_fx", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).writeMaskState(COLOR_MASK).transparency(LIGHTNING_TRANSPARENCY).target(PARTICLES_TARGET).shadeModel(SMOOTH_SHADE_MODEL).cull(DISABLE_CULLING).build(false));
+	}
+
+	public static RenderLayer get_scope_renderlayer(Identifier texture) {
+		return RenderLayer.of("techguns_scope", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).transparency(TRANSLUCENT_TRANSPARENCY).target(MAIN_TARGET).build(false));
 	}
 	
 	public static RenderLayer get_fx_particlelayer(Identifier texture) {
 		return RenderLayer.of("techguns_particle", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).writeMaskState(COLOR_MASK).transparency(LIGHTNING_TRANSPARENCY).target(PARTICLES_TARGET).shadeModel(SMOOTH_SHADE_MODEL).cull(DISABLE_CULLING).build(false));
 	}
+	
+	
+	public static RenderLayer get_fx_layerForType(Identifier texture, RenderType type) {
+		switch (type) {
+		case SCOPE:
+			return get_scope_renderlayer(texture);
+		case ALPHA:
+		case ALPHA_SHADED:
+		case NO_Z_TEST:
+		case SOLID:
+		case ADDITIVE:
+		default:
+			return get_fx_renderlayer(texture);
+		}
+	};
 	
 	//TODO OpenGLHelper
 	public static void enableFXLighting()

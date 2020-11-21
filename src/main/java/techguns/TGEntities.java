@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.Registry;
+import techguns.entities.projectiles.BioGunProjectile;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.RocketProjectile;
@@ -14,6 +15,7 @@ public class TGEntities implements ITGInitializer {
 	public static EntityType<GenericProjectile> GENERIC_PROJECTILE;
 	public static EntityType<GuidedMissileProjectile> GUIDED_MISSILE;
 	public static EntityType<RocketProjectile> ROCKET_PROJECTILE;
+	public static EntityType<BioGunProjectile> BIOGUN_PROJECTILE;
 	public static final int bulletTrackRange = 128;
 	
 	@Override
@@ -32,6 +34,12 @@ public class TGEntities implements ITGInitializer {
 				Registry.ENTITY_TYPE,
 	            new TGIdentifier("rocket_projectile"),
 	            FabricEntityTypeBuilder.<RocketProjectile>create(SpawnGroup.MISC, RocketProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
+
+		BIOGUN_PROJECTILE = Registry.register(
+				Registry.ENTITY_TYPE,
+	            new TGIdentifier("biogun_projectile"),
+	            FabricEntityTypeBuilder.<BioGunProjectile>create(SpawnGroup.MISC, BioGunProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
+
 	}
 
 }

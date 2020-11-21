@@ -35,8 +35,8 @@ public interface IScreenEffect {
 	public static IScreenEffect muzzleFlash_blue = new ScreenEffect("textures/fx/bluemuzzleflash.png", 4, 4, 8, RenderType.ADDITIVE).setFlipAxis(true, true);
 		
     public static IScreenEffect muzzleGreenFlare = new ScreenEffect("textures/fx/lensflare1.png", 1, 1, 1, RenderType.ADDITIVE).setFade(FadeType.SMOOTH).setColor(0.5f, 1.0f, 0.25f, 1.0f);	
-	public static IScreenEffect sniperScope = new ScreenEffect("textures/fx/testscope.png",1,1,1, RenderType.ALPHA);
-	public static IScreenEffect techScope = new ScreenEffect("textures/fx/techscope.png",1,1,1, RenderType.ALPHA).setFlipAxis(false, true);
+	public static IScreenEffect sniperScope = new ScreenEffect("textures/fx/testscope.png",1,1,1, RenderType.SCOPE);
+	public static IScreenEffect techScope = new ScreenEffect("textures/fx/techscope.png",1,1,1, RenderType.SCOPE).setFlipAxis(false, true);
 
 	public default void doRender(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, float offsetX, float offsetY, float offsetZ, float scale, boolean is3p) {
 		doRender(matrices, verticesProvider, progress, offsetX, offsetY,offsetZ,scale,0,0,0,is3p);
@@ -50,6 +50,6 @@ public interface IScreenEffect {
 	}
 	
     public enum RenderType {
-    	ALPHA, ADDITIVE, SOLID, ALPHA_SHADED, NO_Z_TEST;
+    	ALPHA, ADDITIVE, SOLID, ALPHA_SHADED, NO_Z_TEST, SCOPE;
     }
 }

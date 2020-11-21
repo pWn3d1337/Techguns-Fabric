@@ -77,7 +77,6 @@ public abstract class TechgunsMixinLivingEntity extends Entity {
 	@Inject(method = "damage", at = @At(value = "HEAD"), cancellable = true)
 	public boolean damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
 		boolean ret = false;
-		System.out.println("MixinTriggered Source: " + source);
 		if (source instanceof TGDamageSource) {
 			ret = Techguns_damage_func((TGDamageSource)source, amount);
 			info.setReturnValue(ret);
