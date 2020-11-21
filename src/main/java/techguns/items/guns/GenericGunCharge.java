@@ -177,6 +177,7 @@ public class GenericGunCharge extends GenericGun {
 	 */
 	protected void startCharge(ItemStack item, World world, PlayerEntity player) {}
 
+		
 	@Override
 	public void shootGunPrimary(ItemStack stack, World world, PlayerEntity player, boolean zooming, Hand hand, Entity target) {
 		if (this.canFireWhileCharging || player.getActiveItem() != stack) {

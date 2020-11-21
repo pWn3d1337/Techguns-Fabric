@@ -1,6 +1,5 @@
 package techguns.util;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
@@ -18,10 +17,10 @@ public class SoundUtil {
 		if (!world.isClient) {
 			TGPacketsS2C.sendToAllAroundEntity(new PacketPlaySound(soundname, entity, volume, pitch, repeat, moving, true, playOnOwnPlayer, category), entity, 100.0);
 		}else {
-			MinecraftClient mc = MinecraftClient.getInstance();
-			if(playOnOwnPlayer || mc.player != entity) {
-				ClientProxy.get().playSoundOnEntity(entity, soundname, volume, pitch, false, moving,true, category, condition);
-			}
+			//MinecraftClient mc = MinecraftClient.getInstance();
+			//if(playOnOwnPlayer || mc.player != entity) {
+			ClientProxy.get().playSoundOnEntity(entity, soundname, volume, pitch, false, moving,true, category, condition);
+			//}
 		}
 	}
 	

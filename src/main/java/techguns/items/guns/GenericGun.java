@@ -508,7 +508,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.CROSSBOW;
+		return UseAction.NONE;
 	}
 	
 	@Override

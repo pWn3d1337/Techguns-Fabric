@@ -1,6 +1,8 @@
 package techguns.util;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import techguns.api.entity.ITGExtendedPlayer;
 
 /**
  * Used for Sounds and ParticleSystems, which will stop when the condition is not met.
@@ -25,11 +27,10 @@ public enum EntityCondition {
 	public boolean evaluate(Entity entity) {
 		switch (this) {
 		case CHARGING_WEAPON:
-			//TODO Charging Weapons
-			/*if (entity instanceof PlayerEntity) {
-				TGExtendedPlayer txp = TGExtendedPlayer.get((EntityPlayer)entity);
-				return txp.isChargingWeapon();
-			}*/
+			if (entity instanceof PlayerEntity) {
+				ITGExtendedPlayer tg_player = (ITGExtendedPlayer)entity;
+				return tg_player.isChargingWeapon();
+			}
 			return false;
 		case ENTITY_ALIVE:
 			return entity.isAlive();

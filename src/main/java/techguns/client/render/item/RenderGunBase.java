@@ -1,7 +1,5 @@
 package techguns.client.render.item;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.BipedEntityModel.ArmPose;
@@ -21,6 +19,7 @@ import techguns.client.ClientProxy;
 import techguns.client.models.ModelMultipart;
 import techguns.client.render.fx.IScreenEffect;
 import techguns.client.render.math.TGMatrixOps;
+import techguns.items.guns.GenericGunCharge;
 
 public class RenderGunBase extends RenderItemBase {
 
@@ -228,10 +227,9 @@ public class RenderGunBase extends RenderItemBase {
 			AttackTime attack = values.getAttackTime(isOffhand);
 			attackType = attack.getAttackType();
 			
-			//TODO GenericGun charge
-			/*if (gun.canCharge() && !isOffhand && !entityIn.getActiveItemStack().isEmpty()) {
+			if (gun.canCharge() && !isOffhand && !entityIn.getActiveItem().isEmpty()) {
 			
-				int dur = stack.getItem().getMaxItemUseDuration(stack)-entityIn.getItemInUseCount();
+				int dur = entityIn.getItemUseTime();
 
 				chargeProgress = dur / ((GenericGunCharge)stack.getItem()).fullChargeTime;
 				
@@ -240,8 +238,8 @@ public class RenderGunBase extends RenderItemBase {
 				} else if (chargeProgress > 1.0f) {
 					chargeProgress = 1.0f;
 				}
-				
-			} else*/ if (attack.isReloading()) {
+								
+			} else if (attack.isReloading()) {
 				long diff = attack.getReloadTime() - System.currentTimeMillis();
 
 				if (diff <= 0) {
