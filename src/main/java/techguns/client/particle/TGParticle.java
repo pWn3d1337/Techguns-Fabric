@@ -14,6 +14,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -281,14 +282,19 @@ public class TGParticle extends Particle implements ITGParticle {
         
         float fscale = 0.1F * this.size;
 
-        float fPosX = (float)(this.prevPosX + (this.x - this.prevPosX) * (double)partialTickTime - (!this.itemAttached ? TGParticleManager.interpPosX :0));
-        float fPosY = (float)(this.prevPosY + (this.y - this.prevPosY) * (double)partialTickTime - (!this.itemAttached ? TGParticleManager.interpPosY :0));
-        float fPosZ = (float)(this.prevPosZ + (this.z - this.prevPosZ) * (double)partialTickTime - (!this.itemAttached ? TGParticleManager.interpPosZ :0));
+        //float fPosX = (float)(this.prevPosX + (this.x - this.prevPosX) * (double)partialTickTime - (!this.itemAttached ? TGParticleManager.interpPosX :0));
+        //float fPosY = (float)(this.prevPosY + (this.y - this.prevPosY) * (double)partialTickTime - (!this.itemAttached ? TGParticleManager.interpPosY :0));
+        //float fPosZ = (float)(this.prevPosZ + (this.z - this.prevPosZ) * (double)partialTickTime - (!this.itemAttached ? TGParticleManager.interpPosZ :0));
             
-        float cam_y = cam.getCameraY() + (cam.getCameraY()-cam.getLastCameraY()) * partialTickTime;
-        fPosY-=cam_y;
+        Vec3d camPos = camera.getPos();
+        float fPosX = (float)(MathHelper.lerp((double)partialTickTime, this.prevPosX, this.x) - camPos.getX());
+        float fPosY = (float)(MathHelper.lerp((double)partialTickTime, this.prevPosY, this.y) - camPos.getY());
+        float fPosZ = (float)(MathHelper.lerp((double)partialTickTime, this.prevPosZ, this.z) - camPos.getZ());
         
-        //float r = fscale;
+        
+        //float cam_y = cam.getCameraY() + (cam.getCameraY()-cam.getLastCameraY()) * partialTickTime;     
+        //fPosY-=cam_y;
+        
         
 		int col = currentFrame % type.columns;
 		int row = (currentFrame / type.columns);

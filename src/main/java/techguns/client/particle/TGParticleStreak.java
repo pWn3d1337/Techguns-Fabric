@@ -5,6 +5,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -56,13 +57,17 @@ public class TGParticleStreak extends TGParticle{
     	
         float fscale = 0.1F * this.particleScale;
 
-        CameraAccessor cam = (CameraAccessor) camera;
-        float cam_y = cam.getCameraY() + (cam.getCameraY()-cam.getLastCameraY()) * partialTickTime;
+        //CameraAccessor cam = (CameraAccessor) camera;
+        //float cam_y = cam.getCameraY() + (cam.getCameraY()-cam.getLastCameraY()) * partialTickTime;            
         
-        float fPosX = (float)(this.prevPosX + (this.x - this.prevPosX) * (double)partialTickTime - TGParticleManager.interpPosX);
-        float fPosY = (float)(this.prevPosY + (this.y - this.prevPosY) * (double)partialTickTime - TGParticleManager.interpPosY);
-        float fPosZ = (float)(this.prevPosZ + (this.z - this.prevPosZ) * (double)partialTickTime - TGParticleManager.interpPosZ);
-
+//        float fPosX = (float)(this.prevPosX + (this.x - this.prevPosX) * (double)partialTickTime - TGParticleManager.interpPosX);
+//        float fPosY = (float)(this.prevPosY + (this.y - this.prevPosY) * (double)partialTickTime - TGParticleManager.interpPosY);
+//        float fPosZ = (float)(this.prevPosZ + (this.z - this.prevPosZ) * (double)partialTickTime - TGParticleManager.interpPosZ);
+        
+        Vec3d camPos = camera.getPos();
+        float fPosX = (float)(MathHelper.lerp((double)partialTickTime, this.prevPosX, this.x) - camPos.getX());
+        float fPosY = (float)(MathHelper.lerp((double)partialTickTime, this.prevPosY, this.y) - camPos.getY());
+        float fPosZ = (float)(MathHelper.lerp((double)partialTickTime, this.prevPosZ, this.z) - camPos.getZ());
         
         //fPosY -= cam_y;
         //float r = fscale;
@@ -89,16 +94,18 @@ public class TGParticleStreak extends TGParticle{
             this.pos1 = null; //new Vec3d(fPosX, fPosY, fPosZ);
             this.pos2 = null; //new Vec3d(fPosX, fPosY, fPosZ);
         }else {
-        	Vec3d v_view = camera.getFocusedEntity().getCameraPosVec(partialTickTime);
-        	Vec3d v_prev = new Vec3d(prev.x, prev.y, prev.z).subtract(camera.getPos());
-    		//Vec3d v_view = ClientProxy.get().getPlayerClient().getLook(partialTickTime);
-    		
-    		//Vec3d v_prev = new Vec3d(prev.x, prev.y, prev.z).subtract(ClientProxy.get().getPlayerClient().getPositionVector());
-
+        	//Vec3d v_view = camera.getFocusedEntity().getCameraPosVec(partialTickTime);
+        	Vec3d v_view = camera.getFocusedEntity().getRotationVecClient();        	
+    	       	
+        	float prevPosX = (float)(MathHelper.lerp((double)partialTickTime, this.prev.prevPosX, this.prev.x) - camPos.getX());
+            float prevPosY = (float)(MathHelper.lerp((double)partialTickTime, this.prev.prevPosY, this.prev.y) - camPos.getY());
+            float prevPosZ = (float)(MathHelper.lerp((double)partialTickTime, this.prev.prevPosZ, this.prev.z) - camPos.getZ());
+            Vec3d v_prev = new Vec3d(prevPosX, prevPosY, prevPosZ);        	    
+    
     		Vec3d v_dir = v_prev.subtract(fPosX, fPosY, fPosZ).normalize();
             
     		Vec3d v_cross = v_view.crossProduct(v_dir).normalize();
-    		
+            
             p1 = new Vec3d(v_cross.x*fscale + fPosX, v_cross.y*fscale  + fPosY, v_cross.z*fscale  + fPosZ);
             p2 = new Vec3d(v_cross.x* -fscale + fPosX, v_cross.y* -fscale  + fPosY, v_cross.z* -fscale  + fPosZ);
         	
@@ -109,6 +116,7 @@ public class TGParticleStreak extends TGParticle{
     		VertexConsumer buffer = vertexConsumerProvider.getBuffer(layer);
             
             float fscaleP = prev.particleScale *0.1f;
+            
             
             if (prev.pos1 != null && prev.pos2 != null) {
             	p3 = prev.pos2;
@@ -126,7 +134,8 @@ public class TGParticleStreak extends TGParticle{
 			buffer.vertex(mat, (float)p3.x, (float)p3.y, (float)p3.z).texture(uc, vc).color(prev.colorRed, prev.colorGreen, prev.colorBlue, prev.colorAlpha).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
 			buffer.vertex(mat, (float)p4.x, (float)p4.y, (float)p4.z).texture(ud, vd).color(prev.colorRed, prev.colorGreen, prev.colorBlue, prev.colorAlpha).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
 	
-        }
+			vertexConsumerProvider.draw(layer);
+        }    
 
     }
 
