@@ -16,6 +16,8 @@ import techguns.TGIdentifier;
 import techguns.TGItems;
 import techguns.TGPacketsS2C;
 import techguns.TGuns;
+import techguns.api.client.ClientDisconnectEvent;
+import techguns.api.client.ClientGameJoinEvent;
 import techguns.client.audio.TGSound;
 import techguns.client.models.guns.ModelBiogun;
 import techguns.client.models.guns.ModelGuidedMissileLauncher;
@@ -208,6 +210,14 @@ public class ClientProxy implements ClientModInitializer {
 		ClientTickEvents.END_WORLD_TICK.register((world) -> {
 			ClientProxy.get().particleManager.tickParticles();
 		} );
+		
+		ClientDisconnectEvent.EVENT.register((MinecraftClient client) -> {
+			ClientProxy.get().particleManager.clear();
+		});
+		
+		ClientGameJoinEvent.EVENT.register((MinecraftClient clinet) -> {
+			ClientProxy.get().particleManager.clear();
+		});
 	}
 	
 	public PlayerEntity getPlayerClient() {

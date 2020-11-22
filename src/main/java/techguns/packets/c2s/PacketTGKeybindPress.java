@@ -16,8 +16,7 @@ public class PacketTGKeybindPress extends TGBasePacket {
 	public boolean showMsg=false;
 	
 	
-	public PacketTGKeybindPress(PacketByteBuf buf) {
-		super(buf);
+	public PacketTGKeybindPress() {
 	}
 
 	public PacketTGKeybindPress(TGKeybindID id) {

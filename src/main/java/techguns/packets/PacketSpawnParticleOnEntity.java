@@ -26,8 +26,7 @@ public class PacketSpawnParticleOnEntity extends TGBasePacket {
 	
 	protected EntityCondition condition;
 	
-	public PacketSpawnParticleOnEntity(PacketByteBuf buf) {
-		super(buf);
+	public PacketSpawnParticleOnEntity() {
 	}
 
 	public PacketSpawnParticleOnEntity(String name, Entity ent) {

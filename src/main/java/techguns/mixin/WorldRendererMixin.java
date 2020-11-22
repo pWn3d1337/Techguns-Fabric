@@ -22,7 +22,7 @@ public class WorldRendererMixin {
 
 	@Shadow
 	public BufferBuilderStorage bufferBuilders;
-
+	
 	@Inject(at = @At("RETURN"), method = "(Lnet/minecraft/client/util/math/MatrixStack;FJZLnet/minecraft/client/render/Camera;Lnet/minecraft/client/render/GameRenderer;Lnet/minecraft/client/render/LightmapTextureManager;Lnet/minecraft/util/math/Matrix4f;)V", cancellable = false)
 	public void render(MatrixStack matrices, float tickDelta, long limitTime, boolean renderBlockOutline, Camera camera, GameRenderer gameRenderer, LightmapTextureManager lightmapTextureManager, Matrix4f matrix4f, CallbackInfo info) {
 		//Render TG particles at the end, similar to RenderWorldLastEvent from forge

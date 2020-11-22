@@ -16,7 +16,8 @@
     "CrossbowPosingMixin",
     "CameraAccessor",
     "WorldRendererMixin",
-    "AbstractClientPlayerEntityMixin"
+    "AbstractClientPlayerEntityMixin",
+    "MinecraftClientMixin"
    ],
   "injectors": {
     "defaultRequire": 1

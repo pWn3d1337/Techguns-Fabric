@@ -16,8 +16,7 @@ public class PacketSwapWeapon extends TGBasePacket {
 		this.playerid = player.getEntityId();
 	}
 
-	public PacketSwapWeapon(PacketByteBuf buf) {
-		super(buf);
+	public PacketSwapWeapon() {
 	}
 
 	@Override

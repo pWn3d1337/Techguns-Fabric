@@ -1,6 +1,6 @@
 package techguns;
 
-import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import io.netty.buffer.Unpooled;
@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import techguns.packets.GunFiredMessage;
 import techguns.packets.PacketGunImpactFX;
 import techguns.packets.PacketPlaySound;
+import techguns.packets.PacketSpawnParticle;
 import techguns.packets.PacketSpawnParticleOnEntity;
 import techguns.packets.PacketSwapWeapon;
 import techguns.packets.ReloadStartedMessage;
@@ -29,6 +30,7 @@ public class TGPacketsS2C {
 	public static final Identifier PLAY_SOUND = new TGIdentifier("play_sound");
 	public static final Identifier GUN_IMPACT_FX = new TGIdentifier("gun_impact_fx");
 	public static final Identifier SPAWN_PARTICLE_ON_ENTITY = new TGIdentifier("spawn_particle_on_entity");
+	public static final Identifier SPAWN_PARTICLE = new TGIdentifier("spawn_particle");
 		
 	public static void initialize() {
 		registerPacket(GUN_FIRED, GunFiredMessage::new);
@@ -37,11 +39,13 @@ public class TGPacketsS2C {
 		registerPacket(PLAY_SOUND, PacketPlaySound::new);
 		registerPacket(GUN_IMPACT_FX, PacketGunImpactFX::new);
 		registerPacket(SPAWN_PARTICLE_ON_ENTITY, PacketSpawnParticleOnEntity::new);
+		registerPacket(SPAWN_PARTICLE, PacketSpawnParticle::new);
 	}
 	
-	public static void registerPacket(Identifier id, Function<PacketByteBuf, TGBasePacket> ctor) {
+	public static void registerPacket(Identifier id, Supplier<TGBasePacket> ctor) {
 		ClientSidePacketRegistryImpl.INSTANCE.register(id, ((context, buf) -> {
-			TGBasePacket packet = ctor.apply(buf);
+			TGBasePacket packet = ctor.get();
+			packet.unpack(buf);
 			context.getTaskQueue().execute(() -> {
 				packet.handle(context);
 			});

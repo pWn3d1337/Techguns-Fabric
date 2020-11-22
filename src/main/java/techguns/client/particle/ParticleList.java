@@ -15,6 +15,12 @@ public class ParticleList<E> implements Iterable<E>{
 		last=null;
 	}
 
+	public void clear() {
+		this.first = null;
+		this.last = null;
+		this.size=0;
+	}
+	
 	public void add(E e) {
 		if(first==null) {
 			first = new ParticleListElement<E>(e);

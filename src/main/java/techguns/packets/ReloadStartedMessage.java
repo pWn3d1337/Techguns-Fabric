@@ -23,8 +23,7 @@ public class ReloadStartedMessage extends TGBasePacket {
 		this.offHand = hand == Hand.OFF_HAND;
 	}
 
-	public ReloadStartedMessage(PacketByteBuf buf) {
-		super(buf);
+	public ReloadStartedMessage() {
 	}
 
 	@Override

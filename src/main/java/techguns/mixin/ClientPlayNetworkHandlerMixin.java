@@ -7,12 +7,15 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import techguns.TGEntities;
+import techguns.api.client.ClientDisconnectEvent;
+import techguns.api.client.ClientGameJoinEvent;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.RocketProjectile;
@@ -24,6 +27,9 @@ import techguns.entities.projectiles.RocketProjectile;
 public abstract class ClientPlayNetworkHandlerMixin {
 	
 	@Shadow
+	private MinecraftClient client;
+	
+	/*@Shadow
 	private ClientWorld world;
 
 	@Inject(
@@ -54,6 +60,10 @@ public abstract class ClientPlayNetworkHandlerMixin {
 
 			callback.cancel(); // cancel stops the rest of the method to run (so no spawning code from mc runs)
 		}
+	}*/
+	
+	@Inject(method = "onGameJoin", at = @At(value="RETURN"), cancellable = false )
+	private void onGameJoin(CallbackInfo callback) {
+		ClientGameJoinEvent.EVENT.invoker().onGameJoin(this.client);
 	}
-
 }

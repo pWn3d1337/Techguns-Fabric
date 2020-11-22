@@ -69,6 +69,7 @@ public class PacketSpawnEntity implements Packet<ClientPlayPacketListener>{
 		super();
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@Override
 	public void read(PacketByteBuf buf) throws IOException {
 		this.id = buf.readVarInt();

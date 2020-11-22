@@ -7,11 +7,7 @@ import net.minecraft.util.Identifier;
 
 public abstract class TGBasePacket {
 
-	public TGBasePacket(PacketByteBuf buf) {
-		this.unpack(buf);
-	}
-	
-	protected TGBasePacket() {};
+	public TGBasePacket() {};
 	
 	public abstract void pack(PacketByteBuf buf);
 	public abstract void unpack(PacketByteBuf buf);

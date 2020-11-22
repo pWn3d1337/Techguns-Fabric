@@ -23,8 +23,7 @@ public class PacketGunImpactFX extends TGBasePacket {
 	
 	boolean incendiary=false;
 	
-	public PacketGunImpactFX(PacketByteBuf buf) {
-		super(buf);
+	public PacketGunImpactFX() {
 	}
 
 	public PacketGunImpactFX(short soundType, double loc_x, double loc_y, double loc_z, float pitch, float yaw) {

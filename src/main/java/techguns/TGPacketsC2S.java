@@ -1,6 +1,7 @@
 package techguns;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
@@ -21,9 +22,10 @@ public class TGPacketsC2S {
 		registerPacket(KEYBIND_PRESS, PacketTGKeybindPress::new);
 	}
 	
-	public static void registerPacket(Identifier id, Function<PacketByteBuf, TGBasePacket> ctor) {
+	public static void registerPacket(Identifier id, Supplier<TGBasePacket> ctor) {
 		ServerSidePacketRegistryImpl.INSTANCE.register(id, ((context, buf) -> {
-			TGBasePacket packet = ctor.apply(buf);
+			TGBasePacket packet = ctor.get();
+			packet.unpack(buf);
 			context.getTaskQueue().execute(() -> {
 				packet.handle(context);
 			});

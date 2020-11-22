@@ -4,6 +4,8 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 
@@ -42,7 +44,8 @@ public class SignatureHelper {
 	}
 	
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException {
-		Method m = LivingEntity.class.getDeclaredMethod("damage", DamageSource.class, float.class);
+		//Method m = LivingEntity.class.getDeclaredMethod("damage", DamageSource.class, float.class);
+		Method m = MinecraftClient.class.getDeclaredMethod("disconnect", Screen.class);
 		System.out.println(getSignature(m));
 	}
 }

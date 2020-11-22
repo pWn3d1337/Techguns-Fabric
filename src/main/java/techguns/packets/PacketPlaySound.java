@@ -19,17 +19,16 @@ public class PacketPlaySound extends TGBasePacket {
 	float pitch;
 	boolean repeat;
 	boolean moving;
-	boolean gunPosition;
-	boolean playOnOwnPlayer;
-	int soundx;
-	short soundy;
-	int soundz;
+	boolean gunPosition=false;
+	boolean playOnOwnPlayer=false;
+	int soundx=0;
+	short soundy=0;
+	int soundz=0;
 	TGSoundCategory category;
 	
 	EntityCondition condition;
 	
-	public PacketPlaySound(PacketByteBuf buf) {
-		super(buf);
+	public PacketPlaySound() {
 	}
 
 	public PacketPlaySound(SoundEvent soundname, Entity entity, float volume, float pitch, boolean repeat, boolean moving, boolean gunPosition, boolean playOnOwnPlayer, TGSoundCategory category) {

@@ -28,8 +28,7 @@ public class GunFiredMessage extends TGBasePacket {
 		this.offhand = hand==Hand.OFF_HAND?true:false;
 	}
 
-	public GunFiredMessage(PacketByteBuf buf) {
-		super(buf);
+	public GunFiredMessage() {
 	}
 
 	@Override

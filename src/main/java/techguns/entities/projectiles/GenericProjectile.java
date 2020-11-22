@@ -377,7 +377,6 @@ public class GenericProjectile extends ProjectileEntity {
 			}
 		}
 		
-		// TODO distance drop
 		target.damage(damageSourceKnockback, 0.1f);
 		if (target.damage(damageSource, this.getDamage())) {
 

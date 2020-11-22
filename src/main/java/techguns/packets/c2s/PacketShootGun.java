@@ -19,8 +19,7 @@ public class PacketShootGun extends TGBasePacket {
 		this.offHand = hand==Hand.OFF_HAND;
 	}
 	
-	public PacketShootGun(PacketByteBuf buf) {
-		super(buf);
+	public PacketShootGun() {
 	}
 
 	@Override

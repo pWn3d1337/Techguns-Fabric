@@ -40,6 +40,12 @@ public class TGParticleManager {
         }
     }
 	
+	public void clear() {
+		this.list_systems.clear();
+		this.list_nosort.clear();
+		this.list.clear();
+	}
+	
 	public void tickParticles() {
 		MinecraftClient mc = MinecraftClient.getInstance();
 		if(mc.isPaused()) return;
