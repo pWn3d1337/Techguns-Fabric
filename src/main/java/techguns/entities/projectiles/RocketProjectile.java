@@ -4,14 +4,18 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.world.World;
 import techguns.TGEntities;
+import techguns.TGPacketsS2C;
 import techguns.api.damagesystem.DamageType;
 import techguns.client.ClientProxy;
 import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGExplosion;
 import techguns.deatheffects.EntityDeathUtils.DeathType;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.IProjectileFactory;
+import techguns.packets.PacketSpawnParticle;
 
 public class RocketProjectile extends GenericProjectile {
 
@@ -48,36 +52,32 @@ public class RocketProjectile extends GenericProjectile {
 	}
 	
 
-	//TODO
-	/*@Override
-	protected void onHitEffect(EntityLivingBase ent, RayTraceResult rayTraceResult) {
+	@Override
+	protected void onHitEffect(LivingEntity livingEntity) {
 		this.explodeRocket();
 	}
 
 	@Override
-	protected void hitBlock(RayTraceResult raytraceResultIn) {
+	protected void onBlockHit(BlockHitResult blockHitResult) {
 		this.explodeRocket();
-	}*/
+	}
 
-	/*protected void explodeRocket(){
+	protected void explodeRocket(){
 		if (!this.world.isClient){
-			TGPackets.network.sendToAllAround(new PacketSpawnParticle("RocketExplosion", this.posX,this.posY,this.posZ), TGPackets.targetPointAroundEnt(this, 50.0f));
+			//TGPackets.network.sendToAllAround(new PacketSpawnParticle("RocketExplosion", this.posX,this.posY,this.posZ), TGPackets.targetPointAroundEnt(this, 50.0f));
 			//TGPackets.network.sendToAllAround(new PacketSpawnParticle("TestFX", this.posX,this.posY,this.posZ), TGPackets.targetPointAroundEnt(this, 50.0f));
-
-    		//ProjectileExplosion explosion = new ProjectileExplosion(worldObj, this.posX, this.posY, this.posZ, this.shooter, radius, (int)damage, radius*0.5f, radius*1.5f);
-			//Explosion explosion = new Explosion(world, this,this.posX,this.posY, this.posZ, 5, blockdamage, blockdamage);
-			//explosion.doExplosionA();
-			//explosion.doExplosionB(true);
+		
+			TGPacketsS2C.sendToAllAroundEntity(new PacketSpawnParticle("RocketExplosion", this.getX(), this.getY(), this.getZ()), this, 50.0f);
 			
-			TGExplosion explosion = new TGExplosion(world, this.shooter, this, posX, posY, posZ, this.damage, this.damageMin, this.damageDropStart,this.damageDropEnd, this.blockdamage?0.5:0.0);
+			TGExplosion explosion = new TGExplosion(world, this.shooter, this, this.getX(), this.getY(), this.getZ(), this.damage, this.damageMin, this.damageDropStart,this.damageDropEnd, this.blockdamage?0.25:0.0);
 			
 			explosion.doExplosion(true);
 		}else {
 			//Techguns.proxy.createLightPulse(this.posX, this.posY, this.posZ, 5, 15, 10.0f, 1.0f, 1f, 0.9f, 0.5f);
 		}
-		this.setDead();
+		this.markForRemoval();
 	}
-	*/
+	
 	
 	
 	
