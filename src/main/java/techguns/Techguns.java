@@ -14,12 +14,14 @@ public class Techguns implements ModInitializer {
 	public static final TGSounds sounds = new TGSounds();
 	public static final TGEntities entities = new TGEntities();
 	public static final TGuns guns = new TGuns();
+	public static final TGCamos camos = new TGCamos();
 	protected ArrayList<ITGInitializer> initializers = new ArrayList<>(Arrays.asList(
 	    	sounds,
 	    	items,
 			ammos,
 	    	entities,
-	    	guns
+	    	guns,
+	    	camos
 	    ));
 	    
 	

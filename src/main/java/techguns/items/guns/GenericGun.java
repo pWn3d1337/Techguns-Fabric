@@ -34,9 +34,11 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import techguns.TGCamos;
 import techguns.TGItems;
 import techguns.TGPacketsS2C;
 import techguns.TGSounds;
+import techguns.api.ICamoChangeable;
 import techguns.api.damagesystem.DamageType;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.GunHandType;
@@ -59,7 +61,7 @@ import techguns.util.InventoryUtil;
 import techguns.util.SoundUtil;
 import techguns.util.TextUtil;
 
-public class GenericGun extends GenericItem implements IGenericGun, ITGItemRenderer /*ICamoChangeable*/ {
+public class GenericGun extends GenericItem implements IGenericGun, ITGItemRenderer, ICamoChangeable {
 	public static final float SOUND_DISTANCE=4.0f;
 	
 	public String name;
@@ -121,7 +123,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	
 	public ArrayList<Identifier> textures;
 	
-	//protected IProjectileFactory projectile;
+	@SuppressWarnings("rawtypes")
 	protected ProjectileSelector projectile_selector; 
 	
 	GunHandType handType = GunHandType.TWO_HANDED; 
@@ -175,11 +177,11 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		super(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT));
 	}
 
-	public GenericGun(String name, ProjectileSelector projectileSelector, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage, SoundEvent firesound, SoundEvent reloadsound, int TTL, float accuracy){
+	public GenericGun(String name, @SuppressWarnings("rawtypes") ProjectileSelector projectileSelector, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage, SoundEvent firesound, SoundEvent reloadsound, int TTL, float accuracy){
 		this(true, name,projectileSelector, semiAuto, minFiretime, clipsize, reloadtime, damage, firesound, reloadsound, TTL, accuracy);
 	}
 	
-	public GenericGun(boolean addToGunList,String name, ProjectileSelector projectile_selector, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage, SoundEvent firesound, SoundEvent reloadsound, int TTL, float accuracy){
+	public GenericGun(boolean addToGunList,String name, @SuppressWarnings("rawtypes") ProjectileSelector projectile_selector, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage, SoundEvent firesound, SoundEvent reloadsound, int TTL, float accuracy){
 		this();
 		this.name = name;
 		this.ammoType = projectile_selector.ammoType;
@@ -441,6 +443,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void spawnProjectile(final World world, final LivingEntity player, final ItemStack itemstack, float spread, float offset, float damagebonus, EnumBulletFirePos firePos, Entity target) {
 		/*GenericProjectile proj = new GenericProjectile(world, player, damage * damagebonus, speed, this.getScaledTTL(), spread, this.damageDropStart, this.damageDropEnd,
 				this.damageMin * damagebonus, this.penetration, getDoBlockDamage(player), leftGun);*/
@@ -777,7 +780,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 			stack.setTag(tags);
 		
 			int dmg = stack.getDamage();
-			tags.putByte("camo", (byte) 0);
+			tags.putString("camo", "");
 			tags.putString("ammovariant", AmmoTypes.TYPE_DEFAULT);
 			tags.putShort("ammo", dmg==0 ? (short)this.clipsize : (short)(this.clipsize-dmg));
 			stack.setDamage(0);
@@ -1647,4 +1650,10 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	public ArmPose getArmPose() {
 		return ArmPose.CROSSBOW_HOLD;
 	}
+
+	@Override
+	public int getCamoCount() {
+		return TGCamos.getCamoCount(this);
+	}
+
 }

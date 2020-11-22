@@ -45,4 +45,8 @@ public class MathUtil {
 		                + (-v*vec.x + u*vec.y)*Math.sin(theta);
 		return new Vec3d(xPrime, yPrime, zPrime);
     }
+
+	public static int clamp(int val, int min, int max) {
+		return Math.max(min, Math.min(max, val));
+	}
 }

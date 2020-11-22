@@ -1,5 +1,7 @@
 package techguns.client.render.item;
 
+import java.util.List;
+
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.BipedEntityModel.ArmPose;
@@ -11,6 +13,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Identifier;
+import techguns.api.ICamoChangeable;
 import techguns.api.entity.AttackTime;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.entity.ITGShooterValues;
@@ -20,6 +23,7 @@ import techguns.client.models.ModelMultipart;
 import techguns.client.render.fx.IScreenEffect;
 import techguns.client.render.math.TGMatrixOps;
 import techguns.items.guns.GenericGunCharge;
+import techguns.util.MathUtil;
 
 public class RenderGunBase extends RenderItemBase {
 
@@ -323,10 +327,20 @@ public class RenderGunBase extends RenderItemBase {
 			//RenderSystem.color4f(1f, 1f, 1f, 1f);
 
 			for (int i = 0; i < parts; i++) {
+				
+				Identifier tex = texture;
+				if(gun instanceof ICamoChangeable) {
+					ICamoChangeable camogun = (ICamoChangeable)gun;
+					List<Identifier>textures = camogun.getCurrentCamoTextures(stack);
+					if (textures != null) {
+						tex = textures.get(MathUtil.clamp(i,0,textures.size()-1));
+					}
+				}
+				
 				//this.bindTextureForPart(gun, i, stack);
 				//this.setGLColorForPart(gun, i, stack);
 				//model.render(entityIn, 0, 0, 0, 0, 0, SCALE, gun.getAmmoLeft(stack), reloadProgress, transform, i, fireProgress, chargeProgress);
-				model.render(entityIn, matrices, vertexConsumers.getBuffer(model.getLayerForPart(gun, stack, texture,i)), gun.getAmmoLeft(stack), reloadProgress, transform, i, fireProgress, chargeProgress, light, overlay);
+				model.render(entityIn, matrices, vertexConsumers.getBuffer(model.getLayerForPart(gun, stack, tex,i)), gun.getAmmoLeft(stack), reloadProgress, transform, i, fireProgress, chargeProgress, light, overlay);
 				//RenderSystem.color4f(1f, 1f, 1f, 1f);
 			}
 			matrices.pop();
