@@ -19,6 +19,8 @@ public interface ITGExtendedPlayer extends ITGShooterValues {
 	public void loadFromNBT(final NBTTagCompound tags);*/
 	
 	public boolean hasEnabledSafemode();
+	public void setSafeMode(boolean value);
+	
 	public int getLoopSoundDelay(Hand hand);
 	public void setLoopSoundDelay(Hand hand, int value);
 	public void swapAttackTimes();
@@ -31,4 +33,7 @@ public interface ITGExtendedPlayer extends ITGShooterValues {
 	
 	public Entity getLockOnEntity();
 	public void setLockOnEntity(Entity ent);
+	
+	public boolean showTGHudElements();
+	public void setShowTGHudElements(boolean value);
 }

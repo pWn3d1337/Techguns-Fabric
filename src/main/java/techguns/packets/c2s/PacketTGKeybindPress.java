@@ -6,6 +6,8 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import techguns.TGPacketsC2S;
+import techguns.Techguns;
+import techguns.api.entity.ITGExtendedPlayer;
 import techguns.items.guns.GenericGun;
 import techguns.keybind.TGKeybindID;
 import techguns.packets.TGBasePacket;
@@ -63,6 +65,23 @@ public class PacketTGKeybindPress extends TGBasePacket {
 				GenericGun gun = (GenericGun) item.getItem();
 				gun.tryForcedReload(item, ply.world, ply, this.hand);
 			}
+			break;
+		case TOGGLE_SAFEMODE:
+			ITGExtendedPlayer props = (ITGExtendedPlayer)ply;
+			
+			props.setSafeMode(!props.hasEnabledSafemode());
+			
+			//TODO safemode permission
+			/*if (!props.enableSafemode && !Techguns.instance.permissions.canUseUnsafeMode(ply)) {
+				props.enableSafemode=true;
+			} */
+			if(this.showMsg) {
+				//TODO
+				//TGPackets.network.sendTo(new PacketShowKeybindConfirmMessage(message.buttonID, props.enableSafemode), (EntityPlayerMP)ply);
+			}
+			//TODO
+			//TGPackets.network.sendTo(new PacketTGExtendedPlayerSync(ply,props, true), (EntityPlayerMP)ply);
+	
 			break;
 		default:
 			break;

@@ -17,7 +17,8 @@
     "CameraAccessor",
     "WorldRendererMixin",
     "AbstractClientPlayerEntityMixin",
-    "MinecraftClientMixin"
+    "MinecraftClientMixin",
+    "InGameHudMixin"
    ],
   "injectors": {
     "defaultRequire": 1

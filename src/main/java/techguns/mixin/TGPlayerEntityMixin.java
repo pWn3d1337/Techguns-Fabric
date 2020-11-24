@@ -54,6 +54,15 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	@Unique
 	public int techguns_lockOnTicks; //number of ticks the tracked target has been locked on.
 	
+	@Unique
+	public boolean techguns_safemode;
+	
+	/**
+	 * used by client only, but saved serverside
+	 */
+	@Unique
+	public boolean techguns_showHudElements=true;
+	
 	public TGPlayerEntityMixin(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
 	}
@@ -120,8 +129,7 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	
 	@Override
 	public boolean hasEnabledSafemode() {
-		// TODO implement Safemode
-		return false;
+		return this.techguns_safemode;
 	}
 	
 	@Override
@@ -232,6 +240,22 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 				}
 			}
 		}
+	}
+
+	@Override
+	public boolean showTGHudElements() {
+		return this.techguns_showHudElements;
+	}
+
+	@Override
+	public void setShowTGHudElements(boolean value) {
+		this.techguns_showHudElements=value;
+	}
+
+	@Override
+	public void setSafeMode(boolean value) {
+		this.techguns_safemode = value;
 	}	
 
+	
 }

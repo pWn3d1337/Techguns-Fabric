@@ -25,13 +25,19 @@ public class Keybinds implements ITGInitializer{
 	
 	public KeyBinding KEY_FORECERELOAD;
 		
+	public KeyBinding KEY_TOGGLE_SAFEMODE;
+	
 	@Override
 	public void init() {
 		KEY_FORECERELOAD = addKeybind("techguns.key.forcereload", GLFW.GLFW_KEY_R);
-	
+		KEY_TOGGLE_SAFEMODE = addKeybind("techguns.key.togglesafemode", GLFW.GLFW_KEY_B);
+		
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 		    while (KEY_FORECERELOAD.wasPressed()) {
 		    	handleKeybind_Reload();
+		    };
+		    while (KEY_TOGGLE_SAFEMODE.wasPressed()) {
+		    	TGPacketsC2S.sendToServer(new PacketTGKeybindPress(TGKeybindID.FORCE_RELOAD, true));
 		    };
 		});
 	}
