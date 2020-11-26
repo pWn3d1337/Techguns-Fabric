@@ -1,6 +1,7 @@
 package techguns.client.render.entities;
 
 import net.minecraft.client.model.Model;
+import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -35,15 +36,16 @@ public class RenderRocketProjectile extends EntityRenderer<RocketProjectile>{
 		
 		//GlStateManager.translate(par2,par4,par6);
 		//matrices.translate(x, y, z);
-		VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(this.getTexture(entity)));	
-		
+	
        	TGMatrixOps.rotate(matrices, entity.prevYaw + (entity.yaw-entity.prevYaw)*tickDelta -90.0f, 0F, 1F, 0F);
        	TGMatrixOps.rotate(matrices, entity.prevPitch + (entity.pitch-entity.prevPitch)*tickDelta, 0F, 0F, 1F);
 
 		matrices.scale(0.9f, 0.9f, 0.9f);
 		//model.render(par1Entity, 0, 0, 0, 0, 0, 0.0625F);
 
-		model.render(matrices, vertexConsumer, light, 0, 1.0f, 1.0f, 1.0f, 1.0f);
+		VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.model.getLayer(this.getTexture(entity)));	
+		
+		model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1.0f, 1.0f, 1.0f, 1.0f);
 
 		matrices.pop();
 	}

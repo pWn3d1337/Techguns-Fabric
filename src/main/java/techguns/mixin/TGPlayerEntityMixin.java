@@ -55,8 +55,8 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	public int techguns_lockOnTicks; //number of ticks the tracked target has been locked on.
 	
 	@Unique
-	public boolean techguns_safemode;
-	
+	private static TrackedData<Boolean> TECHGUNS_SAFE_MODE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+		
 	/**
 	 * used by client only, but saved serverside
 	 */
@@ -75,6 +75,7 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	@Inject(at = @At(value = "RETURN"), method="initDataTracker", cancellable = false)
 	protected void initDataTracker(CallbackInfo info) {
 	    this.dataTracker.startTracking(TECHGUNS_DATA_CHARGING_WEAPON, false);
+	    this.dataTracker.startTracking(TECHGUNS_SAFE_MODE, false);
 	}
 	
 	@Override
@@ -129,7 +130,7 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	
 	@Override
 	public boolean hasEnabledSafemode() {
-		return this.techguns_safemode;
+		return this.dataTracker.get(TECHGUNS_SAFE_MODE);
 	}
 	
 	@Override
@@ -254,7 +255,7 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 
 	@Override
 	public void setSafeMode(boolean value) {
-		this.techguns_safemode = value;
+		this.dataTracker.set(TECHGUNS_SAFE_MODE, value);
 	}	
 
 	

@@ -3,9 +3,9 @@ package techguns.packets;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import techguns.TGPacketsS2C;
 import techguns.keybind.TGKeybindID;
 import techguns.util.TextUtil;
 
@@ -16,6 +16,12 @@ public class PacketShowKeybindConfirmedMessage extends TGBasePacket {
 	
 	public PacketShowKeybindConfirmedMessage() {
 		super();
+	}
+
+	public PacketShowKeybindConfirmedMessage(TGKeybindID id, boolean state) {
+		super();
+		this.messageID = (byte) id.ordinal();
+		this.state = state;
 	}
 
 	@Override
@@ -62,8 +68,7 @@ public class PacketShowKeybindConfirmedMessage extends TGBasePacket {
 
 	@Override
 	public Identifier getID() {
-		// TODO Auto-generated method stub
-		return null;
+		return TGPacketsS2C.KEYBIND_CONFIRMED_MESSAGE;
 	}
 
 	

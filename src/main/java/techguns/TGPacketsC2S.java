@@ -1,6 +1,5 @@
 package techguns;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import io.netty.buffer.Unpooled;

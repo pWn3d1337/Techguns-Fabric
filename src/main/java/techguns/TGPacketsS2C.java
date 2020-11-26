@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import techguns.packets.GunFiredMessage;
 import techguns.packets.PacketGunImpactFX;
 import techguns.packets.PacketPlaySound;
+import techguns.packets.PacketShowKeybindConfirmedMessage;
 import techguns.packets.PacketSpawnParticle;
 import techguns.packets.PacketSpawnParticleOnEntity;
 import techguns.packets.PacketSwapWeapon;
@@ -31,6 +32,7 @@ public class TGPacketsS2C {
 	public static final Identifier GUN_IMPACT_FX = new TGIdentifier("gun_impact_fx");
 	public static final Identifier SPAWN_PARTICLE_ON_ENTITY = new TGIdentifier("spawn_particle_on_entity");
 	public static final Identifier SPAWN_PARTICLE = new TGIdentifier("spawn_particle");
+	public static final Identifier KEYBIND_CONFIRMED_MESSAGE = new TGIdentifier("keybind_confirmed_message");
 		
 	public static void initialize() {
 		registerPacket(GUN_FIRED, GunFiredMessage::new);
@@ -40,6 +42,7 @@ public class TGPacketsS2C {
 		registerPacket(GUN_IMPACT_FX, PacketGunImpactFX::new);
 		registerPacket(SPAWN_PARTICLE_ON_ENTITY, PacketSpawnParticleOnEntity::new);
 		registerPacket(SPAWN_PARTICLE, PacketSpawnParticle::new);
+		registerPacket(KEYBIND_CONFIRMED_MESSAGE, PacketShowKeybindConfirmedMessage::new);
 	}
 	
 	public static void registerPacket(Identifier id, Supplier<TGBasePacket> ctor) {
@@ -64,6 +67,10 @@ public class TGPacketsS2C {
 	public static void sendToAllAround(TGBasePacket packet, World world, Vec3d pos, double radius) {
         Stream<PlayerEntity> watchingPlayers = PlayerStream.around(world, pos, radius);
         sendTo(packet, watchingPlayers);
+	}
+	
+	public static void sendTo(TGBasePacket packet, PlayerEntity player) {
+		sendTo(packet, Stream.of(player));
 	}
 	
 	public static void sendTo(TGBasePacket packet, Stream<PlayerEntity> players) {

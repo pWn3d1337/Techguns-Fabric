@@ -6,10 +6,11 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import techguns.TGPacketsC2S;
-import techguns.Techguns;
+import techguns.TGPacketsS2C;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.items.guns.GenericGun;
 import techguns.keybind.TGKeybindID;
+import techguns.packets.PacketShowKeybindConfirmedMessage;
 import techguns.packets.TGBasePacket;
 
 public class PacketTGKeybindPress extends TGBasePacket {
@@ -43,7 +44,7 @@ public class PacketTGKeybindPress extends TGBasePacket {
 	public void unpack(PacketByteBuf buf) {
 		buttonID=buf.readByte();
 		byte h=buf.readByte();
-		this.hand=Hand.values()[h];
+		this.hand=h > 0 ? Hand.OFF_HAND : Hand.MAIN_HAND;
 		this.showMsg=buf.readBoolean();
 	}
 
@@ -56,7 +57,6 @@ public class PacketTGKeybindPress extends TGBasePacket {
 
 	@Override
 	public void handle(PlayerEntity ply) {
-		
 		switch(getKeybind()) {
 		case FORCE_RELOAD:
 			ItemStack item = ply.getStackInHand(this.hand);
@@ -76,12 +76,8 @@ public class PacketTGKeybindPress extends TGBasePacket {
 				props.enableSafemode=true;
 			} */
 			if(this.showMsg) {
-				//TODO
-				//TGPackets.network.sendTo(new PacketShowKeybindConfirmMessage(message.buttonID, props.enableSafemode), (EntityPlayerMP)ply);
+				TGPacketsS2C.sendTo(new PacketShowKeybindConfirmedMessage(TGKeybindID.TOGGLE_SAFEMODE, props.hasEnabledSafemode()), ply);
 			}
-			//TODO
-			//TGPackets.network.sendTo(new PacketTGExtendedPlayerSync(ply,props, true), (EntityPlayerMP)ply);
-	
 			break;
 		default:
 			break;
