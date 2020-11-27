@@ -195,9 +195,21 @@ public class BioGunProjectile extends GenericProjectile{
 	@Override
 	public void getAdditionalSpawnData(CompoundTag data) {
 		super.getAdditionalSpawnData(data);
-		this.level = data.getByte("level");
+		data.putByte("level", (byte)this.level);
 	}
 	
+	@Override
+	protected void readCustomDataFromTag(CompoundTag tag) {
+		super.readCustomDataFromTag(tag);
+		this.level = tag.getByte("level");
+	}
+
+	@Override
+	protected void parseAdditionalData(CompoundTag data) {
+		super.parseAdditionalData(data);
+		this.level = data.getByte("level");
+	}
+
 	public static class Factory implements IChargedProjectileFactory<BioGunProjectile> {
 
 		@Override

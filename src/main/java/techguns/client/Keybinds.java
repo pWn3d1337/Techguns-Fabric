@@ -37,7 +37,7 @@ public class Keybinds implements ITGInitializer{
 		    	handleKeybind_Reload();
 		    };
 		    while (KEY_TOGGLE_SAFEMODE.wasPressed()) {
-		    	TGPacketsC2S.sendToServer(new PacketTGKeybindPress(TGKeybindID.FORCE_RELOAD, true));
+		    	TGPacketsC2S.sendToServer(new PacketTGKeybindPress(TGKeybindID.TOGGLE_SAFEMODE, true));
 		    };
 		});
 	}
