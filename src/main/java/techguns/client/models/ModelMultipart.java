@@ -16,6 +16,8 @@ import techguns.api.guns.IGenericGun;
 
 public abstract class ModelMultipart extends Model {
 
+	protected static final double scale = 0.0625;
+	
 	public ModelMultipart(Function<Identifier, RenderLayer> layerFactory) {
 		super(layerFactory);
 	}
