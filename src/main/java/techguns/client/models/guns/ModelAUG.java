@@ -167,7 +167,7 @@ public class ModelAUG extends ModelMultipart {
 				} else {
 					movebolt = fireProgress/0.4f;
 				}
-				matrices.translate(0, 0, movebolt*0.5f * scale);
+				matrices.translate(0, 0, movebolt*0.5f);
 			}
     		this.Bolt.render(matrices, vertices, light, overlay);
     		matrices.pop();
