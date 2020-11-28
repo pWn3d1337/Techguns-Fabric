@@ -33,6 +33,12 @@ public class TGCamos implements ITGInitializer {
 		registerWeaponCamo(TGuns.AK47, DEFAULT, new TGIdentifier("textures/guns/ak47texture.png"));
 		registerWeaponCamo(TGuns.AK47, new TGIdentifier("blue"), new TGIdentifier("textures/guns/ak47texture_1.png"));
 			
+		registerWeaponCamo(TGuns.AUG, DEFAULT, new TGIdentifier("textures/guns/augtexture.png"));
+		registerWeaponCamo(TGuns.AUG, new TGIdentifier("black"), new TGIdentifier("textures/guns/augtexture_1.png"));
+		registerWeaponCamo(TGuns.AUG, new TGIdentifier("woodland"), new TGIdentifier("textures/guns/augtexture_2.png"));
+		registerWeaponCamo(TGuns.AUG, new TGIdentifier("desert"), new TGIdentifier("textures/guns/augtexture_3.png"));
+		registerWeaponCamo(TGuns.AUG, new TGIdentifier("nether"), new TGIdentifier("textures/guns/augtexture_4.png"));
+				
 		FabricItemGroupBuilder.create(
 				new TGIdentifier("techguns_camos"))
 				.icon(() -> new ItemStack(TGuns.M4))

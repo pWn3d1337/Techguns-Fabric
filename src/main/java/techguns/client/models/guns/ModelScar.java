@@ -408,7 +408,7 @@ public class ModelScar extends ModelMultipart {
 				} else {
 					movebolt = fireProgress/0.4f;
 				}
-				matrices.translate(0 * scale, 0 * scale, movebolt*0.6f * scale);
+				matrices.translate(0, 0, movebolt*0.6f);
 			}
 			
 			matrices.translate(this.Bolt.pivotX * scale, this.Bolt.pivotY * scale, this.Bolt.pivotZ * scale);
