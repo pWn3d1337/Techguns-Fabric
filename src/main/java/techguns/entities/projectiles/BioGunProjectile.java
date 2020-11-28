@@ -7,6 +7,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import techguns.TGEntities;
@@ -55,7 +56,7 @@ public class BioGunProjectile extends GenericProjectile{
 	}
 	
 	@Override
-	protected void onHitEffect(LivingEntity livingEntity) {
+	protected void onHitEffect(LivingEntity livingEntity, EntityHitResult hitResult) {
 		 livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 100, 3, false, true));
 	}
 	 

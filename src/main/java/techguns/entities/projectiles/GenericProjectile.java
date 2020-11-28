@@ -388,7 +388,7 @@ public class GenericProjectile extends ProjectileEntity {
 					EnchantmentHelper.onTargetDamaged((LivingEntity) shooter, livingTarget);
 				}
 
-				this.onHitEffect(livingTarget);
+				this.onHitEffect(livingTarget, entityHitResult);
 				if (shooter != null && livingTarget != shooter && livingTarget instanceof PlayerEntity
 						&& shooter instanceof ServerPlayerEntity && !this.isSilent()) {
 					((ServerPlayerEntity) shooter).networkHandler.sendPacket(
@@ -443,8 +443,9 @@ public class GenericProjectile extends ProjectileEntity {
 	 * Override in subclass for extra hit effects, like burn, etc
 	 * 
 	 * @param livingEntity
+	 * @param entityHitResult 
 	 */
-	protected void onHitEffect(LivingEntity livingEntity) {
+	protected void onHitEffect(LivingEntity livingEntity, EntityHitResult entityHitResult) {
 	}
 
 	protected int getPierceLevel() {
