@@ -7,8 +7,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
+import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.IGenericGun;
 import techguns.client.ClientProxy;
+import techguns.items.guns.GenericGunCharge;
 
 @Mixin(Mouse.class)
 public class MouseMixin {
@@ -33,6 +35,14 @@ public class MouseMixin {
 					
 				} else {
 					cp.keyFirePressedMainhand=false;
+				}
+			}else if (button == 1) {
+				//Lock On
+				if (!mc.player.getMainHandStack().isEmpty() && mc.player.getMainHandStack().getItem() instanceof GenericGunCharge 
+						&& ((GenericGunCharge)mc.player.getMainHandStack().getItem()).getLockOnTicks() > 0) {
+					ITGExtendedPlayer props = (ITGExtendedPlayer)mc.player;
+					props.setLockOnEntity(null);
+					props.setLockOnTicks(-1);
 				}
 			}
 		}

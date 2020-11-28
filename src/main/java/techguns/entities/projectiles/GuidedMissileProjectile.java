@@ -118,7 +118,7 @@ public class GuidedMissileProjectile extends RocketProjectile{
 			Vec3d motion = new Vec3d(getVelocity().x, getVelocity().y, getVelocity().z);
 			double speed = motion.length();
 			
-			Vec3d v2 = new Vec3d(target.getPos().x, target.getPos().x+target.getHeight()*0.5f, target.getPos().z).subtract(this.getPos()).normalize();
+			Vec3d v2 = new Vec3d(target.getPos().x, target.getPos().y+target.getHeight()*0.5f, target.getPos().z).subtract(this.getPos()).normalize();
 			Vec3d v1 = motion.normalize();
 			
 			double angle = Math.acos(v1.dotProduct(v2));

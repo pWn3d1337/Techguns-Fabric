@@ -9,15 +9,18 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import techguns.packets.TGBasePacket;
 import techguns.packets.c2s.PacketShootGun;
+import techguns.packets.c2s.PacketShootGunTarget;
 import techguns.packets.c2s.PacketTGKeybindPress;
 
 public class TGPacketsC2S {
 
 	public static final Identifier SHOOT_GUN = new TGIdentifier("shoot_gun");
+	public static final Identifier SHOOT_GUN_TARGET = new TGIdentifier("shoot_gun_target");
 	public static final Identifier KEYBIND_PRESS = new TGIdentifier("keybind_press");
 
 	public static void initialize() {
 		registerPacket(SHOOT_GUN, PacketShootGun::new);
+		registerPacket(SHOOT_GUN_TARGET, PacketShootGunTarget::new);
 		registerPacket(KEYBIND_PRESS, PacketTGKeybindPress::new);
 	}
 	

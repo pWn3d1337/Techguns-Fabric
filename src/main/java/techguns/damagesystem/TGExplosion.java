@@ -245,7 +245,7 @@ public class TGExplosion {
 	            
 	            //Check distance
 	            Vec3d pos = entity.getPos();
-	            double distance = this.position.distanceTo(new Vec3d(pos.x, pos.y+entity.getEyeY(), pos.z));
+	            double distance = this.position.distanceTo(new Vec3d(pos.x, entity.getEyeY(), pos.z));
 	            if (distance <= primaryRadius) damage = primaryDamage;
 	            else if (distance <= secondaryRadius) damage = secondaryDamage + ((distance-primaryRadius)/(secondaryRadius-primaryRadius)) * (primaryDamage-secondaryDamage);
 	            else damage = 0.0;

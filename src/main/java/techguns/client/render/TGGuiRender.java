@@ -8,16 +8,20 @@ import net.minecraft.client.options.GameOptions;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import techguns.TGIdentifier;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.GunManager;
 import techguns.items.guns.GenericGun;
+import techguns.mixin.InGameHudMixin;
 
+@Environment(EnvType.CLIENT)
 public class TGGuiRender {
 
 	public static final Identifier TECHGUNS_PLAYER_INVENTORY_TEXTURE = new TGIdentifier("textures/gui/tgplayerinventory.png");
+	public static final Identifier TECHGUNS_CROSSHAIRS_TEXTURE = new TGIdentifier("textures/gui/crosshairs.png");
 	
 	@Environment(EnvType.CLIENT)
 	public static void renderTechgunsHUD(DrawableHelper gui, MatrixStack matrices, MinecraftClient mc, int scaledWidth, int scaledHeight) {
@@ -198,6 +202,73 @@ public class TGGuiRender {
 		
 		String text= gun.getAmmoLeftCountTooltip(item)+"/"+gun.getClipsizeTooltip() +Formatting.YELLOW+"x" +minCount;
 		mc.textRenderer.draw(matrices, text, scaledWidth+1-text.length()*6,scaledHeight-mc.textRenderer.fontHeight-2+offsetY , 0xFFFFFFFF);
+	}
+
+	@Environment(EnvType.CLIENT)
+	public static boolean renderCrosshair(DrawableHelper gui, MatrixStack matrices, MinecraftClient mc,
+			int scaledWidth, int scaledHeight) {
+
+		boolean showCustomCrosshair = false;
+		
+		PlayerEntity player = mc.player;
+		
+		
+		//GuidedMissileLauncher Lock on Effects
+		if (player.getMainHandStack().getItem() instanceof GenericGun) {
+			
+			/*
+			 * Render Lock on GUI effect
+			 */
+			ITGExtendedPlayer epc = (ITGExtendedPlayer)player;
+			
+			int x = scaledWidth / 2;
+			int y = scaledHeight / 2;
+			
+			//GenericGun gun = (GenericGun)player.getActiveItemStack().getItem();
+			GenericGun gun = (GenericGun)player.getMainHandStack().getItem();
+			if (gun.getLockOnTicks() > 0 && epc.getLockOnEntity() != null && epc.getLockOnTicks() > 0) {
+				float maxTicks = (float)gun.getLockOnTicks(); //TODO: Store in capabilities
+				float progress = (float)epc.getLockOnTicks()/maxTicks;
+				
+				mc.getTextureManager().bindTexture(TECHGUNS_CROSSHAIRS_TEXTURE);
+				
+				//GlStateManager.disableBlend();
+				
+
+				
+				int offset = (int)(Math.max(0.0f, (1.0f-progress)*16.0f))+5;
+				//Outer parts
+				
+				gui.drawTexture(matrices, x-offset-3, y-offset-3, 0, 0, 7,7);
+				gui.drawTexture(matrices, x+offset-3, y-offset-3, 7, 0, 7,7);
+				gui.drawTexture(matrices, x-offset-3, y+offset-3, 14, 0, 7,7);
+				gui.drawTexture(matrices, x+offset-3, y+offset-3, 21, 0, 7,7);
+				
+				if (progress < 1.0f) {
+					String text = "Locking... : "+ epc.getLockOnEntity().getName().getString();
+					mc.textRenderer.draw(matrices, text, (int)(scaledWidth*0.5)+2, (int)(scaledHeight*0.5)+10, 0xFFFFFFFF);
+				}else {
+
+					gui.drawTexture(matrices, x-6, y-6, 28, 0, 13,13);
+					//if (Minecraft.getMinecraft().getSystemTime() / 250 % 2 == 0) {
+					if (System.currentTimeMillis() / 250 % 2 == 0) {
+						gui.drawTexture(matrices, x-9, y-9, 41, 0, 19,19);
+					}
+					
+						
+					String text = "Locked On: "+epc.getLockOnEntity().getName().getString();
+					mc.textRenderer.draw(matrices, text, (int)(scaledWidth*0.5)+2, (int)(scaledHeight*0.5)+10, 0xFFFF0000);
+				}
+				
+				//Restore settings
+				//GlStateManager.enableBlend();
+
+				showCustomCrosshair = true;
+			}
+			//TODO Regular TG crosshairs
+		
+		}
+		return showCustomCrosshair;
 	}
 	
 	//TODO techguns inventory
