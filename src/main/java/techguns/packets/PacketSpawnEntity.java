@@ -22,6 +22,7 @@ import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.RocketProjectile;
 import techguns.entities.projectiles.TFGProjectile;
+import techguns.entities.projectiles.StoneBulletProjectile;
 
 public class PacketSpawnEntity implements Packet<ClientPlayPacketListener>{
 
@@ -127,6 +128,9 @@ public class PacketSpawnEntity implements Packet<ClientPlayPacketListener>{
 			
 		} else if(this.entityTypeId == TGEntities.BIOGUN_PROJECTILE) {
 			ent = new BioGunProjectile(TGEntities.BIOGUN_PROJECTILE, mc.player.world,shooter, additionalData);
+			
+		} else if(this.entityTypeId == TGEntities.STONEBULLET_PROJECTILE) {
+			ent = new StoneBulletProjectile(TGEntities.STONEBULLET_PROJECTILE, mc.player.world,shooter, additionalData);
 		
 		} else if(this.entityTypeId == TGEntities.TFG_PROJECTILE) {
 			ent = new TFGProjectile(TGEntities.TFG_PROJECTILE, mc.player.world,shooter, additionalData);

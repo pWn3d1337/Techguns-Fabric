@@ -1,0 +1,153 @@
+package techguns.client.models.guns;
+
+import net.minecraft.client.model.ModelPart;
+import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.VertexConsumer;
+import net.minecraft.client.render.model.json.ModelTransformation.Mode;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
+import techguns.client.models.ModelMultipart;
+
+public class ModelBlasterRifle extends ModelMultipart {
+    public ModelPart Grip1;
+    public ModelPart Trigger01;
+    public ModelPart Trigger02;
+    public ModelPart BarrelGuard;
+    public ModelPart Barrel;
+    public ModelPart Receiver03;
+    public ModelPart BarrelRails04;
+    public ModelPart MagSocket;
+    public ModelPart Receiver01;
+    public ModelPart BarrelCooling1;
+    public ModelPart BarrelCooling2;
+    public ModelPart MagSocket_1;
+    public ModelPart Magazine;
+    public ModelPart MagRoundThing1;
+    public ModelPart MagRoundThing2;
+    public ModelPart MagSocket2;
+    public ModelPart Receiver01_1;
+    public ModelPart ReceiverTop;
+    public ModelPart SideBox01;
+    public ModelPart scope02;
+    public ModelPart scope01;
+    public ModelPart scope03;
+    public ModelPart FrontPart;
+
+    public ModelBlasterRifle() {
+        super(RenderLayer::getEntitySolid);
+        this.textureWidth = 128;
+        this.textureHeight = 64;
+        this.Magazine = new ModelPart(this, 92, 18);
+        this.Magazine.setPivot(5.0F, -3.5F, -3.5F);
+        this.Magazine.addCuboid(0.0F, 0.0F, 0.0F, 5, 2, 5, 0.0F);
+        this.Receiver01_1 = new ModelPart(this, 0, 31);
+        this.Receiver01_1.setPivot(-2.5F, -5.0F, -6.0F);
+        this.Receiver01_1.addCuboid(0.0F, 0.0F, 0.0F, 4, 5, 28, 0.0F);
+        this.SideBox01 = new ModelPart(this, 77, 18);
+        this.SideBox01.setPivot(1.5F, -8.0F, 6.0F);
+        this.SideBox01.addCuboid(0.0F, 0.0F, 0.0F, 3, 5, 8, 0.0F);
+        this.scope01 = new ModelPart(this, 0, 13);
+        this.scope01.setPivot(-0.5F, -7.5F, 3.0F);
+        this.scope01.addCuboid(-1.5F, -1.5F, 0.0F, 3, 3, 5, 0.0F);
+        this.setRotation(scope01, 0.0F, 0.0F, 0.7853981633974483F);
+        this.Trigger02 = new ModelPart(this, 83, 5);
+        this.Trigger02.setPivot(-1.0F, 1.5F, 5.0F);
+        this.Trigger02.addCuboid(0.0F, 0.0F, 0.0F, 1, 2, 1, 0.0F);
+        this.setRotation(Trigger02, -0.2617993877991494F, -0.0F, 0.0F);
+        this.Receiver03 = new ModelPart(this, 92, 0);
+        this.Receiver03.setPivot(-2.0F, 0.0F, -5.0F);
+        this.Receiver03.addCuboid(0.0F, 0.0F, 0.0F, 3, 2, 15, 0.0F);
+        this.BarrelRails04 = new ModelPart(this, 37, 36);
+        this.BarrelRails04.setPivot(-1.5F, -0.5F, -20.0F);
+        this.BarrelRails04.addCuboid(0.0F, 0.0F, 0.0F, 2, 2, 15, 0.0F);
+        this.MagRoundThing1 = new ModelPart(this, 97, 26);
+        this.MagRoundThing1.setPivot(2.75F, -4.25F, -4.0F);
+        this.MagRoundThing1.addCuboid(-0.5F, -0.5F, 0.0F, 1, 1, 6, 0.0F);
+        this.setRotation(MagRoundThing1, 0.0F, 0.0F, 0.7853981633974483F);
+        this.BarrelGuard = new ModelPart(this, 82, 41);
+        this.BarrelGuard.setPivot(-0.5F, -2.5F, -25.0F);
+        this.BarrelGuard.addCuboid(-2.0F, -2.0F, 0.0F, 4, 4, 19, 0.0F);
+        this.setRotation(BarrelGuard, 0.0F, 0.0F, 0.7853981633974483F);
+        this.MagSocket2 = new ModelPart(this, 92, 0);
+        this.MagSocket2.setPivot(2.0F, -5.0F, 2.0F);
+        this.MagSocket2.addCuboid(0.0F, 0.0F, 0.0F, 3, 1, 1, 0.0F);
+        this.FrontPart = new ModelPart(this, 57, 41);
+        this.FrontPart.setPivot(-2.0F, -1.25F, -24.0F);
+        this.FrontPart.addCuboid(0.0F, 0.0F, 0.0F, 3, 2, 7, 0.0F);
+        this.setRotation(FrontPart, -0.22759093446006054F, 0.0F, 0.0F);
+        this.BarrelCooling2 = new ModelPart(this, 66, 38);
+        this.BarrelCooling2.setPivot(-0.5F, -2.5F, -22.0F);
+        this.BarrelCooling2.addCuboid(-0.5F, -2.5F, 0.0F, 1, 5, 16, 0.0F);
+        this.setRotation(BarrelCooling2, 0.0F, 0.0F, -0.7853981633974483F);
+        this.ReceiverTop = new ModelPart(this, 0, 0);
+        this.ReceiverTop.setPivot(-1.5F, -6.0F, -5.0F);
+        this.ReceiverTop.addCuboid(0.0F, 0.0F, 0.0F, 2, 1, 27, 0.0F);
+        this.Grip1 = new ModelPart(this, 68, 0);
+        this.Grip1.setPivot(-2.0F, 2.0F, 6.0F);
+        this.Grip1.addCuboid(0.0F, 0.0F, 0.0F, 3, 9, 4, 0.0F);
+        this.setRotation(Grip1, 0.4461433291435241F, 0.0F, 0.0F);
+        this.scope02 = new ModelPart(this, 34, 14);
+        this.scope02.setPivot(-0.5F, -8.0F, 8.0F);
+        this.scope02.addCuboid(-1.5F, -1.5F, 0.0F, 3, 3, 8, 0.0F);
+        this.setRotation(scope02, 0.0F, 0.0F, 0.7853981633974483F);
+        this.BarrelCooling1 = new ModelPart(this, 66, 38);
+        this.BarrelCooling1.setPivot(-0.5F, -2.5F, -22.0F);
+        this.BarrelCooling1.addCuboid(-0.5F, -2.5F, 0.0F, 1, 5, 16, 0.0F);
+        this.setRotation(BarrelCooling1, 0.0F, 0.0F, 0.7853981633974483F);
+        this.MagSocket = new ModelPart(this, 83, 0);
+        this.MagSocket.setPivot(-1.5F, 2.0F, 2.0F);
+        this.MagSocket.addCuboid(0.0F, 0.0F, 0.0F, 2, 3, 1, 0.0F);
+        this.MagSocket_1 = new ModelPart(this, 106, 19);
+        this.MagSocket_1.setPivot(1.0F, -4.0F, -4.0F);
+        this.MagSocket_1.addCuboid(0.0F, 0.0F, 0.0F, 4, 3, 7, 0.0F);
+        this.Barrel = new ModelPart(this, 0, 54);
+        this.Barrel.setPivot(-0.5F, -2.5F, -26.0F);
+        this.Barrel.addCuboid(-1.5F, -1.5F, 0.0F, 3, 3, 1, 0.0F);
+        this.setRotation(Barrel, 0.0F, 0.0F, 0.7853981633974483F);
+        this.Trigger01 = new ModelPart(this, 78, 9);
+        this.Trigger01.setPivot(-1.5F, 4.0F, 3.0F);
+        this.Trigger01.addCuboid(0.0F, 0.0F, 0.0F, 2, 1, 5, 0.0F);
+        this.MagRoundThing2 = new ModelPart(this, 97, 26);
+        this.MagRoundThing2.setPivot(4.25F, -4.25F, -4.0F);
+        this.MagRoundThing2.addCuboid(-0.5F, -0.5F, 0.0F, 1, 1, 6, 0.0F);
+        this.setRotation(MagRoundThing2, 0.0F, 0.0F, 0.7853981633974483F);
+        this.Receiver01 = new ModelPart(this, 0, 0);
+        this.Receiver01.setPivot(-0.5F, -3.0F, 22.0F);
+        this.Receiver01.addCuboid(-2.5F, -2.5F, 0.0F, 5, 5, 2, 0.0F);
+        this.setRotation(Receiver01, 0.0F, -0.0F, 0.7853981633974483F);
+        this.scope03 = new ModelPart(this, 1, 8);
+        this.scope03.setPivot(-0.5F, -7.0F, 1.0F);
+        this.scope03.addCuboid(-1.0F, -1.0F, 0.0F, 2, 2, 2, 0.0F);
+        this.setRotation(scope03, 0.0F, 0.0F, 0.7853981633974483F);
+    }
+
+	@Override
+	public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
+			float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
+			int overlay) {
+		this.Magazine.render(matrices, vertices, light, overlay);
+		this.Receiver01_1.render(matrices, vertices, light, overlay);
+		this.SideBox01.render(matrices, vertices, light, overlay);
+		this.scope01.render(matrices, vertices, light, overlay);
+		this.Trigger02.render(matrices, vertices, light, overlay);
+		this.Receiver03.render(matrices, vertices, light, overlay);
+		this.BarrelRails04.render(matrices, vertices, light, overlay);
+		this.MagRoundThing1.render(matrices, vertices, light, overlay);
+		this.BarrelGuard.render(matrices, vertices, light, overlay);
+		this.MagSocket2.render(matrices, vertices, light, overlay);
+		this.FrontPart.render(matrices, vertices, light, overlay);
+		this.BarrelCooling2.render(matrices, vertices, light, overlay);
+		this.ReceiverTop.render(matrices, vertices, light, overlay);
+		this.Grip1.render(matrices, vertices, light, overlay);
+		this.scope02.render(matrices, vertices, light, overlay);
+		this.BarrelCooling1.render(matrices, vertices, light, overlay);
+		this.MagSocket.render(matrices, vertices, light, overlay);
+		this.MagSocket_1.render(matrices, vertices, light, overlay);
+		this.Barrel.render(matrices, vertices, light, overlay);
+		this.Trigger01.render(matrices, vertices, light, overlay);
+		this.MagRoundThing2.render(matrices, vertices, light, overlay);
+		this.Receiver01.render(matrices, vertices, light, overlay);
+		this.scope03.render(matrices, vertices, light, overlay);
+	}
+
+}

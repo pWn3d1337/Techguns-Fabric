@@ -1,5 +1,6 @@
 package techguns.client.render.entities;
 
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -32,8 +33,7 @@ public class RenderTextureProjectile <T extends Entity> extends EntityRenderer<T
 			  matrices.scale(baseSize*scale, baseSize*scale, baseSize*scale);
 			  TGRenderHelper.enableFXLighting();
 	         
-			  VertexConsumer vertexConsumer = vertexConsumers
-						.getBuffer(TGRenderHelper.get_fx_particlelayer(this.getTexture(entity)));
+			  VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.getRenderLayer(entity));
 				
 	          this.drawProjectile(matrices, vertexConsumer, light);
 	          TGRenderHelper.disableFXLighting();
@@ -42,6 +42,10 @@ public class RenderTextureProjectile <T extends Entity> extends EntityRenderer<T
 			}
 	}
 
+	protected RenderLayer getRenderLayer(T entity) {
+		return TGRenderHelper.get_fx_particlelayer(this.getTexture(entity));
+	}
+	
 	protected float getScale(T entity) {
 		return scale;
 	}
@@ -66,10 +70,10 @@ public class RenderTextureProjectile <T extends Entity> extends EntityRenderer<T
 		Matrix4f model_mat = entry.getModel();
 		//Matrix3f normal_mat = entry.getNormal();
               
-		vertexConsumer.vertex(model_mat,(0.0F - f5), (0.0F - f6), 0.0f).texture(f, f3).light(light).next();
-		vertexConsumer.vertex(model_mat,(f4 - f5), (0.0F - f6), 0.0f).texture(f1, f3).light(light).next();
-		vertexConsumer.vertex(model_mat,(f4 - f5), (f4 - f6), 0.0f).texture(f1, f2).light(light).next();
-		vertexConsumer.vertex(model_mat,(0.0f - f5), (f4 - f6), 0.0f).texture(f, f2).light(light).next();
+		vertexConsumer.vertex(model_mat,(0.0F - f5), (0.0F - f6), 0.0f).texture(f, f3).color(1f, 1f, 1f, 1f).light(light).next();
+		vertexConsumer.vertex(model_mat,(f4 - f5), (0.0F - f6), 0.0f).texture(f1, f3).color(1f, 1f, 1f, 1f).light(light).next();
+		vertexConsumer.vertex(model_mat,(f4 - f5), (f4 - f6), 0.0f).texture(f1, f2).color(1f, 1f, 1f, 1f).light(light).next();
+		vertexConsumer.vertex(model_mat,(0.0f - f5), (f4 - f6), 0.0f).texture(f, f2).color(1f, 1f, 1f, 1f).light(light).next();
 
     }
 

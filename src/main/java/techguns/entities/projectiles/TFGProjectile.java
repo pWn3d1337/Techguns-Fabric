@@ -1,6 +1,5 @@
 package techguns.entities.projectiles;
 
-import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -10,7 +9,6 @@ import net.minecraft.world.World;
 import techguns.TGEntities;
 import techguns.TGPacketsS2C;
 import techguns.TGSounds;
-import techguns.Techguns;
 import techguns.api.damagesystem.DamageType;
 import techguns.client.ClientProxy;
 import techguns.sounds.TGSoundCategory;
@@ -21,14 +19,11 @@ import techguns.items.guns.GenericGun;
 import techguns.items.guns.IChargedProjectileFactory;
 import techguns.packets.PacketPlaySound;
 import techguns.packets.PacketSpawnParticle;
-import techguns.packets.PacketSpawnParticleOnEntity;
-import techguns.util.MathUtil;
-import techguns.util.SoundUtil;
 
 
 public class TFGProjectile extends GenericProjectile{
 
-	public float size = 1.0f;
+	public float size;
 
 	
 	public TFGProjectile(EntityType<? extends ProjectileEntity> entityType, World world) {
@@ -129,6 +124,7 @@ public class TFGProjectile extends GenericProjectile{
 	@Override
 	protected void parseAdditionalData(CompoundTag tag) {
 		super.parseAdditionalData(tag);
+		System.out.println("Size = "+tag.getFloat("size"));
 		this.size = tag.getFloat("size");
 	}
 	

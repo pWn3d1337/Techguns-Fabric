@@ -1,6 +1,8 @@
 package techguns;
 
+import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import io.netty.buffer.Unpooled;
@@ -57,7 +59,22 @@ public class TGPacketsS2C {
 
 	public static void sendToAllTracking(TGBasePacket packet, Entity tracked_ent) {
 		Stream<PlayerEntity> watchingPlayers = PlayerStream.watching(tracked_ent);
-		sendTo(packet, watchingPlayers);
+
+		List<PlayerEntity> players = watchingPlayers.collect(Collectors.toList());
+
+		if (tracked_ent instanceof PlayerEntity) {
+			boolean addTracked=true;
+			// can't use contains, since Entity overrides equals() to entityId, where I'm not sure what happens with players
+			for(PlayerEntity ply : players) {
+				if (ply == tracked_ent) {
+					addTracked=false;
+				}
+			}
+			if (addTracked) {
+				players.add((PlayerEntity) tracked_ent);
+			}
+		}
+		sendTo(packet, players.stream());
 	}
 	
 	public static void sendToAllAroundEntity(TGBasePacket packet, Entity ent, double radius) {
