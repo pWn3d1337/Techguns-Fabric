@@ -12,12 +12,6 @@ import techguns.entities.projectiles.RocketProjectile;
 import techguns.entities.projectiles.StoneBulletProjectile;
 import techguns.entities.projectiles.TFGProjectile;
 
-public class TGEntities implements ITGInitializer {
-
-	public static EntityType<GenericProjectile> GENERIC_PROJECTILE;
-	public static EntityType<GuidedMissileProjectile> GUIDED_MISSILE;
-	public static EntityType<RocketProjectile> ROCKET_PROJECTILE;
-	public static EntityType<BioGunProjectile> BIOGUN_PROJECTILE;
 
 public class TGEntities implements ITGInitializer {
 

@@ -148,6 +148,17 @@ public class ClientProxy implements ClientModInitializer {
 					{0,0,0f} //frame
 				}).setMuzzleFXPos3P(0.03f, -0.59f).setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 25.0f));
 		
+		
+		TGRenderRegistries.registerItemRenderer(TGuns.TFG, new RenderGunBase90(new ModelTFG(),1, new TGIdentifier("textures/guns/tfg.png")).setBaseTranslation(-0.46f, -0.38f, RenderItemBase.SCALE-0.125f)
+				.setBaseScale(1.20f).setGUIScale(0.30f).setMuzzleFx(ScreenEffect.muzzleFlashTFG, 0.0f, 0.18f, -0.87f, 0.9f,0).setTransformTranslations(new float[][]{
+					{0f,-0.03f,0.16f}, //First Person
+					{0f,-0.09f,-0.26f}, //Third Person
+					{0.04f,-0.04f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{-0.07f,0f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.09f, -1.14f).setChargeTranslationAmount(0.05f).setFirstPersonScale(0.45f));
+		
+		
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (dispatcher, context) -> {
             return new GenericProjectileRenderer(dispatcher);
         });
