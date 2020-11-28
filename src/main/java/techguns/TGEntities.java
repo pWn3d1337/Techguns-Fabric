@@ -11,6 +11,8 @@ import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.RocketProjectile;
 import techguns.entities.projectiles.StoneBulletProjectile;
+import techguns.entities.projectiles.TFGProjectile;
+
 
 public class TGEntities implements ITGInitializer {
 
@@ -20,6 +22,7 @@ public class TGEntities implements ITGInitializer {
 	public static EntityType<BioGunProjectile> BIOGUN_PROJECTILE;
 	public static EntityType<StoneBulletProjectile> STONEBULLET_PROJECTILE;
 	public static EntityType<ChainsawProjectile> CHAINSAW_PROJECTILE;
+	public static EntityType<TFGProjectile> TFG_PROJECTILE;
 	public static final int bulletTrackRange = 128;
 	
 	@Override
@@ -41,8 +44,13 @@ public class TGEntities implements ITGInitializer {
 
 		BIOGUN_PROJECTILE = Registry.register(
 				Registry.ENTITY_TYPE,
-	            new TGIdentifier("biogun_projectile"),
-	            FabricEntityTypeBuilder.<BioGunProjectile>create(SpawnGroup.MISC, BioGunProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
+				new TGIdentifier("biogun_projectile"),
+				FabricEntityTypeBuilder.<BioGunProjectile>create(SpawnGroup.MISC, BioGunProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
+		
+		TFG_PROJECTILE = Registry.register(
+				Registry.ENTITY_TYPE,
+	            new TGIdentifier("tfg_projectile"),
+	            FabricEntityTypeBuilder.<TFGProjectile>create(SpawnGroup.MISC,TFGProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
 
 		STONEBULLET_PROJECTILE = Registry.register(
 				Registry.ENTITY_TYPE,

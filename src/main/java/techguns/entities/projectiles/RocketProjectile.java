@@ -78,9 +78,7 @@ public class RocketProjectile extends GenericProjectile {
 		}
 		this.markForRemoval();
 	}
-	
-	
-	
+		
 	
 	
 	@Override

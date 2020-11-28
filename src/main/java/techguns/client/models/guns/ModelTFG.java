@@ -116,6 +116,8 @@ public class ModelTFG extends ModelMultipart {
 	public ModelPart R01;
 	public ModelPart R02;
 	public ModelPart Glow_Barrel;
+	
+	protected static final int bright_light = 15728880; //240,240
 
 	public ModelTFG() {
 		super(RenderLayer::getEntitySolid);
@@ -563,7 +565,7 @@ public class ModelTFG extends ModelMultipart {
 		this.R01.render(matrices, vertices, light, overlay);
 		this.R02.render(matrices, vertices, light, overlay);
 		TGRenderHelper.enableFXLighting();
-		this.R03.render(matrices, vertices, light, overlay);
+		this.R03.render(matrices, vertices, bright_light, overlay);
 		TGRenderHelper.disableFXLighting();
 
 		matrices.push();
@@ -589,7 +591,7 @@ public class ModelTFG extends ModelMultipart {
 		this.L01.render(matrices, vertices, light, overlay);
 		this.L02.render(matrices, vertices, light, overlay);
 		TGRenderHelper.enableFXLighting();
-		this.L03.render(matrices, vertices, light, overlay);
+		this.L03.render(matrices, vertices, bright_light, overlay);
 		TGRenderHelper.disableFXLighting();
 
 		matrices.push();
@@ -611,10 +613,10 @@ public class ModelTFG extends ModelMultipart {
 		matrices.pop();
 
 		TGRenderHelper.enableFXLighting();
-		this.Glow02.render(matrices, vertices, light, overlay);
-		this.Glow01.render(matrices, vertices, light, overlay);
-		this.Glow03.render(matrices, vertices, light, overlay);
-		this.Glow_Barrel.render(matrices, vertices, light, overlay);
+		this.Glow02.render(matrices, vertices, bright_light, overlay);
+		this.Glow01.render(matrices, vertices, bright_light, overlay);
+		this.Glow03.render(matrices, vertices, bright_light, overlay);
+		this.Glow_Barrel.render(matrices, vertices, bright_light, overlay);
 		TGRenderHelper.disableFXLighting();
 
 	}

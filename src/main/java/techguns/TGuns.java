@@ -6,6 +6,7 @@ import techguns.entities.projectiles.ChainsawProjectile;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.RocketProjectile;
+import techguns.entities.projectiles.TFGProjectile;
 import techguns.entities.projectiles.StoneBulletProjectile;
 import techguns.items.guns.Chainsaw;
 import techguns.items.guns.ChargedProjectileSelector;
@@ -41,6 +42,7 @@ public class TGuns implements ITGInitializer {
 	public static GenericGun BIOGUN;
 	public static GenericGun GUIDED_MISSLE_LAUNCHER;
 	public static GenericGun ROCKET_LAUNCHER;
+	public static GenericGun TFG;
 	public static GenericGun HANDCANNON;
 	public static GenericGun AS50;
 	public static GenericGun AUG;
@@ -54,6 +56,7 @@ public class TGuns implements ITGInitializer {
 	public static ProjectileSelector<RocketProjectile> ROCKET_PROJECTILES;
 	public static ChargedProjectileSelector<GuidedMissileProjectile> GUIDED_MISSILE_PROJECTILES;
 	public static ChargedProjectileSelector<BioGunProjectile> BIOGUN_PROJECTILES;
+	public static ChargedProjectileSelector<TFGProjectile> TFG_PROJECTILES;
 	
 	public static ChargedProjectileSelector<ChainsawProjectile> CHAINSAW_PROJECTILES;
 	
@@ -70,7 +73,9 @@ public class TGuns implements ITGInitializer {
 		
 		BIOGUN_PROJECTILES = new ChargedProjectileSelector<BioGunProjectile>(AmmoTypes.BIO_TANK, new BioGunProjectile.Factory());
 		
+		TFG_PROJECTILES = new ChargedProjectileSelector<TFGProjectile>(AmmoTypes.NUCLEAR_POWER_CELL, new TFGProjectile.Factory());
 		SNIPER_MAG_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.AS50_MAGAZINE, new IProjectileFactory[]{GENERIC_PROJECTILE, GENERIC_PROJECTILE, GENERIC_PROJECTILE});
+		
 		
 		MINIGUN_MAG_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.MINIGUN_AMMO_DRUM, GENERIC_BULLET);
 		
@@ -100,6 +105,7 @@ public class TGuns implements ITGInitializer {
 		 
 		CHAINSAW = reg(new Chainsaw("chainsaw", CHAINSAW_PROJECTILES, false, 3, 300, 45, 10.0f, TGSounds.CHAINSAW_LOOP, TGSounds.POWERHAMMER_RELOAD, 2, 0.0f,1f,1)/*.setMeleeDmg(12.0f, 2.0f).setTool("axe", 3).setDigSpeed(14.0f)*/.setRecoiltime(5).setShootWithLeftClick(false).setFiresoundStart(TGSounds.CHAINSAW_LOOP_START).setMaxLoopDelay(10).setPenetration(PENETRATION_MED).setAIStats(RANGE_MELEE, 10, 0, 0).setTurretPosOffset(0, -0.47f, -0.08f).setNoMuzzleLight().setCrossHair(EnumCrosshairStyle.VANILLA));
 		
+		TFG = reg(new GenericGunCharge("tfg", TFG_PROJECTILES, false, 5, 20,45,50.0f, TGSounds.TFG_FIRE, TGSounds.BIOGUN_RELOAD, 100, 0.015f, 60.0f ,10).setChargeSound(TGSounds.TFG_CHARGE).setChargeFX("TFGChargeStart",-0.14f, -0.10f, 0.42f).setBulletSpeed(2.0f).setRangeTooltipType(RangeTooltipType.RADIUS).setPenetration(PENETRATION_MED_HIGH).setAIStats(RANGE_SHORT, 30, 0, 0).setDamageDrop(8, 15, 15.0f).setMuzzleLight(0.2f, 1.0f, 0.2f).setMuzzleFlashTime(10).setRecoiltime(10).setForwardOffset(0.40f));
 	}
 	
 	public static GenericGun reg(GenericGun gun) {

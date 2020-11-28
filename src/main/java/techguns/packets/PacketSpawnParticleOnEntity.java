@@ -50,6 +50,9 @@ public class PacketSpawnParticleOnEntity extends TGBasePacket {
 
 	@Override
 	public void unpack(PacketByteBuf buf) {
+		
+		System.out.println("SpawnParticleOnEntity_Unpack");
+		
 		int len = buf.readShort();
 		this.name = buf.readCharSequence(len, StandardCharsets.UTF_8).toString();
 		
@@ -89,6 +92,7 @@ public class PacketSpawnParticleOnEntity extends TGBasePacket {
 	@Override
 	public void handle(PlayerEntity player) {
 		Entity ent = player.world.getEntityById(this.entityID);
+		System.out.println("SpawnParticleOnEntity");
 		if (ent!=null){
 			ClientProxy.get().createFXOnEntityWithOffset(this.name, ent, this.offsetX, this.offsetY, this.offsetZ, this.attachToHead, this.condition);
 		} else {

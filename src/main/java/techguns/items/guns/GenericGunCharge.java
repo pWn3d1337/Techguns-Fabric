@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.ActionResult;
+import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -100,7 +101,7 @@ public class GenericGunCharge extends GenericGun {
 					
 					if (this.chargeFX != null) {
 						float x;
-						if (player.preferredHand == Hand.MAIN_HAND) {
+						if (player.getMainArm() == Arm.RIGHT) {
 							x = this.chargeFXoffsetX;
 						} else {
 							x = -this.chargeFXoffsetX;
@@ -214,17 +215,17 @@ public class GenericGunCharge extends GenericGun {
 				// If SERVER, create projectile
 	
 				EnumBulletFirePos firePos;
-	        	if (player.preferredHand == Hand.MAIN_HAND) {
+	        	if (player.getMainArm() == Arm.RIGHT) {
 	        		firePos = EnumBulletFirePos.RIGHT;
 	        	}else {
 	        		firePos = EnumBulletFirePos.LEFT;
 	        	}
 				
 				//Charged shot has to be from main hand!
-				spawnChargedProjectile(world, player, item, accuracy, f, ammoConsumed, firePos);
+				spawnChargedProjectile(world, player, item, accuracy, projectileForwardOffset, f, ammoConsumed, firePos);
 				if (shotgun) {
 					for (int i = 0; i < bulletcount; i++) {
-						spawnChargedProjectile(world, player, item, spread, f, ammoConsumed,  firePos);
+						spawnChargedProjectile(world, player, item, spread, projectileForwardOffset, f, ammoConsumed,  firePos);
 					}
 				}
 				
@@ -291,9 +292,16 @@ public class GenericGunCharge extends GenericGun {
 		return amount;
 	}
 
-	public void spawnChargedProjectile(final World world, final LivingEntity player, ItemStack itemStack, float spread, float charge, int ammoConsumed, EnumBulletFirePos firePos) {
+	public void spawnChargedProjectile(final World world, final LivingEntity player, ItemStack itemStack, float spread, float offset, float charge, int ammoConsumed, EnumBulletFirePos firePos) {
 		IChargedProjectileFactory fact = this.chargedProjectile_selector.getFactoryForType(this.getCurrentAmmoVariantKey(itemStack));
 		GenericProjectile proj = fact.createChargedProjectile(world, player, damage, speed, this.getScaledTTL(), spread, this.damageDropStart, damageDropEnd, this.damageMin, penetration, getDoBlockDamage(player), firePos, radius, gravity, charge, ammoConsumed);
+		
+		proj.setProperties(player, player.pitch, player.yaw, 0.0F, speed, 1.0F);
+						
+		if (offset > 0.0f) {
+			proj.shiftForward(offset/speed);
+		}
+		
 		if (proj != null) world.spawnEntity(proj);
 	}
 

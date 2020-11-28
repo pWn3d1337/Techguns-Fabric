@@ -11,7 +11,7 @@ public class TGSoundCategory {
 	public static TGSoundCategory GUN_FIRE = new TGSoundCategory("gunfire", SoundCategory.PLAYERS);
 	public static TGSoundCategory PLAYER_EFFECT = new TGSoundCategory("playereffect", SoundCategory.PLAYERS);
 	public static TGSoundCategory RELOAD = new TGSoundCategory("reload", SoundCategory.PLAYERS);
-	public static TGSoundCategory EXPLOISON = new TGSoundCategory("explosion", SoundCategory.MASTER);
+	public static TGSoundCategory EXPLOSION = new TGSoundCategory("explosion", SoundCategory.MASTER);
 	public static TGSoundCategory MACHINE = new TGSoundCategory("machine", SoundCategory.BLOCKS);
 	public static TGSoundCategory DEATHEFFECT = new TGSoundCategory("deathFX", SoundCategory.HOSTILE);
 	public static TGSoundCategory HOSTILE = new TGSoundCategory("hostile", SoundCategory.HOSTILE);
