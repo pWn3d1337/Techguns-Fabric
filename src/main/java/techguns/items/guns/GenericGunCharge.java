@@ -21,6 +21,7 @@ import techguns.client.ClientProxy;
 import techguns.client.ShooterValues;
 import techguns.entities.projectiles.EnumBulletFirePos;
 import techguns.entities.projectiles.GenericProjectile;
+import techguns.items.guns.ammo.DamageModifier;
 import techguns.packets.PacketSpawnParticleOnEntity;
 import techguns.sounds.TGSoundCategory;
 import techguns.util.EntityCondition;
@@ -107,7 +108,7 @@ public class GenericGunCharge extends GenericGun {
 							x = -this.chargeFXoffsetX;
 						}
 						if (!world.isClient) {
-							TGPacketsS2C.sendToAllTracking(new PacketSpawnParticleOnEntity(this.chargeFX, player, x, this.chargeFXoffsetY, this.chargeFXoffsetZ, true, EntityCondition.CHARGING_WEAPON), player);
+							TGPacketsS2C.sendToAllTracking(new PacketSpawnParticleOnEntity(this.chargeFX, player, x, this.chargeFXoffsetY, this.chargeFXoffsetZ, true, EntityCondition.CHARGING_WEAPON), player, true);
 						}
 					}
 				}
@@ -293,13 +294,22 @@ public class GenericGunCharge extends GenericGun {
 	}
 
 	public void spawnChargedProjectile(final World world, final LivingEntity player, ItemStack itemStack, float spread, float offset, float charge, int ammoConsumed, EnumBulletFirePos firePos) {
-		IChargedProjectileFactory fact = this.chargedProjectile_selector.getFactoryForType(this.getCurrentAmmoVariantKey(itemStack));
-		GenericProjectile proj = fact.createChargedProjectile(world, player, damage, speed, this.getScaledTTL(), spread, this.damageDropStart, damageDropEnd, this.damageMin, penetration, getDoBlockDamage(player), firePos, radius, gravity, charge, ammoConsumed);
+		String ammoVariantKey = this.getCurrentAmmoVariantKey(itemStack);
+		byte projectileType = this.chargedProjectile_selector.getProjectileTypeForType(ammoVariantKey);
 		
-		proj.setProperties(player, player.pitch, player.yaw, 0.0F, speed, 1.0F);
+		DamageModifier mod = this.chargedProjectile_selector.getDamageModifierForType(ammoVariantKey);
+				
+		float modified_speed = mod.getVelocity(speed);
+		
+		@SuppressWarnings("rawtypes")
+		IChargedProjectileFactory fact = this.chargedProjectile_selector.getFactoryForType(this.getCurrentAmmoVariantKey(itemStack));
+		GenericProjectile proj = fact.createChargedProjectile(world, player, mod.getDamage(damage), modified_speed, mod.getTTL(this.getScaledTTL()), spread, mod.getRange(this.damageDropStart), mod.getRange(damageDropEnd), mod.getDamage(this.damageMin), penetration, getDoBlockDamage(player), firePos, mod.getRadius(radius), gravity, charge, ammoConsumed);
+		
+		proj.setProjectileType(projectileType);
+		proj.setProperties(player, player.pitch, player.yaw, 0.0F, modified_speed, 1.0F);
 						
 		if (offset > 0.0f) {
-			proj.shiftForward(offset/speed);
+			proj.shiftForward(offset/modified_speed);
 		}
 		
 		if (proj != null) world.spawnEntity(proj);

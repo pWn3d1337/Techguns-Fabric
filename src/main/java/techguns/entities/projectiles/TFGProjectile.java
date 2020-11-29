@@ -5,6 +5,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 import techguns.TGEntities;
 import techguns.TGPacketsS2C;
@@ -59,7 +60,7 @@ public class TFGProjectile extends GenericProjectile{
 	}
 	
 	@Override
-	protected void onHitEffect(LivingEntity livingEntity) {
+	protected void onHitEffect(LivingEntity livingEntity, EntityHitResult hitResult) {
 		this.explode();
 	}
 

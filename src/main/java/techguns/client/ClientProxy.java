@@ -23,6 +23,7 @@ import techguns.client.models.guns.ModelAK;
 import techguns.client.models.guns.ModelAS50;
 import techguns.client.models.guns.ModelAUG;
 import techguns.client.models.guns.ModelBiogun;
+import techguns.client.models.guns.ModelChainsaw;
 import techguns.client.models.guns.ModelGuidedMissileLauncher;
 import techguns.client.models.guns.ModelHandgun;
 import techguns.client.models.guns.ModelM4;
@@ -189,6 +190,16 @@ public class ClientProxy implements ClientModInitializer {
 					{0f,0f,-0.05f} //frame
 				}).setMuzzleFXPos3P(-0.38f, -0.78f).setRecoilAnim(GunAnimation.genericRecoil, 0.05f, 3.0f));
 		
+		TGRenderRegistries.registerItemRenderer(TGuns.CHAINSAW,new RenderGunBase90(new ModelChainsaw(),2, new TGIdentifier("textures/guns/chainsaw.png")).setBaseTranslation(-0.4f, -0.2f, RenderItemBase.SCALE-0.09f)
+				.setBaseScale(0.95f).setGUIScale(0.45f).setTransformTranslations(new float[][]{
+					{0f,-0.08f,0.15f}, //First Person
+					{0f,-0.5f,0.04f}, //Third Person
+					{0.03f,0.01f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{-0.07f,-0.03f,-0.11f} //frame
+				}));	
+		
+		
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (dispatcher, context) -> {
             return new GenericProjectileRenderer(dispatcher);
         });
@@ -212,6 +223,10 @@ public class ClientProxy implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(TGEntities.STONEBULLET_PROJECTILE,  (dispatcher, context) -> {
             return new RenderStoneBulletProjectile(dispatcher);
         });
+		
+		EntityRendererRegistry.INSTANCE.register(TGEntities.CHAINSAW_PROJECTILE,  (dispatcher, context) -> {
+			return new RenderInvisibleProjectile(dispatcher);
+		});
 		
         keybinds = new Keybinds();
         keybinds.init();

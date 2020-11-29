@@ -58,7 +58,7 @@ public class ModelChainsaw extends ModelMultipart {
     public ModelPart Shape26_9;
 
     public ModelChainsaw() {
-        super(RenderLayer::getEntitySolid);
+        super(RenderLayer::getEntityCutout);
         this.textureWidth = 128;
         this.textureHeight = 64;
         this.shape87_17 = new ModelPart(this, 88, 39);

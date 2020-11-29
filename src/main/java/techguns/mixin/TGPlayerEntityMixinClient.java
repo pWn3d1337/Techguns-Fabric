@@ -1,6 +1,7 @@
 package techguns.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -22,6 +23,9 @@ import techguns.packets.c2s.PacketShootGun;
 @Mixin(PlayerEntity.class)
 public abstract class TGPlayerEntityMixinClient extends LivingEntity implements ITGExtendedPlayerClient {
 
+	@Unique
+	protected int techguns_swingSoundDelay=0;
+	
 	protected TGPlayerEntityMixinClient(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
 	}
@@ -106,5 +110,20 @@ public abstract class TGPlayerEntityMixinClient extends LivingEntity implements 
 				cp.keyFirePressedOffhand = false;
 			}
 		}
+		
+		if (this.techguns_swingSoundDelay > 0) {
+			this.techguns_swingSoundDelay--;
+		}
 	}
+
+	@Override
+	public int getSwingSoundDelay() {
+		return this.techguns_swingSoundDelay;
+	}
+
+	@Override
+	public void setSwingSoundDelay(int delay) {
+		this.techguns_swingSoundDelay = delay;
+	}
+	
 }

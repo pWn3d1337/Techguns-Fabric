@@ -171,6 +171,16 @@ public class GenericProjectile extends ProjectileEntity {
 	protected IntOpenHashSet piercedEntities;
 	protected List<Entity> piercingKilledEntities;
 	
+	protected byte projectileType=0;
+		
+	public byte getProjectileType() {
+		return projectileType;
+	}
+
+	public void setProjectileType(byte projectileType) {
+		this.projectileType = projectileType;
+	}
+
 	public void tick() {
 		super.tick();
 				
@@ -553,6 +563,7 @@ public class GenericProjectile extends ProjectileEntity {
 		super.writeCustomDataToTag(tag);
 		tag.putInt("lifetime", this.ticksToLive);
 		tag.putFloat("speed", this.speed);
+		tag.putByte("projectile_type", this.projectileType);
 	}
 
 	@Override
@@ -560,6 +571,7 @@ public class GenericProjectile extends ProjectileEntity {
 		super.readCustomDataFromTag(tag);
 		this.ticksToLive = tag.getInt("lifetime");
 		this.speed = tag.getFloat("speed");
+		this.projectileType = tag.getByte("projectile_type");
 	}
 
 	public GenericProjectile setSilenced(){
@@ -570,6 +582,7 @@ public class GenericProjectile extends ProjectileEntity {
 	public void getAdditionalSpawnData(CompoundTag data) {
 		data.putInt("lifetime", this.ticksToLive);
 		data.putFloat("speed", this.speed);
+		data.putByte("projectile_type", this.projectileType);
 	}
 	
 	/**
@@ -579,6 +592,7 @@ public class GenericProjectile extends ProjectileEntity {
 	protected void parseAdditionalData(CompoundTag data) {
 		this.ticksToLive = data.getInt("lifetime");
 		this.speed = data.getFloat("speed");
+		this.projectileType = data.getByte("projectile_type");
 	}
 	
 	@Override

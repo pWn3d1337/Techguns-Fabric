@@ -3,10 +3,10 @@ package devutil;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 
 public class SignatureHelper {
@@ -43,9 +43,28 @@ public class SignatureHelper {
 	    return ret.replace(".", "/");
 	}
 	
-	public static void main(String[] args) throws NoSuchMethodException, SecurityException {
-		//Method m = LivingEntity.class.getDeclaredMethod("damage", DamageSource.class, float.class);
-		Method m = MinecraftClient.class.getDeclaredMethod("disconnect", Screen.class);
-		System.out.println(getSignature(m));
+	
+	public static List<Method> getMethods(@SuppressWarnings("rawtypes") Class clazz, String name){
+		List<Method> ret = new LinkedList<Method>();
+		Method[] methods = clazz.getDeclaredMethods();
+		
+		if (name !=null && !name.isEmpty()) {
+			for (Method m: methods) {
+				if (m.getName().equals(name)) {
+					ret.add(m);
+				}
+			}
+		} else {
+			return Arrays.asList(methods);
+		}
+		return ret;
+	}
+	
+	public static void main(String[] args) throws NoSuchMethodException, SecurityException {		
+		List<Method> methods = getMethods(DamageSource.class, "player");
+		
+		for (Method m : methods) {
+			System.out.println(m.getName()+getSignature(m));
+		}
 	}
 }

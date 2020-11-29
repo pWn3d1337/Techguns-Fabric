@@ -6,6 +6,12 @@ public class DamageModifier {
 
 	public static final DamageModifier DEFAULT_MODIFIER = new DamageModifier();
 	
+	public static final DamageModifier INCENDIARY_BULLET_MODIFIER = new DamageModifier().setDmg(1.1f, 0f);
+	
+	public static final DamageModifier ROCKET_HV_MODIFIER = new DamageModifier().setRadius(0.75f, 0f).setRange(0.75f, 0f).setVelocity(2.0f, 0f);
+	
+	public static final DamageModifier ROCKET_NUKE_MODIFIER = new DamageModifier().setDmg(5f, 0f).setRadius(5f, 0f).setRange(5f, 0f);
+	
 	protected float dmgMul=1.0f;
 	protected float dmgAdd=0f;
 	

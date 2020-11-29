@@ -5,6 +5,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -15,6 +16,7 @@ import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import techguns.TGPacketsS2C;
 import techguns.api.entity.AttackTime;
@@ -220,7 +222,7 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 			if (!gunOH.isEmpty() && this.techguns_gunMainHand == gunOH
 					|| !gunMH.isEmpty() && this.techguns_gunOffHand == gunMH) {
 				TGPacketsS2C.sendToAllTracking(new PacketSwapWeapon((PlayerEntity) (Object) this),
-						(PlayerEntity) (Object) this);
+						(PlayerEntity) (Object) this, true);
 
 				int i = this.techguns_fireDelayMainhand;
 				this.techguns_fireDelayMainhand = this.techguns_fireDelayOffhand;
@@ -257,6 +259,5 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	public void setSafeMode(boolean value) {
 		this.dataTracker.set(TECHGUNS_SAFE_MODE, value);
 	}	
-
 	
 }

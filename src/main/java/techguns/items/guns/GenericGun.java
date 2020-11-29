@@ -14,6 +14,7 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -132,10 +133,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	
 	int miningAmmoConsumption = 1;
 	
-	float meleeDamagePwr = 6.0f;
-	float meleeDamageEmpty = 2.0f;
-	float digSpeed=1.0f;
-	
+
 	/**
 	 * spread multiplier while shooting zoomed
 	 */
@@ -443,19 +441,28 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		}
 	}
 
+	/**
+	 * Override in subclass for extra logic on projectile spawn, before spawning in world
+	 */
+	protected void onProjectileSpawn(GenericProjectile proj, final World world, final LivingEntity player, final ItemStack itemstack, float spread, float offset, float damagebonus, EnumBulletFirePos firePos, Entity target) {}
+	
 	@SuppressWarnings("unchecked")
 	protected void spawnProjectile(final World world, final LivingEntity player, final ItemStack itemstack, float spread, float offset, float damagebonus, EnumBulletFirePos firePos, Entity target) {
-		/*GenericProjectile proj = new GenericProjectile(world, player, damage * damagebonus, speed, this.getScaledTTL(), spread, this.damageDropStart, this.damageDropEnd,
-				this.damageMin * damagebonus, this.penetration, getDoBlockDamage(player), leftGun);*/
+		String ammoVariantKey = this.getCurrentAmmoVariantKey(itemstack);
+		byte projectileType = this.projectile_selector.getProjectileTypeForType(ammoVariantKey);
 		
-		IProjectileFactory<GenericProjectile> projectile = this.projectile_selector.getFactoryForType(this.getCurrentAmmoVariantKey(itemstack));
+		IProjectileFactory<GenericProjectile> projectile = this.projectile_selector.getFactoryForType(ammoVariantKey);
 		
-		GenericProjectile proj = projectile.createProjectile(this, world, player, damage * damagebonus, speed, this.getScaledTTL(), spread, this.damageDropStart,
-				this.damageDropEnd, this.damageMin * damagebonus, this.penetration, getDoBlockDamage(player), firePos, radius, gravity);
+		DamageModifier mod = this.projectile_selector.getDamageModifierForType(ammoVariantKey);
+		
+		float modified_speed = mod.getVelocity(speed);
+				
+		GenericProjectile proj = projectile.createProjectile(this, world, player, mod.getDamage(damage) * damagebonus, modified_speed, mod.getTTL(this.getScaledTTL()), spread, mod.getRange(this.damageDropStart),
+				mod.getRange(this.damageDropEnd), mod.getDamage(this.damageMin) * damagebonus, this.penetration, getDoBlockDamage(player), firePos, mod.getRadius(radius), gravity);
 
-		proj.setProperties(player, player.pitch, player.yaw, 0.0F, speed, 1.0F);
+		proj.setProjectileType(projectileType);
+		proj.setProperties(player, player.pitch, player.yaw, 0.0F, modified_speed, 1.0F);
 						
-        
 		//float f=1.0f;
 		//TODO add lights
 		/*if(this.muzzelight) {
@@ -466,8 +473,10 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 			proj.setSilenced();
 		}*/
 		if (offset > 0.0f) {
-			proj.shiftForward(offset/speed);
+			proj.shiftForward(offset/modified_speed);
 		}
+		// callback for subclasses
+		this.onProjectileSpawn(proj, world, player, itemstack, spread, offset, damagebonus, firePos, target);
 		
 		world.spawnEntity(proj);
 	}
@@ -1374,7 +1383,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	 * Override in Subclass to define damagesource used for player melee attacks, only relevant if "shootWithLeftClick" is not set
 	 * @return
 	 */
-	protected TGDamageSource getMeleeDamageSource(PlayerEntity player, ItemStack stack){
+	public DamageSource getMeleeDamageSource(PlayerEntity player, ItemStack stack){
 		TGDamageSource src = new TGDamageSource("player", player, player, DamageType.PHYSICAL, DeathType.GORE);
 		return src;
 	}

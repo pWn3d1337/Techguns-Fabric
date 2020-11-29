@@ -58,7 +58,7 @@ public class ChainsawProjectile extends GenericProjectile {
 	    	double y = hitResult.getPos().y;
 	    	double z = hitResult.getPos().z;
 			this.world.playSound(x, y, z, TGSounds.POWERHAMMER_IMPACT, SoundCategory.PLAYERS, 1.0f, 1.0f, false);
-			TGPacketsS2C.sendToAllTracking(new PacketSpawnParticle("PowerhammerImpact",x,y,z), livingEntity);
+			TGPacketsS2C.sendToAllTracking(new PacketSpawnParticle("PowerhammerImpact",x,y,z), livingEntity, true);
 		}
 	}
 	

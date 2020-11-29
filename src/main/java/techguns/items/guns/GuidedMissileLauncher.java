@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import techguns.TGSounds;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.entities.projectiles.EnumBulletFirePos;
+import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.sounds.TGSoundCategory;
 import techguns.util.SoundUtil;
@@ -176,7 +177,9 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 		return entity;
 	}
 	
-	@Override
+	
+	
+	/*@Override
 	protected void spawnProjectile(World world, LivingEntity player, ItemStack itemstack, float spread,
 			float offset, float damagebonus, EnumBulletFirePos firePos, Entity target) {
 		IProjectileFactory<GuidedMissileProjectile> projectile = this.projectile_selector.getFactoryForType(this.getCurrentAmmoVariantKey(itemstack));
@@ -190,7 +193,7 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 		//TODO lighpulses
 		/*if(this.muzzelight) {
 			Techguns.proxy.createLightPulse(proj.posX+player.getLookVec().x*f, proj.posY+player.getLookVec().y*f, proj.posZ+player.getLookVec().z*f, this.light_lifetime, this.light_radius_start, this.light_radius_end, this.light_r, this.light_g, this.light_b);
-		}*/
+		}*/ /*
 		if (silenced) {
 			proj.setSilenced();
 		}
@@ -201,8 +204,22 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 		proj.target = target;
 		
 		world.spawnEntity(proj);
+	}*/
+	
+	@Override
+	protected void onProjectileSpawn(GenericProjectile proj, World world, LivingEntity player, ItemStack itemstack,
+			float spread, float offset, float damagebonus, EnumBulletFirePos firePos, Entity target) {
+		super.onProjectileSpawn(proj, world, player, itemstack, spread, offset, damagebonus, firePos, target);
+		
+		if(proj instanceof GuidedMissileProjectile) {
+			GuidedMissileProjectile missile = (GuidedMissileProjectile) proj;
+			missile.target = target;
+		}
 	}
 	
+
+
+
 	@Override
 	public int consumeAmmoCharge(ItemStack item, float f, boolean creative) {
 		return 0;

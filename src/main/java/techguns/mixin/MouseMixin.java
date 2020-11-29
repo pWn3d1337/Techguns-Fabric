@@ -9,6 +9,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import techguns.api.guns.IGenericGun;
 import techguns.client.ClientProxy;
+import techguns.client.ShooterValues;
 
 @Mixin(Mouse.class)
 public class MouseMixin {
@@ -26,10 +27,18 @@ public class MouseMixin {
 				
 				if(pressed && !mc.player.getMainHandStack().isEmpty() && mc.player.getMainHandStack().getItem() instanceof IGenericGun) {
 					
-					if (!cp.keyFirePressedMainhand) {
-						cp.keyFirePressedMainhand = true;
+					if (((IGenericGun)mc.player.getMainHandStack().getItem()).isShootWithLeftClick()) {
+					
+						if (!cp.keyFirePressedMainhand) {
+							cp.keyFirePressedMainhand = true;
+						}
+						info.cancel();
+					} else if (ShooterValues.getReloadtime(mc.player, false) > 0) {
+						long diff = ShooterValues.getReloadtime(ClientProxy.get().getPlayerClient(), false) - System.currentTimeMillis();
+						if (diff > 0) {
+							info.cancel();
+						}
 					}
-					info.cancel();
 					
 				} else {
 					cp.keyFirePressedMainhand=false;

@@ -1,6 +1,7 @@
 package techguns;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -57,17 +58,23 @@ public class TGPacketsS2C {
         }));
 	}
 
-	public static void sendToAllTracking(TGBasePacket packet, Entity tracked_ent) {
+	public static void sendToAllTracking(TGBasePacket packet, Entity tracked_ent, boolean sendToTrackedEnt) {
 		Stream<PlayerEntity> watchingPlayers = PlayerStream.watching(tracked_ent);
 
 		List<PlayerEntity> players = watchingPlayers.collect(Collectors.toList());
 
 		if (tracked_ent instanceof PlayerEntity) {
-			boolean addTracked=true;
-			// can't use contains, since Entity overrides equals() to entityId, where I'm not sure what happens with players
-			for(PlayerEntity ply : players) {
-				if (ply == tracked_ent) {
-					addTracked=false;
+			boolean addTracked=sendToTrackedEnt;
+
+			ListIterator<PlayerEntity> iter = players.listIterator();
+			while(iter.hasNext()) {
+				PlayerEntity ply = iter.next();
+				if (ply==tracked_ent) {
+					if (sendToTrackedEnt) {
+						addTracked=false;
+					} else {
+						iter.remove();
+					}
 				}
 			}
 			if (addTracked) {

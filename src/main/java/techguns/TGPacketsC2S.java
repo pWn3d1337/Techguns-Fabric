@@ -10,15 +10,18 @@ import net.minecraft.util.Identifier;
 import techguns.packets.TGBasePacket;
 import techguns.packets.c2s.PacketShootGun;
 import techguns.packets.c2s.PacketTGKeybindPress;
+import techguns.packets.c2s.PacketTGToolMiningUpdate;
 
 public class TGPacketsC2S {
 
 	public static final Identifier SHOOT_GUN = new TGIdentifier("shoot_gun");
 	public static final Identifier KEYBIND_PRESS = new TGIdentifier("keybind_press");
+	public static final Identifier MINING_UPDATE = new TGIdentifier("mining_update");
 
 	public static void initialize() {
 		registerPacket(SHOOT_GUN, PacketShootGun::new);
 		registerPacket(KEYBIND_PRESS, PacketTGKeybindPress::new);
+		registerPacket(MINING_UPDATE, PacketTGToolMiningUpdate::new);
 	}
 	
 	public static void registerPacket(Identifier id, Supplier<TGBasePacket> ctor) {
