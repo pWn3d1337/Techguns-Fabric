@@ -228,6 +228,12 @@ public class ClientProxy implements ClientModInitializer {
 			return new RenderInvisibleProjectile(dispatcher);
 		});
 		
+		//TODO Proper Renderer
+		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_BEAM_PROJECTILE,  (dispatcher, context) -> {
+			return new RenderInvisibleProjectile(dispatcher);
+		});
+		
+		
         keybinds = new Keybinds();
         keybinds.init();
         

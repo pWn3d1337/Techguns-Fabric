@@ -26,7 +26,6 @@ public abstract class InGameHudMixin extends DrawableHelper {
 	@Inject(at = @At("HEAD"), method = "renderCrosshair", cancellable = true)
 	public void renderCrosshair(MatrixStack matrices, CallbackInfo info) {
 		
-		//System.out.println("Rendering MUH CrosshaAAAAAIR!!!");
 		TGGuiRender.renderTechgunsHUD(this, matrices, client, scaledWidth, scaledHeight);
 		
 		boolean showCustomCrosshair = TGGuiRender.renderCrosshair(this, matrices, client, scaledWidth, scaledHeight);

@@ -36,6 +36,7 @@ public class GenericGunCharge extends GenericGun {
 	public float fullChargeTime=20.0f;
 	public int ammoConsumedOnFullCharge=10;
 
+	@SuppressWarnings("rawtypes")
 	protected ChargedProjectileSelector chargedProjectile_selector;
 	
 	public boolean hasChargedFireAnim = true;
@@ -47,7 +48,7 @@ public class GenericGunCharge extends GenericGun {
 	private float chargeFXoffsetY = 0.0f;
 	private float chargeFXoffsetZ = 0.0f;
 	
-	public GenericGunCharge(String name, ChargedProjectileSelector projectile_selector, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage, SoundEvent firesound, SoundEvent reloadsound,
+	public GenericGunCharge(String name, @SuppressWarnings("rawtypes") ChargedProjectileSelector projectile_selector, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage, SoundEvent firesound, SoundEvent reloadsound,
 			int TTL, float accuracy, float fullChargeTime, int ammoConsumedOnFullCharge) {
 		super(name, projectile_selector, semiAuto, minFiretime, clipsize, reloadtime, damage, firesound, reloadsound, TTL, accuracy);
 		this.fullChargeTime=fullChargeTime;
