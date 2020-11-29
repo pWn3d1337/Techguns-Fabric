@@ -305,14 +305,15 @@ public class GenericGunCharge extends GenericGun {
 		IChargedProjectileFactory fact = this.chargedProjectile_selector.getFactoryForType(this.getCurrentAmmoVariantKey(itemStack));
 		GenericProjectile proj = fact.createChargedProjectile(world, player, mod.getDamage(damage), modified_speed, mod.getTTL(this.getScaledTTL()), spread, mod.getRange(this.damageDropStart), mod.getRange(damageDropEnd), mod.getDamage(this.damageMin), penetration, getDoBlockDamage(player), firePos, mod.getRadius(radius), gravity, charge, ammoConsumed);
 		
-		proj.setProjectileType(projectileType);
-		proj.setProperties(player, player.pitch, player.yaw, 0.0F, modified_speed, 1.0F);
-						
-		if (offset > 0.0f) {
-			proj.shiftForward(offset/modified_speed);
+		if (proj != null) {
+			proj.setProjectileType(projectileType);
+			proj.setProperties(player, player.pitch, player.yaw, 0.0F, speed, 1.0F);
+			
+			if (offset > 0.0f) {
+				proj.shiftForward(offset/speed);
+			}
+			world.spawnEntity(proj);
 		}
-		
-		if (proj != null) world.spawnEntity(proj);
 	}
 
 	@Override

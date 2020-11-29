@@ -18,7 +18,9 @@ import techguns.api.client.entity.ITGExtendedPlayerClient;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.IGenericGun;
 import techguns.client.ClientProxy;
+import techguns.items.guns.GenericGunCharge;
 import techguns.packets.c2s.PacketShootGun;
+import techguns.packets.c2s.PacketShootGunTarget;
 
 @Mixin(PlayerEntity.class)
 public abstract class TGPlayerEntityMixinClient extends LivingEntity implements ITGExtendedPlayerClient {
@@ -57,14 +59,14 @@ public abstract class TGPlayerEntityMixinClient extends LivingEntity implements 
 						
 						IGenericGun gun = (IGenericGun) stack.getItem();
 						if (props.getFireDelay(Hand.MAIN_HAND) <= 0) {
-							//TODO genericguncharge
-							/*if (gun instanceof GenericGunCharge && ((GenericGunCharge)gun).getLockOnTicks() > 0 && props.lockOnEntity != null && props.lockOnTicks > ((GenericGunCharge)gun).getLockOnTicks()) {
-								TGPackets.network.sendToServer(new PacketShootGunTarget(gun.isZooming(),EnumHand.MAIN_HAND, props.lockOnEntity));
-								gun.shootGunPrimary(stack, event.player.world, event.player, gun.isZooming(), EnumHand.MAIN_HAND, props.lockOnEntity);
-							}else {*/
+							
+							if (gun instanceof GenericGunCharge && ((GenericGunCharge)gun).getLockOnTicks() > 0 && props.getLockOnEntity() != null && props.getLockOnTicks() > ((GenericGunCharge)gun).getLockOnTicks()) {
+								TGPacketsC2S.sendToServer(new PacketShootGunTarget(gun.isZooming(), Hand.MAIN_HAND, props.getLockOnEntity()));
+								gun.shootGunPrimary(stack, ply.world, ply, gun.isZooming(), Hand.MAIN_HAND, props.getLockOnEntity());
+							}else {
 								TGPacketsC2S.sendToServer(new PacketShootGun(gun.isZooming(),Hand.MAIN_HAND));
 								gun.shootGunPrimary(stack, ply.world, ply, gun.isZooming(), Hand.MAIN_HAND, null);
-							//}
+							}
 							
 						}
 						if (gun.isSemiAuto()) {
@@ -94,16 +96,15 @@ public abstract class TGPlayerEntityMixinClient extends LivingEntity implements 
 					cp.keyFirePressedOffhand = false;
 				}
 				
-				//TODO GenericGunCharge
 				//Reset lock if out of ammo
-				/*if (!stack.isEmpty() && stack.getItem() instanceof GenericGunCharge && ((GenericGunCharge) stack.getItem()).getLockOnTicks() > 0) {
+				if (!stack.isEmpty() && stack.getItem() instanceof GenericGunCharge && ((GenericGunCharge) stack.getItem()).getLockOnTicks() > 0) {
 					//System.out.println("RMB: "+cp.keyFirePressedOffhand);
-					if (((GenericGunCharge)stack.getItem()).getAmmoLeft(stack) <= 0 && props.lockOnEntity != null) {
-						props.lockOnEntity = null;
-						props.lockOnTicks = -1;
+					if (((GenericGunCharge)stack.getItem()).getAmmoLeft(stack) <= 0 && props.getLockOnEntity() != null) {
+						props.setLockOnEntity(null);
+						props.setLockOnTicks(-1);
 						//System.out.println("reset lock.");
 					}
-				}*/
+				}
 				
 			} else {
 				cp.keyFirePressedMainhand = false;

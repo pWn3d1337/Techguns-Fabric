@@ -7,6 +7,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.Registry;
 import techguns.entities.projectiles.BioGunProjectile;
 import techguns.entities.projectiles.ChainsawProjectile;
+import techguns.entities.projectiles.GenericBeamProjectile;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.RocketProjectile;
@@ -23,6 +24,7 @@ public class TGEntities implements ITGInitializer {
 	public static EntityType<StoneBulletProjectile> STONEBULLET_PROJECTILE;
 	public static EntityType<ChainsawProjectile> CHAINSAW_PROJECTILE;
 	public static EntityType<TFGProjectile> TFG_PROJECTILE;
+	public static EntityType<GenericBeamProjectile> GENERIC_BEAM_PROJECTILE;
 	public static final int bulletTrackRange = 128;
 	
 	@Override
@@ -62,6 +64,11 @@ public class TGEntities implements ITGInitializer {
 	            new TGIdentifier("chainsaw_projectile"),
 	            FabricEntityTypeBuilder.<ChainsawProjectile>create(SpawnGroup.MISC, ChainsawProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
 
+		GENERIC_BEAM_PROJECTILE = Registry.register(
+	            Registry.ENTITY_TYPE,
+	            new TGIdentifier("generic_beam_projectile"),
+	            FabricEntityTypeBuilder.<GenericBeamProjectile>create(SpawnGroup.MISC, GenericBeamProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
+		
 	}
 
 }

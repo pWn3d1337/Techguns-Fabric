@@ -364,7 +364,7 @@ public class GenericProjectile extends ProjectileEntity {
 			}
 
 			if (this.piercedEntities.size() >= this.getPierceLevel() + 1) {
-				this.markForRemoval();
+				this.removeOnHit(entityHitResult);
 				return;
 			}
 
@@ -412,7 +412,7 @@ public class GenericProjectile extends ProjectileEntity {
 		}
 		
 		if (this.getPierceLevel() <= 0) {
-			this.markForRemoval();
+			this.removeOnHit(entityHitResult);
 		}
 	}
 
@@ -468,6 +468,10 @@ public class GenericProjectile extends ProjectileEntity {
 		
 		doImpactEffects(blockHitResult);
 		
+		this.removeOnHit(blockHitResult);
+	}
+	
+	protected void removeOnHit(HitResult hitResult) {
 		this.markForRemoval();
 	}
 	
@@ -530,6 +534,13 @@ public class GenericProjectile extends ProjectileEntity {
 		return ProjectileUtil.getEntityCollision(this.world, this, currentPosition, nextPosition,
 				this.getBoundingBox().stretch(this.getVelocity()).expand(1.0D), this::method_26958);
 	}
+	
+	
+	//Check which entities are valid targets
+	protected boolean method_26958(Entity entity) {
+		return super.method_26958(entity) && (this.piercedEntities == null || !this.piercedEntities.contains(entity.getEntityId()));
+	}
+	
 	
 	/**
 	 * Override to change damage type etc
