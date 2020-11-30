@@ -52,8 +52,6 @@ public class ModelBiogun extends ModelMultipart {
 	ModelPart Shape33;
 	ModelPart Shape34;
 	ModelPart Shape35;
-
-	protected static final int bright_light = 15728880; //240,240
 	
 	public ModelBiogun() {
         super(RenderLayer::getEntitySolid);

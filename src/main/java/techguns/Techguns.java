@@ -15,13 +15,15 @@ public class Techguns implements ModInitializer {
 	public static final TGEntities entities = new TGEntities();
 	public static final TGuns guns = new TGuns();
 	public static final TGCamos camos = new TGCamos();
+	public static final TGEvents events = new TGEvents();
 	protected ArrayList<ITGInitializer> initializers = new ArrayList<>(Arrays.asList(
 	    	sounds,
 	    	items,
 			ammos,
 	    	entities,
 	    	guns,
-	    	camos
+	    	camos,
+	    	events
 	    ));
 	    
 	
@@ -32,6 +34,7 @@ public class Techguns implements ModInitializer {
 		}
 		TGPacketsC2S.initialize();
 		initializers.clear();
+		initializers=null;
 	}
 
 }

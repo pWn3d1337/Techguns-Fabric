@@ -59,7 +59,7 @@ public class ModelGuidedMissileLauncher extends ModelMultipart {
 		if (part==0) {
 			return this.getLayer(texture);
 		} else {
-			return TGRenderHelper.get_fx_renderlayer(texture);
+			return RenderLayer.getEntityCutout(texture);
 		}
 	}
 
@@ -213,17 +213,15 @@ public class ModelGuidedMissileLauncher extends ModelMultipart {
 
 		} else if(part==1) {
 			
-			double scale= 1d/16d;
-			
 			matrices.push();
 			
-			matrices.translate(this.Holo2.pivotX, this.Holo2.pivotY, this.Holo2.pivotZ);
-			matrices.translate(this.Holo2.pivotX * scale, this.Holo2.pivotY * scale,
-					this.Holo2.pivotZ * scale);
+			matrices.translate(this.Holo2.pivotX*scale, this.Holo2.pivotY*scale, this.Holo2.pivotZ*scale);
+			/*matrices.translate(this.Holo2.pivotX * scale, this.Holo2.pivotY * scale,
+					this.Holo2.pivotZ * scale);*/
 			matrices.scale(0.5F, 0.5F, 0.5F);
-			matrices.translate(-this.Holo2.pivotX, -this.Holo2.pivotY, -this.Holo2.pivotZ);
-			matrices.translate(-this.Holo2.pivotX * scale, -this.Holo2.pivotY * scale,
-					-this.Holo2.pivotZ * scale);
+			matrices.translate(-this.Holo2.pivotX*scale, -this.Holo2.pivotY*scale, -this.Holo2.pivotZ*scale);
+			/*matrices.translate(-this.Holo2.pivotX * scale, -this.Holo2.pivotY * scale,
+					-this.Holo2.pivotZ * scale);*/
 			boolean locked = false;
 			if (transformType == Mode.FIRST_PERSON_LEFT_HAND || transformType == Mode.FIRST_PERSON_RIGHT_HAND ) {
 				if (entityIn != null && entityIn instanceof PlayerEntity) {
@@ -238,9 +236,9 @@ public class ModelGuidedMissileLauncher extends ModelMultipart {
 				}
 			}
 			if (locked) {
-				this.Holo2_1.render(matrices, vertices, light, overlay);
+				this.Holo2_1.render(matrices, vertices, bright_light, overlay);
 			}else {
-				this.Holo2.render(matrices, vertices, light, overlay);
+				this.Holo2.render(matrices, vertices, bright_light, overlay);
 			}
 			matrices.pop();
 		}
