@@ -28,6 +28,7 @@ import techguns.client.models.guns.ModelGuidedMissileLauncher;
 import techguns.client.models.guns.ModelHandgun;
 import techguns.client.models.guns.ModelM4;
 import techguns.client.models.guns.ModelMinigun;
+import techguns.client.models.guns.ModelNDR;
 import techguns.client.models.guns.ModelRocketLauncher;
 import techguns.client.models.guns.ModelScar;
 import techguns.client.models.guns.ModelTFG;
@@ -41,6 +42,7 @@ import techguns.client.particle.TGParticleSystem;
 import techguns.client.render.TGRenderRegistries;
 import techguns.client.render.entities.GenericProjectileRenderer;
 import techguns.client.render.entities.RenderBioGunProjectile;
+import techguns.client.render.entities.RenderGenericBeamProjectile;
 import techguns.client.render.entities.RenderInvisibleProjectile;
 import techguns.client.render.entities.RenderRocketProjectile;
 import techguns.client.render.entities.RenderStoneBulletProjectile;
@@ -200,6 +202,17 @@ public class ClientProxy implements ClientModInitializer {
 				}));	
 		
 		
+		TGRenderRegistries.registerItemRenderer(TGuns.NUCLEAR_DEATHRAY,new RenderGunBase90(new ModelNDR(), 1, new TGIdentifier("textures/guns/ndr.png")).setBaseTranslation(1f, -0.2f, RenderItemBase.SCALE*1.5f-0.09f)
+				.setBaseScale(1.2f).setGUIScale(0.40f).setMuzzleFx(ScreenEffect.muzzleFlashNukeBeam, 0, 0.19f, -0.91f, 0.65f,0).setTransformTranslations(new float[][]{
+					{0f,0.02f,0.09f}, //First Person
+					{-0.01f,0.04f,0.3f}, //Third Person
+					{0.11f,-0.08f,0f}, //GUI
+					{0f,0f,0.15f}, //Ground
+					{-0.23f,-0.08f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.11f, -0.83f).setRecoilAnim(GunAnimation.swayRecoil, 0.025f, 0.75f));
+		
+		
+		
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (dispatcher, context) -> {
             return new GenericProjectileRenderer(dispatcher);
         });
@@ -230,7 +243,7 @@ public class ClientProxy implements ClientModInitializer {
 		
 		//TODO Proper Renderer
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_BEAM_PROJECTILE,  (dispatcher, context) -> {
-			return new RenderInvisibleProjectile(dispatcher);
+			return new RenderGenericBeamProjectile(dispatcher);
 		});
 		
 		

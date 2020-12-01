@@ -2,8 +2,10 @@ package techguns;
 
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.util.registry.Registry;
+import techguns.api.guns.GunHandType;
 import techguns.entities.projectiles.BioGunProjectile;
 import techguns.entities.projectiles.ChainsawProjectile;
+import techguns.entities.projectiles.GenericBeamProjectile;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.RocketProjectile;
@@ -49,12 +51,16 @@ public class TGuns implements ITGInitializer {
 	public static GenericGun AUG;
 	public static GenericGun MINIGUN;
 	public static GenericGun CHAINSAW;
+	public static GenericGun NUCLEAR_DEATHRAY;
 	
 	public static ProjectileSelector<GenericProjectile> ASSAULTRIFLE_MAG_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> SNIPER_MAG_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> MINIGUN_MAG_PROJECTILES;
 	
 	public static ProjectileSelector<RocketProjectile> ROCKET_PROJECTILES;
+	
+	public static ProjectileSelector<GenericBeamProjectile> NDR_PROJECTILES;
+	
 	public static ChargedProjectileSelector<GuidedMissileProjectile> GUIDED_MISSILE_PROJECTILES;
 	public static ChargedProjectileSelector<BioGunProjectile> BIOGUN_PROJECTILES;
 	public static ChargedProjectileSelector<TFGProjectile> TFG_PROJECTILES;
@@ -82,6 +88,7 @@ public class TGuns implements ITGInitializer {
 		
 		CHAINSAW_PROJECTILES = new ChargedProjectileSelector<ChainsawProjectile>(AmmoTypes.FUEL_TANK, new ChainsawProjectile.Factory());
 		
+		NDR_PROJECTILES = new ProjectileSelector<GenericBeamProjectile>(AmmoTypes.NUCLEAR_POWER_CELL, new GenericBeamProjectile.Factory());
 		
 		HANDCANNON = reg(new GenericGun("handcannon", new ProjectileSelector<StoneBulletProjectile>(AmmoTypes.STONE_BULLETS, new StoneBulletProjectile.Factory()), true, 12,1,30, 8.0f, TGSounds.HANDGUN_FIRE, TGSounds.HANDGUN_RELOAD,25,0.035f).setBulletSpeed(1.0f).setGravity(0.015d).setDamageDrop(10, 25, 5.0f).setAIStats(RANGE_CLOSE, 60, 0, 0).setRecoiltime(12).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
 		
@@ -107,6 +114,10 @@ public class TGuns implements ITGInitializer {
 		CHAINSAW = reg(new Chainsaw("chainsaw", CHAINSAW_PROJECTILES, false, 3, 300, 45, 10.0f, TGSounds.CHAINSAW_LOOP, TGSounds.POWERHAMMER_RELOAD, 2, 0.0f,1f,1, /**/12f, 2f, 0.5f, 14f).setToolLevel(FabricToolTags.AXES, 2).setRecoiltime(5).setShootWithLeftClick(false).setFiresoundStart(TGSounds.CHAINSAW_LOOP_START).setMaxLoopDelay(10).setPenetration(PENETRATION_MED).setAIStats(RANGE_MELEE, 10, 0, 0).setTurretPosOffset(0, -0.47f, -0.08f).setNoMuzzleLight().setCrossHair(EnumCrosshairStyle.VANILLA));
 		
 		TFG = reg(new GenericGunCharge("tfg", TFG_PROJECTILES, false, 5, 20,45,50.0f, TGSounds.TFG_FIRE, TGSounds.BIOGUN_RELOAD, 100, 0.015f, 60.0f ,10).setChargeSound(TGSounds.TFG_CHARGE).setChargeFX("TFGChargeStart",-0.14f, -0.10f, 0.42f).setBulletSpeed(2.0f).setRangeTooltipType(RangeTooltipType.RADIUS).setPenetration(PENETRATION_MED_HIGH).setAIStats(RANGE_SHORT, 30, 0, 0).setDamageDrop(8, 15, 15.0f).setMuzzleLight(0.2f, 1.0f, 0.2f).setMuzzleFlashTime(10).setRecoiltime(10).setForwardOffset(0.40f));
+	
+		NUCLEAR_DEATHRAY = reg(new GenericGun("nucleardeathray", NDR_PROJECTILES, false, 5, 40, 50, 6.0f, TGSounds.BEAMGUN_FIRE, TGSounds.LASERGUN_RELOAD, MAX_RANGE_SNIPER/* TODO? Beamgun.LIFETIME*/, 0.0f).setFiresoundStart(TGSounds.BEAMGUN_START).setMaxLoopDelay(10).setRecoiltime(10).setCheckRecoil().setBulletSpeed(100.0f).setAIStats(RANGE_MEDIUM, 40, 5, 5).setPenetration(PENETRATION_MED).setDamageDrop(20, 40, 1.0f).setHandType(GunHandType.TWO_HANDED).setTurretPosOffset(0, 0.04f, -0.19f).setCrossHair(EnumCrosshairStyle.TRI));
+		 
+	
 	}
 	
 	public static GenericGun reg(GenericGun gun) {
