@@ -12,11 +12,13 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
+import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import techguns.api.ICamoChangeable;
 import techguns.api.entity.AttackTime;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.entity.ITGShooterValues;
+import techguns.api.guns.GunManager;
 import techguns.api.guns.IGenericGun;
 import techguns.client.ClientProxy;
 import techguns.client.models.ModelMultipart;
@@ -203,17 +205,19 @@ public class RenderGunBase extends RenderItemBase {
 	public void renderItem(LivingEntity entityIn, Mode transform, MatrixStack matrices, ItemStack stack, boolean leftHand,
 			VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel bakedModel) {
 
+		
 		IGenericGun gun = ((IGenericGun) stack.getItem());
 		ITGShooterValues values = getShooterValues(entityIn);
 		
 		//System.out.println("Render:"+stack+" for "+entityIn);
-		
+		boolean akimbo = false;
 		boolean sneaking = false;
 		boolean isOffhand = false;
 		if (entityIn!=null){
 			sneaking = entityIn.isSneaking();
 			isOffhand = ((!leftHand) && entityIn.getMainArm() == Arm.LEFT) || ((leftHand) && entityIn.getMainArm() == Arm.RIGHT);
-
+			
+			akimbo = GunManager.isAkimbo(entityIn, isOffhand?Hand.OFF_HAND:Hand.MAIN_HAND, stack);
 		}
 		matrices.push();
 
@@ -307,7 +311,7 @@ public class RenderGunBase extends RenderItemBase {
 			}
 
 		} else if (Mode.THIRD_PERSON_LEFT_HAND == transform || Mode.THIRD_PERSON_RIGHT_HAND == transform) {
-			this.transformThirdPerson(matrices, entityIn, fireProgress, reloadProgress, Mode.THIRD_PERSON_LEFT_HAND == transform, gun.getArmPose());
+			this.transformThirdPerson(matrices, entityIn, fireProgress, reloadProgress, Mode.THIRD_PERSON_LEFT_HAND == transform, gun.getArmPose(akimbo));
 
 		} else if (Mode.GUI == transform) {
 			this.transformGUI(matrices);
@@ -345,7 +349,7 @@ public class RenderGunBase extends RenderItemBase {
 			}
 			matrices.pop();
 			
-			this.applyAnimForParticles(matrices, entityIn, reloadProgress, transform, sneaking, isOffhand, gun.getArmPose());
+			this.applyAnimForParticles(matrices, entityIn, reloadProgress, transform, sneaking, isOffhand, gun.getArmPose(akimbo));
 			//TODO add item particles
 			//this.renderItemParticles(matrices, entityIn, transform, ClientProxy.get().PARTIAL_TICK_TIME);
 			matrices.pop();
@@ -356,7 +360,7 @@ public class RenderGunBase extends RenderItemBase {
 					this.drawMuzzleFx(matrices, vertexConsumers, muzzleFlashProgress, attackType, leftHand);
 				} else {
 					matrices.push();
-					this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose());
+					this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo));
 					this.drawMuzzleFx3P(matrices, vertexConsumers, muzzleFlashProgress, attackType, leftHand);
 					matrices.pop();
 				}
@@ -365,7 +369,7 @@ public class RenderGunBase extends RenderItemBase {
 					this.drawIdleFx(leftHand);
 				} else {
 					matrices.push();
-					this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose());
+					this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo));
 					this.drawIdleFx3P(leftHand);
 					matrices.pop();
 				}

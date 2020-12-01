@@ -11,6 +11,7 @@ import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.BipedEntityModel.ArmPose;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
+import techguns.api.guns.GunManager;
 import techguns.api.guns.IGenericGun;
 import techguns.client.ShooterValues;
 
@@ -26,10 +27,12 @@ public class PlayerEntityRendererMixin {
 				if (ShooterValues.getPlayerIsReloading(abstractClientPlayerEntity, hand==Hand.OFF_HAND)) {
 					info.setReturnValue(ArmPose.CROSSBOW_CHARGE);
 				} else {
-					info.setReturnValue(ArmPose.CROSSBOW_HOLD);
+					boolean akimbo = GunManager.isAkimbo(abstractClientPlayerEntity, hand, itemStack);
+					info.setReturnValue(gun.getArmPose(akimbo));
 				}
 			}
 		
 		}	
 	}
+	
 }

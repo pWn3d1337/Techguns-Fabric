@@ -18,6 +18,8 @@ public abstract class ModelMultipart extends Model {
 
 	protected static final double scale = 0.0625;
 	
+	protected static final int bright_light = 15728880; //240,240
+	
 	public ModelMultipart(Function<Identifier, RenderLayer> layerFactory) {
 		super(layerFactory);
 	}

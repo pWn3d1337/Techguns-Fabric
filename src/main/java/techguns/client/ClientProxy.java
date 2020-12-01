@@ -29,6 +29,7 @@ import techguns.client.models.guns.ModelHandgun;
 import techguns.client.models.guns.ModelM4;
 import techguns.client.models.guns.ModelMinigun;
 import techguns.client.models.guns.ModelNDR;
+import techguns.client.models.guns.ModelPistol;
 import techguns.client.models.guns.ModelRocketLauncher;
 import techguns.client.models.guns.ModelScar;
 import techguns.client.models.guns.ModelTFG;
@@ -108,7 +109,7 @@ public class ClientProxy implements ClientModInitializer {
 		
 		this.register_ammo_itemrenderers();
 		
-		TGRenderRegistries.registerItemRenderer(TGuns.GUIDED_MISSLE_LAUNCHER,new RenderGunBase90(new ModelGuidedMissileLauncher(),1, new TGIdentifier("textures/guns/guidedmissilelauncher.png")).setBaseTranslation(-0.4f, -0.2f, RenderItemBase.SCALE*0.5f)
+		TGRenderRegistries.registerItemRenderer(TGuns.GUIDED_MISSLE_LAUNCHER,new RenderGunBase90(new ModelGuidedMissileLauncher(),2, new TGIdentifier("textures/guns/guidedmissilelauncher.png")).setBaseTranslation(-0.4f, -0.2f, RenderItemBase.SCALE*0.5f)
 				.setGUIScale(0.35f).setChargeTranslationAmount(0).setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.39f, -0.6f, 0.87f, 0).setTransformTranslations(new float[][]{
 					{-0.13f,0.3f,0.62f}, //First Person
 					{0,0.09f,0.28f}, //Third Person
@@ -201,6 +202,14 @@ public class ClientProxy implements ClientModInitializer {
 					{-0.07f,-0.03f,-0.11f} //frame
 				}));	
 		
+		TGRenderRegistries.registerItemRenderer(TGuns.PISTOL,new RenderGunBase(new ModelPistol(),2, new TGIdentifier("textures/guns/pistol3.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.3f, -0.4f)
+				.setBaseScale(1.2f).setGUIScale(0.9f).setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0.03f, 0.2f, -0.5f, 0.55f,-0.03f).setTransformTranslations(new float[][]{
+					{0,0.09f,-0.02f}, //First Person
+					{0.0f,-0.03f,0.0f}, //Third Person
+					{0.02f,-0.08f,0}, //GUI
+					{0.02f,-0.08f,0}, //Ground
+					{0,0,0f} //frame
+				}).setRecoilAnim(GunAnimation.genericRecoil, 0.025f, 12.0f).setMuzzleFlashJitter(0.01f, 0.01f, 5.0f, 0.05f).setMuzzleFXPos3P(0.07f, -0.26f));
 		
 		TGRenderRegistries.registerItemRenderer(TGuns.NUCLEAR_DEATHRAY,new RenderGunBase90(new ModelNDR(), 1, new TGIdentifier("textures/guns/ndr.png")).setBaseTranslation(1f, -0.2f, RenderItemBase.SCALE*1.5f-0.09f)
 				.setBaseScale(1.2f).setGUIScale(0.40f).setMuzzleFx(ScreenEffect.muzzleFlashNukeBeam, 0, 0.19f, -0.91f, 0.65f,0).setTransformTranslations(new float[][]{

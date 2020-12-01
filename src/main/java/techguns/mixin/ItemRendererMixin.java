@@ -16,7 +16,9 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Arm;
 import net.minecraft.world.World;
+import techguns.api.guns.GunManager;
 import techguns.api.render.IItemRenderer;
 import techguns.client.render.ITGItemRenderer;
 import techguns.client.render.TGRenderRegistries;
@@ -30,33 +32,47 @@ public class ItemRendererMixin {
 
 	@Inject(at = @At("INVOKE"), method = "(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V", cancellable = true)
 	public void renderItem(ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo info) {
-		if (!stack.isEmpty()) {
-			Item it = stack.getItem();
-			if (it instanceof ITGItemRenderer) {
-				if(((ITGItemRenderer) it).shouldUseRenderHack(stack)) {
-					info.cancel();
-					IItemRenderer r = TGRenderRegistries.getRendererForItem(it);
-					if (r != null) {
-						r.renderItem((LivingEntity)null, renderMode, matrices, stack, leftHanded, vertexConsumers, light, overlay, model);
+		this.renderHack((LivingEntity)null, stack, renderMode, leftHanded, matrices, vertexConsumers, light, overlay, info);
+	}
+
+	@Inject(at = @At("INVOKE"), method = "(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;II)V", cancellable = true)
+	public void renderItem(LivingEntity entity, ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int light, int overlay, CallbackInfo info) {
+		this.renderHack(entity, stack, renderMode, leftHanded, matrices, vertexConsumers, light, overlay, info);
+	}
+	
+	private void renderHack(LivingEntity entity, ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, CallbackInfo info) {
+		if (entity != null && !shouldRenderItem(stack, entity, renderMode, leftHanded)) {
+			info.cancel();
+		} else {
+			if (!stack.isEmpty()) {
+				Item it = stack.getItem();
+				if (it instanceof ITGItemRenderer) {
+					if(((ITGItemRenderer) it).shouldUseRenderHack(stack)) {
+						info.cancel();
+						IItemRenderer r = TGRenderRegistries.getRendererForItem(it);
+						if (r != null) {
+							r.renderItem(entity, renderMode, matrices, stack, leftHanded, vertexConsumers, light, overlay, null);
+						}
 					}
 				}
 			}
 		}
 	}
-
-	@Inject(at = @At("INVOKE"), method = "(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;II)V", cancellable = true)
-	public void renderItem(LivingEntity entity, ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int light, int overlay, CallbackInfo info) {
-		if (!stack.isEmpty()) {
-			Item it = stack.getItem();
-			if (it instanceof ITGItemRenderer) {
-				if(((ITGItemRenderer) it).shouldUseRenderHack(stack)) {
-					info.cancel();
-					IItemRenderer r = TGRenderRegistries.getRendererForItem(it);
-					if (r != null) {
-						r.renderItem(entity, renderMode, matrices, stack, leftHanded, vertexConsumers, light, overlay, null);
-					}
-				}
-			}
+	
+	private static boolean shouldRenderItem(ItemStack stack, LivingEntity elb, ModelTransformation.Mode transform, boolean leftHanded) {
+		if( !(transform==ModelTransformation.Mode.FIRST_PERSON_LEFT_HAND || transform==ModelTransformation.Mode.THIRD_PERSON_LEFT_HAND || 
+				transform==ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND || transform==ModelTransformation.Mode.THIRD_PERSON_RIGHT_HAND)) {
+			return true;
+		}
+		
+		boolean mainhand = transform==ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND || transform==ModelTransformation.Mode.THIRD_PERSON_RIGHT_HAND;
+		if (elb.getMainArm()==Arm.LEFT) {
+			mainhand=!mainhand;
+		}
+		if (mainhand) {
+			return true;
+		} else {
+			return GunManager.canUseOffhand(elb.getMainHandStack(), stack, elb);
 		}
 	}
 	

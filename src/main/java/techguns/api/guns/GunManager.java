@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Hand;
 
 public class GunManager {
 
@@ -28,6 +29,24 @@ public class GunManager {
 			}
 		}
 		return canUseOffhand(mh, oh, ent);
+	}
+	
+	/**
+	 * Returns true if passed stack is mainhand and offhand is also a genericgun that can be used
+	 * @param ply
+	 * @param hand
+	 * @param stack
+	 * @return
+	 */
+	public static boolean isAkimbo(LivingEntity ply, Hand hand, ItemStack stack) {
+		if (hand == Hand.MAIN_HAND) {
+			ItemStack offHandStack = ply.getOffHandStack();
+			if (offHandStack.getItem() instanceof IGenericGun && GunManager.canUseOffhand(stack, offHandStack, ply)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	/**

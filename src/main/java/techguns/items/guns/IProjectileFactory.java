@@ -21,4 +21,8 @@ public interface IProjectileFactory<T extends GenericProjectile> {
 	 public default DamageModifier getDamageModifier() {
 		 return DamageModifier.DEFAULT_MODIFIER;
 	 }
+	 
+	 public default byte getProjectileType() {
+		 return 0;
+	 }
 }
