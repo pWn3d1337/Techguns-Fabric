@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
 import techguns.api.entity.ITGExtendedPlayer;
+import techguns.api.guns.GunManager;
 import techguns.api.guns.IGenericGun;
 import techguns.client.ClientProxy;
 import techguns.items.guns.GenericGunCharge;
@@ -45,7 +46,25 @@ public class MouseMixin {
 				} else {
 					cp.keyFirePressedMainhand=false;
 				}
-			}else if (button == 1) {
+			} else if (button == 1 && !mc.player.isSneaking() && !mc.player.getOffHandStack().isEmpty() && mc.player.getOffHandStack().getItem() instanceof IGenericGun && GunManager.canUseOffhand(mc.player)) {
+					
+					ClientProxy cp = ClientProxy.get();
+					
+					if (((IGenericGun) mc.player.getOffHandStack().getItem()).isShootWithLeftClick()) {
+						cp.keyFirePressedOffhand = pressed;
+						info.cancel();
+		
+						// can't mine/attack while reloading
+					} else if (ShooterValues.getReloadtime(ClientProxy.get().getPlayerClient(), true) > 0) {
+						long diff = ShooterValues.getReloadtime(ClientProxy.get().getPlayerClient(), true) - System.currentTimeMillis();
+						if (diff > 0) {
+							if (pressed) {
+								info.cancel();
+							}
+						}
+		
+					}
+			} else if (button == 1) {
 				//Lock On
 				if (!mc.player.getMainHandStack().isEmpty() && mc.player.getMainHandStack().getItem() instanceof GenericGunCharge 
 						&& ((GenericGunCharge)mc.player.getMainHandStack().getItem()).getLockOnTicks() > 0) {

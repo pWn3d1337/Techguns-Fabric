@@ -295,25 +295,25 @@ public class GenericGunCharge extends GenericGun {
 	}
 
 	public void spawnChargedProjectile(final World world, final LivingEntity player, ItemStack itemStack, float spread, float offset, float charge, int ammoConsumed, EnumBulletFirePos firePos) {
-		String ammoVariantKey = this.getCurrentAmmoVariantKey(itemStack);
-		byte projectileType = this.chargedProjectile_selector.getProjectileTypeForType(ammoVariantKey);
 		
-		DamageModifier mod = this.chargedProjectile_selector.getDamageModifierForType(ammoVariantKey);
+		@SuppressWarnings("rawtypes")
+		IChargedProjectileFactory projectileFactory = this.chargedProjectile_selector.getFactoryForType(this.getCurrentAmmoVariantKey(itemStack));
+		
+		DamageModifier mod = projectileFactory.getDamageModifier();
+		byte projectileType = projectileFactory.getProjectileType();
 				
 		float modified_speed = mod.getVelocity(speed);
 		
-		@SuppressWarnings("rawtypes")
-		IChargedProjectileFactory fact = this.chargedProjectile_selector.getFactoryForType(this.getCurrentAmmoVariantKey(itemStack));
-		GenericProjectile proj = fact.createChargedProjectile(world, player, mod.getDamage(damage), modified_speed, mod.getTTL(this.getScaledTTL()), spread, mod.getRange(this.damageDropStart), mod.getRange(damageDropEnd), mod.getDamage(this.damageMin), penetration, getDoBlockDamage(player), firePos, mod.getRadius(radius), gravity, charge, ammoConsumed);
+		GenericProjectile projectile = projectileFactory.createChargedProjectile(world, player, mod.getDamage(damage), modified_speed, mod.getTTL(this.getScaledTTL()), spread, mod.getRange(this.damageDropStart), mod.getRange(damageDropEnd), mod.getDamage(this.damageMin), penetration, getDoBlockDamage(player), firePos, mod.getRadius(radius), gravity, charge, ammoConsumed);
 		
-		if (proj != null) {
-			proj.setProjectileType(projectileType);
-			proj.setProperties(player, player.pitch, player.yaw, 0.0F, speed, 1.0F);
+		if (projectile != null) {
+			projectile.setProjectileType(projectileType);
+			projectile.setProperties(player, player.pitch, player.yaw, 0.0F, modified_speed, 1.0F);
 			
 			if (offset > 0.0f) {
-				proj.shiftForward(offset/speed);
+				projectile.shiftForward(offset/modified_speed);
 			}
-			world.spawnEntity(proj);
+			world.spawnEntity(projectile);
 		}
 	}
 

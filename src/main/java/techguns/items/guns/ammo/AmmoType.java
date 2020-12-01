@@ -18,7 +18,7 @@ public class AmmoType {
 	protected int bulletsPerMag=0;
 	
 	public AmmoType(ItemStack... ammo){
-		this.variants.add(new AmmoVariant(ammo,ammo,0,DamageModifier.DEFAULT_MODIFIER));
+		this.variants.add(new AmmoVariant(ammo,ammo));
 		ammoVariantIDs.put(AmmoTypes.TYPE_DEFAULT, 0);
 	}
 	
@@ -27,12 +27,16 @@ public class AmmoType {
 		for(int i=0;i<ammo.length; i++) {
 			ammoStacks[i] = new ItemStack(ammo[i]);
 		}
-		this.variants.add(new AmmoVariant(ammoStacks,ammoStacks,0, DamageModifier.DEFAULT_MODIFIER));
+		this.variants.add(new AmmoVariant(ammoStacks,ammoStacks));
 		ammoVariantIDs.put(AmmoTypes.TYPE_DEFAULT, 0);
 	}
 
-	public AmmoType addVariant(String key, ItemStack ammo, ItemStack bullet, int projectile_type, DamageModifier modifier) {
-		return this.addVariant(key, new ItemStack[] {ammo}, new ItemStack[] {bullet}, projectile_type, modifier);
+	public AmmoType addVariant(String key, ItemStack ammo, ItemStack bullet) {
+		return this.addVariant(key, new ItemStack[] {ammo}, new ItemStack[] {bullet});
+	}
+	
+	public AmmoType addVariant(String key, ItemStack... ammo) {
+		return this.addVariant(key, ammo, ammo);
 	}
 	
 	public int getIDforVariantKey(String key) {
@@ -43,8 +47,8 @@ public class AmmoType {
 		}
 	}
 	
-	public AmmoType addVariant(String key, ItemStack[] ammo, ItemStack[] bullet, int projectile_type, DamageModifier modifier) {
-		this.variants.add(new AmmoVariant(key, ammo, bullet, projectile_type, modifier));
+	public AmmoType addVariant(String key, ItemStack[] ammo, ItemStack[] bullet) {
+		this.variants.add(new AmmoVariant(key, ammo, bullet));
 		ammoVariantIDs.put(key, this.variants.size()-1);
 		return this;
 	}
@@ -61,20 +65,20 @@ public class AmmoType {
 		return this.variants.get(variant).bullet;
 	}
 
-	public AmmoType (ItemStack ammo, ItemStack emptyMag, ItemStack bullet, int bulletsPerMag, int projectile_Type) {
-		this(new ItemStack[]{ammo},new ItemStack[]{emptyMag},new ItemStack[]{bullet},bulletsPerMag, projectile_Type);
+	public AmmoType (ItemStack ammo, ItemStack emptyMag, ItemStack bullet, int bulletsPerMag) {
+		this(new ItemStack[]{ammo},new ItemStack[]{emptyMag},new ItemStack[]{bullet},bulletsPerMag);
 	}
 	
-	public AmmoType (Item ammo, Item emptyMag, Item bullet, int bulletsPerMag, int projectile_Type) {
-		this(new ItemStack(ammo),new ItemStack(emptyMag),new ItemStack(bullet),bulletsPerMag, projectile_Type);
+	public AmmoType (Item ammo, Item emptyMag, Item bullet, int bulletsPerMag) {
+		this(new ItemStack(ammo),new ItemStack(emptyMag),new ItemStack(bullet),bulletsPerMag);
 	}
 	
-	public AmmoType (Item ammo, Item emptyMag, ItemStack bullet, int bulletsPerMag, int projectile_Type) {
-		this(new ItemStack(ammo),new ItemStack(emptyMag),ItemStack.EMPTY,bulletsPerMag, projectile_Type);
+	public AmmoType (Item ammo, Item emptyMag, ItemStack bullet, int bulletsPerMag) {
+		this(new ItemStack(ammo),new ItemStack(emptyMag),ItemStack.EMPTY,bulletsPerMag);
 	}
 	
-	public AmmoType (ItemStack[] ammo, ItemStack[] emptyMag, ItemStack[] bullet, int bulletsPerMag, int projectile_type) {
-		this.variants.add(new AmmoVariant(ammo,bullet, projectile_type, DamageModifier.DEFAULT_MODIFIER));
+	public AmmoType (ItemStack[] ammo, ItemStack[] emptyMag, ItemStack[] bullet, int bulletsPerMag) {
+		this.variants.add(new AmmoVariant(ammo,bullet));
 		this.emptyMag = emptyMag;
 
 		this.bulletsPerMag = bulletsPerMag;

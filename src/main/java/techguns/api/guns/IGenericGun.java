@@ -37,7 +37,7 @@ public interface IGenericGun {
 	//public Identifier getCurrentTexture(ItemStack stack);
 
 	@Environment(EnvType.CLIENT)
-	public ArmPose getArmPose();
+	public ArmPose getArmPose(boolean akimbo);
 
 	public String getCurrentAmmoVariantKey(ItemStack stack);
 }

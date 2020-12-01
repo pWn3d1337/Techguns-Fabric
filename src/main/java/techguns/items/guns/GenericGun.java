@@ -160,9 +160,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	public float light_g = 0.9f;
 	public float light_b = 0.2f;
 	protected boolean muzzelight=true;
-	
-	boolean hasAimedBowAnim=true;
-	
+		
 	boolean hasAmbientEffect=false;
 	/**
 	 * Should bind the texture on rendering?
@@ -170,7 +168,14 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	public boolean hasCustomTexture=true;
 
 	protected RangeTooltipType rangeTooltipType = RangeTooltipType.DROP;
-	
+
+	public enum HoldType {
+		CROSSBOW,
+		BOW,
+		LOWERED
+	}
+	public HoldType holdType = HoldType.CROSSBOW;
+		
 	private GenericGun() {
 		super(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT));
 	}
@@ -246,18 +251,16 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		this.hasCustomTexture=false;
 		return this;
 	}
-	
-	public GenericGun setNoBowAnim() {
-		this.hasAimedBowAnim=false;
+		
+	public HoldType getHoldType() {
+		return holdType;
+	}
+
+	public GenericGun setHoldType(HoldType holdType) {
+		this.holdType = holdType;
 		return this;
 	}
-	
-	public boolean hasBowAnim() {
-		return this.hasAimedBowAnim;
-	}
-	
-	
-	
+
 	public GenericGun setGravity(double grav) {
 		this.gravity=grav;
 		return this;
@@ -449,19 +452,19 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	@SuppressWarnings("unchecked")
 	protected void spawnProjectile(final World world, final LivingEntity player, final ItemStack itemstack, float spread, float offset, float damagebonus, EnumBulletFirePos firePos, Entity target) {
 		String ammoVariantKey = this.getCurrentAmmoVariantKey(itemstack);
-		byte projectileType = this.projectile_selector.getProjectileTypeForType(ammoVariantKey);
 		
-		IProjectileFactory<GenericProjectile> projectile = this.projectile_selector.getFactoryForType(ammoVariantKey);
+		IProjectileFactory<GenericProjectile> projectileFactory = this.projectile_selector.getFactoryForType(ammoVariantKey);
 		
-		DamageModifier mod = this.projectile_selector.getDamageModifierForType(ammoVariantKey);
+		DamageModifier mod = projectileFactory.getDamageModifier();
+		byte projectileType = projectileFactory.getProjectileType();
 		
 		float modified_speed = mod.getVelocity(speed);
 				
-		GenericProjectile proj = projectile.createProjectile(this, world, player, mod.getDamage(damage) * damagebonus, modified_speed, mod.getTTL(this.getScaledTTL()), spread, mod.getRange(this.damageDropStart),
+		GenericProjectile projectile = projectileFactory.createProjectile(this, world, player, mod.getDamage(damage) * damagebonus, modified_speed, mod.getTTL(this.getScaledTTL()), spread, mod.getRange(this.damageDropStart),
 				mod.getRange(this.damageDropEnd), mod.getDamage(this.damageMin) * damagebonus, this.penetration, getDoBlockDamage(player), firePos, mod.getRadius(radius), gravity);
 
-		proj.setProjectileType(projectileType);
-		proj.setProperties(player, player.pitch, player.yaw, 0.0F, modified_speed, 1.0F);
+		projectile.setProjectileType(projectileType);
+		projectile.setProperties(player, player.pitch, player.yaw, 0.0F, modified_speed, 1.0F);
 						
 		//float f=1.0f;
 		//TODO add lights
@@ -473,12 +476,12 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 			proj.setSilenced();
 		}*/
 		if (offset > 0.0f) {
-			proj.shiftForward(offset/modified_speed);
+			projectile.shiftForward(offset/modified_speed);
 		}
 		// callback for subclasses
-		this.onProjectileSpawn(proj, world, player, itemstack, spread, offset, damagebonus, firePos, target);
+		this.onProjectileSpawn(projectile, world, player, itemstack, spread, offset, damagebonus, firePos, target);
 		
-		world.spawnEntity(proj);
+		world.spawnEntity(projectile);
 	}
 
 	public static boolean getDoBlockDamage(LivingEntity elb) {
@@ -1656,8 +1659,19 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 
 	@Environment(EnvType.CLIENT)
 	@Override
-	public ArmPose getArmPose() {
-		return ArmPose.CROSSBOW_HOLD;
+	public ArmPose getArmPose(boolean akimbo) {
+		switch(this.holdType) {
+		case CROSSBOW:
+			if (akimbo) {
+				return ArmPose.BOW_AND_ARROW;
+			} else {
+				return ArmPose.CROSSBOW_HOLD;
+			}
+		case BOW:
+			return ArmPose.BOW_AND_ARROW;
+		default:
+			return ArmPose.ITEM;
+		}
 	}
 
 	@Override
