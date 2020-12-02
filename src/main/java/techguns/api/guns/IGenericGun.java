@@ -33,8 +33,6 @@ public interface IGenericGun {
 	public default boolean canCharge() {return false;};
 
 	public boolean isAimed(LivingEntity ply, ItemStack stack);
-	//TODO add
-	//public Identifier getCurrentTexture(ItemStack stack);
 
 	@Environment(EnvType.CLIENT)
 	public ArmPose getArmPose(boolean akimbo);
