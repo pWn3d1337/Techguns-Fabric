@@ -64,8 +64,10 @@ public class GenericBeamProjectile extends GenericProjectile{
 		this(TGEntities.GENERIC_BEAM_PROJECTILE, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos,  damageTicks, moveWithShooter, projectileType);
 	}
 
+	
+	
 	@Override
-	public void tick() {		
+	public void tick() {
 		if (this.moveWithShooter) {
 			this.updateBeamPosition();
 		}
@@ -79,6 +81,8 @@ public class GenericBeamProjectile extends GenericProjectile{
 		if (this.ticksToLive <= 0) {
 			this.markForRemoval();
 		}
+		
+		this.baseTick();
 	}
 	
 	protected void updateBeamPosition() {
