@@ -68,7 +68,7 @@ public class GenericProjectile extends ProjectileEntity {
 		this.damageDropEnd=dmgDropEnd;
 		this.penetration=penetration;
 		this.blockdamage = blockdamage;
-
+		
 		this.setOwner(p);
 		this.updatePosition(p.getX(), p.getY()+p.getEyeHeight(p.getPose()), p.getZ());
 		

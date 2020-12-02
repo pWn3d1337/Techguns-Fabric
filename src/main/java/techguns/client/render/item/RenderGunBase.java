@@ -360,7 +360,7 @@ public class RenderGunBase extends RenderItemBase {
 					this.drawMuzzleFx(matrices, vertexConsumers, muzzleFlashProgress, attackType, leftHand);
 				} else {
 					matrices.push();
-					this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo));
+					this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo), leftHand);
 					this.drawMuzzleFx3P(matrices, vertexConsumers, muzzleFlashProgress, attackType, leftHand);
 					matrices.pop();
 				}
@@ -369,7 +369,7 @@ public class RenderGunBase extends RenderItemBase {
 					this.drawIdleFx(leftHand);
 				} else {
 					matrices.push();
-					this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo));
+					this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo), leftHand);
 					this.drawIdleFx3P(leftHand);
 					matrices.pop();
 				}
@@ -423,9 +423,9 @@ public class RenderGunBase extends RenderItemBase {
 		}
 	}
 
-	protected void transformThirdPersonArmPose(MatrixStack matrices, LivingEntity entity, float reloadProgress, ArmPose armPose) {
+	protected void transformThirdPersonArmPose(MatrixStack matrices, LivingEntity entity, float reloadProgress, ArmPose armPose, boolean left) {
 		if (reloadProgress<=0 && ArmPose.CROSSBOW_HOLD == armPose) {	
-			TGMatrixOps.rotate(matrices, -15.0f, 0f, 1f, 0f);
+			TGMatrixOps.rotate(matrices, left?15.0f:-15.0f, 0f, 1f, 0f);
 		}
 	}
 	 
@@ -439,7 +439,7 @@ public class RenderGunBase extends RenderItemBase {
 			}
 			
 		}*/
-		transformThirdPersonArmPose(matrices, ent, reloadProgress, armPose);
+		transformThirdPersonArmPose(matrices, ent, reloadProgress, armPose, left);
 		
 		if (fireProgress >0){
 			

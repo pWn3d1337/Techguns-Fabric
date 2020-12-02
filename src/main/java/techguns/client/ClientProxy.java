@@ -23,16 +23,27 @@ import techguns.client.models.guns.ModelAK;
 import techguns.client.models.guns.ModelAS50;
 import techguns.client.models.guns.ModelAUG;
 import techguns.client.models.guns.ModelBiogun;
+import techguns.client.models.guns.ModelBoltaction;
 import techguns.client.models.guns.ModelChainsaw;
+import techguns.client.models.guns.ModelCombatShotgun;
+import techguns.client.models.guns.ModelGoldenRevolver;
+import techguns.client.models.guns.ModelGrimReaper;
 import techguns.client.models.guns.ModelGuidedMissileLauncher;
 import techguns.client.models.guns.ModelHandgun;
+import techguns.client.models.guns.ModelLMG;
 import techguns.client.models.guns.ModelM4;
+import techguns.client.models.guns.ModelM4Infiltrator;
+import techguns.client.models.guns.ModelMac10;
 import techguns.client.models.guns.ModelMinigun;
 import techguns.client.models.guns.ModelNDR;
 import techguns.client.models.guns.ModelPistol;
+import techguns.client.models.guns.ModelRevolver;
 import techguns.client.models.guns.ModelRocketLauncher;
+import techguns.client.models.guns.ModelSawedOff;
 import techguns.client.models.guns.ModelScar;
 import techguns.client.models.guns.ModelTFG;
+import techguns.client.models.guns.ModelThompson;
+import techguns.client.models.guns.ModelVector;
 import techguns.client.models.items.ModelARMagazine;
 import techguns.client.models.items.ModelAS50Mag;
 import techguns.client.models.items.ModelLmgMag;
@@ -97,6 +108,16 @@ public class ClientProxy implements ClientModInitializer {
 					{0f,0f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.13f, -1f).setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f));
 	
+		TGRenderRegistries.registerItemRenderer(TGuns.M4_INFILTRATOR,new RenderGunBase(new ModelM4Infiltrator(),1, new TGIdentifier("textures/guns/m4_uq_texture.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.1f, 0)
+				.setGUIScale(0.35f)/*.setMuzzleFx(ScreenEffect.muzzleFlash_rifle, 0, 0.18f, -1.5f, 0.5f,0)*/.setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 4.0f).setTransformTranslations(new float[][]{
+					{0f,0f,-0.05f}, //First Person
+					{0f,0.01f,-0.1f}, //Third Person
+					{0f,0f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{0f,0f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.14f, -1.15f).setScope(ScreenEffect.sniperScope).setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 1.0f));
+		
+		
 		TGRenderRegistries.registerItemRenderer(TGuns.SCAR,new RenderGunBase(new ModelScar(),2, new TGIdentifier("textures/guns/scar_texture.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.1f, 0.1f)
 				.setGUIScale(0.35f).setMuzzleFx(ScreenEffect.muzzleFlash_rifle, 0, 0.23f, -1.48f, 0.78f,0).setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 4.0f).setTransformTranslations(new float[][]{
 					{0f,0.04f,-0.15f}, //First Person
@@ -219,7 +240,91 @@ public class ClientProxy implements ClientModInitializer {
 					{0f,0f,0.15f}, //Ground
 					{-0.23f,-0.08f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.11f, -0.83f).setRecoilAnim(GunAnimation.swayRecoil, 0.025f, 0.75f));
+		TGRenderRegistries.registerItemRenderer(TGuns.COMBAT_SHOTGUN,new RenderGunBase90(new ModelCombatShotgun(),2, new TGIdentifier("textures/guns/combatshotgun.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE-0.1f)
+				.setGUIScale(0.45f).setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.21f, -0.91f, 0.75f,0).setTransformTranslations(new float[][]{
+					{0f,0.03f,0f}, //First Person
+					{0f,-0.01f,-0.10f}, //Third Person
+					{0.05f,0f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{0f,0f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.12f, -0.81f).setRecoilAnim(GunAnimation.genericRecoil, 0.3f, 15.0f));
 		
+		
+		
+		TGRenderRegistries.registerItemRenderer(TGuns.SAWEDOFF,new RenderGunBase90(new ModelSawedOff(),1, new TGIdentifier("textures/guns/sawedoff.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE-0.1f)
+				.setGUIScale(0.45f).setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.16f, -0.75f, 1.05f,0).setReloadAnim(GunAnimation.breechReload, -0.15f, 55.0f).setReloadAnim3p(GunAnimation.breechReload, 0f, 55.0f).setTransformTranslations(new float[][]{
+					{0f,0f,0f}, //First Person
+					{0f,-0.04f,0f}, //Third Person
+					{0f,0f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{0f,0f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.06f, -0.49f).setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 20.0f));
+		
+		TGRenderRegistries.registerItemRenderer(TGuns.LMG,new RenderGunBase(new ModelLMG(),1, new TGIdentifier("textures/guns/mg2_texture.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.1f, 0)
+				.setGUIScale(0.35f).setMuzzleFx(ScreenEffect.muzzleFlash_rifle, 0, 0.21f, -1.5f, 0.78f,0).setMuzzleFXPos3P(0.13f, -0.98f).setRecoilAnim(GunAnimation.genericRecoil, 0.01f, 2.0f).setTransformTranslations(new float[][]{
+					{0f,0.02f,-0.09f}, //First Person
+					{0f,0f,-0.06f}, //Third Person
+					{0.05f,-0.03f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{0f,0f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.14f, -1.02f).setMuzzleFlashJitter(0.03f, 0.03f, 5.0f, 0.1f));
+
+		TGRenderRegistries.registerItemRenderer(TGuns.THOMPSON,new RenderGunBase90(new ModelThompson(),1, new TGIdentifier("textures/guns/thompson.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE*0.5f-0.1f)
+				.setGUIScale(0.45f).setMuzzleFx(ScreenEffect.muzzleFlash_rifle, 0, 0.14f, -0.75f, 0.55f,0).setMuzzleFXPos3P(0.1f, -0.59f).setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f));
+	
+		TGRenderRegistries.registerItemRenderer(TGuns.BOLTACTION,new RenderGunBase90(new ModelBoltaction(),1, new TGIdentifier("textures/guns/boltactionrifle.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE-0.1f).setBaseScale(1.35f)
+				.setGUIScale(0.35f).setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.21f, -1.48f, 0.9f,0).setScope(ScreenEffect.sniperScope).setTransformTranslations(new float[][]{
+					{0f,-0.02f,-0.09f}, //First Person
+					{0f,-0.04f,-0.11f}, //Third Person
+					{0.1f,-0.08f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{0f,0f,-0.025f} //frame
+				}).setMuzzleFXPos3P(0.12f, -1.13f).setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.20f, 2.0f));
+	
+		TGRenderRegistries.registerItemRenderer(TGuns.REVOLVER,new RenderGunBase90(new ModelRevolver(),1, new TGIdentifier("textures/guns/revolver.png")).setBaseTranslation(-0.35f, -0.2f, RenderItemBase.SCALE*0.5f-0.1f)
+				.setBaseScale(0.75f).setGUIScale(0.75f).setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.25f, -0.41f, 0.5f,0).setTransformTranslations(new float[][]{
+					{0f,0.14f,0.01f}, //First Person
+					{0f,0.0f,0.0f}, //Third Person
+					{0.05f,0.01f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{0f,0f,0f} //frame
+				}).setMuzzleFXPos3P(0.09f, -0.30f).setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 10.0f));
+	
+		TGRenderRegistries.registerItemRenderer(TGuns.GOLDEN_REVOLVER,new RenderGunBase90(new ModelGoldenRevolver(),1, new TGIdentifier("textures/guns/goldenrevolver.png")).setBaseTranslation(-0.35f, -0.2f, RenderItemBase.SCALE*0.5f-0.1f)
+				.setBaseScale(0.75f).setGUIScale(0.75f).setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.25f, -0.41f, 0.5f,0).setTransformTranslations(new float[][]{
+					{0f,0.14f,0.01f}, //First Person
+					{0f,0.0f,0.0f}, //Third Person
+					{0.05f,0.01f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{0f,0f,0f} //frame
+				}).setMuzzleFXPos3P(0.09f, -0.30f).setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 15.0f));
+	
+		TGRenderRegistries.registerItemRenderer(TGuns.MAC10,new RenderGunBase(new ModelMac10(),1, new TGIdentifier("textures/guns/mac10texture.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.45f, -0.3f)
+				.setBaseScale(1.2f).setGUIScale(0.55f).setMuzzleFx(ScreenEffect.muzzleFlash_rifle, 0, 0.23f, -0.46f, 0.5f,0).setRecoilAnim(GunAnimation.genericRecoil, 0.06f, 3.0f).setTransformTranslations(new float[][]{
+					{0f,0f,-0.05f}, //First Person
+					{0f,-0.10f,0.01f}, //Third Person
+					{-0.02f,-0.02f,0f}, //GUI
+					{0f,0.03f,0f}, //Ground
+					{0f,-0.05f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.07f, -0.26f).setMuzzleFlashJitter(0.02f, 0.05f, 5.0f, 0.1f));
+		
+		TGRenderRegistries.registerItemRenderer(TGuns.VECTOR,new RenderGunBase(new ModelVector(),1, new TGIdentifier("textures/guns/vector_texture.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.57f, -0.2f)
+				.setBaseScale(1.1f).setGUIScale(0.45f).setMuzzleFx(ScreenEffect.muzzleFlash_rifle, 0, 0.10f, -0.72f, 0.60f,0).setRecoilAnim(GunAnimation.genericRecoil, 0.05f, 2.0f).setTransformTranslations(new float[][]{
+					{0f,-0.17f,0.0f}, //First Person
+					{0f,-0.2f,-0.04f}, //Third Person
+					{-0.08f,-0.09f,0f}, //GUI
+					{0f,0f,0f}, //Ground
+					{0.05f,-0.17f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.0f, -0.53f).setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f));
+	
+		TGRenderRegistries.registerItemRenderer(TGuns.GRIM_REAPER,new RenderGunBase90(new ModelGrimReaper(),1, new TGIdentifier("textures/guns/grimreaper.png")).setBaseTranslation(0.3f, -0.2f, RenderItemBase.SCALE*0.5f)
+				.setGUIScale(0.3f).setChargeTranslationAmount(0.025f).setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.39f, -0.61f, 0.75f,0).setTransformTranslations(new float[][]{
+					{0f,0.25f,0.18f}, //First Person
+					{0,0.13f,0.1f}, //Third Person
+					{-0.02f,0.01f,0.0f}, //GUI
+					{0.0f,0.1f,0}, //Ground
+					{0,0,0f} //frame
+				}).setMuzzleFXPos3P(0.24f, -0.56f).setBaseScale(1.25f).setFirstPersonScale(0.4f).setGroundAndFrameScale(0.35f));
 		
 		
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (dispatcher, context) -> {
