@@ -46,7 +46,7 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 		 switch(entity.getProjectileType()) {
 			case GenericBeamProjectile.BEAM_TYPE_NDR:
 			default:
-				float maxWidth = 10.0f;
+				float maxWidth = 0.01f;
 				renderBeam(entity, prog, maxWidth, pos, laser_pitch, laser_yaw, tickDelta, matrixStack, vertexConsumerProvider, light);
 		 }
 		 
@@ -59,6 +59,20 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 		float intensity = (float) ((Math.sin(Math.sqrt(prog)*Math.PI))*2);
 		float width = maxWidth * intensity;
         
+		matrixStack.push();
+		
+		//System.out.println("Entity - pitch:"+entity.pitch+" yaw:"+entity.yaw);
+		//System.out.println("BEAM - pitch:"+pitch+" yaw:"+yaw);
+		
+		matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(yaw - 90.0F));
+		matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(pitch));
+//		matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(
+//				MathHelper.lerp(tickDelta, entity.prevYaw, entity.yaw) - 90.0F));
+//		matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(
+//				MathHelper.lerp(tickDelta, entity.prevPitch, entity.pitch)));
+		
+		Matrix4f model_mat = matrixStack.peek().getModel();
+		
 		// RENDER BEAM
         double UVscale = 2.0D; 
         int numFrames = 17;
@@ -72,19 +86,21 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
         VertexConsumer vertexConsumer = vertexConsumerProvider
 				.getBuffer(TGRenderHelper.get_fx_renderlayer(getTexture(entity)));
        
+        //matrixStack.push();
         for (int i = 0; i < 2; ++i)
         {
        	 	TGMatrixOps.rotate(matrixStack, 90f, 1f, 0f, 0f);
             
-			Matrix4f model_mat = matrixStack.peek().getModel();
        	 	
        	 	//POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
-       	 	vertexConsumer.vertex(model_mat, -distance, -width, 0.0f).texture((float)(0+i), v1).color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
+       	 	vertexConsumer.vertex(model_mat, distance, -width, 0.0f).texture((float)(0+i), v1).color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
        	 	vertexConsumer.vertex(model_mat, 0f, -width, 0.0f).texture((float)(u+i), v1).color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
        	 	vertexConsumer.vertex(model_mat, 0f, width, 0.0f).texture((float)(u+i), v2).color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
-       	 	vertexConsumer.vertex(model_mat, -distance, width, 0.0f).texture((float)(0+i), v2).color(1.0f, 1.0f, 1.0f, intensity).light(light).next(); 	 	
-            
-        }
+       	 	vertexConsumer.vertex(model_mat, distance, width, 0.0f).texture((float)(0+i), v2).color(1.0f, 1.0f, 1.0f, intensity).light(light).next(); 	 	
+
+        }	
+        //matrixStack.pop();
+        matrixStack.pop();
 	}
 	
 

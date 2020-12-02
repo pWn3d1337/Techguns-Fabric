@@ -18,6 +18,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import techguns.TGEntities;
 import techguns.entities.projectiles.BioGunProjectile;
+import techguns.entities.projectiles.GenericBeamProjectile;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.RocketProjectile;
@@ -134,6 +135,9 @@ public class PacketSpawnEntity implements Packet<ClientPlayPacketListener>{
 		
 		} else if(this.entityTypeId == TGEntities.TFG_PROJECTILE) {
 			ent = new TFGProjectile(TGEntities.TFG_PROJECTILE, mc.player.world,shooter, additionalData);
+		
+		} else if(this.entityTypeId == TGEntities.GENERIC_BEAM_PROJECTILE) {
+			ent = new GenericBeamProjectile(TGEntities.GENERIC_BEAM_PROJECTILE, mc.player.world,shooter, additionalData);
 		}
 
 		if (ent != null) {
