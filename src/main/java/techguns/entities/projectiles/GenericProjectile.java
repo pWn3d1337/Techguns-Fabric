@@ -530,7 +530,7 @@ public class GenericProjectile extends ProjectileEntity {
     	}
     }
 
-	protected EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
+	public EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
 		return ProjectileUtil.getEntityCollision(this.world, this, currentPosition, nextPosition,
 				this.getBoundingBox().stretch(this.getVelocity()).expand(1.0D), this::method_26958);
 	}
