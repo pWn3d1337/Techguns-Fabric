@@ -34,6 +34,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.collection.DefaultedList;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import techguns.TGCamos;
 import techguns.TGItems;
@@ -56,6 +57,7 @@ import techguns.items.guns.ammo.AmmoType;
 import techguns.items.guns.ammo.AmmoTypes;
 import techguns.items.guns.ammo.DamageModifier;
 import techguns.packets.GunFiredMessage;
+import techguns.packets.PacketEntityAdditionalSpawnData;
 import techguns.packets.ReloadStartedMessage;
 import techguns.sounds.TGSoundCategory;
 import techguns.util.InventoryUtil;
@@ -483,6 +485,10 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		this.onProjectileSpawn(projectile, world, player, itemstack, spread, offset, damagebonus, firePos, target);
 		
 		world.spawnEntity(projectile);
+		
+		if(!world.isClient) {
+			TGPacketsS2C.sentToAllTrackingPos(new PacketEntityAdditionalSpawnData(projectile), world, new BlockPos(projectile.getPos()));
+		}
 	}
 
 	public static boolean getDoBlockDamage(LivingEntity elb) {

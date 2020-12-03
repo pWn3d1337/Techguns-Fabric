@@ -600,7 +600,7 @@ public class GenericProjectile extends ProjectileEntity {
 	 * Parse additional data from packet in construtor, extend in subclasses
 	 * @param data
 	 */
-	protected void parseAdditionalData(CompoundTag data) {
+	public void parseAdditionalData(CompoundTag data) {
 		this.ticksToLive = data.getInt("lifetime");
 		this.speed = data.getFloat("speed");
 		this.projectileType = data.getByte("projectile_type");

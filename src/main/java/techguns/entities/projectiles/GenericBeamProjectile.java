@@ -239,7 +239,7 @@ public class GenericBeamProjectile extends GenericProjectile{
 	}
 	
 	@Override
-	protected void parseAdditionalData(CompoundTag tag) {
+	public void parseAdditionalData(CompoundTag tag) {
 		super.parseAdditionalData(tag);
 		this.distance = tag.getDouble("laserLength");
 		this.laserPitch = tag.getFloat("laserPitch");

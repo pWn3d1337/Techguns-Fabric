@@ -15,8 +15,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import techguns.packets.GunFiredMessage;
+import techguns.packets.PacketEntityAdditionalSpawnData;
 import techguns.packets.PacketGunImpactFX;
 import techguns.packets.PacketPlaySound;
 import techguns.packets.PacketShowKeybindConfirmedMessage;
@@ -36,6 +38,7 @@ public class TGPacketsS2C {
 	public static final Identifier SPAWN_PARTICLE_ON_ENTITY = new TGIdentifier("spawn_particle_on_entity");
 	public static final Identifier SPAWN_PARTICLE = new TGIdentifier("spawn_particle");
 	public static final Identifier KEYBIND_CONFIRMED_MESSAGE = new TGIdentifier("keybind_confirmed_message");
+	public static final Identifier PROEJCTILE_ADDITIONAL_SPAWNDATA = new TGIdentifier("pojectile_spawndata");
 		
 	public static void initialize() {
 		registerPacket(GUN_FIRED, GunFiredMessage::new);
@@ -46,6 +49,7 @@ public class TGPacketsS2C {
 		registerPacket(SPAWN_PARTICLE_ON_ENTITY, PacketSpawnParticleOnEntity::new);
 		registerPacket(SPAWN_PARTICLE, PacketSpawnParticle::new);
 		registerPacket(KEYBIND_CONFIRMED_MESSAGE, PacketShowKeybindConfirmedMessage::new);
+		registerPacket(PROEJCTILE_ADDITIONAL_SPAWNDATA, PacketEntityAdditionalSpawnData::new);
 	}
 	
 	public static void registerPacket(Identifier id, Supplier<TGBasePacket> ctor) {
@@ -58,6 +62,11 @@ public class TGPacketsS2C {
         }));
 	}
 
+	public static void sentToAllTrackingPos(TGBasePacket packet, World world, BlockPos pos) {
+		Stream<PlayerEntity> watchingPlayers = PlayerStream.watching(world, pos);
+		sendTo(packet, watchingPlayers);
+	}
+	
 	public static void sendToAllTracking(TGBasePacket packet, Entity tracked_ent, boolean sendToTrackedEnt) {
 		Stream<PlayerEntity> watchingPlayers = PlayerStream.watching(tracked_ent);
 

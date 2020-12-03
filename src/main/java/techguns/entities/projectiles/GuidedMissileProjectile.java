@@ -106,7 +106,7 @@ public class GuidedMissileProjectile extends RocketProjectile{
 	
 	
 	@Override
-	protected void parseAdditionalData(CompoundTag data) {
+	public void parseAdditionalData(CompoundTag data) {
 		super.parseAdditionalData(data);
 		this.target = this.world.getEntityById(data.getInt("techguns_entityid"));
 	}

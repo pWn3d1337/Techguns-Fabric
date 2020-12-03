@@ -123,7 +123,7 @@ public class TFGProjectile extends GenericProjectile{
 	}
 	
 	@Override
-	protected void parseAdditionalData(CompoundTag tag) {
+	public void parseAdditionalData(CompoundTag tag) {
 		super.parseAdditionalData(tag);
 		System.out.println("Size = "+tag.getFloat("size"));
 		this.size = tag.getFloat("size");

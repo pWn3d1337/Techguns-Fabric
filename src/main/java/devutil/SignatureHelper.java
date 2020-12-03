@@ -60,8 +60,10 @@ public class SignatureHelper {
 		return ret;
 	}
 	
-	public static void main(String[] args) throws NoSuchMethodException, SecurityException {		
-		List<Method> methods = getMethods(DamageSource.class, "player");
+	public static void main(String[] args) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
+		Class<?> PacketHandlerClass = Class.forName("net.minecraft.network.NetworkState$PacketHandler"); 
+		
+		List<Method> methods = getMethods(PacketHandlerClass, "");
 		
 		for (Method m : methods) {
 			System.out.println(m.getName()+getSignature(m));

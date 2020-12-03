@@ -206,7 +206,7 @@ public class BioGunProjectile extends GenericProjectile{
 	}
 
 	@Override
-	protected void parseAdditionalData(CompoundTag data) {
+	public void parseAdditionalData(CompoundTag data) {
 		super.parseAdditionalData(data);
 		this.level = data.getByte("level");
 	}
