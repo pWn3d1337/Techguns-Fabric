@@ -67,7 +67,7 @@ public class TGEntities implements ITGInitializer {
 		GENERIC_BEAM_PROJECTILE = Registry.register(
 	            Registry.ENTITY_TYPE,
 	            new TGIdentifier("generic_beam_projectile"),
-	            FabricEntityTypeBuilder.<GenericBeamProjectile>create(SpawnGroup.MISC, GenericBeamProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
+	            FabricEntityTypeBuilder.<GenericBeamProjectile>create(SpawnGroup.MISC, GenericBeamProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(bulletTrackRange).trackedUpdateRate(1).build());
 		
 	}
 
