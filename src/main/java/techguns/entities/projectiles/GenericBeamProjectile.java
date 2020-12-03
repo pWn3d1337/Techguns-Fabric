@@ -23,16 +23,16 @@ public class GenericBeamProjectile extends GenericProjectile{
 
 	public static final byte BEAM_TYPE_NDR = 1;	
 	
-	public double distance = -1d;
+	public double distance;
 	public float laserPitch = 0.0f;
 	public float laserYaw = 0.0f;
 	public short maxTicks = 0;
 	
-	public short damageTicks = 1;
-	public boolean moveWithShooter = false;
+	public short damageTicks;
+	public boolean moveWithShooter;
 	public EnumBulletFirePos firePos;
 	
-	protected boolean traceDone = false;
+	public boolean traceDone = false;
 	
 	public GenericBeamProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter,
 			CompoundTag data) {
@@ -96,9 +96,9 @@ public class GenericBeamProjectile extends GenericProjectile{
 			this.setRotation(p.headYaw, p.pitch);
 //			this.setRotation(p.headYaw +(float) (spread - (2 * Math.random() * spread)) * 40.0f,
 //					p.pitch + (float) (spread - (2 * Math.random() * spread)) * 40.0f);
-			System.out.println("UPDATE BEAM - pitch:"+pitch+" yaw:"+yaw);
+			//System.out.println("UPDATE BEAM - pitch:"+pitch+" yaw:"+yaw);
 		}else {
-			System.out.println("OWNER = NULL!");
+			//System.out.println("OWNER = NULL!");
 		}
 		float offsetSide=0.16F;
 		float offsetHeight=0f;
@@ -199,6 +199,7 @@ public class GenericBeamProjectile extends GenericProjectile{
 		if (distance <= 0) {
 			distance = this.speed;
 		}
+		System.out.println("distance="+distance);
 		
 		return pos_dst_final;
 			
