@@ -41,9 +41,9 @@ public class PacketEntityAdditionalSpawnData extends TGBasePacket {
 		if(ent!=null && ent instanceof GenericProjectile) {
 			GenericProjectile projectile = (GenericProjectile) ent;
 			projectile.parseAdditionalData(this.additionalData);
+			projectile.clientInitializeFinal();
 		}
 	}
-
 
 	@Override
 	public Identifier getID() {
