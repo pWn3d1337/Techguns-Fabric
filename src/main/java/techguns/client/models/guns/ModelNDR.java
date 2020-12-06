@@ -10,6 +10,9 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
+import techguns.api.guns.IGenericGun;
 import techguns.client.models.ModelMultipart;
 import techguns.client.render.TGRenderHelper;
 import techguns.client.render.fx.IScreenEffect.RenderType;
@@ -85,8 +88,17 @@ public class ModelNDR extends ModelMultipart {
 	public ModelPart shape60_2;
 	public ModelPart glowA1;
 
+	@Override
+	public RenderLayer getLayerForPart(IGenericGun gun, ItemStack stack, Identifier texture, int part) {
+		if (part==0) {
+			return this.getLayer(texture);
+		} else {
+			return RenderLayer.getEntityTranslucent(texture);
+		}
+	}
+	
 	public ModelNDR() {
-		super(RenderLayer::getEntitySolid);
+		super(RenderLayer::getEntityCutout);
 		this.textureWidth = 64;
 		this.textureHeight = 64;
 		this.shape14_1 = new ModelPart(this, 54, 15);
@@ -352,87 +364,91 @@ public class ModelNDR extends ModelMultipart {
 			float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
 			int overlay) {
 
-		this.shape14_1.render(matrices, vertices, light, overlay);
-		this.shape1_8.render(matrices, vertices, light, overlay);
-		this.shape14_9.render(matrices, vertices, light, overlay);
-		this.shape1_2.render(matrices, vertices, light, overlay);
-		this.sixside.render(matrices, vertices, light, overlay);
-		this.shape14_3.render(matrices, vertices, light, overlay);
-		this.shape99.render(matrices, vertices, light, overlay);
-		this.shape14_6.render(matrices, vertices, light, overlay);
-		this.shape58.render(matrices, vertices, light, overlay);
-		this.shape14_5.render(matrices, vertices, light, overlay);
-		this.shape1_7.render(matrices, vertices, light, overlay);
-		this.shape14_12.render(matrices, vertices, light, overlay);
-		this.shape99_2.render(matrices, vertices, light, overlay);
-		this.shape45_.render(matrices, vertices, light, overlay);
-		this.shape14_10.render(matrices, vertices, light, overlay);
-		this.shape58_1.render(matrices, vertices, light, overlay);
-		this.shape84_6.render(matrices, vertices, light, overlay);
-		this.shape84_7.render(matrices, vertices, light, overlay);
-		this.shape1_11.render(matrices, vertices, light, overlay);
-		this.shape14_8.render(matrices, vertices, light, overlay);
-		this.shape14_4.render(matrices, vertices, light, overlay);
-		this.shape84_2.render(matrices, vertices, light, overlay);
-		this.shape1_1.render(matrices, vertices, light, overlay);
-		this.shape99_1.render(matrices, vertices, light, overlay);
-		this.shape15.render(matrices, vertices, light, overlay);
-		this.sixside_1.render(matrices, vertices, light, overlay);
-		this.shape84_5.render(matrices, vertices, light, overlay);
-		this.shape14_11.render(matrices, vertices, light, overlay);
-		this.shape84_3.render(matrices, vertices, light, overlay);
-		this.shape1.render(matrices, vertices, light, overlay);
-		this.shape1_9.render(matrices, vertices, light, overlay);
-		this.shape14_2.render(matrices, vertices, light, overlay);
-		this.shape84.render(matrices, vertices, light, overlay);
-		this.shape1_4.render(matrices, vertices, light, overlay);
-		this.shape1_10.render(matrices, vertices, light, overlay);
-		this.shape84_1.render(matrices, vertices, light, overlay);
-		this.shape84_4.render(matrices, vertices, light, overlay);
-		this.shape14.render(matrices, vertices, light, overlay);
-		this.shape1_6.render(matrices, vertices, light, overlay);
-		this.shape1_3.render(matrices, vertices, light, overlay);
-		this.shape58_2.render(matrices, vertices, light, overlay);
-		this.shape14_7.render(matrices, vertices, light, overlay);
-		this.shape1_5.render(matrices, vertices, light, overlay);
+		//TGRenderHelper.enableBlendMode(RenderType.ALPHA);
+		
+		if (part == 0) {
+			this.shape14_1.render(matrices, vertices, light, overlay);
+			this.shape1_8.render(matrices, vertices, light, overlay);
+			this.shape14_9.render(matrices, vertices, light, overlay);
+			this.shape1_2.render(matrices, vertices, light, overlay);
+			this.sixside.render(matrices, vertices, light, overlay);
+			this.shape14_3.render(matrices, vertices, light, overlay);
+			this.shape99.render(matrices, vertices, light, overlay);
+			this.shape14_6.render(matrices, vertices, light, overlay);
+			this.shape58.render(matrices, vertices, light, overlay);
+			this.shape14_5.render(matrices, vertices, light, overlay);
+			this.shape1_7.render(matrices, vertices, light, overlay);
+			this.shape14_12.render(matrices, vertices, light, overlay);
+			this.shape99_2.render(matrices, vertices, light, overlay);
+			this.shape45_.render(matrices, vertices, light, overlay);
+			this.shape14_10.render(matrices, vertices, light, overlay);
+			this.shape58_1.render(matrices, vertices, light, overlay);
+			this.shape84_6.render(matrices, vertices, light, overlay);
+			this.shape84_7.render(matrices, vertices, light, overlay);
+			this.shape1_11.render(matrices, vertices, light, overlay);
+			this.shape14_8.render(matrices, vertices, light, overlay);
+			this.shape14_4.render(matrices, vertices, light, overlay);
+			this.shape84_2.render(matrices, vertices, light, overlay);
+			this.shape1_1.render(matrices, vertices, light, overlay);
+			this.shape99_1.render(matrices, vertices, light, overlay);
+			this.shape15.render(matrices, vertices, light, overlay);
+			this.sixside_1.render(matrices, vertices, light, overlay);
+			this.shape84_5.render(matrices, vertices, light, overlay);
+			this.shape14_11.render(matrices, vertices, light, overlay);
+			this.shape84_3.render(matrices, vertices, light, overlay);
+			this.shape1.render(matrices, vertices, light, overlay);
+			this.shape1_9.render(matrices, vertices, light, overlay);
+			this.shape14_2.render(matrices, vertices, light, overlay);
+			this.shape84.render(matrices, vertices, light, overlay);
+			this.shape1_4.render(matrices, vertices, light, overlay);
+			this.shape1_10.render(matrices, vertices, light, overlay);
+			this.shape84_1.render(matrices, vertices, light, overlay);
+			this.shape84_4.render(matrices, vertices, light, overlay);
+			this.shape14.render(matrices, vertices, light, overlay);
+			this.shape1_6.render(matrices, vertices, light, overlay);
+			this.shape1_3.render(matrices, vertices, light, overlay);
+			this.shape58_2.render(matrices, vertices, light, overlay);
+			this.shape14_7.render(matrices, vertices, light, overlay);
+			this.shape1_5.render(matrices, vertices, light, overlay);
+	
+			//
+			// System.out.println("FireProgress= "+fireProgress);
+	
+	
+			this.GLOW.render(matrices, vertices, bright_light, overlay);
+		}
+		if (part == 1 && fireProgress > 0) {
 
-		//
-		// System.out.println("FireProgress= "+fireProgress);
-
-		TGRenderHelper.enableBlendMode(RenderType.ALPHA);
-		this.GLOW.render(matrices, vertices, light, overlay);
-		if (fireProgress > 0) {
-
-			RenderSystem.disableCull();
+			//RenderSystem.disableCull();
 
 			matrices.push();
 			float s = (float) (0.90 + Math.sin(fireProgress * 2.0 * Math.PI) * 0.1);
 
 			matrices.scale(s, s, s);
 
-			this.glowA1.render(matrices, vertices, light, overlay);
+			this.glowA1.render(matrices, vertices, bright_light, overlay);
 			this.glowA1.pitch = 63.0f * ((float) MathUtil.D2R);
-			this.glowA1.render(matrices, vertices, light, overlay);
+			this.glowA1.render(matrices, vertices, bright_light, overlay);
 			this.glowA1.pitch = 117.0f * ((float) MathUtil.D2R);
-			this.glowA1.render(matrices, vertices, light, overlay);
+			this.glowA1.render(matrices, vertices, bright_light, overlay);
 			this.glowA1.pitch = 155.0f * ((float) MathUtil.D2R);
-			this.glowA1.render(matrices, vertices, light, overlay);
+			this.glowA1.render(matrices, vertices, bright_light, overlay);
 			this.glowA1.pitch = -155.0f * ((float) MathUtil.D2R);
-			this.glowA1.render(matrices, vertices, light, overlay);
+			this.glowA1.render(matrices, vertices, bright_light, overlay);
 			this.glowA1.pitch = -117.0f * ((float) MathUtil.D2R);
-			this.glowA1.render(matrices, vertices, light, overlay);
+			this.glowA1.render(matrices, vertices, bright_light, overlay);
 			this.glowA1.pitch = -63.0f * ((float) MathUtil.D2R);
-			this.glowA1.render(matrices, vertices, light, overlay);
+			this.glowA1.render(matrices, vertices, bright_light, overlay);
 			this.glowA1.pitch = -25.0f * ((float) MathUtil.D2R);
-			this.glowA1.render(matrices, vertices, light, overlay);
+			this.glowA1.render(matrices, vertices, bright_light, overlay);
 			this.glowA1.pitch = 25.0f * ((float) MathUtil.D2R);
 
 			matrices.pop();
 
-			RenderSystem.enableCull();
+			//RenderSystem.enableCull();
 		}
 
-		TGRenderHelper.disableBlendMode(RenderType.ALPHA);
+		//TGRenderHelper.disableBlendMode(RenderType.ALPHA);
 		//
 	}
 }

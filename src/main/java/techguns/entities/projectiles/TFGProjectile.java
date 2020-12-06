@@ -29,9 +29,9 @@ public class TFGProjectile extends GenericProjectile{
 	
 	public TFGProjectile(EntityType<? extends ProjectileEntity> entityType, World world) {
 		super(entityType, world);
-		if (world.isClient) {	
-			this.createTrailFX();
-		}
+//		if (world.isClient) {	
+//			this.createTrailFX();
+//		}
 	}
 
 	public TFGProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity p, float damage, float speed, int TTL, float spread,
@@ -50,9 +50,14 @@ public class TFGProjectile extends GenericProjectile{
 	
 	public TFGProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
 		super(T, world, shooter, data);
-		if (world.isClient) {	
-			this.createTrailFX();
-		}
+//		if (world.isClient) {	
+//			this.createTrailFX();
+//		}
+	}
+	
+	@Override
+	public void clientInitializeFinal() {
+		this.createTrailFX();
 	}
 
 	protected void createTrailFX() {
