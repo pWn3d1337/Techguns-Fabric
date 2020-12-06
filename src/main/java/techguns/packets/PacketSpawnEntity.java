@@ -16,13 +16,7 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.math.Vec3d;
 import techguns.TGEntities;
-import techguns.entities.projectiles.BioGunProjectile;
-import techguns.entities.projectiles.GenericBeamProjectile;
-import techguns.entities.projectiles.GenericProjectile;
-import techguns.entities.projectiles.GuidedMissileProjectile;
-import techguns.entities.projectiles.RocketProjectile;
-import techguns.entities.projectiles.StoneBulletProjectile;
-import techguns.entities.projectiles.TFGProjectile;
+import techguns.entities.projectiles.*;
 
 public class PacketSpawnEntity extends EntitySpawnS2CPacket implements Packet<ClientPlayPacketListener>{
 
@@ -90,6 +84,9 @@ public class PacketSpawnEntity extends EntitySpawnS2CPacket implements Packet<Cl
 		
 		} else if(this.getEntityTypeId() == TGEntities.GENERIC_BEAM_PROJECTILE) {
 			ent = new GenericBeamProjectile(TGEntities.GENERIC_BEAM_PROJECTILE, mc.player.world,shooter, additionalData);
+
+		} else if(this.getEntityTypeId() == TGEntities.GRENADE_PROJECTILE){
+			ent = new GrenadeProjectile(TGEntities.GRENADE_PROJECTILE, mc.player.world, shooter, additionalData);
 		}
 
 		if (ent != null) {

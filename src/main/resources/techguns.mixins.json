@@ -19,7 +19,8 @@
     "WorldRendererMixin",
     "AbstractClientPlayerEntityMixin",
     "MinecraftClientMixin",
-    "InGameHudMixin"
+    "InGameHudMixin",
+    "ModelLoaderMixin"
    ],
   "injectors": {
     "defaultRequire": 1

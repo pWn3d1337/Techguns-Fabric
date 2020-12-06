@@ -11,6 +11,7 @@ import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.RocketProjectile;
 import techguns.entities.projectiles.TFGProjectile;
 import techguns.entities.projectiles.StoneBulletProjectile;
+import techguns.entities.projectiles.*;
 import techguns.items.guns.Chainsaw;
 import techguns.items.guns.ChargedProjectileSelector;
 import techguns.items.guns.EnumCrosshairStyle;
@@ -65,6 +66,8 @@ public class TGuns implements ITGInitializer {
 	public static GenericGun VECTOR;
 	public static GenericGun M4_INFILTRATOR;
 	public static GenericGun GRIM_REAPER;
+	public static GenericGun GAUSS_RIFLE;
+	public static GenericGun GRENADE_LAUNCHER;
 	
 	public static ProjectileSelector<GenericProjectile> ASSAULTRIFLE_MAG_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> SNIPER_MAG_PROJECTILES;
@@ -75,6 +78,8 @@ public class TGuns implements ITGInitializer {
 	public static ProjectileSelector<GenericProjectile> LMG_MAG_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> RIFLE_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> PISTOL_PROJECTILES;
+	public static ProjectileSelector<GenericProjectile> GAUSS_PROJECTILES;
+	public static ProjectileSelector<GrenadeProjectile> GRENADE40MM_PROJECTILES;
 	
 	public static ProjectileSelector<RocketProjectile> ROCKET_PROJECTILES;
 	
@@ -121,6 +126,13 @@ public class TGuns implements ITGInitializer {
 		
 		
 		
+
+		//GAUSS_PROJECTILES = new ProjectileSelector<GaussProjectile>(AmmoTypes.AMMO_GAUSS_RIFLE, new GaussProjectile.Factory());
+		//TODO gauss projectiles
+		GAUSS_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.AMMO_GAUSS_RIFLE, new GenericProjectile.Factory());
+
+		GRENADE40MM_PROJECTILES = new ProjectileSelector<GrenadeProjectile>(AmmoTypes.GRENADES_40MM, new GrenadeProjectile.Factory(0,3));
+
 		HANDCANNON = reg(new GenericGun("handcannon", new ProjectileSelector<StoneBulletProjectile>(AmmoTypes.STONE_BULLETS, new StoneBulletProjectile.Factory()), true, 12,1,30, 8.0f, TGSounds.HANDGUN_FIRE, TGSounds.HANDGUN_RELOAD,25,0.035f).setBulletSpeed(1.0f).setGravity(0.015d).setDamageDrop(10, 25, 5.0f).setAIStats(RANGE_CLOSE, 60, 0, 0).setRecoiltime(12).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
 		
 		SAWEDOFF = reg(new GenericGun("sawedoff",SHOTGUN_PROJECTILES, true, 4, 2, 28, 4.0f, TGSounds.SAWEDOFF_FIRE, TGSounds.SAWEDOFF_RELOAD,10, 0.01f).setAmmoCount(2).setShotgunSpread(7,0.2f,false).setDamageDrop(1, 4, 1.5f).setAIStats(RANGE_CLOSE, 60, 2, 20).setBulletSpeed(1.5f).setCrossHair(EnumCrosshairStyle.FOUR_PARTS));
@@ -171,8 +183,11 @@ public class TGuns implements ITGInitializer {
 	
 		//TODO Fix TTL/Speed
 		NUCLEAR_DEATHRAY = reg(new GenericGun("nucleardeathray", NDR_PROJECTILES, false, 5, 40, 50, 0.6f, TGSounds.BEAMGUN_FIRE, TGSounds.LASERGUN_RELOAD, MAX_RANGE_SNIPER/* TODO? Beamgun.LIFETIME*/, 0.0f).setFiresoundStart(TGSounds.BEAMGUN_START).setMaxLoopDelay(10).setFireFX("BeamGunMuzzleFX", 0.16f, 0f, 0.8f).setRecoiltime(10).setCheckRecoil().setBulletSpeed(100.0f).setAIStats(RANGE_MEDIUM, 40, 5, 5).setPenetration(PENETRATION_MED).setDamageDrop(20, 40, 1.0f).setHandType(GunHandType.TWO_HANDED).setTurretPosOffset(0, 0.04f, -0.19f).setCrossHair(EnumCrosshairStyle.TRI));
-		 
-	
+
+		GAUSS_RIFLE = reg(new GenericGun("gaussrifle", GAUSS_PROJECTILES, true, 30, 8, 60, 40.0f, TGSounds.GAUSS_RIFLE_FIRE, TGSounds.GAUSS_RIFLE_RELOAD, MAX_RANGE_SNIPER, 0.025f).setZoom(0.35f, true,0.0f,true).setBulletSpeed(5.0f).setAIStats(RANGE_FAR, 30, 0, 0).setRechamberSound(TGSounds.GAUSS_RIFLE_RECHAMBER).setRecoiltime(8).setTurretPosOffset(0, -0.02f, 0.12f).setMuzzleLight(0f, 0.8f, 1.0f).setForwardOffset(0.45f).setPenetration(PENETRATION_MED_HIGH).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART_LARGE));
+
+		GRENADE_LAUNCHER = reg(new GenericGun("grenadelauncher", GRENADE40MM_PROJECTILES, true, 5, 6, 100, 30.0f, TGSounds.GRENADE_LAUNCHER_FIRE, TGSounds.GRENADE_LAUNCHER_RELOAD, 160, 0.015f).setBulletSpeed(0.5f).setAIStats(RANGE_MEDIUM, 40, 3, 20).setAmmoCount(6).setDamageDrop(4.0f, 8.0f, 12f).setGravity(0.01d).setRangeTooltipType(RangeTooltipType.RADIUS).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
+
 	}
 	
 	public static GenericGun reg(GenericGun gun) {

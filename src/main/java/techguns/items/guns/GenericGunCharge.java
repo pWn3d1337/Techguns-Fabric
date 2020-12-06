@@ -12,6 +12,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import techguns.TGItems;
 import techguns.TGPacketsS2C;
@@ -22,6 +23,7 @@ import techguns.client.ShooterValues;
 import techguns.entities.projectiles.EnumBulletFirePos;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.items.guns.ammo.DamageModifier;
+import techguns.packets.PacketEntityAdditionalSpawnData;
 import techguns.packets.PacketSpawnParticleOnEntity;
 import techguns.sounds.TGSoundCategory;
 import techguns.util.EntityCondition;
@@ -314,6 +316,9 @@ public class GenericGunCharge extends GenericGun {
 				projectile.shiftForward(offset/modified_speed);
 			}
 			world.spawnEntity(projectile);
+			if(!world.isClient) {
+				TGPacketsS2C.sentToAllTrackingPos(new PacketEntityAdditionalSpawnData(projectile), world, new BlockPos(projectile.getPos()));
+			}
 		}
 	}
 

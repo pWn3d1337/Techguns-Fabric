@@ -50,7 +50,12 @@ public class TGItems implements ITGInitializer {
 	
 	public static Item NUCLEAR_POWERCELL;
 	public static Item NUCLEAR_POWERCELL_EMPTY;
-	
+
+	public static Item REDSTONE_BATTERY;
+	public static Item REDSTONE_BATTERY_EMPTY;
+
+	public static Item GAUSSRIFLE_SLUGS;
+
 	/**
 	 * MATERIALS
 	 */
@@ -147,11 +152,7 @@ public class TGItems implements ITGInitializer {
 	public static ItemStack OXYGEN_MASK;
 	
 	public static ItemStack MACHINE_UPGRADE_STACK;
-	
-	public static ItemStack REDSTONE_BATTERY;
-	public static ItemStack REDSTONE_BATTERY_EMPTY;
-	
-	public static ItemStack GAUSSRIFLE_SLUGS;
+
 	public static ItemStack BARREL_GAUSS;
 	
 	//Ammo Variants
@@ -261,7 +262,10 @@ public class TGItems implements ITGInitializer {
 		NUCLEAR_POWERCELL = addAmmoItem("nuclearpowercell");
 		NUCLEAR_POWERCELL_EMPTY = addAmmoItem("nuclearpowercelldepleted");
 		
-		
+		REDSTONE_BATTERY = addAmmoItem("redstonebattery");
+		REDSTONE_BATTERY_EMPTY = addAmmoItem("redstonebatteryempty");
+
+		GAUSSRIFLE_SLUGS = addAmmoItem("gaussrifleslugs");
 	}
 
 	protected static Item addAmmoItem(String name) {

@@ -142,7 +142,7 @@ public class GenericProjectile extends ProjectileEntity {
 	 */
 	public GenericProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
 		this(T, world, shooter, 0, 0,0,0,0,0,0,0,false, EnumBulletFirePos.CENTER);
-		this.parseAdditionalData(data);
+		//this.parseAdditionalData(data);
 	}
 	
 	float damage;
@@ -646,6 +646,13 @@ public class GenericProjectile extends ProjectileEntity {
 		this.getAdditionalSpawnData(data);
 	    return new PacketSpawnEntity(this, owner == null ? 0 : owner.getEntityId(), data);//new EntitySpawnS2CPacket(this, entity == null ? 0 : entity.getEntityId());
 		//return new PacketSpawnEntity(this.getEntityId(), this.uuid, this.getX(), this.getY(), this.getZ(), this.pitch, this.yaw, this.getType(), owner == null ? 0 : owner.getEntityId(), this.getVelocity(), data);
+	}
+
+	/**
+	 * Called after additional spawn data packet is parsed
+	 */
+	@Environment(EnvType.CLIENT)
+	public void clientInitializeFinal(){
 	}
 
 	@Override
