@@ -2,6 +2,10 @@ package techguns.entities.projectiles;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+
+import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.Lists;
 
@@ -530,9 +534,38 @@ public class GenericProjectile extends ProjectileEntity {
     	}
     }
 
-	public EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
-		return ProjectileUtil.getEntityCollision(this.world, this, currentPosition, nextPosition,
-				this.getBoundingBox().stretch(this.getVelocity()).expand(1.0D), this::method_26958);
+//	public EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
+//		return ProjectileUtil.getEntityCollision(this.world, this, currentPosition, nextPosition,
+//				this.getBoundingBox().stretch(this.getVelocity()).expand(1.0D), this::method_26958);
+//	}
+	
+
+    public EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
+		double d = Double.MAX_VALUE;
+		Entity entity2 = null;
+		Box box = this.getBoundingBox().stretch(this.getVelocity()).expand(1.0D);
+		Iterator<Entity> var9 = world.getOtherEntities(this, box, this::method_26958).iterator();
+
+		Vec3d hitVec = null;
+		while (var9.hasNext()) {
+			Entity entity3 = (Entity) var9.next();
+			Box box2 = entity3.getBoundingBox().expand(0.30000001192092896D);
+			Optional<Vec3d> optional = box2.raycast(currentPosition, nextPosition);
+			if (optional.isPresent()) {
+				double e = currentPosition.squaredDistanceTo((Vec3d) optional.get());
+				if (e < d) {
+					entity2 = entity3;
+					d = e;
+					hitVec = optional.get();
+				}
+			}
+		}
+
+		if (entity2 == null) {
+			return null;
+		} else {
+			return new EntityHitResult(entity2, hitVec);
+		}
 	}
 	
 	

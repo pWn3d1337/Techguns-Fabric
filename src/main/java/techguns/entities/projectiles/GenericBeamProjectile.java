@@ -1,5 +1,6 @@
 package techguns.entities.projectiles;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
@@ -7,17 +8,26 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.hit.HitResult.Type;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import techguns.TGEntities;
+import techguns.TGPacketsS2C;
 import techguns.api.damagesystem.DamageType;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.IProjectileFactory;
+import techguns.packets.PacketGunImpactFX;
+import techguns.packets.PacketSpawnParticle;
+import techguns.util.MathUtil;
 
 public class GenericBeamProjectile extends GenericProjectile{
 
@@ -34,6 +44,8 @@ public class GenericBeamProjectile extends GenericProjectile{
 	
 	public boolean traceDone = false;
 	
+	public String impactFX = "";
+	
 	public GenericBeamProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter,
 			CompoundTag data) {
 		super(T, world, shooter, data);
@@ -43,12 +55,14 @@ public class GenericBeamProjectile extends GenericProjectile{
 
 	public GenericBeamProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity p, float damage,
 			float speed, int TTL, float spread, float dmgDropStart, float dmgDropEnd, float dmgMin, float penetration,
-			boolean blockdamage, EnumBulletFirePos firePos, short damageTicks, boolean moveWithShooter, byte projectileType) {
+			boolean blockdamage, EnumBulletFirePos firePos, short damageTicks, boolean moveWithShooter, byte projectileType, String impactFX) {
 		super(T, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos);
 		this.maxTicks = (short)this.ticksToLive;
 		this.damageTicks = damageTicks;
 		this.moveWithShooter = moveWithShooter;
 		this.projectileType = projectileType;
+		this.firePos = firePos;
+		this.impactFX = impactFX;
 		this.updateBeamPosition();
 	}
 
@@ -60,8 +74,8 @@ public class GenericBeamProjectile extends GenericProjectile{
 
 	public GenericBeamProjectile(World world, LivingEntity p, float damage, float speed, int TTL, float spread,
 			float dmgDropStart, float dmgDropEnd, float dmgMin, float penetration, boolean blockdamage,
-			EnumBulletFirePos firePos, short damageTicks, boolean moveWithShooter, byte projectileType) {
-		this(TGEntities.GENERIC_BEAM_PROJECTILE, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos,  damageTicks, moveWithShooter, projectileType);
+			EnumBulletFirePos firePos, short damageTicks, boolean moveWithShooter, byte projectileType, String impactFX) {
+		this(TGEntities.GENERIC_BEAM_PROJECTILE, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos,  damageTicks, moveWithShooter, projectileType, impactFX);
 	}
 
 	
@@ -104,9 +118,7 @@ public class GenericBeamProjectile extends GenericProjectile{
 		}else {
 			//System.out.println("OWNER = NULL!");
 		}
-		float offsetSide=0.16F;
-		float offsetHeight=0f;
-		
+
 		//TODO NPC Shooter
 		/*if(this.shooter!=null && shooter instanceof INPCTechgunsShooter) {
 			INPCTechgunsShooter tgshooter = (INPCTechgunsShooter) this.shooter;
@@ -120,18 +132,31 @@ public class GenericBeamProjectile extends GenericProjectile{
 		posY = pos.y;
 		posZ = pos.z;
 		
-		if (firePos==EnumBulletFirePos.RIGHT) {
-			posX -= (double) (MathHelper.cos(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
-			//this.posY -= 0.10000000149011612D;
-			posZ -= (double) (MathHelper.sin(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
-		} else if(firePos==EnumBulletFirePos.LEFT) {
-			posX += (double) (MathHelper.cos(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
-			//this.posY -= 0.10000000149011612D;
-			posZ += (double) (MathHelper.sin(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
-		} 
-		posY += (-0.10000000149011612D+offsetHeight);
+//		if (firePos==EnumBulletFirePos.RIGHT) {
+//			posX -= (double) (MathHelper.cos(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+//			//this.posY -= 0.10000000149011612D;
+//			posZ -= (double) (MathHelper.sin(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+//		} else if(firePos==EnumBulletFirePos.LEFT) {
+//			posX += (double) (MathHelper.cos(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+//			//this.posY -= 0.10000000149011612D;
+//			posZ += (double) (MathHelper.sin(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+//		} 
+//		posY += (-0.10000000149011612D+offsetHeight);
 		
-		this.updatePosition(posX, posY, posZ);
+		float offsetSide = 0.16F;
+		float offsetHeight = -0.10000000149011612F;
+		float offsetForward = 0.35f;
+		
+		float offsetZ = 0.0F;
+		if (this.firePos == EnumBulletFirePos.RIGHT) {
+			offsetZ = offsetSide;
+		} else if (this.firePos == EnumBulletFirePos.LEFT) {
+			offsetZ = -offsetSide;
+		}
+		
+		Vec3d offset = new Vec3d(offsetForward, offsetHeight, offsetZ).rotateZ((float)(MathUtil.D2R*this.pitch)).rotateY((float) (MathUtil.D2R*-(this.yaw+90f)));
+		
+		this.updatePosition(posX+offset.x, posY+offset.y, posZ+offset.z);
 		
 		Vec3d motion = this.getVelocity();
 		double motionX = motion.x;
@@ -203,10 +228,40 @@ public class GenericBeamProjectile extends GenericProjectile{
 		if (distance <= 0) {
 			distance = this.speed;
 		}
-		System.out.println("distance="+distance);
+		//System.out.println("distance="+distance);
 		
 		return pos_dst_final;
 			
+	}
+	
+	@Override
+	protected void onHitEffect(LivingEntity livingEntity, EntityHitResult entityHitResult) {
+		//Vec3d dir = this.getVelocity().normalize().negate().multiply(0.1);
+		Vec3d pos = entityHitResult.getPos();
+		System.out.println("EntityHit pos:"+pos+", EntityPos:"+entityHitResult.getEntity().getPos());
+		if(!this.world.isClient) {
+			TGPacketsS2C.sendToAllTracking(new PacketSpawnParticle(this.impactFX, pos.x, pos.y, pos.z), this, true);
+			//TGPacketsS2C.sendToAllTracking(new PacketSpawnParticle(this.impactFX, pos.x, pos.y, pos.z, dir.x, dir.y, dir.z), this, true);
+			//TGPacketsS2C.sendToAllAroundEntity(new PacketSpawnParticle(this.impactFX, pos.x, pos.y, pos.z, dir.x, dir.y, dir.z), this, 50.0f);
+    	}
+	}
+	
+	@Override
+	protected void doImpactEffects(BlockHitResult rayTraceResult) {
+		if (rayTraceResult.getType() == Type.MISS) return;
+		
+    	Vec3d dir;
+    	if (rayTraceResult.getType() == Type.BLOCK) {
+    		Vec3i dir_i = rayTraceResult.getSide().getVector();
+    		dir = new Vec3d(dir_i.getX(), dir_i.getY(), dir_i.getZ()).multiply(0.1);
+    	}else {
+    		dir = this.getVelocity().normalize().negate().multiply(0.1);
+    	}
+		Vec3d pos = rayTraceResult.getPos();
+		if(!this.world.isClient) {
+			TGPacketsS2C.sendToAllTracking(new PacketSpawnParticle(this.impactFX, pos.x, pos.y, pos.z, dir.x, dir.y, dir.z), this, true);
+			//TGPacketsS2C.sendToAllAroundEntity(new PacketSpawnParticle(this.impactFX, pos.x, pos.y, pos.z, dir.x, dir.y, dir.z), this, 50.0f);
+    	}
 	}
 	
 	@Override
@@ -217,6 +272,7 @@ public class GenericBeamProjectile extends GenericProjectile{
 		tag.putFloat("laserYaw", this.laserYaw);
 		tag.putShort("maxTicks", this.maxTicks);
 		tag.putBoolean("moveWithShooter", this.moveWithShooter);
+		tag.putByte("firePos", (byte)this.firePos.ordinal());
 	}
 
 	@Override
@@ -227,6 +283,11 @@ public class GenericBeamProjectile extends GenericProjectile{
 		this.laserYaw = tag.getFloat("laserYaw");
 		this.maxTicks = tag.getShort("maxTicks");
 		this.moveWithShooter = tag.getBoolean("moveWithShooter");
+		byte firepos = tag.getByte("firePos");
+		if (firepos >= 0 && firepos < EnumBulletFirePos.values().length) {
+			this.firePos = EnumBulletFirePos.values()[firepos];
+		}
+				
 	}
 
 	@Override
@@ -237,6 +298,7 @@ public class GenericBeamProjectile extends GenericProjectile{
 		tag.putFloat("laserYaw", this.laserYaw);
 		tag.putShort("maxTicks", this.maxTicks);
 		tag.putBoolean("moveWithShooter", this.moveWithShooter);
+		tag.putByte("firePos", (byte)this.firePos.ordinal());
 	}
 	
 	@Override
@@ -247,6 +309,10 @@ public class GenericBeamProjectile extends GenericProjectile{
 		this.laserYaw = tag.getFloat("laserYaw");
 		this.maxTicks = tag.getShort("maxTicks");
 		this.moveWithShooter = tag.getBoolean("moveWithShooter");
+		byte firepos = tag.getByte("firePos");
+		if (firepos >= 0 && firepos < EnumBulletFirePos.values().length) {
+			this.firePos = EnumBulletFirePos.values()[firepos];
+		}
 	}
 	
 	public static class Factory implements IProjectileFactory<GenericBeamProjectile> {
@@ -254,11 +320,13 @@ public class GenericBeamProjectile extends GenericProjectile{
 		protected short damageTicks = 1;
 		protected boolean moveWithShooter = false;
 		protected byte projectileType = 0;
+		protected String impactFX;
 		
-		public Factory(int damageTicks, boolean moveWithShooter, byte projectileType) {
+		public Factory(int damageTicks, boolean moveWithShooter, byte projectileType, String impactFX) {
 			this.damageTicks = (short)damageTicks;
 			this.moveWithShooter = moveWithShooter;
 			this.projectileType = projectileType;
+			this.impactFX = impactFX;
 		}
 
 		@Override
@@ -269,8 +337,8 @@ public class GenericBeamProjectile extends GenericProjectile{
 		@Override
 		public GenericBeamProjectile createProjectile(GenericGun gun, World world, LivingEntity p, float damage, float speed, int TTL, float spread, float dmgDropStart, float dmgDropEnd,
 				float dmgMin, float penetration, boolean blockdamage, EnumBulletFirePos firePos, float radius, double gravity) {
-			TTL = 15;
-			return new GenericBeamProjectile(world,p,damage,speed,TTL,spread,dmgDropStart,dmgDropEnd,dmgMin,penetration,blockdamage,firePos, damageTicks, moveWithShooter, projectileType);
+			TTL = 10;
+			return new GenericBeamProjectile(world,p,damage,speed,TTL,spread,dmgDropStart,dmgDropEnd,dmgMin,penetration,blockdamage,firePos, damageTicks, moveWithShooter, projectileType, impactFX);
 		}
 
 		@Override

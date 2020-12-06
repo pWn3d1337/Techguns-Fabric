@@ -1835,7 +1835,7 @@ Frames = 16
 HasVariations = false
 RandomRotation = true
 Lifetime = 5 6
-SystemLifetime = 0 0
+SystemLifetime = 5 5
 AnimationSpeed = 1 1
 Size = 0.25 0.5
 SizeRate = 0.15 0.25
@@ -1863,7 +1863,7 @@ IsHollow = false
 RemoveOnGround = false
 SystemVelocityFactor = 0 0
 //particlesMoveWithSystem = true
-offset = 0.0 0 1
+offset = 0.0 0 0
 }
 
 BeamGunMuzzleSparks {
@@ -1876,7 +1876,7 @@ Frames = 1
 HasVariations = false
 RandomRotation = true
 Lifetime = 12 16
-SystemLifetime = 0 0
+SystemLifetime = 5 5
 AnimationSpeed = 1 1
 Size = 0.1 0.2
 SizeRate = 0.1 0.1
@@ -1902,7 +1902,7 @@ VolumeType = POINT
 IsHollow = false
 RemoveOnGround = false
 SystemVelocityFactor = 0 0
-offset = 0.0 0 1
+offset = 0.0 0 0
 }
 
 FXLIST BeamGunImpactFX {

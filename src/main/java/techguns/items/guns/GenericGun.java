@@ -58,8 +58,10 @@ import techguns.items.guns.ammo.AmmoTypes;
 import techguns.items.guns.ammo.DamageModifier;
 import techguns.packets.GunFiredMessage;
 import techguns.packets.PacketEntityAdditionalSpawnData;
+import techguns.packets.PacketSpawnParticleOnEntity;
 import techguns.packets.ReloadStartedMessage;
 import techguns.sounds.TGSoundCategory;
+import techguns.util.EntityCondition;
 import techguns.util.InventoryUtil;
 import techguns.util.SoundUtil;
 import techguns.util.TextUtil;
@@ -121,6 +123,11 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	
 	int lockOnTicks = 0; //MaximumLockOnTime
 	int lockOnPersistTicks = 0;
+	
+	String fireFX = null;
+	float fireFXoffsetX = 0;
+	float fireFXoffsetY = 0;
+	float fireFXoffsetZ = 0;
 	
 	EnumCrosshairStyle crossHairStyle = EnumCrosshairStyle.GUN_DYNAMIC;
 	
@@ -591,7 +598,21 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 			        		}
 			        	}
 			        	this.shootGun(world, player,stack, accuracybonus,1.0f,ATTACK_TYPE, hand,firePos, target);
-			        	        	
+			        	      
+			        	/*
+			        	 * Fire FX
+			        	 */
+			        	if (this.fireFX != null) {
+							float x;
+							if (firePos == EnumBulletFirePos.RIGHT) {
+								x = -this.fireFXoffsetX;
+							} else {
+								x = this.fireFXoffsetX;
+							}
+							float y = this.fireFXoffsetY - 0.10000000149011612f;
+							TGPacketsS2C.sendToAllTracking(new PacketSpawnParticleOnEntity(this.fireFX, player, x, y, this.fireFXoffsetZ, true, EntityCondition.ENTITY_ALIVE), player, true);
+						}
+			        	
 			        } else {
 			        	/*
 			        	 * If CLIENT, do Effects
@@ -638,6 +659,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		        	if (!(rechamberSound==null)) {
 		        		SoundUtil.playSoundOnEntityGunPosition(world, player, rechamberSound, 1.0F, 1.0F, false, false, TGSoundCategory.RELOAD);
 		        	}
+		        	
 			        
 		    	} else {
 		    		//System.out.println(Thread.currentThread().toString()+": Skip shot, can't fire yet");
@@ -1101,6 +1123,14 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		return this;
 	}
 
+	public GenericGun setFireFX(String fx, float offsetX, float offsetY, float offsetZ) {
+		this.fireFX = fx;
+		this.fireFXoffsetX = offsetX;
+		this.fireFXoffsetY = offsetY;
+		this.fireFXoffsetZ = offsetZ;
+		return this;
+	}
+	
 	/**
 	 * Override in Subclass to define damagesource used for player melee attacks, only relevant if "shootWithLeftClick" is not set
 	 * @return

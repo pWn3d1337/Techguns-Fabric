@@ -239,7 +239,7 @@ public class ClientProxy implements ClientModInitializer {
 					{0.11f,-0.08f,0f}, //GUI
 					{0f,0f,0.15f}, //Ground
 					{-0.23f,-0.08f,-0.05f} //frame
-				}).setMuzzleFXPos3P(0.11f, -0.83f).setRecoilAnim(GunAnimation.swayRecoil, 0.025f, 0.75f));
+				}).setMuzzleFXPos3P(0.11f, -0.83f).setRecoilAnim(GunAnimation.swayRecoil, 0.0f, 0.0f)); // 0.025f, 0.75f));
 		TGRenderRegistries.registerItemRenderer(TGuns.COMBAT_SHOTGUN,new RenderGunBase90(new ModelCombatShotgun(),2, new TGIdentifier("textures/guns/combatshotgun.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE-0.1f)
 				.setGUIScale(0.45f).setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.21f, -0.91f, 0.75f,0).setTransformTranslations(new float[][]{
 					{0f,0.03f,0f}, //First Person
