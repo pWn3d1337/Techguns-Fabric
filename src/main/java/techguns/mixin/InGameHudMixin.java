@@ -1,5 +1,6 @@
 package techguns.mixin;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -25,10 +26,10 @@ public abstract class InGameHudMixin extends DrawableHelper {
 	
 	@Inject(at = @At("HEAD"), method = "renderCrosshair", cancellable = true)
 	public void renderCrosshair(MatrixStack matrices, CallbackInfo info) {
-		
-		TGGuiRender.renderTechgunsHUD(this, matrices, client, scaledWidth, scaledHeight);
-		
 		boolean showCustomCrosshair = TGGuiRender.renderCrosshair(this, matrices, client, scaledWidth, scaledHeight);
+
+		TGGuiRender.renderTechgunsHUD(this, matrices, client, scaledWidth, scaledHeight);
+
 		if (showCustomCrosshair) {
 			info.cancel();
 		}

@@ -13,6 +13,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
 import techguns.TGIdentifier;
+import techguns.client.render.TGRenderHelper;
 import techguns.entities.projectiles.GenericProjectile;
 
 public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>{
@@ -41,10 +42,11 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 	public RenderLayer getRenderLayer(GenericProjectile entity){
 		switch (entity.getProjectileType()){
 			case GenericProjectile.PROJECTILE_TYPE_BLASTER:
-				return RenderLayer.getEntityAlpha(this.getTexture(entity), 0.85f);
+			case GenericProjectile.PROJECTILE_TYPE_ADVANCED:
+				return TGRenderHelper.getProjectileAdditive(this.getTexture(entity));
 			case GenericProjectile.PROJECTILE_TYPE_DEFAULT:
 			default:
-				return RenderLayer.getEntityCutout(this.getTexture(entity));
+				return TGRenderHelper.getProjectileCutout(this.getTexture(entity));
 		}
 	}
 
@@ -64,13 +66,12 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 			matrixStack.scale(0.05625F, 0.05625F, 0.05625F);
 			matrixStack.translate(-4.0D, 0.0D, 0.0D);
 			VertexConsumer vertexConsumer = vertexConsumerProvider
-					.getBuffer(RenderLayer.getEntityCutout(this.getTexture(entity)));
+					.getBuffer(this.getRenderLayer(entity));
 			MatrixStack.Entry entry = matrixStack.peek();
 			Matrix4f model_mat = entry.getModel();
-			Matrix3f normal_mat = entry.getNormal();
 
-			int length = 8;
-			int width = 2;
+			float length = 10f;
+			float width = 1.5f;
 			
 			float u1 = 0.0f;
 	        float u2 = 1.0f;
@@ -79,20 +80,19 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 			
 			for (int u = 0; u < 4; ++u) {
 				matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(90.0F));
-				this.addVertex(model_mat, normal_mat, vertexConsumer, -length, -width, 0, u1,v1, 0, 1, 0, light);
-				this.addVertex(model_mat, normal_mat, vertexConsumer, length, -width, 0, u2,v1, 0, 1, 0, light);
-				this.addVertex(model_mat, normal_mat, vertexConsumer, length, width, 0, u2,v2, 0, 1, 0, light);
-				this.addVertex(model_mat, normal_mat, vertexConsumer, -length, width, 0, u1,v2, 0, 1, 0, light);
+				this.addVertex(model_mat, vertexConsumer, -length, -width, 0f, u1,v1, light);
+				this.addVertex(model_mat, vertexConsumer, length, -width, 0f, u2,v1, light);
+				this.addVertex(model_mat, vertexConsumer, length, width, 0f, u2,v2, light);
+				this.addVertex(model_mat, vertexConsumer, -length, width, 0f, u1,v2, light);
 			}
 
 			matrixStack.pop();
 		}
 	}
 
-	public void addVertex(Matrix4f model_mat, Matrix3f normal_mat, VertexConsumer vertexConsumer, int x, int y, int z,
-			float u, float v, int nx, int ny, int nz, int light) {
-		vertexConsumer.vertex(model_mat, (float) x, (float) y, (float) z).color(255, 255, 255, 255).texture(u, v)
-				.overlay(OverlayTexture.DEFAULT_UV).light(light).normal(normal_mat, (float) nx, (float) ny, (float) nz).next();
+	public void addVertex(Matrix4f model_mat, VertexConsumer vertexConsumer, float x, float y, float z,
+			float u, float v, int light) {
+		vertexConsumer.vertex(model_mat, x, y,  z).texture(u, v).color(255, 255, 255, 255).light(light).next();
 	}
 
 }

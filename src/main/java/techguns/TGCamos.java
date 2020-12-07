@@ -57,9 +57,6 @@ public class TGCamos implements ITGInitializer {
 		registerWeaponCamo(TGuns.PDW, new TGIdentifier("silver"), new TGIdentifier("textures/guns/pdw_1.png"));
 		registerWeaponCamo(TGuns.PDW, new TGIdentifier("green"), new TGIdentifier("textures/guns/pdw_2.png"));
 
-		registerWeaponCamo(TGuns.GAUSS_RIFLE, DEFAULT, new TGIdentifier("textures/guns/gaussrifle.png"));
-		registerWeaponCamo(TGuns.GAUSS_RIFLE, new TGIdentifier("green"), new TGIdentifier("textures/guns/gaussrifle_1.png"));
-
 
 		FabricItemGroupBuilder.create(
 				new TGIdentifier("techguns_camos"))
