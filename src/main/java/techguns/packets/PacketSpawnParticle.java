@@ -21,6 +21,9 @@ public class PacketSpawnParticle extends TGBasePacket {
 	protected double motionZ=0.0D;
 	
 	protected float scale = 1.0f;
+
+	protected float pitch=0.0f;
+	protected float yaw=0.0f;
 	
 	public PacketSpawnParticle() {
 		super();
@@ -49,6 +52,20 @@ public class PacketSpawnParticle extends TGBasePacket {
 		this.motionY = motionY;
 		this.motionZ = motionZ;
 	}
+
+	public PacketSpawnParticle(String name, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, float pitch, float yaw, float scale) {
+		super();
+		this.name=name;
+		this.posX = posX;
+		this.posY = posY;
+		this.posZ = posZ;
+		this.motionX = motionX;
+		this.motionY = motionY;
+		this.motionZ = motionZ;
+		this.pitch = pitch;
+		this.yaw = yaw;
+		this.scale=scale;
+	}
 	
 	public PacketSpawnParticle(String name, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, float scale) {
 		this(name, posX, posY, posZ, motionX, motionY, motionZ);
@@ -69,6 +86,8 @@ public class PacketSpawnParticle extends TGBasePacket {
 		this.motionZ=buf.readDouble();
 		
 		this.scale = buf.readFloat();
+		this.pitch = buf.readFloat();
+		this.yaw = buf.readFloat();
 	}
 
 	@Override
@@ -86,12 +105,15 @@ public class PacketSpawnParticle extends TGBasePacket {
 		buf.writeDouble(motionZ);
 		
 		buf.writeFloat(scale);
+
+		buf.writeFloat(pitch);
+		buf.writeFloat(yaw);
 	}
 	
 
 	@Override
 	public void handle(PlayerEntity player) {
-		ClientProxy.get().createFX(name, player.world, posX, posY, posZ, motionX, motionY, motionZ, scale);
+		ClientProxy.get().createFX(name, player.world, posX, posY, posZ, motionX, motionY, motionZ, pitch, yaw, scale);
 	}
 
 	@Override

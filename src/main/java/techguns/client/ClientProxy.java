@@ -391,7 +391,7 @@ public class ClientProxy implements ClientModInitializer {
 				}).setMuzzleFXPos3P(0.14f, -0.82f));
 
 		TGRenderRegistries.registerItemRenderer(TGuns.GAUSS_RIFLE,new RenderGunBase90(new ModelGaussRifle(), 1, new TGIdentifier("textures/guns/gaussrifle.png"))
-				.setBaseTranslation(0.6f, 0f, RenderItemBase.SCALE*0.5f-0.09f)
+				.setBaseTranslation(-0.6f, 0f, RenderItemBase.SCALE*0.5f-0.09f)
 				.setBaseScale(0.9f).setGUIScale(0.25f).setMuzzleFx(ScreenEffect.muzzleFlashSonic, 0, 0.21f, -1.56f, 1.0f,0).setTransformTranslations(new float[][]{
 						{0f,0.12f,-0.1f}, //First Person
 						{0f,0.05f,-0.17f}, //Third Person
@@ -399,6 +399,60 @@ public class ClientProxy implements ClientModInitializer {
 						{0f,0f,0.f}, //Ground
 						{0f,0f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.09f, -1.26f).setRecoilAnim(GunAnimation.genericRecoil, 0.25f, 7.5f).setScope(ScreenEffect.techScope,2.125f).setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.15f, 1.0f));
+
+		TGRenderRegistries.registerItemRenderer(TGuns.PDW,new RenderGunBase90(new ModelPDW(),1, new TGIdentifier("textures/guns/pdw.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE*1.5f-0.1f)
+				.setGUIScale(0.55f).setMuzzleFx(ScreenEffect.muzzleFlash_blue, 0, 0.13f, -0.58f, 0.55f ,0).setTransformTranslations(new float[][]{
+						{0.0f, 0.09f, -0.04f}, //First Person
+						{0f, 0.06f, -0.02f}, //Third Person
+						{0f, 0f, 0f}, //GUI
+						{0f, 0f, 0f}, //Ground
+						{0f,0f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.11f, -0.41f).setMuzzleFlashJitter(0.01f, 0.01f, 5.0f, 0.1f).setRecoilAnim(GunAnimation.genericRecoil,  0.06f, 4.0f));
+
+		TGRenderRegistries.registerItemRenderer(TGuns.PULSERIFLE,new RenderGunBase90(new ModelPulseRifle(),1, new TGIdentifier("textures/guns/pulserifle.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE*1.5f - 0.09f)
+				.setGUIScale(0.45f).setMuzzleFx(ScreenEffect.muzzleFlash_blue, 0, 0.22f, -0.76f, 0.6f,0).setTransformTranslations(new float[][]{
+						{0f,0.16f,0.01f}, //First Person
+						{0f,0.05f,0.08f}, //Third Person
+						{0.05f,0f,0f}, //GUI
+						{0f,0f,0f}, //Ground
+						{0f,0f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.1f, -0.50f).setScope(ScreenEffect.techScope,2.125f).setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.10f, 1.5f).setRecoilAnim(GunAnimation.pulseRifleRecoil, 0.25f, 10.0f));
+
+		TGRenderRegistries.registerItemRenderer(TGuns.POWERHAMMER,new RenderGunBase90(new ModelPowerHammer(),2, new TGIdentifier("textures/guns/powerhammer.png")).setBaseTranslation(0.15f, -0.2f, RenderItemBase.SCALE-0.09f)
+				.setBaseScale(1.25f).setGUIScale(0.45f).setMuzzleFx(null, 0, 0.26f, -0.67f, 0.5f,0).setTransformTranslations(new float[][]{
+						{0f,0.18f,0.09f}, //First Person
+						{0f,0.04f,0.04f}, //Third Person
+						{0.03f,0.01f,0f}, //GUI
+						{0f,0f,0f}, //Ground
+						{-0.07f,-0.03f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.12f, -0.65f).setChargeTranslationAmount(0.125f));
+
+		TGRenderRegistries.registerItemRenderer(TGuns.MININGDRILL,new RenderGunBase90(new ModelMiningDrill(),2, new TGIdentifier("textures/guns/miningdrill_obsidian.png")).setBaseTranslation(0, -0.2f, -RenderItemBase.SCALE*0.5f).setBaseScale(2.0f)
+				.setGUIScale(0.35f).setTransformTranslations(new float[][]{
+						{0f,-0.03f,0.0f}, //First Person
+						{0f,-0.57f,0.08f}, //Third Person
+						{0.01f,-0.01f,0f}, //GUI
+						{0f,0f,0f}, //Ground
+						{0f,-0.08f,-0.05f} //frame
+				}).setRecoilAnim(GunAnimation.genericRecoil, 0.05f, 1.0f));
+
+		TGRenderRegistries.registerItemRenderer(TGuns.LASERPISTOL,new RenderGunBase(new ModelLaserPistol(),1, new TGIdentifier("textures/guns/laser_pistol.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.3f, -0.4f)
+				.setBaseScale(1.2f).setGUIScale(0.7f).setMuzzleFx(ScreenEffect.muzzleFlashLaser, 0.03f, 0.2f, -0.5f, 0.55f,-0.03f).setTransformTranslations(new float[][]{
+						{0,0.09f,-0.02f}, //First Person
+						{0.0f,-0.03f,0.0f}, //Third Person
+						{0.02f,-0.08f,0}, //GUI
+						{0.02f,-0.08f,0}, //Ground
+						{0,0,0f} //frame
+				}).setRecoilAnim(GunAnimation.genericRecoil, 0.0125f, 6.0f).setMuzzleFXPos3P(0.07f, -0.26f));
+
+		TGRenderRegistries.registerItemRenderer(TGuns.LASERGUN,new RenderGunBase90(new ModelLasergun(),1, new TGIdentifier("textures/guns/lasergun.png")).setBaseTranslation(0.25f, -0.2f, RenderItemBase.SCALE*0.5f-0.10f)
+				.setBaseScale(1.1f).setGUIScale(0.40f).setMuzzleFx(ScreenEffect.muzzleFlashLaser, 0, 0.30f, -1.06f, 0.5f,0).setTransformTranslations(new float[][]{
+						{0f,0.15f,0.04f}, //First Person
+						{0f,0.02f,0.01f}, //Third Person
+						{0.13f,0.01f,0f}, //GUI
+						{0f,0f,0.15f}, //Ground
+						{-0.18f,0f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.11f, -0.83f).setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 5.0f));
 
 
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (dispatcher, context) -> {
@@ -594,6 +648,17 @@ public class ClientProxy implements ClientModInitializer {
 		List<TGParticleSystem> systems = TGFX.createFX(world, name, posX, posY, posZ, motionX, motionY, motionZ);
 		if (systems!=null) {
 			for (TGParticleSystem s : systems) {
+				s.scale = scale;
+				particleManager.addEffect(s);
+			}
+		}
+	}
+	public void createFX(String name, World world, double posX, double posY, double posZ, double motionX, double motionY, double motionZ, float pitch, float yaw, float scale){
+		List<TGParticleSystem> systems = TGFX.createFX(world, name, posX, posY, posZ, motionX, motionY, motionZ);
+		if (systems!=null) {
+			for (TGParticleSystem s : systems) {
+				s.rotationPitch = pitch;
+				s.rotationYaw = yaw;
 				s.scale = scale;
 				particleManager.addEffect(s);
 			}

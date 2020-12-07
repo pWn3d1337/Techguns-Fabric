@@ -26,6 +26,7 @@ import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.BlockSoundGroup;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -40,7 +41,9 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import techguns.TGEntities;
 import techguns.TGPacketsS2C;
+import techguns.TGSounds;
 import techguns.api.damagesystem.DamageType;
+import techguns.client.ClientProxy;
 import techguns.damagesystem.TGDamageSource;
 import techguns.deatheffects.EntityDeathUtils.DeathType;
 import techguns.items.guns.GenericGun;
@@ -54,6 +57,7 @@ public class GenericProjectile extends ProjectileEntity {
 	public static final byte PROJECTILE_TYPE_DEFAULT=0;
 	public static final byte PROJECTILE_TYPE_ADVANCED=3;
 	public static final byte PROJECTILE_TYPE_BLASTER=4;
+	public static final byte PROJECTILE_TYPE_GAUSS=5;
 
 	public GenericProjectile(EntityType<? extends ProjectileEntity> entityType, World world) {
 		super(entityType, world);
@@ -470,6 +474,11 @@ public class GenericProjectile extends ProjectileEntity {
 	 * @param entityHitResult 
 	 */
 	protected void onHitEffect(LivingEntity livingEntity, EntityHitResult entityHitResult) {
+		if(this.getProjectileType()==PROJECTILE_TYPE_GAUSS && !this.world.isClient){
+			Vec3d pos = entityHitResult.getPos();
+			TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("GaussRifleImpact_Block", pos.x, pos.y, pos.z, 0,0,0, 0, 0, 1.0f), this.world, entityHitResult.getPos(), 64.0f);
+
+		}
 	}
 
 	protected int getPierceLevel() {
@@ -481,7 +490,7 @@ public class GenericProjectile extends ProjectileEntity {
 		super.onBlockHit(blockHitResult);
 		
 		doImpactEffects(blockHitResult);
-		
+
 		this.removeOnHit(blockHitResult);
 	}
 	
@@ -516,9 +525,40 @@ public class GenericProjectile extends ProjectileEntity {
 
 
     	if (this.getProjectileType()==PROJECTILE_TYPE_BLASTER) {
-			if(!this.world.isClient) {
-				TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("LaserGunImpact", x,y,z), this.world, rayTraceResult.getPos(), 32.0f);
+			if (!this.world.isClient) {
+				TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("LaserGunImpact", x, y, z), this.world, rayTraceResult.getPos(), 32.0f);
 			}
+		} else if ((this.getProjectileType()==PROJECTILE_TYPE_GAUSS || this.getProjectileType()==PROJECTILE_TYPE_ADVANCED) && !this.world.isClient){
+			if(sound == BlockSoundGroup.STONE) {
+				this.world.playSound(null, x, y, z, TGSounds.BULLET_IMPACT_STONE, SoundCategory.AMBIENT, 1.0f, 1.0f);
+				TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("Impact_BulletRock_Blue", x, y, z, 0,0,0, pitch, yaw, 1.0f), this.world, rayTraceResult.getPos(), 32.0f);
+
+			} else if(sound == BlockSoundGroup.WOOD || sound == BlockSoundGroup.LADDER) {
+				this.world.playSound(null, x, y, z, TGSounds.BULLET_IMPACT_WOOD, SoundCategory.AMBIENT, 1.0f, 1.0f);
+				TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("Impact_BulletWood_Blue", x, y, z, 0,0,0, pitch, yaw, 1.0f), this.world, rayTraceResult.getPos(), 32.0f);
+
+			} else if(sound == BlockSoundGroup.GLASS) {
+				this.world.playSound(null,x, y, z, TGSounds.BULLET_IMPACT_GLASS, SoundCategory.AMBIENT, 1.0f, 1.0f);
+				TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("Impact_BulletGlass_Blue", x, y, z, 0,0,0, pitch, yaw, 1.0f), this.world, rayTraceResult.getPos(), 32.0f);
+
+			} else if(sound == BlockSoundGroup.METAL || sound == BlockSoundGroup.ANVIL) {
+				this.world.playSound(null, x, y, z, TGSounds.BULLET_IMPACT_METAL, SoundCategory.AMBIENT, 1.0f, 1.0f);
+				TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("Impact_BulletMetal_Blue", x, y, z, 0,0,0, pitch, yaw, 1.0f), this.world, rayTraceResult.getPos(), 32.0f);
+
+			} else if(sound == BlockSoundGroup.GRAVEL || sound == BlockSoundGroup.SAND) {
+				this.world.playSound(null, x, y, z, TGSounds.BULLET_IMPACT_DIRT, SoundCategory.AMBIENT, 1.0f, 1.0f);
+				TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("Impact_BulletDirt_Blue", x, y, z, 0,0,0, pitch, yaw, 1.0f), this.world, rayTraceResult.getPos(), 32.0f);
+
+			} else {
+				this.world.playSound(null, x, y, z, TGSounds.BULLET_IMPACT_DIRT, SoundCategory.AMBIENT, 1.0f, 1.0f);
+				TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("Impact_BulletDefault_Blue", x, y, z, 0,0,0, pitch, yaw, 1.0f), this.world, rayTraceResult.getPos(), 32.0f);
+			}
+
+			//extra FX for gauss projectile
+			if(this.getProjectileType()==PROJECTILE_TYPE_GAUSS){
+				TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("GaussRifleImpact_Block", x, y, z, 0,0,0, pitch, yaw, 1.0f), this.world, rayTraceResult.getPos(), 64.0f);
+			}
+
 		} else {
     		//Default bullets
 			int type = -1;
@@ -717,6 +757,9 @@ public class GenericProjectile extends ProjectileEntity {
 	 */
 	@Environment(EnvType.CLIENT)
 	public void clientInitializeFinal(){
+		if (this.projectileType==PROJECTILE_TYPE_GAUSS){
+			ClientProxy.get().createFXOnEntity("GaussProjectileTrail", this);
+		}
 	}
 
 	@Override
