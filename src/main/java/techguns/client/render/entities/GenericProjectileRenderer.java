@@ -17,6 +17,8 @@ import techguns.entities.projectiles.GenericProjectile;
 
 public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>{
 	private static final Identifier bulletTextures = new TGIdentifier("textures/entity/bullet1.png");
+	private static final Identifier blasterTextures = new TGIdentifier("textures/fx/laser3.png");
+
 
 	public GenericProjectileRenderer(EntityRenderDispatcher dispatcher) {
 		super(dispatcher);
@@ -24,7 +26,24 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 
 	@Override
 	public Identifier getTexture(GenericProjectile entity) {
-		return bulletTextures;
+		switch (entity.getProjectileType()){
+			case GenericProjectile.PROJECTILE_TYPE_BLASTER:
+				return blasterTextures;
+			case GenericProjectile.PROJECTILE_TYPE_DEFAULT:
+			default:
+				return bulletTextures;
+		}
+
+	}
+
+	public RenderLayer getRenderLayer(GenericProjectile entity){
+		switch (entity.getProjectileType()){
+			case GenericProjectile.PROJECTILE_TYPE_BLASTER:
+				return RenderLayer.getEntityAlpha(this.getTexture(entity), 0.85f);
+			case GenericProjectile.PROJECTILE_TYPE_DEFAULT:
+			default:
+				return RenderLayer.getEntityCutout(this.getTexture(entity));
+		}
 	}
 
 	@Override

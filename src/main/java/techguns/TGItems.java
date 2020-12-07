@@ -56,6 +56,7 @@ public class TGItems implements ITGInitializer {
 
 	public static Item GAUSSRIFLE_SLUGS;
 
+	public static Item NETHER_CHARGE;
 	/**
 	 * MATERIALS
 	 */
@@ -122,7 +123,6 @@ public class TGItems implements ITGInitializer {
 	public static ItemStack SONIC_EMITTER;
 	
 	public static ItemStack TGX;
-	public static ItemStack NETHER_CHARGE;
 	public static ItemStack TREATED_LEATHER;
 	public static ItemStack ORE_TITANIUM;
 	
@@ -266,6 +266,8 @@ public class TGItems implements ITGInitializer {
 		REDSTONE_BATTERY_EMPTY = addAmmoItem("redstonebatteryempty");
 
 		GAUSSRIFLE_SLUGS = addAmmoItem("gaussrifleslugs");
+
+		NETHER_CHARGE = addAmmoItem("nethercharge");
 	}
 
 	protected static Item addAmmoItem(String name) {

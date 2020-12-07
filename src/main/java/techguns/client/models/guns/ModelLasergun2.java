@@ -57,7 +57,7 @@ public class ModelLasergun2 extends ModelMultipart {
 
 public ModelLasergun2()
 {
-        super(RenderLayer::getEntitySolid);
+        super(RenderLayer::getEntityCutout);
 	  textureWidth = 128;
 	    textureHeight = 128;
 	    

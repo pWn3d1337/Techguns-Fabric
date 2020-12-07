@@ -40,7 +40,7 @@ public class GrenadeProjectile extends GenericProjectile {
     }
 
     protected void playBounceSound() {
-        world.playSound(this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_IRON_GOLEM_ATTACK, SoundCategory.PLAYERS, 1.0f, 1.0f, false);
+        world.playSound(this.getX(), this.getY(), this.getZ(), SoundEvents.ENTITY_IRON_GOLEM_HURT, SoundCategory.PLAYERS, 1.0f, 1.0f, false);
     }
 
     protected void explode(){
@@ -130,20 +130,24 @@ public class GrenadeProjectile extends GenericProjectile {
     @Override
     protected void writeCustomDataToTag(CompoundTag tag) {
         super.writeCustomDataToTag(tag);
+        tag.putByte("bounces", (byte)this.bounces);
     }
 
     @Override
     protected void readCustomDataFromTag(CompoundTag tag) {
         super.readCustomDataFromTag(tag);
+        this.bounces = tag.getByte("bounces");
     }
 
     @Override
     public void getAdditionalSpawnData(CompoundTag data) {
         super.getAdditionalSpawnData(data);
+        data.putByte("bounces", (byte)this.bounces);
     }
 
     @Override
     public void parseAdditionalData(CompoundTag data) {
         super.parseAdditionalData(data);
+        this.bounces = data.getByte("bounces");
     }
 }

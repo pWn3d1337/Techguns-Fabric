@@ -37,7 +37,7 @@ public class ModelNetherBlaster extends ModelMultipart {
 	ModelPart Glow4;
 
 	public ModelNetherBlaster() {
-        super(RenderLayer::getEntitySolid);
+        super(RenderLayer::getEntityCutout);
 		textureWidth = 64;
 		textureHeight = 64;
 

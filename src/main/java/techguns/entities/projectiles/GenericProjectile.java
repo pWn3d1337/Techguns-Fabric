@@ -3,9 +3,8 @@ package techguns.entities.projectiles;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.block.Blocks;
 
 import com.google.common.collect.Lists;
 
@@ -21,7 +20,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
@@ -49,9 +47,14 @@ import techguns.items.guns.GenericGun;
 import techguns.items.guns.IProjectileFactory;
 import techguns.packets.PacketGunImpactFX;
 import techguns.packets.PacketSpawnEntity;
+import techguns.packets.PacketSpawnParticle;
 
 public class GenericProjectile extends ProjectileEntity {
-	
+
+	public static final byte PROJECTILE_TYPE_DEFAULT=0;
+	public static final byte PROJECTILE_TYPE_ADVANCED=3;
+	public static final byte PROJECTILE_TYPE_BLASTER=4;
+
 	public GenericProjectile(EntityType<? extends ProjectileEntity> entityType, World world) {
 		super(entityType, world);
 	}
@@ -281,6 +284,7 @@ public class GenericProjectile extends ProjectileEntity {
 			}
 
 			m = this.getDragInWater();
+			this.inWaterTick();
 		}
 
 		this.setVelocity(vec3d.multiply((double) m));
@@ -316,6 +320,12 @@ public class GenericProjectile extends ProjectileEntity {
 		} else {
 			this.remove();
 		}
+	}
+
+	/**
+	 * override for additional logic when in water, like dying
+	 */
+	protected void inWaterTick(){
 	}
 	
 	@Override
@@ -481,14 +491,14 @@ public class GenericProjectile extends ProjectileEntity {
 	
 	protected void doImpactEffects(BlockHitResult rayTraceResult) {
 		if (rayTraceResult.getType() == Type.MISS) return;
-		
+
 		BlockState blockhit = this.world.getBlockState(rayTraceResult.getBlockPos());
 		BlockSoundGroup sound = blockhit.getSoundGroup();
-		
+
     	double x = rayTraceResult.getPos().x;
     	double y = rayTraceResult.getPos().y;
     	double z = rayTraceResult.getPos().z;
-    	
+
     	float pitch = 0.0f;
     	float yaw = 0.0f;
     	if (rayTraceResult.getType() == Type.BLOCK) {
@@ -503,25 +513,33 @@ public class GenericProjectile extends ProjectileEntity {
     		pitch = -this.pitch;
     		yaw = -this.yaw;
     	}
-    	
-    	int type =-1;
-    	if(sound==BlockSoundGroup.STONE) {
-			type=0;
-			
-		} else if(sound==BlockSoundGroup.WOOD || sound==BlockSoundGroup.LADDER) {
-			type=1;
-			
-		} else if(sound==BlockSoundGroup.GLASS) {
-			type=2;
-			
-		} else if(sound==BlockSoundGroup.METAL || sound==BlockSoundGroup.ANVIL) {
-			type=3;
-			
-		} else if(sound ==BlockSoundGroup.GRAVEL || sound == BlockSoundGroup.SAND) {
-			type=4;
-			
-		} 
-    	this.sendImpactFX(x, y, z, pitch, yaw, type);
+
+
+    	if (this.getProjectileType()==PROJECTILE_TYPE_BLASTER) {
+			if(!this.world.isClient) {
+				TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("LaserGunImpact", x,y,z), this.world, rayTraceResult.getPos(), 32.0f);
+			}
+		} else {
+    		//Default bullets
+			int type = -1;
+			if (sound == BlockSoundGroup.STONE) {
+				type = 0;
+
+			} else if (sound == BlockSoundGroup.WOOD || sound == BlockSoundGroup.LADDER) {
+				type = 1;
+
+			} else if (sound == BlockSoundGroup.GLASS) {
+				type = 2;
+
+			} else if (sound == BlockSoundGroup.METAL || sound == BlockSoundGroup.ANVIL) {
+				type = 3;
+
+			} else if (sound == BlockSoundGroup.GRAVEL || sound == BlockSoundGroup.SAND) {
+				type = 4;
+
+			}
+			this.sendImpactFX(x, y, z, pitch, yaw, type);
+		}
 	}
 
     protected void sendImpactFX(double x, double y, double z, float pitch, float yaw, int type) {
@@ -567,8 +585,33 @@ public class GenericProjectile extends ProjectileEntity {
 			return new EntityHitResult(entity2, hitVec);
 		}
 	}
-	
-	
+
+	public static void burnBlocks(World world, BlockHitResult hitResult, double chanceToIgnite) {
+		if(world.isClient) return;
+
+		if (Math.random() <= chanceToIgnite) {
+			BlockPos hit = hitResult.getBlockPos();
+
+			switch (hitResult.getSide()) {
+				case DOWN:
+					if (world.isAir(hit.down())) world.setBlockState(hit.down(), Blocks.FIRE.getDefaultState());
+					break;
+				case UP:
+					if (world.isAir(hit.up())) {
+						if (world.getBlockState(hit) == Blocks.FARMLAND.getDefaultState()) world.setBlockState(hit, Blocks.DIRT.getDefaultState());
+						world.setBlockState(hit.up(), Blocks.FIRE.getDefaultState());
+					}
+					break;
+				default:
+					BlockPos p = hit.offset(hitResult.getSide());
+					if(world.isAir(p)) {
+						world.setBlockState(p, Blocks.FIRE.getDefaultState());
+					}
+			}
+
+		}
+	}
+
 	//Check which entities are valid targets
 	protected boolean method_26958(Entity entity) {
 		return super.method_26958(entity) && (this.piercedEntities == null || !this.piercedEntities.contains(entity.getEntityId()));
@@ -581,13 +624,25 @@ public class GenericProjectile extends ProjectileEntity {
 	 * @return
 	 */
 	protected TGDamageSource getProjectileDamageSource() {
-		TGDamageSource src = TGDamageSource.causeBulletDamage(this, this.shooter, DeathType.GORE);
+		TGDamageSource src=null;
+		if (getProjectileType()==PROJECTILE_TYPE_BLASTER){
+			src = TGDamageSource.causeEnergyDamage(this, this.shooter, DeathType.LASER);
+		} else {
+			src =TGDamageSource.causeBulletDamage(this, this.shooter, DeathType.GORE);
+		}
 		src.armorPenetration = this.penetration;
 		src.setNoKnockback();
 		return src;
 	}
 	
 	public static class Factory implements IProjectileFactory<GenericProjectile> {
+
+		protected byte projectileType;
+
+		public Factory(){};
+		public Factory(int projectileType) {
+			this.projectileType = (byte)projectileType;
+		}
 
 		@Override
 		public GenericProjectile createProjectile(GenericGun gun, World world, LivingEntity p, float damage, float speed, int TTL, float spread, float dmgDropStart, float dmgDropEnd,
@@ -597,9 +652,18 @@ public class GenericProjectile extends ProjectileEntity {
 
 		@Override
 		public DamageType getDamageType() {
-			return DamageType.PROJECTILE;
+			switch(projectileType){
+				case GenericProjectile.PROJECTILE_TYPE_BLASTER:
+					return DamageType.ENERGY;
+				default:
+					return DamageType.PROJECTILE;
+			}
 		}
-		
+
+		@Override
+		public byte getProjectileType() {
+			return this.projectileType;
+		}
 	}
 	
     @Override

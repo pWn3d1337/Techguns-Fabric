@@ -68,7 +68,13 @@ public class TGuns implements ITGInitializer {
 	public static GenericGun GRIM_REAPER;
 	public static GenericGun GAUSS_RIFLE;
 	public static GenericGun GRENADE_LAUNCHER;
-	
+	public static GenericGun FLAMETHROWER;
+	public static GenericGun ALIENBLASTER;
+	public static GenericGun MIBGUN;
+	public static GenericGun NETHERBLASTER;
+	public static GenericGun BLASTERRIFLE;
+	public static GenericGun BLASTERSHOTGUN;
+
 	public static ProjectileSelector<GenericProjectile> ASSAULTRIFLE_MAG_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> SNIPER_MAG_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> MINIGUN_MAG_PROJECTILES;
@@ -84,6 +90,11 @@ public class TGuns implements ITGInitializer {
 	public static ProjectileSelector<RocketProjectile> ROCKET_PROJECTILES;
 	
 	public static ProjectileSelector<GenericBeamProjectile> NDR_PROJECTILES;
+	public static ProjectileSelector<FlamethrowerProjectile> FLAMETHROWER_PROJECTILES;
+	public static ProjectileSelector<GenericProjectileFX> ALIENBLASTER_PROJECTILES;
+	public static ProjectileSelector<GenericProjectileFX> DEATOMIZER_PROJECTILES;
+	public static ProjectileSelector<GenericProjectileFX> NETHERBLASTER_PROJECTILES;
+	public static ProjectileSelector<GenericProjectile> BLASTER_ENERGYCELL_PROJECTILES;
 	
 	public static ChargedProjectileSelector<GuidedMissileProjectile> GUIDED_MISSILE_PROJECTILES;
 	public static ChargedProjectileSelector<BioGunProjectile> BIOGUN_PROJECTILES;
@@ -123,9 +134,15 @@ public class TGuns implements ITGInitializer {
 		
 		SHOTGUN_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.SHOTGUN_ROUNDS, GENERIC_PROJECTILE, GENERIC_PROJECTILE);//TODO new GenericProjectileIncendiary.Factory(true));
 		NDR_PROJECTILES = new ProjectileSelector<GenericBeamProjectile>(AmmoTypes.NUCLEAR_POWER_CELL, new GenericBeamProjectile.Factory(15, true, GenericBeamProjectile.BEAM_TYPE_NDR, "BeamGunImpactFX"));
-		
-		
-		
+
+		FLAMETHROWER_PROJECTILES = new ProjectileSelector<FlamethrowerProjectile>(AmmoTypes.FUEL_TANK, new FlamethrowerProjectile.Factory());
+
+		ALIENBLASTER_PROJECTILES =  new ProjectileSelector<GenericProjectileFX>(AmmoTypes.ENERGY_CELL, new GenericProjectileFX.Factory(GenericProjectileFX.PROJECTILE_TYPE_ALIENBLASTER));
+		DEATOMIZER_PROJECTILES = new ProjectileSelector<GenericProjectileFX>(AmmoTypes.ENERGY_CELL, new GenericProjectileFX.Factory(GenericProjectileFX.PROJECTILE_TYPE_DEATOMIZER));
+
+		NETHERBLASTER_PROJECTILES = new ProjectileSelector<GenericProjectileFX>(AmmoTypes.NETHER_CHARGE, new GenericProjectileFX.Factory(GenericProjectileFX.PROJECTILE_TYPE_NETHERBLASTER));
+
+		BLASTER_ENERGYCELL_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.ENERGY_CELL, new GenericProjectile.Factory(GenericProjectile.PROJECTILE_TYPE_BLASTER));
 
 		//GAUSS_PROJECTILES = new ProjectileSelector<GaussProjectile>(AmmoTypes.AMMO_GAUSS_RIFLE, new GaussProjectile.Factory());
 		//TODO gauss projectiles
@@ -187,6 +204,18 @@ public class TGuns implements ITGInitializer {
 		GAUSS_RIFLE = reg(new GenericGun("gaussrifle", GAUSS_PROJECTILES, true, 30, 8, 60, 40.0f, TGSounds.GAUSS_RIFLE_FIRE, TGSounds.GAUSS_RIFLE_RELOAD, MAX_RANGE_SNIPER, 0.025f).setZoom(0.35f, true,0.0f,true).setBulletSpeed(5.0f).setAIStats(RANGE_FAR, 30, 0, 0).setRechamberSound(TGSounds.GAUSS_RIFLE_RECHAMBER).setRecoiltime(8).setTurretPosOffset(0, -0.02f, 0.12f).setMuzzleLight(0f, 0.8f, 1.0f).setForwardOffset(0.45f).setPenetration(PENETRATION_MED_HIGH).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART_LARGE));
 
 		GRENADE_LAUNCHER = reg(new GenericGun("grenadelauncher", GRENADE40MM_PROJECTILES, true, 5, 6, 100, 30.0f, TGSounds.GRENADE_LAUNCHER_FIRE, TGSounds.GRENADE_LAUNCHER_RELOAD, 160, 0.015f).setBulletSpeed(0.5f).setAIStats(RANGE_MEDIUM, 40, 3, 20).setAmmoCount(6).setDamageDrop(4.0f, 8.0f, 12f).setGravity(0.01d).setRangeTooltipType(RangeTooltipType.RADIUS).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
+
+		FLAMETHROWER = reg(new GenericGun("flamethrower", FLAMETHROWER_PROJECTILES, false, 2, 100, 45, 5.0f, TGSounds.FLAMETHROWER_FIRE, TGSounds.FLAMETHROWER_RELOAD,16,0.05f).setBulletSpeed(0.5f).setGravity(0.01d).setFiresoundStart(TGSounds.FLAMETHROWER_START).setMaxLoopDelay(10).setDamageDrop(4, 16, 2.0f).setAIStats(RANGE_CLOSE, 20, 5, 5).setCheckRecoil().setRecoiltime(10).setCheckMuzzleFlash().setMuzzleFlashTime(10).setTurretPosOffset(0, 0, 0.1f).setForwardOffset(0.35f).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
+
+		ALIENBLASTER = reg(new GenericGun("alienblaster", ALIENBLASTER_PROJECTILES, false, 8, 10, 35, 16.0f, TGSounds.ALIENBLASTER_FIRE, TGSounds.ALIENBLASTER_RELOAD, MAX_RANGE_PISTOL, 0.0f).setBulletSpeed(1.0f).setMuzzleFlashTime(10).setPenetration(PENETRATION_MED).setAIStats(RANGE_MEDIUM, 40, 0, 0).setHandType(GunHandType.ONE_HANDED).setTurretPosOffset(0, -0.03f, -0.04f).setMuzzleLight(0.925f, 0.415f, 1f).setCrossHair(EnumCrosshairStyle.FOUR_PARTS_SPIKED));
+
+		MIBGUN = reg(new GenericGun("mibgun", DEATOMIZER_PROJECTILES, true, 8, 20, 45, 16.0f, TGSounds.MIBGUN_FIRE, TGSounds.MIBGUN_RELOAD, MAX_RANGE_PISTOL, 0.035f).setAIStats(RANGE_MEDIUM, 60, 0, 0).setDamageDrop(20, 30, 8.0f).setBulletSpeed(1.5f).setPenetration(PENETRATION_MED).setHandType(GunHandType.ONE_HANDED).setTurretPosOffset(0, -0.04f, 0f).setMuzzleLight(0.3333f, 0.9f, 1f).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART));
+
+		NETHERBLASTER = reg(new GenericGun("netherblaster", NETHERBLASTER_PROJECTILES, false, 8, 10, 35, 14.0f, TGSounds.NETHERBLASTER_FIRE, TGSounds.NETHERBLASTER_RELOAD, MAX_RANGE_RIFLE, 0.0f).setBulletSpeed(1.5f).setMuzzleFlashTime(10).setPenetration(PENETRATION_LOW).setAIStats(RANGE_MEDIUM, 40, 0, 0).setDamageDrop(15, 30, 8.0f).setHandType(GunHandType.ONE_POINT_FIVE_HANDED).setTurretPosOffset(0, -0.16f, 0.12f).setMuzzleLight(0.9f, 0.8f, 0.1f).setCrossHair(EnumCrosshairStyle.FOUR_PARTS_SPIKED));
+
+		BLASTERRIFLE = reg(new GenericGun("blasterrifle", BLASTER_ENERGYCELL_PROJECTILES, false, 5, 50, 45, 10.0f, TGSounds.BLASTER_RIFLE_FIRE, TGSounds.LASERGUN_RELOAD, MAX_RANGE_RIFLE, 0.025f).setZoom(0.5f, true,0.75f,true).setAIStats(RANGE_MEDIUM, 30, 5, 3).setDamageDrop(25, 35, 8.0f).setPenetration(PENETRATION_MED).setMuzzleLight(0.9f, 0.3f, 0.1f).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART));
+
+		BLASTERSHOTGUN = reg(new GenericGun("blastershotgun", BLASTER_ENERGYCELL_PROJECTILES, false, 7, 40, 45, 6.0f, TGSounds.LASERGUN_FIRE, TGSounds.LASERGUN_RELOAD, 30, 0.1f).setShotgunSpread(4,0.15f,false).setBulletSpeed(1.5f).setZoom(0.75f, true,0.75f,false).setBulletSpeed(2.0f).setAIStats(RANGE_SHORT, 30, 0, 0).setMuzzleLight(0.9f, 0.3f, 0.1f).setCrossHair(EnumCrosshairStyle.FOUR_PARTS));
 
 	}
 	

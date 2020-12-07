@@ -87,6 +87,12 @@ public class PacketSpawnEntity extends EntitySpawnS2CPacket implements Packet<Cl
 
 		} else if(this.getEntityTypeId() == TGEntities.GRENADE_PROJECTILE){
 			ent = new GrenadeProjectile(TGEntities.GRENADE_PROJECTILE, mc.player.world, shooter, additionalData);
+
+		} else if (this.getEntityTypeId() == TGEntities.FLAMETHROWER_PROJECTILE){
+			ent = new FlamethrowerProjectile(TGEntities.FLAMETHROWER_PROJECTILE, mc.player.world, shooter, additionalData);
+		}
+		else if (this.getEntityTypeId() == TGEntities.GENERIC_FX_PROJECTILE){
+			ent = new GenericProjectileFX(TGEntities.GENERIC_FX_PROJECTILE, mc.player.world, shooter, additionalData);
 		}
 
 		if (ent != null) {

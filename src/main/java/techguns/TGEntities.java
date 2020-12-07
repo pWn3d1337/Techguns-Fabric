@@ -19,6 +19,8 @@ public class TGEntities implements ITGInitializer {
 	public static EntityType<TFGProjectile> TFG_PROJECTILE;
 	public static EntityType<GenericBeamProjectile> GENERIC_BEAM_PROJECTILE;
 	public static EntityType<GrenadeProjectile> GRENADE_PROJECTILE;
+	public static EntityType<FlamethrowerProjectile> FLAMETHROWER_PROJECTILE;
+	public static EntityType<GenericProjectileFX> GENERIC_FX_PROJECTILE;
 	public static final int bulletTrackRange = 128;
 	
 	@Override
@@ -67,6 +69,16 @@ public class TGEntities implements ITGInitializer {
 				Registry.ENTITY_TYPE,
 				new TGIdentifier("grenade_projectile"),
 				FabricEntityTypeBuilder.<GrenadeProjectile>create(SpawnGroup.MISC, GrenadeProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(bulletTrackRange).trackedUpdateRate(1).forceTrackedVelocityUpdates(true).build());
+
+		FLAMETHROWER_PROJECTILE = Registry.register(
+				Registry.ENTITY_TYPE,
+				new TGIdentifier("flamethrower_projectile"),
+				FabricEntityTypeBuilder.<FlamethrowerProjectile>create(SpawnGroup.MISC, FlamethrowerProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(bulletTrackRange).build());
+
+		GENERIC_FX_PROJECTILE = Registry.register(
+				Registry.ENTITY_TYPE,
+				new TGIdentifier("generic_fx_projectile"),
+				FabricEntityTypeBuilder.<GenericProjectileFX>create(SpawnGroup.MISC, GenericProjectileFX::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(bulletTrackRange).build());
 
 	}
 

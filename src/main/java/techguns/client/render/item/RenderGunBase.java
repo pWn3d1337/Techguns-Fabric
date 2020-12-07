@@ -366,11 +366,11 @@ public class RenderGunBase extends RenderItemBase {
 				}
 			}else if (reloadProgress<=0){
 				if (Mode.FIRST_PERSON_LEFT_HAND== transform || Mode.FIRST_PERSON_RIGHT_HAND == transform ) {
-					this.drawIdleFx(leftHand);
+					this.drawIdleFx(entityIn, matrices, vertexConsumers, leftHand);
 				} else {
 					matrices.push();
 					this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo), leftHand);
-					this.drawIdleFx3P(leftHand);
+					this.drawIdleFx3P(entityIn, matrices, vertexConsumers, leftHand);
 					matrices.pop();
 				}
 			}
@@ -386,8 +386,8 @@ public class RenderGunBase extends RenderItemBase {
 
 	}
 
-	protected void drawIdleFx(boolean leftHand) {}
-	protected void drawIdleFx3P(boolean leftHand) {}
+	protected void drawIdleFx(LivingEntity entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, boolean leftHand) {}
+	protected void drawIdleFx3P(LivingEntity entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, boolean leftHand) {}
 
 	protected void setGLColorForPart(IGenericGun gun, int part, ItemStack stack) {
 		
