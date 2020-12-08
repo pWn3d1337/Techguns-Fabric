@@ -195,7 +195,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 
 		if (renderLayerBase != null && renderLayerFX != null) {
 
-			Iterable<ModelPart> parts = getModelParts(this.model);
+			Iterable<ModelPart> parts = DeathEffectHandler.getModelParts(this.model);
 			if (parts != null) {
 				for (ModelPart part : parts) {
 					matrixStack.push();
@@ -265,25 +265,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 		}
 	}
 	
-	protected Iterable<ModelPart> getModelParts(M model) {
-		ArrayList<ModelPart> parts = new ArrayList<ModelPart>();		
-		if (model instanceof CompositeEntityModel) {
-			for (ModelPart part : ((CompositeEntityModel<T>)model).getParts()) {
-				parts.add(part);
-			}			
-		} else if (model instanceof AnimalModel) {
-			for (ModelPart part : ((ITGAnimalModel)model)._getBodyParts()) {
-				parts.add(part);
-			}
-			for (ModelPart part : ((ITGAnimalModel)model)._getHeadParts()) {
-				parts.add(part);
-			}
-		} else {
-			return null;
-		}
-		
-		return parts;
-	}
+
 
 //	@Inject(at = @At("INVOKE"), method = "getTexture", cancellable = true)
 //	public Identifier getTexture(T entity, CallbackInfoReturnable<Identifier> info) {

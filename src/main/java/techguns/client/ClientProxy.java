@@ -501,6 +501,10 @@ public class ClientProxy implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_FX_PROJECTILE, (dispatcher, context) -> {
 			return new RenderInvisibleProjectile(dispatcher);
 		});
+		
+		EntityRendererRegistry.INSTANCE.register(TGEntities.FLYING_GIBS, (dispatcher, context) -> {
+			return new RenderFlyingGibs(dispatcher);
+		});
 
         keybinds = new Keybinds();
         keybinds.init();

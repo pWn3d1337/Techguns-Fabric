@@ -43,19 +43,19 @@ public class TGParticleSystemType extends TGFXType{
 	float animationSpeedMin = 1.0f; //1.0 = 1 full animation over particle lifetime
 	float animationSpeedMax = 1.0f;
 	
-	float sizeMin = 1.0f; //Start size
-	float sizeMax = 1.0f;
-	float sizeRateMin = 1.0f; //Size increase per tick: Size = Size + (sizeRate * ticks)
-	float sizeRateMax = 1.0f;
+	public float sizeMin = 1.0f; //Start size
+	public float sizeMax = 1.0f;
+	public float sizeRateMin = 1.0f; //Size increase per tick: Size = Size + (sizeRate * ticks)
+	public float sizeRateMax = 1.0f;
 	float sizeRateDampingMin = 1.0f; //each tick: SizeRate = SizeRate * sizeRateDamping
 	float sizeRateDampingMax = 1.0f;
 	
-	float startSizeRateMin = 0.0f; //particle start size increment per tick
-	float startSizeRateMax = 0.0f;
-	float startSizeRateDampingMin = 1.0f; //each tick: startSizeRate = startSizeRate * startsizeRateDamping
+	public float startSizeRateMin = 0.0f; //particle start size increment per tick
+	public float startSizeRateMax = 0.0f;
+	public float startSizeRateDampingMin = 1.0f; //each tick: startSizeRate = startSizeRate * startsizeRateDamping
 	float startSizeRateDampingMax = 1.0f;
 	
-	List<ColorEntry> colorEntries = new ArrayList<ColorEntry>();
+	public List<ColorEntry> colorEntries = new ArrayList<ColorEntry>();
 	List<AlphaEntry> alphaEntries = new ArrayList<AlphaEntry>();
 	
 	int particleCountMin = 1; //number of Spawned particles each spawn/burst
@@ -79,7 +79,7 @@ public class TGParticleSystemType extends TGFXType{
 	Vec3d offset = new Vec3d(0.0, 0.0, 0.0); //TODO! Particles are spawned at this offset
 	
 	IVolumeType volumeType = VOL_POINT;
-	float[] volumeData = new float[3];
+	public float[] volumeData = new float[3];
 	boolean isHollow;
 	
 	boolean removeOnGround = false; //remove this particle if it touches the ground
@@ -92,10 +92,10 @@ public class TGParticleSystemType extends TGFXType{
 	boolean particlesStickToSystem = false;
 	
 	public static class ColorEntry {
-		float time;
-		float r;
-		float g;
-		float b;
+		public float time;
+		public float r;
+		public float g;
+		public float b;
 		
 		public ColorEntry(int r, int g, int b, float time) {
 			this(((float)r)/255.0f, ((float)g)/255.0f, ((float)b)/255.0f, time); 

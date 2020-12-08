@@ -94,6 +94,9 @@ public class PacketSpawnEntity extends EntitySpawnS2CPacket implements Packet<Cl
 		else if (this.getEntityTypeId() == TGEntities.GENERIC_FX_PROJECTILE){
 			ent = new GenericProjectileFX(TGEntities.GENERIC_FX_PROJECTILE, mc.player.world, shooter, additionalData);
 		}
+		else if (this.getEntityTypeId() == TGEntities.FLYING_GIBS){
+			ent = new FlyingGibs(TGEntities.FLYING_GIBS, mc.player.world);
+		}
 
 		if (ent != null) {
 			ent.updateTrackedPosition(this.getX(), this.getY(), this.getZ());
