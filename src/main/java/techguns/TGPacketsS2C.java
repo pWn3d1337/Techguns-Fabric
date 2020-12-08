@@ -19,6 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import techguns.packets.GunFiredMessage;
 import techguns.packets.PacketEntityAdditionalSpawnData;
+import techguns.packets.PacketEntityDeathType;
 import techguns.packets.PacketGunImpactFX;
 import techguns.packets.PacketPlaySound;
 import techguns.packets.PacketShowKeybindConfirmedMessage;
@@ -38,7 +39,8 @@ public class TGPacketsS2C {
 	public static final Identifier SPAWN_PARTICLE_ON_ENTITY = new TGIdentifier("spawn_particle_on_entity");
 	public static final Identifier SPAWN_PARTICLE = new TGIdentifier("spawn_particle");
 	public static final Identifier KEYBIND_CONFIRMED_MESSAGE = new TGIdentifier("keybind_confirmed_message");
-	public static final Identifier PROEJCTILE_ADDITIONAL_SPAWNDATA = new TGIdentifier("pojectile_spawndata");
+	public static final Identifier PROJECTILE_ADDITIONAL_SPAWNDATA = new TGIdentifier("pojectile_spawndata");
+	public static final Identifier ENTITY_DEATH_TYPE = new TGIdentifier("entity_death_type");
 		
 	public static void initialize() {
 		registerPacket(GUN_FIRED, GunFiredMessage::new);
@@ -49,7 +51,8 @@ public class TGPacketsS2C {
 		registerPacket(SPAWN_PARTICLE_ON_ENTITY, PacketSpawnParticleOnEntity::new);
 		registerPacket(SPAWN_PARTICLE, PacketSpawnParticle::new);
 		registerPacket(KEYBIND_CONFIRMED_MESSAGE, PacketShowKeybindConfirmedMessage::new);
-		registerPacket(PROEJCTILE_ADDITIONAL_SPAWNDATA, PacketEntityAdditionalSpawnData::new);
+		registerPacket(PROJECTILE_ADDITIONAL_SPAWNDATA, PacketEntityAdditionalSpawnData::new);
+		registerPacket(ENTITY_DEATH_TYPE, PacketEntityDeathType::new);
 	}
 	
 	public static void registerPacket(Identifier id, Supplier<TGBasePacket> ctor) {

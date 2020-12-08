@@ -1,5 +1,7 @@
 package techguns.deatheffects;
 
+import net.minecraft.entity.LivingEntity;
+
 /**
  * Server and client side, needed by server to know to send out packets
  *
@@ -84,8 +86,9 @@ public class EntityDeathUtils {
 		entityDeathTypes.get(DeathType.GORE).add(clazz);
 	}*/
 	
-	/*public static boolean hasSpecialDeathAnim(EntityLivingBase entityLiving, DeathType deathtype) {
+	public static boolean hasSpecialDeathAnim(LivingEntity entityLiving, DeathType deathtype) {
 
+		/*
 		//TEST CODE:
 		if (deathtype == DeathType.BIO || deathtype == DeathType.LASER) return true;
 		
@@ -93,11 +96,11 @@ public class EntityDeathUtils {
 		if (entityDeathTypes.get(DeathType.GORE).contains(entityLiving.getClass())){
 			return true;
 		}
-		
-		return false;
+		*/
+		return true;
 		
 
-	}*/
+	}
 	
     public enum DeathType {
     	DEFAULT(0), GORE(1), BIO(2), LASER(3), DISMEMBER(4);

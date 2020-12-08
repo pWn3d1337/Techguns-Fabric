@@ -2,8 +2,10 @@ package techguns.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.advancement.criterion.Criteria;
@@ -20,13 +22,34 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import techguns.TGPacketsS2C;
+import techguns.api.entity.ITGLivingEntity;
 import techguns.damagesystem.TGDamageSource;
+import techguns.deatheffects.EntityDeathUtils;
+import techguns.deatheffects.EntityDeathUtils.DeathType;
+import techguns.packets.PacketEntityDeathType;
 
 @Mixin(LivingEntity.class)
-public abstract class TechgunsMixinLivingEntity extends Entity {
+public abstract class LivingEntityMixin extends Entity implements ITGLivingEntity {
 
-	public TechgunsMixinLivingEntity(EntityType<?> type, World world) {
+	public LivingEntityMixin(EntityType<?> type, World world) {
 		super(type, world);
+	}
+	
+	@Shadow
+	protected boolean dead;
+	
+	@Unique
+	protected DeathType techguns_deathType;
+
+	@Override
+	public DeathType getDeathType() {
+		return techguns_deathType;
+	}
+	
+	@Override
+	public void setDeathType(DeathType deathType) {
+		this.techguns_deathType = deathType;
 	}
 
 	@Shadow
@@ -257,6 +280,28 @@ public abstract class TechgunsMixinLivingEntity extends Entity {
 			}
 
 			return bl3;
+		}
+	}
+	
+
+	
+	@Inject(at = @At("HEAD"), method="onDeath(Lnet/minecraft/entity/damage/DamageSource;)V")
+	public void onDeath(DamageSource source, CallbackInfo info) {
+		if (!this.world.isClient /*&& ((ITGLivingEntity)this).getDeathType() == null*/ && !this.removed && !this.dead) {			
+			if (source instanceof TGDamageSource) {
+				TGDamageSource tgs = (TGDamageSource) source;
+				LivingEntity entity = (LivingEntity)(Object)this;
+				//((ITGLivingEntity)this).setDeathType(tgs.deathType);
+				if (tgs.deathType != DeathType.DEFAULT) {		
+					//TODO Gore chance
+					//if(Math.random()<tgs.goreChance) {
+						if (EntityDeathUtils.hasSpecialDeathAnim(entity, tgs.deathType)) {
+							System.out.println("Entity "+entity.getName().asString()+" got rekt with DT "+tgs.deathType.toString());
+							TGPacketsS2C.sendToAllTracking(new PacketEntityDeathType(entity, tgs.deathType), entity, true);
+						}
+					//}
+				}
+			}
 		}
 	}
 }

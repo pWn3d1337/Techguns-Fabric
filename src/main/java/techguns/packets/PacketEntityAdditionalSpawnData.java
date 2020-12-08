@@ -47,7 +47,7 @@ public class PacketEntityAdditionalSpawnData extends TGBasePacket {
 
 	@Override
 	public Identifier getID() {
-		return TGPacketsS2C.PROEJCTILE_ADDITIONAL_SPAWNDATA;
+		return TGPacketsS2C.PROJECTILE_ADDITIONAL_SPAWNDATA;
 	}
 
 	

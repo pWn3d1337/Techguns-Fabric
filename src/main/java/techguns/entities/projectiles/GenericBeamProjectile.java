@@ -23,6 +23,8 @@ import net.minecraft.world.World;
 import techguns.TGEntities;
 import techguns.TGPacketsS2C;
 import techguns.api.damagesystem.DamageType;
+import techguns.damagesystem.TGDamageSource;
+import techguns.deatheffects.EntityDeathUtils;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.IProjectileFactory;
 import techguns.packets.PacketGunImpactFX;
@@ -265,11 +267,24 @@ public class GenericBeamProjectile extends GenericProjectile{
 	}
 	
 	@Override
+    protected TGDamageSource getProjectileDamageSource() {
+		TGDamageSource src;
+		if (this.projectileType == BEAM_TYPE_NDR) {
+			src = TGDamageSource.causeRadiationDamage(this, this.shooter, EntityDeathUtils.DeathType.LASER);
+		}else {
+			src = TGDamageSource.causeEnergyDamage(this, this.shooter, EntityDeathUtils.DeathType.LASER);
+		}
+		src.armorPenetration = this.penetration;
+        src.setNoKnockback();
+        return src;
+    }
+	
+	@Override
 	protected void writeCustomDataToTag(CompoundTag tag) {
 		super.writeCustomDataToTag(tag);
 		tag.putDouble("laserLength",this.distance);
 		tag.putFloat("laserPitch",this.laserPitch);
-		tag.putFloat("laserYaw", this.laserYaw);
+ 		tag.putFloat("laserYaw", this.laserYaw);
 		tag.putShort("maxTicks", this.maxTicks);
 		tag.putBoolean("moveWithShooter", this.moveWithShooter);
 		tag.putByte("firePos", (byte)this.firePos.ordinal());

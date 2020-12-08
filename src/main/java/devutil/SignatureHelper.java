@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 
 public class SignatureHelper {
@@ -63,7 +64,7 @@ public class SignatureHelper {
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
 		Class<?> PacketHandlerClass = Class.forName("net.minecraft.network.NetworkState$PacketHandler"); 
 		
-		List<Method> methods = getMethods(PacketHandlerClass, "");
+		List<Method> methods = getMethods(LivingEntity.class, "");
 		
 		for (Method m : methods) {
 			System.out.println(m.getName()+getSignature(m));

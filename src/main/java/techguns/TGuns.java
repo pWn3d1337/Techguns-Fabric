@@ -133,6 +133,7 @@ public class TGuns implements ITGInitializer {
 		CHAINSAW_PROJECTILES = new ChargedProjectileSelector<ChainsawProjectile>(AmmoTypes.FUEL_TANK, new ChainsawProjectile.Factory());
 		
 		SHOTGUN_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.SHOTGUN_ROUNDS, GENERIC_PROJECTILE, GENERIC_PROJECTILE);//TODO new GenericProjectileIncendiary.Factory(true));
+		
 		NDR_PROJECTILES = new ProjectileSelector<GenericBeamProjectile>(AmmoTypes.NUCLEAR_POWER_CELL, new GenericBeamProjectile.Factory(15, true, GenericBeamProjectile.BEAM_TYPE_NDR, "BeamGunImpactFX"));
 
 		FLAMETHROWER_PROJECTILES = new ProjectileSelector<FlamethrowerProjectile>(AmmoTypes.FUEL_TANK, new FlamethrowerProjectile.Factory());

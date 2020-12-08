@@ -5,8 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "TGPlayerEntityMixin",
-    "TechgunsMixinLivingEntity",
-    "DamageSourceMixin"
+    "DamageSourceMixin",
+    "LivingEntityMixin"
   ],
   "client": [
     "ItemRendererMixin",
@@ -20,7 +20,9 @@
     "AbstractClientPlayerEntityMixin",
     "MinecraftClientMixin",
     "InGameHudMixin",
-    "ModelLoaderMixin"
+    "ModelLoaderMixin",
+    "LivingEntityRendererMixin",
+    "AnimalModelMixin"
    ],
   "injectors": {
     "defaultRequire": 1

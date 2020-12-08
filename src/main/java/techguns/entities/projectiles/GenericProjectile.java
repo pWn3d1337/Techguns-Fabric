@@ -389,11 +389,11 @@ public class GenericProjectile extends ProjectileEntity {
 		TGDamageSource damageSource;
 		TGDamageSource damageSourceKnockback;
 		if (shooter == null) {
-			damageSource = TGDamageSource.causeBulletDamage(this, this, DeathType.DEFAULT);
+			damageSource = this.getProjectileDamageSource();
 			damageSource.setNoKnockback();
 			damageSourceKnockback = TGDamageSource.getKnockbackDummyDmgSrc(this, this);
-		} else {
-			damageSource = TGDamageSource.causeBulletDamage(this, shooter, DeathType.DEFAULT);
+		} else {		
+			damageSource = this.getProjectileDamageSource();
 			damageSource.setNoKnockback();
 			damageSourceKnockback = TGDamageSource.getKnockbackDummyDmgSrc(this, shooter);
 			if (shooter instanceof LivingEntity) {

@@ -25,7 +25,9 @@ public class TGRenderHelper extends RenderPhase {
 	private TGRenderHelper() {
 		super(null, null, null);
 	}
-
+	
+	public static final int BRIGHT_LIGHT = 15728880;
+	
 	protected static float lastBrightnessX=0;
 	protected static float lastBrightnessY=0;
 	
