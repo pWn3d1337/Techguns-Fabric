@@ -43,6 +43,7 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 	static {
 		BeamRenderParamDict = new HashMap<Byte, BeamRenderParams>();
 		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_NDR, new BeamRenderParams(null, "textures/fx/nukebeam.png", null, 17, 0.5f, 2.0f));
+		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_LASER, new BeamRenderParams("textures/fx/laser3_start.png", "textures/fx/laser3.png", null, 1, 1.0f, 2.0f));
 	}
 
 	public RenderGenericBeamProjectile(EntityRenderDispatcher dispatcher) {
@@ -150,12 +151,17 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 		}
 		switch (entity.getProjectileType()) {
 			case GenericBeamProjectile.BEAM_TYPE_NDR:
-			default:
 				float maxWidth = 0.05f;
 				renderBeam(entity, rand, prog, maxWidth, distance, u1, u2, v1, v2, tickDelta, matrixStack,
 						vertexConsumerProvider, light);
 				renderSpiralEffect(entity, rand, prog, maxWidth, distance, u1, u2, v1, v2, tickDelta, matrixStack,
 						vertexConsumerProvider, light);
+				break;
+			default:
+				renderBeam(entity, rand, prog, 0.05f, distance, u1, u2, v1, v2, tickDelta, matrixStack,
+						vertexConsumerProvider, light);
+				break;
+
 		}
 		matrixStack.pop();
 

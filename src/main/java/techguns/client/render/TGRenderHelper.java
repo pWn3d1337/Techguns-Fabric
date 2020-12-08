@@ -85,6 +85,12 @@ public class TGRenderHelper extends RenderPhase {
 	      return RenderLayer.of("techguns_projectile_cutout", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, true, false, multiPhaseParameters);
 	}
 
+	public static RenderLayer getProjectileAdditive(Identifier texture) {
+		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
+				.texture(new RenderPhase.Texture(texture, false, false)).diffuseLighting(DISABLE_DIFFUSE_LIGHTING)
+				.cull(DISABLE_CULLING).transparency(LIGHTNING_TRANSPARENCY).target(PARTICLES_TARGET).build(true);
+		return RenderLayer.of("techguns_projectile_additive", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, multiPhaseParameters);
+	}
 	
 	public static RenderLayer get_fx_layerForType(Identifier texture, RenderType type) {
 		switch (type) {

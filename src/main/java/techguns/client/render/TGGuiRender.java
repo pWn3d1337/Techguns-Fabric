@@ -196,6 +196,8 @@ public class TGGuiRender {
 		
 		//Bind back the correct texture for default crosshair rendering
 		mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+		RenderSystem.enableBlend();
+		RenderSystem.enableAlphaTest();
 	}
 	
 	private static void drawGunAmmoCount(MatrixStack matrices, MinecraftClient mc,int scaledWidth, int scaledHeight, GenericGun gun, ItemStack item, PlayerEntity ply, ITGExtendedPlayer props, int offsetY) {
@@ -277,7 +279,7 @@ public class TGGuiRender {
 						RenderGunBase rgun = (RenderGunBase) irenderer;
 
 						if (rgun.hasScopeTexture()) {
-							return false;
+							return true;
 						}
 					}
 				}

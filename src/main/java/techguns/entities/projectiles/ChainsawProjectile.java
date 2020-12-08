@@ -20,6 +20,9 @@ import techguns.packets.PacketSpawnParticle;
 
 public class ChainsawProjectile extends GenericProjectile {
 
+	public static final byte PROJECTILE_TYPE_CHAINSAW = 0;
+	public static final byte PROJECTILE_TYPE_POWERHAMMER = 1;
+
 	public ChainsawProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter,
 			CompoundTag data) {
 		super(T, world, shooter, data);
@@ -81,6 +84,11 @@ public class ChainsawProjectile extends GenericProjectile {
 	}
 
 	public static class Factory implements IChargedProjectileFactory<ChainsawProjectile> {
+		protected byte projectile_type;
+
+		public Factory(byte projectile_type) {
+			this.projectile_type = projectile_type;
+		}
 
 		@Override
 		public ChainsawProjectile createProjectile(GenericGun gun, World world, LivingEntity p, float damage, float speed, int TTL, float spread, float dmgDropStart, float dmgDropEnd,
@@ -100,6 +108,10 @@ public class ChainsawProjectile extends GenericProjectile {
 				int ammoConsumed) {
 			return new ChainsawProjectile(world,p,damage,speed,TTL,spread,dmgDropStart,dmgDropEnd,dmgMin,penetration,blockdamage,firePos);
 		}
-		
+
+		@Override
+		public byte getProjectileType() {
+			return projectile_type;
+		}
 	}
 }

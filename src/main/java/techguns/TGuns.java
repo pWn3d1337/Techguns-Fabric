@@ -12,16 +12,8 @@ import techguns.entities.projectiles.RocketProjectile;
 import techguns.entities.projectiles.TFGProjectile;
 import techguns.entities.projectiles.StoneBulletProjectile;
 import techguns.entities.projectiles.*;
-import techguns.items.guns.Chainsaw;
-import techguns.items.guns.ChargedProjectileSelector;
-import techguns.items.guns.EnumCrosshairStyle;
-import techguns.items.guns.GenericGun;
+import techguns.items.guns.*;
 import techguns.items.guns.GenericGun.HoldType;
-import techguns.items.guns.GenericGunCharge;
-import techguns.items.guns.GuidedMissileLauncher;
-import techguns.items.guns.IProjectileFactory;
-import techguns.items.guns.ProjectileSelector;
-import techguns.items.guns.RangeTooltipType;
 import techguns.items.guns.ammo.AmmoTypes;
 
 public class TGuns implements ITGInitializer {
@@ -74,6 +66,12 @@ public class TGuns implements ITGInitializer {
 	public static GenericGun NETHERBLASTER;
 	public static GenericGun BLASTERRIFLE;
 	public static GenericGun BLASTERSHOTGUN;
+	public static GenericGun PULSERIFLE;
+	public static GenericGun PDW;
+	public static GenericGun POWERHAMMER;
+	public static GenericGun MININGDRILL;
+	public static GenericGun LASERGUN;
+	public static GenericGun LASERPISTOL;
 
 	public static ProjectileSelector<GenericProjectile> ASSAULTRIFLE_MAG_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> SNIPER_MAG_PROJECTILES;
@@ -90,18 +88,22 @@ public class TGuns implements ITGInitializer {
 	public static ProjectileSelector<RocketProjectile> ROCKET_PROJECTILES;
 	
 	public static ProjectileSelector<GenericBeamProjectile> NDR_PROJECTILES;
+	public static ProjectileSelector<GenericBeamProjectile> LASERGUN_PROJECTILES;
+	public static ProjectileSelector<GenericBeamProjectile> LASERPISTOL_PROJECTILES;
 	public static ProjectileSelector<FlamethrowerProjectile> FLAMETHROWER_PROJECTILES;
 	public static ProjectileSelector<GenericProjectileFX> ALIENBLASTER_PROJECTILES;
 	public static ProjectileSelector<GenericProjectileFX> DEATOMIZER_PROJECTILES;
 	public static ProjectileSelector<GenericProjectileFX> NETHERBLASTER_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> BLASTER_ENERGYCELL_PROJECTILES;
+	public static ProjectileSelector<GenericProjectile> ADVANCED_MAG_PROJECTILES;
 	
 	public static ChargedProjectileSelector<GuidedMissileProjectile> GUIDED_MISSILE_PROJECTILES;
 	public static ChargedProjectileSelector<BioGunProjectile> BIOGUN_PROJECTILES;
 	public static ChargedProjectileSelector<TFGProjectile> TFG_PROJECTILES;
 	
 	public static ChargedProjectileSelector<ChainsawProjectile> CHAINSAW_PROJECTILES;
-	
+	public static ChargedProjectileSelector<ChainsawProjectile> POWERHAMMER_PROJECTILES;
+
 	@SuppressWarnings({ "rawtypes", "unchecked" }) //java does not like generics in arrays so there are these warnings
 	@Override
 	public void init() {
@@ -130,7 +132,7 @@ public class TGuns implements ITGInitializer {
 		
 		MINIGUN_MAG_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.MINIGUN_AMMO_DRUM, GENERIC_BULLET);
 		
-		CHAINSAW_PROJECTILES = new ChargedProjectileSelector<ChainsawProjectile>(AmmoTypes.FUEL_TANK, new ChainsawProjectile.Factory());
+		CHAINSAW_PROJECTILES = new ChargedProjectileSelector<ChainsawProjectile>(AmmoTypes.FUEL_TANK, new ChainsawProjectile.Factory(ChainsawProjectile.PROJECTILE_TYPE_CHAINSAW));
 		
 		SHOTGUN_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.SHOTGUN_ROUNDS, GENERIC_PROJECTILE, GENERIC_PROJECTILE);//TODO new GenericProjectileIncendiary.Factory(true));
 		
@@ -145,11 +147,18 @@ public class TGuns implements ITGInitializer {
 
 		BLASTER_ENERGYCELL_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.ENERGY_CELL, new GenericProjectile.Factory(GenericProjectile.PROJECTILE_TYPE_BLASTER));
 
-		//GAUSS_PROJECTILES = new ProjectileSelector<GaussProjectile>(AmmoTypes.AMMO_GAUSS_RIFLE, new GaussProjectile.Factory());
-		//TODO gauss projectiles
-		GAUSS_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.AMMO_GAUSS_RIFLE, new GenericProjectile.Factory());
+		ADVANCED_MAG_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.ADVANCED_MAGAZINE, new GenericProjectile.Factory(GenericProjectile.PROJECTILE_TYPE_ADVANCED));
+
+		GAUSS_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.AMMO_GAUSS_RIFLE, new GenericProjectile.Factory(GenericProjectile.PROJECTILE_TYPE_GAUSS));
 
 		GRENADE40MM_PROJECTILES = new ProjectileSelector<GrenadeProjectile>(AmmoTypes.GRENADES_40MM, new GrenadeProjectile.Factory(0,3));
+
+		POWERHAMMER_PROJECTILES = new ChargedProjectileSelector<ChainsawProjectile>(AmmoTypes.COMPRESSED_AIR_TANK, new ChainsawProjectile.Factory(ChainsawProjectile.PROJECTILE_TYPE_POWERHAMMER));
+
+		GenericBeamProjectile.Factory LASER_BEAM = new GenericBeamProjectile.Factory(1, true, GenericBeamProjectile.BEAM_TYPE_LASER, "LaserGunImpact");
+		LASERGUN_PROJECTILES = new ProjectileSelector<GenericBeamProjectile>(AmmoTypes.ENERGY_CELL, LASER_BEAM);
+		LASERPISTOL_PROJECTILES = new ProjectileSelector<GenericBeamProjectile>(AmmoTypes.REDSTONE_BATTERY, LASER_BEAM);
+
 
 		HANDCANNON = reg(new GenericGun("handcannon", new ProjectileSelector<StoneBulletProjectile>(AmmoTypes.STONE_BULLETS, new StoneBulletProjectile.Factory()), true, 12,1,30, 8.0f, TGSounds.HANDGUN_FIRE, TGSounds.HANDGUN_RELOAD,25,0.035f).setBulletSpeed(1.0f).setGravity(0.015d).setDamageDrop(10, 25, 5.0f).setAIStats(RANGE_CLOSE, 60, 0, 0).setRecoiltime(12).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
 		
@@ -217,6 +226,19 @@ public class TGuns implements ITGInitializer {
 		BLASTERRIFLE = reg(new GenericGun("blasterrifle", BLASTER_ENERGYCELL_PROJECTILES, false, 5, 50, 45, 10.0f, TGSounds.BLASTER_RIFLE_FIRE, TGSounds.LASERGUN_RELOAD, MAX_RANGE_RIFLE, 0.025f).setZoom(0.5f, true,0.75f,true).setAIStats(RANGE_MEDIUM, 30, 5, 3).setDamageDrop(25, 35, 8.0f).setPenetration(PENETRATION_MED).setMuzzleLight(0.9f, 0.3f, 0.1f).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART));
 
 		BLASTERSHOTGUN = reg(new GenericGun("blastershotgun", BLASTER_ENERGYCELL_PROJECTILES, false, 7, 40, 45, 6.0f, TGSounds.LASERGUN_FIRE, TGSounds.LASERGUN_RELOAD, 30, 0.1f).setShotgunSpread(4,0.15f,false).setBulletSpeed(1.5f).setZoom(0.75f, true,0.75f,false).setBulletSpeed(2.0f).setAIStats(RANGE_SHORT, 30, 0, 0).setMuzzleLight(0.9f, 0.3f, 0.1f).setCrossHair(EnumCrosshairStyle.FOUR_PARTS));
+
+		PULSERIFLE = reg(new GenericGun("pulserifle",ADVANCED_MAG_PROJECTILES, false, 7, 12, 45, 10.0f,  TGSounds.PULSE_RIFLE_FIRE, TGSounds.PULSE_RIFEL_RELOAD, MAX_RANGE_RIFLE_LONG,0.024f).setDamageDrop(30, 45, 8f).setZoom(0.35f, true,0.5f,true).setBulletSpeed(3.25f).setRecoiltime(8).setPenetration(PENETRATION_MED).setShotgunSpread(2, 0.015f,true).setAIStats(RANGE_MEDIUM, 30, 0, 0).setMuzzleFlashTime(4).setTurretPosOffset(0, 0, -0.09f).setMuzzleLight(0f, 0.8f, 1.0f).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART));
+
+		PDW = reg(new GenericGun("pdw", ADVANCED_MAG_PROJECTILES, false, 1, 40, 40, 5.0f, TGSounds.PDW_FIRE, TGSounds.PDW_RELOAD,MAX_RANGE_PISTOL,0.03f).setDamageDrop(18, 25, 3.0f).setPenetration(PENETRATION_MED).setAIStats(RANGE_SHORT, 30, 4, 2).setHandType(GunHandType.ONE_POINT_FIVE_HANDED).setMuzzleFlashTime(2).setMuzzleLight(0f, 0.8f, 1.0f).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART));
+
+		POWERHAMMER = reg(new PowerHammer("powerhammer", POWERHAMMER_PROJECTILES, false, 4, 300, 45, 3.5f, TGSounds.POWERHAMMER_FIRE, TGSounds.POWERHAMMER_RELOAD,3,0.0f,20f,5, 6.0f,2.0f,2f, 12.0f).setToolLevel(FabricToolTags.PICKAXES,2).setToolLevel(FabricToolTags.SHOVELS,2).setChargeSound(TGSounds.POWERHAMMER_CHARGE).setBulletSpeed(1.0f).setRecoiltime(12).setShootWithLeftClick(false).setAIStats(RANGE_MELEE, 30, 0, 0).setDamageDrop(3, 3, 2.5f).setNoMuzzleLight().setCrossHair(EnumCrosshairStyle.VANILLA));
+
+		MININGDRILL = reg(new MiningDrill("miningdrill", CHAINSAW_PROJECTILES, false, 3, 300, 45, 10.0f, TGSounds.DRILLER_LOOP, TGSounds.POWERHAMMER_RELOAD, 2, 0.0f,1f,1, 12.0f, 2.0f, 1.5f, 14.0f).setToolLevel(FabricToolTags.PICKAXES,3).setToolLevel(FabricToolTags.SHOVELS,3).setRecoiltime(5).setShootWithLeftClick(false).setFiresoundStart(TGSounds.DRILLER_SWING).setMaxLoopDelay(10).setPenetration(PENETRATION_MED).setAIStats(RANGE_MELEE, 10, 0, 0).setTurretPosOffset(0, -0.47f, -0.08f).setNoMuzzleLight().setCrossHair(EnumCrosshairStyle.VANILLA));
+
+		LASERGUN = reg(new GenericGun("lasergun", LASERGUN_PROJECTILES, false, 5, 45, 45, 12.0f, TGSounds.LASERGUN_FIRE, TGSounds.LASERGUN_RELOAD, MAX_RANGE_SNIPER, 0.0f).setZoom(0.75f, true,0.75f,false).setBulletSpeed(100.0f).setAIStats(RANGE_MEDIUM, 30, 0, 0).setTurretPosOffset(0, 0.01f, 0.11f).setMuzzleLight(0.9f, 0.3f, 0.1f).setRangeTooltipType(RangeTooltipType.NO_DROP).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART));
+
+		LASERPISTOL = reg(new GenericGun("laserpistol", LASERPISTOL_PROJECTILES, false, 6, 20, 40, 9.0f, TGSounds.LASER_PISTOL_FIRE, TGSounds.LASER_PISTOL_RELOAD, MAX_RANGE_SNIPER, 0.025f).setBulletSpeed(100.0f).setAIStats(RANGE_MEDIUM, 30, 0, 0).setMuzzleLight(0.9f, 0.3f, 0.1f).setRangeTooltipType(RangeTooltipType.NO_DROP).setHandType(GunHandType.ONE_HANDED).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART));
+
 
 	}
 	

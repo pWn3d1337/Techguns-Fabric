@@ -34,7 +34,8 @@ import techguns.util.MathUtil;
 public class GenericBeamProjectile extends GenericProjectile{
 
 	public static final byte BEAM_TYPE_NDR = 1;	
-	
+	public static final byte BEAM_TYPE_LASER=0;
+
 	public double distance;
 	public float laserPitch = 0.0f;
 	public float laserYaw = 0.0f;

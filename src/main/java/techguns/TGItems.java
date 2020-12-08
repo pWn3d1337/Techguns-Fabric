@@ -262,8 +262,8 @@ public class TGItems implements ITGInitializer {
 		NUCLEAR_POWERCELL = addAmmoItem("nuclearpowercell");
 		NUCLEAR_POWERCELL_EMPTY = addAmmoItem("nuclearpowercelldepleted");
 		
-		REDSTONE_BATTERY = addAmmoItem("redstonebattery");
-		REDSTONE_BATTERY_EMPTY = addAmmoItem("redstonebatteryempty");
+		REDSTONE_BATTERY = addAmmoItem("redstone_battery");
+		REDSTONE_BATTERY_EMPTY = addAmmoItem("redstone_battery_empty");
 
 		GAUSSRIFLE_SLUGS = addAmmoItem("gaussrifleslugs");
 
