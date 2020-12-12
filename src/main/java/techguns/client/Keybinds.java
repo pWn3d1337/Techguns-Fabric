@@ -1,5 +1,7 @@
 package techguns.client;
 
+import java.util.HashMap;
+
 import org.lwjgl.glfw.GLFW;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -15,6 +17,8 @@ import techguns.TGPacketsC2S;
 import techguns.api.client.entity.ITGExtendedPlayerClient;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.GunManager;
+import techguns.client.particle.TGFX;
+import techguns.client.particle.TGFXType;
 import techguns.items.guns.GenericGun;
 import techguns.keybind.TGKeybindID;
 import techguns.packets.c2s.PacketTGKeybindPress;
@@ -27,10 +31,13 @@ public class Keybinds implements ITGInitializer{
 		
 	public KeyBinding KEY_TOGGLE_SAFEMODE;
 	
+	public KeyBinding DEBUG_KEY_RELOAD_FX;
+	
 	@Override
 	public void init() {
 		KEY_FORECERELOAD = addKeybind("techguns.key.forcereload", GLFW.GLFW_KEY_R);
 		KEY_TOGGLE_SAFEMODE = addKeybind("techguns.key.togglesafemode", GLFW.GLFW_KEY_B);
+		DEBUG_KEY_RELOAD_FX = addKeybind("techings.key.debug.reloadfx", GLFW.GLFW_KEY_KP_0);
 		
 		ClientTickEvents.END_CLIENT_TICK.register(client -> {
 		    while (KEY_FORECERELOAD.wasPressed()) {
@@ -39,6 +46,11 @@ public class Keybinds implements ITGInitializer{
 		    while (KEY_TOGGLE_SAFEMODE.wasPressed()) {
 		    	TGPacketsC2S.sendToServer(new PacketTGKeybindPress(TGKeybindID.TOGGLE_SAFEMODE, true));
 		    };
+		    while (DEBUG_KEY_RELOAD_FX.wasPressed()) {
+		    	System.out.println("Reloading FXLIST...");
+		    	TGFX.FXList = new HashMap<String, TGFXType>();
+		    	TGFX.loadFXList();
+		    }
 		});
 	}
 	

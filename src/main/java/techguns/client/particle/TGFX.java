@@ -193,6 +193,30 @@ public class TGFX {
 								type.angleRateDampingMin = sc.nextFloat();
 								type.angleRateDampingMax = sc.nextFloat();
 								break;
+							case "anglepitch":
+								type.anglePitchMin = sc.nextFloat();
+								type.anglePitchMax = sc.nextFloat();
+								break;
+							case "anglepitchrate":
+								type.anglePitchRateMin = sc.nextFloat();
+								type.anglePitchRateMax = sc.nextFloat();
+								break;
+							case "anglepitchratedamping":
+								type.anglePitchRateDampingMin = sc.nextFloat();
+								type.anglePitchRateDampingMax = sc.nextFloat();
+								break;
+							case "angleroll":
+								type.angleRollMin = sc.nextFloat();
+								type.angleRollMax = sc.nextFloat();
+								break;
+							case "anglerollrate":
+								type.angleRollRateMin = sc.nextFloat();
+								type.angleRollRateMax = sc.nextFloat();
+								break;
+							case "anglerollratedamping":
+								type.angleRollRateDampingMin = sc.nextFloat();
+								type.angleRollRateDampingMax = sc.nextFloat();
+								break;
 							case "lifetime":
 								type.lifetimeMin = sc.nextInt();
 								type.lifetimeMax = sc.nextInt();
@@ -351,6 +375,10 @@ public class TGFX {
 								break;
 							case "streak":
 								type.streak = sc.nextBoolean();
+								break;
+							case "is3d":
+							case "3d":
+								type.is3d = sc.nextBoolean();
 								break;
 							case "attachedsystem":
 								type.attachedSystem = sc.next();

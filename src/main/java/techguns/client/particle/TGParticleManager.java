@@ -126,14 +126,14 @@ public class TGParticleManager {
         interpPosY = entityIn.lastRenderY + (entityIn.getY() - entityIn.lastRenderY) * (double)partialTicks;
         interpPosZ = entityIn.lastRenderZ + (entityIn.getZ() - entityIn.lastRenderZ) * (double)partialTicks;
 
-        Matrix4f m = matrices.peek().getModel().copy();
+        //Matrix4f m = matrices.peek().getModel().copy();
 
         this.list.forEach(p -> {	
-        	p.doRender(vertexConsumerProvider, entityIn, partialTicks, f1, f5, f2, f3, f4, m, camera);
+        	p.doRender(vertexConsumerProvider, entityIn, partialTicks, f1, f5, f2, f3, f4, matrices, camera);
         });
         
         this.list_nosort.forEach(p -> {	
-        	p.doRender(vertexConsumerProvider, entityIn, partialTicks, f1, f5, f2, f3, f4, m, camera);
+        	p.doRender(vertexConsumerProvider, entityIn, partialTicks, f1, f5, f2, f3, f4, matrices, camera);
         });
     }	
 	

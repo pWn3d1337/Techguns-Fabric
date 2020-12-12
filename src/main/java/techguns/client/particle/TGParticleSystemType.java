@@ -25,13 +25,29 @@ public class TGParticleSystemType extends TGFXType{
 	//boolean randomRotation = false;
 	
 	boolean streak = false;
+	public boolean is3d = false;
 	
+	//yaw
 	float angleMin = 0.0f;
 	float angleMax = 0.0f;
 	float angleRateMin = 0.0f;
 	float angleRateMax = 0.0f;
 	float angleRateDampingMin = 0.0f;
 	float angleRateDampingMax = 0.0f;
+	
+	float anglePitchMin = 0.0f;
+	float anglePitchMax = 0.0f;
+	float anglePitchRateMin = 0.0f;
+	float anglePitchRateMax = 0.0f;
+	float anglePitchRateDampingMin = 0.0f;
+	float anglePitchRateDampingMax = 0.0f;
+	
+	float angleRollMin = 0.0f;
+	float angleRollMax = 0.0f;
+	float angleRollRateMin = 0.0f;
+	float angleRollRateMax = 0.0f;
+	float angleRollRateDampingMin = 0.0f;
+	float angleRollRateDampingMax = 0.0f;
 	
 	
 	int lifetimeMin = 20; //Particle lifetime in ticks
@@ -58,8 +74,8 @@ public class TGParticleSystemType extends TGFXType{
 	public List<ColorEntry> colorEntries = new ArrayList<ColorEntry>();
 	List<AlphaEntry> alphaEntries = new ArrayList<AlphaEntry>();
 	
-	int particleCountMin = 1; //number of Spawned particles each spawn/burst
-	int particleCountMax = 1;
+	public int particleCountMin = 1; //number of Spawned particles each spawn/burst
+	public int particleCountMax = 1;
 	int spawnDelayMin = 1; //time between spawns
 	int spawnDelayMax = 1;
 	int systemLifetimeMin = 5; //System's lifetime in ticks.
@@ -395,6 +411,18 @@ public class TGParticleSystemType extends TGFXType{
 		this.angleRateMax = other.angleRateMax;
 		this.angleRateDampingMin = other.angleRateDampingMin;
 		this.angleRateDampingMax = other.angleRateDampingMax;
+		this.anglePitchMin = other.anglePitchMin;
+		this.anglePitchMax = other.anglePitchMax;
+		this.anglePitchRateMin = other.anglePitchRateMin;
+		this.anglePitchRateMax = other.anglePitchRateMax;
+		this.anglePitchRateDampingMin = other.anglePitchRateDampingMin;
+		this.anglePitchRateDampingMax = other.anglePitchRateDampingMax;
+		this.angleRollMin = other.angleRollMin;
+		this.angleRollMax = other.angleRollMax;
+		this.angleRollRateMin = other.angleRollRateMin;
+		this.angleRollRateMax = other.angleRollRateMax;
+		this.angleRollRateDampingMin = other.angleRollRateDampingMin;
+		this.angleRollRateDampingMax = other.angleRollRateDampingMax;
 		this.removeOnGround = other.removeOnGround;
 		this.renderType = other.renderType;
 		this.rows = other.rows;
@@ -426,6 +454,7 @@ public class TGParticleSystemType extends TGFXType{
 		this.offset = new Vec3d(other.offset.x, other.offset.y, other.offset.z);
 		this.particlesMoveWithSystem = other.particlesMoveWithSystem;
 		this.streak = other.streak;
+		this.is3d = other.is3d;
 		this.groundAligned = other.groundAligned;
 		this.attachedSystem = other.attachedSystem;
 		this.systemVelocityFactorMin = other.systemVelocityFactorMin;

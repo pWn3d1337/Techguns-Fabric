@@ -7,10 +7,16 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.RenderPhase;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.LightType;
+import net.minecraft.world.World;
 import techguns.client.render.fx.IScreenEffect.RenderType;
 
 //import net.minecraft.client.render.OpenGlHelper;
@@ -179,5 +185,13 @@ public class TGRenderHelper extends RenderPhase {
         }
 
 	}
+	
+	public static int getLightAtPos(Vec3d pos) {
+	      BlockPos blockPos = new BlockPos(pos);
+	      
+	      int blockLight = MinecraftClient.getInstance().world.getLightLevel(LightType.SKY, blockPos);
+	      int lightLevel = MinecraftClient.getInstance().world.getLightLevel(LightType.BLOCK, blockPos);
+	      return LightmapTextureManager.pack(blockLight, lightLevel);
+	   }
 	
 }

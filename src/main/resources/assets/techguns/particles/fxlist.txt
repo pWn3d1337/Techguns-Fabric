@@ -258,6 +258,7 @@ IsHollow = true
 LargeExplosion2 {
 Texture = techguns:textures/fx/explosion4x4_02.png
 RenderType = ADDITIVE
+is3d = true
 Rows = 4
 Columns = 4
 Frames = 16

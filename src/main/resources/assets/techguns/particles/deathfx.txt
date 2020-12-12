@@ -28,7 +28,7 @@ VelocityType = OUTWARD
 Velocity1 = 0 4
 Velocity2 = 0 7
 VelocityDamping = 0.85 0.91
-SystemVelocityFactor = 1.0 1.0
+SystemVelocityFactor = 0.1 0.1
 }
 
 GoreTrailFX_Blood {
@@ -59,4 +59,33 @@ VelocityType = SPHERICAL
 Velocity1 = 0.0 0.35
 VelocityDamping = 0.91 0.94
 SystemVelocityFactor = 0.0 0.0
+}
+
+Gore3dGibsFX_Generic {
+RenderType = ALPHA
+Angle = 0 360
+AngleRate = -2 2
+AngleRateDamping = 0.96 0.97
+AnglePitch = 0 360
+AnglePitchRate = -2 2
+AnglePitchRateDamping = 0.96 0.97
+AngleRoll = 0 360
+AngleRollRate = -2 2
+AngleRollRateDamping = 0.96 0.97
+Lifetime = 30 35
+Size = 1 1
+Alpha = 1.0 0
+Alpha = 1.0 0.90
+Alpha = 0 1.0
+Color = 255 255 255 0
+Gravity = 0.15
+VolumeType = CYLINDER
+Volume1 = 0.15
+Volume2 = 0.5
+VelocityType = OUTWARD
+Velocity1 = 3 4.5
+Velocity2 = 3 4.5
+VelocityDamping = 0.99 0.99
+VelocityDampingOnGround = 0.5 0.5
+SystemVelocityFactor = 0.1 0.1
 }

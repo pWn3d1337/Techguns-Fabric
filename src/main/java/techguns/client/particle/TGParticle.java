@@ -10,6 +10,7 @@ import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -510,7 +511,8 @@ public class TGParticle extends Particle implements ITGParticle {
 
 	@Override
 	public void doRender(VertexConsumerProvider.Immediate vertexConsumerProvider, Entity entityIn, float partialTickTime, float rotX, float rotZ,
-			float rotYZ, float rotXY, float rotXZ, Matrix4f mat, Camera camera) {
+			float rotYZ, float rotXY, float rotXZ, MatrixStack matrices, Camera camera) {
+		Matrix4f mat = matrices.peek().getModel().copy();
 		this.renderParticle(vertexConsumerProvider, entityIn, partialTickTime, rotX, rotZ, rotYZ, rotXY, rotXZ, mat, camera);
 	}
 

@@ -34,6 +34,7 @@ import techguns.client.particle.TGParticleSystemType;
 import techguns.deatheffects.EntityDeathUtils.DeathType;
 import techguns.entities.projectiles.FlyingGibs;
 import techguns.sounds.TGSoundCategory;
+import net.minecraft.client.world.ClientWorld;
 
 public class DeathEffectHandler {
 	
@@ -112,6 +113,15 @@ public class DeathEffectHandler {
 
 			int count = gibs.size();
 
+			TGParticleSystem gibsSys = new TGParticleSystem(entity.world, data.type_gibs, x, entity.getY(), z, vel.x, vel.y, vel.z);
+			gibsSys.type.is3d = true;
+			gibsSys.models = gibs;
+			gibsSys.modelsTexture = gibsTexture;
+			gibsSys.type.particleCountMin = count; //this should be safe to set, since the number of parts shouldn't vary
+			gibsSys.type.particleCountMax = count;
+			gibsSys.attachedFXType = data.type_trail;
+			ClientProxy.get().particleManager.addEffect(gibsSys);
+			/*
 			for (int i = 0; i < count; i++) {
 				double vx = (0.5 - entity.world.random.nextDouble()) * 0.35;
 				double vy;
@@ -125,8 +135,11 @@ public class DeathEffectHandler {
 				FlyingGibs ent = new FlyingGibs(TGEntities.FLYING_GIBS, entity.world, entity, data, x, y, z, motionX * 0.35 + vx,
 						motionY * 0.35 + vy, motionZ * 0.35 + vz, (entity.getWidth() + entity.getHeight()) / 2.0f, gibs.get(i), gibsTexture);
 
-				entity.world.spawnEntity(ent);
+				//TODO
+				//entity.world.spawnEntity(ent);
+				((ClientWorld) MinecraftClient.getInstance().player.world).addEntity(ent.getEntityId(), entity);
 			}
+			*/
 			
 		} else if (deathtype == DeathType.BIO) {
 			ClientProxy.get().createFX("biodeath", entity.world, x, y, z, (double) motionX, (double) motionY,
@@ -187,6 +200,7 @@ public class DeathEffectHandler {
 			data.bloodColorB = genericGore.bloodColorB;
 			data.type_main = genericGore.type_main;
 			data.type_trail = genericGore.type_trail;
+			data.type_gibs = genericGore.type_gibs;
 			data.sound = genericGore.sound;
 			data.numGibs = -1; //TODO
 			data.init();
@@ -210,10 +224,12 @@ public class DeathEffectHandler {
 		//public boolean showBlood = true;
 		String fx_main = "GoreFX_Blood";
 		String fx_trail ="GoreTrailFX_Blood";
+		String fx_gibs ="Gore3dGibsFX_Generic";
 		public SoundEvent sound = TGSounds.DEATH_GORE;
 		
 		public TGParticleSystemType type_main;
 		public TGParticleSystemType type_trail;
+		public TGParticleSystemType type_gibs;
 
 		public float minPartScale = 1.0f;
 		public float maxPartScale = 1.0f;
@@ -282,6 +298,19 @@ public class DeathEffectHandler {
 				}
 			}else {
 				this.type_trail = null;
+			}
+			
+			type_gibs = new TGParticleSystemType();
+			
+			if (TGFX.FXList.containsKey(fx_gibs.toLowerCase())) {
+				TGFXType fxtype_gibs = TGFX.FXList.get(fx_gibs.toLowerCase());
+				if (fxtype_gibs instanceof TGParticleSystemType) {
+					this.type_gibs = getExtendedType((TGParticleSystemType) fxtype_gibs);
+				}else {
+					this.type_gibs = null;
+				}
+			}else {
+				this.type_gibs = null;
 			}
 		}
 

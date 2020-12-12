@@ -1,17 +1,22 @@
 package techguns.client.particle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleTextureSheet;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.VertexConsumerProvider.Immediate;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
@@ -31,6 +36,9 @@ public class TGParticleSystem extends Particle implements ITGParticle {
 	
 	public EntityCondition condition = EntityCondition.NONE;
 		
+	public ArrayList<ModelPart> models;
+	public Identifier modelsTexture;
+	
 	int systemLifetime;
 	int spawnDelay = 0;
 	
@@ -49,6 +57,8 @@ public class TGParticleSystem extends Particle implements ITGParticle {
 	public float startSize = 0.0f;
 	
 	protected TGParticleStreak prevParticle = null;
+	
+	public TGFXType attachedFXType = null; //This allows us to set a modified type
 	
 //	private long timediff = 0;
 	
@@ -91,6 +101,11 @@ public class TGParticleSystem extends Particle implements ITGParticle {
 		this.startSizeRateDamping = MathUtil.randomFloat(this.random, type.startSizeRateDampingMin, type.startSizeRateDampingMax);
 		//Minecraft.getMinecraft().effectRenderer.addEffect(this);
 		//timediff = System.currentTimeMillis();
+		if (this.type.attachedSystem != null && !this.type.attachedSystem.equals("")) {
+			if (TGFX.FXList.containsKey(this.type.attachedSystem.toLowerCase())) {
+				this.attachedFXType = TGFX.FXList.get(this.type.attachedSystem.toLowerCase());
+			}
+		}
 	}
 	
 	public void onUpdate() {	
@@ -196,8 +211,15 @@ public class TGParticleSystem extends Particle implements ITGParticle {
 				//Spawn particle
 				double mf = 0.05D; //Per Second instead of Per Tick
 				TGParticle particle=null;
-				
-				if (this.type.streak) {
+				if (this.type.is3d) {
+					if (this.models != null && this.modelsTexture != null) {
+						ModelPart model = this.models.get(i % this.models.size());
+						TGParticle3D particle3d = new TGParticle3D(this.world, this.x+position.x, this.y+position.y, this.z+position.z, motion.x*mf, motion.y*mf, motion.z*mf, this, model, this.modelsTexture);
+						addEffect(particle3d);
+						particle = particle3d;
+					}
+					//TODO: 3D and Streak combination
+				} else if (this.type.streak) {
 					TGParticleStreak particleStreak = new TGParticleStreak(this.world, this.x+position.x, this.y+position.y, this.z+position.z, motion.x*mf, motion.y*mf, motion.z*mf, this);
 					if (prevParticle != null) {
 						particleStreak.setPrev(prevParticle);
@@ -215,8 +237,8 @@ public class TGParticleSystem extends Particle implements ITGParticle {
 					}
 					addEffect(particle);
 				}
-				if (this.type.attachedSystem != null && !this.type.attachedSystem.equals("")) {
-					List<TGParticleSystem> systems = TGFX.createFXOnParticle(this.world, particle, this.type.attachedSystem);
+				if (particle != null && this.attachedFXType != null) {
+					List<TGParticleSystem> systems = this.attachedFXType.createParticleSystemsOnParticle(this.world, particle);
 					if (systems!=null) {
 						for (TGParticleSystem s : systems) {
 							s.scale = this.scale;
@@ -328,11 +350,6 @@ public class TGParticleSystem extends Particle implements ITGParticle {
 		this.entity=null;
 	}
 
-	@Override
-	public void doRender(VertexConsumerProvider.Immediate vertexConsumerProvider, Entity entityIn, float partialTickTime,
-			float rotX, float rotZ, float rotYZ, float rotXY, float rotXZ, Matrix4f mat, Camera camera) {
-		//nothing to do
-	}
 
 	@Override
 	public void buildGeometry(VertexConsumer vertexConsumer, Camera camera, float tickDelta) {
@@ -342,6 +359,13 @@ public class TGParticleSystem extends Particle implements ITGParticle {
 	@Override
 	public ParticleTextureSheet getType() {
 		return ParticleTextureSheet.NO_RENDER;
+	}
+
+	@Override
+	public void doRender(Immediate vertexConsumerProvider, Entity entityIn, float partialTickTime, float rotX,
+			float rotZ, float rotYZ, float rotXY, float rotXZ, MatrixStack matrices, Camera camera) {
+		//nothing to do
+		
 	}
 
 }
