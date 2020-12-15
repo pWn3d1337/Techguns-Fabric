@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.network.NetworkState;
@@ -36,6 +38,10 @@ public class Techguns implements ModInitializer {
 	
 	@Override
 	public void onInitialize() {
+		//Register & get config
+		AutoConfig.register(TGConfig.class, Toml4jConfigSerializer::new);
+		TGConfig.INSTANCE = AutoConfig.getConfigHolder(TGConfig.class).getConfig();
+
 		for (ITGInitializer init : initializers) {
 			init.init();
 		}

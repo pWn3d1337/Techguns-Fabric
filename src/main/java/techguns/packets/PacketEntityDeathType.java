@@ -59,9 +59,9 @@ public class PacketEntityDeathType extends TGBasePacket{
 
 	@Override
 	public void handle(PlayerEntity player) {
-		if (TGConfig.cl_enableDeathFX) {
+		if (TGConfig.INSTANCE.cl_enableDeathFX_Gore) {
 			LivingEntity entity = (LivingEntity) player.world.getEntityById(this.entityId);
-			if (this.deathtype != DeathType.GORE || (this.deathtype==DeathType.GORE && TGConfig.cl_enableDeathFX_Gore)){			
+			if (this.deathtype != DeathType.GORE || (this.deathtype==DeathType.GORE && TGConfig.INSTANCE.cl_enableDeathFX_Gore)){
 				if (entity != null) {
 					entity.setVelocity(motionX, motionY, motionZ);
 					DeathEffectHandler.setEntityDeathType(entity, this.deathtype);

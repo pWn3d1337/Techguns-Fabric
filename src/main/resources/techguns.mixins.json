@@ -22,7 +22,8 @@
     "InGameHudMixin",
     "ModelLoaderMixin",
     "LivingEntityRendererMixin",
-    "AnimalModelMixin"
+    "AnimalModelMixin",
+    "HeldItemRendererMixin"
    ],
   "injectors": {
     "defaultRequire": 1

@@ -87,13 +87,13 @@ public class TGParticleManager {
 		}
 		//list.debugPrintList();
 		
-		if(TGConfig.cl_sortPassesPerTick>0) {
+		if(TGConfig.INSTANCE.cl_sortPassesPerTick>0) {
 			this.doSorting();
 		}
 	}
 
 	public void doSorting() {
-		this.list.doBubbleSort(TGConfig.cl_sortPassesPerTick, compare);
+		this.list.doBubbleSort(TGConfig.INSTANCE.cl_sortPassesPerTick, compare);
 	}
 	
 	/**
