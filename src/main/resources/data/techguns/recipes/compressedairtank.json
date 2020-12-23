@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "techguns:compressedairtank"
+  },
+  "ingredients": [
+    {
+      "item": "techguns:compressedairtankempty"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    },
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

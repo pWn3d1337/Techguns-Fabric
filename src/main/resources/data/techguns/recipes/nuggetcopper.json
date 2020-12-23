@@ -1,0 +1,12 @@
+{
+  "result": {
+    "item": "techguns:nuggetcopper",
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "tag": "c:copper_ingots"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

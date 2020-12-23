@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import techguns.TGItems;
 import techguns.util.ItemUtil;
 
 public class AmmoType {
@@ -38,7 +39,15 @@ public class AmmoType {
 	public AmmoType addVariant(String key, ItemStack... ammo) {
 		return this.addVariant(key, ammo, ammo);
 	}
-	
+
+	public AmmoType addVariant(String key, Item ammo){
+		return this.addVariant(key,new ItemStack(ammo,1));
+	}
+
+	public AmmoType addVariant(String key, Item ammo, Item mag){
+		return this.addVariant(key,new ItemStack(ammo,1), new ItemStack(mag,1));
+	}
+
 	public int getIDforVariantKey(String key) {
 		if (ammoVariantIDs.containsKey(key)) {
 			return ammoVariantIDs.get(key);

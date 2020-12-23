@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "techguns:as50magazine"
+  },
+  "ingredients": [
+    {
+      "item": "techguns:as50magazineempty"
+    },
+    {
+      "item": "techguns:sniperrounds"
+    },
+    {
+      "item": "techguns:sniperrounds"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

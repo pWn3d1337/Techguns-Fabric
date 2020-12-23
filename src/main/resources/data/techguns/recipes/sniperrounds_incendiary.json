@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "techguns:sniperrounds_incendiary",
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "item": "techguns:sniperrounds"
+    },
+    {
+      "item": "techguns:sniperrounds"
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -1,10 +1,14 @@
 package techguns;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.block.Block;
+import net.minecraft.block.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.registry.Registry;
+import techguns.api.inventory.TGSlotType;
 import techguns.items.GenericItem;
 import techguns.items.GenericItemRenderHack;
 
@@ -60,126 +64,125 @@ public class TGItems implements ITGInitializer {
 	/**
 	 * MATERIALS
 	 */
-	public static ItemStack HEAVY_CLOTH;
+	public static Item HEAVY_CLOTH;
 	public static ItemStack PROTECTIVE_FIBER;
 	
-	public static ItemStack BIOMASS;
+	public static Item BIOMASS;
 	
 	/**
 	 * GUN PARTS
 	 */
-	public static ItemStack RECEIVER_IRON;
-	public static ItemStack RECEIVER_STEEL;
-	public static ItemStack RECEIVER_OBSIDIAN_STEEL;
-	public static ItemStack RECEIVER_CARBON;
+	public static Item RECEIVER_IRON;
+	public static Item RECEIVER_STEEL;
+	public static Item RECEIVER_OBSIDIAN_STEEL;
+	public static Item RECEIVER_CARBON;
 	
-	public static ItemStack BARREL_STONE;
-	public static ItemStack BARREL_IRON;
+	public static Item BARREL_STONE;
+	public static Item BARREL_IRON;
 	//public static ItemStack BARREL_STEEL;
-	public static ItemStack BARREL_OBSIDIAN_STEEL;
-	public static ItemStack BARREL_CARBON;
-	public static ItemStack BARREL_LASER;
+	public static Item BARREL_OBSIDIAN_STEEL;
+	public static Item BARREL_CARBON;
+	public static Item BARREL_LASER;
 	
-	public static ItemStack STOCK_WOOD;
-	public static ItemStack STOCK_PLASTIC;
-	public static ItemStack STOCK_CARBON;
+	public static Item STOCK_WOOD;
+	public static Item STOCK_PLASTIC;
+	public static Item STOCK_CARBON;
 	
 	/**
 	 * Metals
 	 */
-	public static ItemStack STEAMARMOR_PLATE;
-	public static ItemStack PLATE_IRON;
-	public static ItemStack PLATE_COPPER;
-	public static ItemStack PLATE_TIN;
-	public static ItemStack PLATE_BRONZE;
-	public static ItemStack PLATE_STEEL;
-	public static ItemStack PLATE_OBSIDIAN_STEEL;
-	public static ItemStack PLATE_LEAD;
-	public static ItemStack PLATE_TITANIUM;
-	public static ItemStack PLATE_CARBON;
+	public static Item STEAMARMOR_PLATE;
+	public static Item PLATE_IRON;
+	public static Item PLATE_COPPER;
+	public static Item PLATE_TIN;
+	public static Item PLATE_BRONZE;
+	public static Item PLATE_STEEL;
+	public static Item PLATE_OBSIDIAN_STEEL;
+	public static Item PLATE_LEAD;
+	public static Item PLATE_TITANIUM;
+	public static Item PLATE_CARBON;
 	
-	public static ItemStack PLASTIC_SHEET;
-	public static ItemStack RUBBER_BAR;
+	public static Item PLASTIC_SHEET;
+	public static Item RUBBER_BAR;
 	
-	public static ItemStack MECHANICAL_PARTS_IRON;
-	public static ItemStack MECHANICAL_PARTS_OBSIDIAN_STEEL;
-	public static ItemStack MECHANICAL_PARTS_CARBON;
-	
-	public static ItemStack WIRE_COPPER;
-	public static ItemStack WIRE_GOLD;
-	public static ItemStack CARBON_FIBERS;
-	
-	public static ItemStack CIRCUIT_BOARD_BASIC;
-	public static ItemStack CIRCUIT_BOARD_ELITE;
-	public static ItemStack POWER_ARMOR_PLATING;
-	
-	public static ItemStack COIL;
-	public static ItemStack CYBERNETIC_PARTS;
-	public static ItemStack ELECTRIC_ENGINE;
-	
-	public static ItemStack LASER_FOCUS;
-	public static ItemStack PUMP_MECHANISM;
-	public static ItemStack RAD_EMITTER;
-	public static ItemStack SONIC_EMITTER;
-	
-	public static ItemStack TGX;
-	public static ItemStack TREATED_LEATHER;
-	public static ItemStack ORE_TITANIUM;
-	
-	public static ItemStack RAW_PLASTIC;
-	public static ItemStack RAW_RUBBER;
-	public static ItemStack YELLOWCAKE;
-	public static ItemStack ENRICHED_URANIUM;
-	
-	public static ItemStack INGOT_COPPER;
-	public static ItemStack INGOT_TIN;
-	public static ItemStack INGOT_BRONZE;
-	public static ItemStack INGOT_STEEL;
-	public static ItemStack INGOT_OBSIDIAN_STEEL;
-	public static ItemStack INGOT_LEAD;
-	public static ItemStack INGOT_TITANIUM;
-	
-	public static ItemStack NUGGET_COPPER;
-	public static ItemStack NUGGET_LEAD;
-	public static ItemStack NUGGET_STEEL;
-	
-	//
-	public static ItemStack GAS_MASK_FILTER;
-	public static ItemStack GLIDER_BACKBACK;
-	public static ItemStack GLIDER_WING;
-	public static ItemStack ANTI_GRAV_CORE;
-	
-	public static ItemStack OXYGEN_MASK;
-	
-	public static ItemStack MACHINE_UPGRADE_STACK;
+	public static Item MECHANICAL_PARTS_IRON;
+	public static Item MECHANICAL_PARTS_OBSIDIAN_STEEL;
+	public static Item MECHANICAL_PARTS_CARBON;
 
-	public static ItemStack BARREL_GAUSS;
+	public static Item WIRE_COPPER;
+	public static Item WIRE_GOLD;
+	public static Item CARBON_FIBERS;
+
+	public static Item CIRCUIT_BOARD_BASIC;
+	public static Item CIRCUIT_BOARD_ELITE;
+	public static Item POWER_ARMOR_PLATING;
+
+	public static Item COIL;
+	public static Item CYBERNETIC_PARTS;
+	public static Item ELECTRIC_ENGINE;
+
+	public static Item LASER_FOCUS;
+	public static Item PUMP_MECHANISM;
+	public static Item RAD_EMITTER;
+	public static Item SONIC_EMITTER;
+
+	public static Item TGX;
+	public static Item TREATED_LEATHER;
+	public static Item ORE_TITANIUM;
+
+	public static Item RAW_PLASTIC;
+	public static Item RAW_RUBBER;
+	public static Item YELLOWCAKE;
+	public static Item ENRICHED_URANIUM;
+
+	public static Item INGOT_COPPER;
+	public static Item INGOT_TIN;
+	public static Item INGOT_BRONZE;
+	public static Item INGOT_STEEL;
+	public static Item INGOT_OBSIDIAN_STEEL;
+	public static Item INGOT_LEAD;
+	public static Item INGOT_TITANIUM;
+
+	public static Item NUGGET_COPPER;
+	public static Item NUGGET_LEAD;
+	public static Item NUGGET_STEEL;
+
+	//
+	public static Item GAS_MASK_FILTER;
+	public static Item GLIDER_BACKBACK;
+	public static Item GLIDER_WING;
+	public static Item ANTI_GRAV_CORE;
+
+	public static Item OXYGEN_MASK;
+
+	public static Item MACHINE_UPGRADE_STACK;
+
+	public static Item BARREL_GAUSS;
 	
+	public static Item BARREL_TITANIUM;
+	public static Item RECEIVER_TITANIUM;
+	public static Item PLASMA_GENERATOR;
+
 	//Ammo Variants
-	public static ItemStack SHOTGUN_ROUNDS_INCENDIARY;
-	public static ItemStack AS50_MAGAZINE_INCENDIARY;
-	public static ItemStack SNIPER_ROUNDS_INCENDIARY;
-	public static ItemStack PISTOL_ROUNDS_INCENDIARY;
-	public static ItemStack RIFLE_ROUNDS_INCENDIARY;
-	public static ItemStack RIFLE_ROUNDS_STACK_INCENDIARY;
-	public static ItemStack PISTOL_MAGAZINE_INCENDIARY;
-	public static ItemStack MINIGUN_DRUM_INCENDIARY;
-	public static ItemStack SMG_MAGAZINE_INCENDIARY;
-	public static ItemStack ASSAULTRIFLE_MAGAZINE_INCENDIARY;
-	public static ItemStack LMG_MAGAZINE_INCENDIARY;
-	
-	public static ItemStack ROCKET_NUKE;
-	public static ItemStack TACTICAL_NUKE_WARHEAD;
-	
-	public static ItemStack BARREL_TITANIUM;
-	public static ItemStack RECEIVER_TITANIUM;
-	public static ItemStack PLASMA_GENERATOR;
-	
-	public static ItemStack SNIPER_ROUNDS_EXPLOSIVE;
-	public static ItemStack AS50_MAGAZINE_EXPLOSIVE;
-	
-	public static ItemStack ROCKET_HIGH_VELOCITY;
-	
+	public static Item SHOTGUN_ROUNDS_INCENDIARY;
+	public static Item AS50_MAGAZINE_INCENDIARY;
+	public static Item SNIPER_ROUNDS_INCENDIARY;
+	public static Item PISTOL_ROUNDS_INCENDIARY;
+	public static Item RIFLE_ROUNDS_INCENDIARY;
+	public static Item RIFLE_ROUNDS_STACK_INCENDIARY;
+	public static Item PISTOL_MAGAZINE_INCENDIARY;
+	public static Item MINIGUN_DRUM_INCENDIARY;
+	public static Item SMG_MAGAZINE_INCENDIARY;
+	public static Item ASSAULTRIFLE_MAGAZINE_INCENDIARY;
+	public static Item LMG_MAGAZINE_INCENDIARY;
+
+	public static Item ROCKET_NUKE;
+	public static Item TACTICAL_NUKE_WARHEAD;
+
+	public static Item SNIPER_ROUNDS_EXPLOSIVE;
+	public static Item AS50_MAGAZINE_EXPLOSIVE;
+
+	public static Item ROCKET_HIGH_VELOCITY;
 	/**
 	 * ADDITONAL SLOT ITEMS
 	 */
@@ -193,97 +196,283 @@ public class TGItems implements ITGInitializer {
 	public static ItemTacticalMask TACTICAL_MASK;
 	public static ItemAntiGravPack ANTI_GRAV_PACK;*/
 	
-	public static ItemStack WORKING_GLOVES;
+	public static Item TURRET_ARMOR_IRON;
+	public static Item TURRET_ARMOR_STEEL;
+	public static Item TURRET_ARMOR_OBSIDIAN_STEEL;
+	public static Item TURRET_ARMOR_CARBON;
 	
-	public static ItemStack TURRET_ARMOR_IRON;
-	public static ItemStack TURRET_ARMOR_STEEL;
-	public static ItemStack TURRET_ARMOR_OBSIDIAN_STEEL;
-	public static ItemStack TURRET_ARMOR_CARBON;
+	public static Item QUARTZ_ROD;
+	public static Item RC_HEAT_RAY;
+	public static Item RC_UV_EMITTER;
 	
-	public static ItemStack QUARTZ_ROD;
-	public static ItemStack RC_HEAT_RAY;
-	public static ItemStack RC_UV_EMITTER;
+	public static Item MININGDRILLHEAD_OBSIDIAN;
+	public static Item MININGDRILLHEAD_CARBON;
 	
-	public static ItemStack MININGDRILLHEAD_OBSIDIAN;
-	public static ItemStack MININGDRILLHEAD_CARBON;
+	public static Item POWERHAMMERHEAD_OBSIDIAN;
+	public static Item POWERHAMMERHEAD_CARBON;
 	
-	public static ItemStack POWERHAMMERHEAD_OBSIDIAN;
-	public static ItemStack POWERHAMMERHEAD_CARBON;
+	public static Item CHAINSAWBLADES_OBSIDIAN;
+	public static Item CHAINSAWBLADES_CARBON;
 	
-	public static ItemStack CHAINSAWBLADES_OBSIDIAN;
-	public static ItemStack CHAINSAWBLADES_CARBON;
-	
-	public static ItemStack INFUSION_BAG;
-		
+	public static Item INFUSION_BAG;
+
+	/**
+	 * BLOCK ITEMS, initialized in TGBlocks
+	 */
+	public static Item COPPER_ORE;
+	public static Item TIN_ORE;
+	public static Item LEAD_ORE;
+	public static Item URANIUM_ORE;
+	public static Item TITANIUM_ORE;
+
 	public static final ItemGroup ITEM_GROUP_TECHGUNS = FabricItemGroupBuilder.build(
 			new TGIdentifier("techguns"),
 			() -> new ItemStack(TGItems.RIFLE_ROUNDS));
 	
 	@Override
 	public void init() {
-		STONE_BULLETS = addAmmoItem("stonebullets"); 
-		PISTOL_ROUNDS = addAmmoItem("pistolrounds");
-		SHOTGUN_ROUNDS = addAmmoItem("shotgunrounds");
-		RIFLE_ROUNDS = addAmmoItem("riflerounds");
-		SNIPER_ROUNDS = addAmmoItem("sniperrounds");
-		GRENADE_40MM = addAmmoItem("40mmgrenade");
-		ADVANCED_ROUNDS = addAmmoItem("advancedrounds");
-		ROCKET = addAmmoItemRenderHack("rocket");
-		RIFLE_ROUNDS_STACK = addAmmoItem("rifleroundsstack");
-		
-		SMG_MAGAZINE = addAmmoItem("smgmagazine");
-		SMG_MAGAZINE_EMPTY = addAmmoItem("smgmagazineempty");
-		PISTOL_MAGAZINE = addAmmoItem("pistolmagazine");
-		PISTOL_MAGAZINE_EMPTY = addAmmoItem("pistolmagazineempty");
-		ASSAULTRIFLE_MAGAZINE = addAmmoItemRenderHack("assaultriflemagazine");
-		ASSAULTRIFLE_MAGAZINE_EMPTY = addAmmoItemRenderHack("assaultriflemagazineempty");
-		LMG_MAGAZINE = addAmmoItemRenderHack("lmgmagazine");
-		LMG_MAGAZINE_EMPTY = addAmmoItemRenderHack("lmgmagazineempty");
-		MINIGUN_DRUM = addAmmoItem("minigundrum");
-		MINIGUN_DRUM_EMPTY = addAmmoItem("minigundrumempty");
-		AS50_MAGAZINE = addAmmoItemRenderHack("as50magazine");
-		AS50_MAGAZINE_EMPTY = addAmmoItemRenderHack("as50magazineempty");
-		
-		ADVANCED_MAGAZINE = addAmmoItem("advancedmagazine");
-		ADVANCED_MAGAZINE_EMPTY = addAmmoItem("advancedmagazineempty");
-		
-		COMPRESSED_AIR_TANK = addAmmoItem("compressedairtank");
-		COMPRESSED_AIR_TANK_EMPTY = addAmmoItem("compressedairtankempty");
-		
-		BIO_TANK = addAmmoItem("biotank");
-		BIO_TANK_EMPTY = addAmmoItem("biotankempty");
-		
-		FUEL_TANK = addAmmoItem("fueltank");
-		FUEL_TANK_EMPTY = addAmmoItem("fueltankempty");
-		
-		ENERGY_CELL = addAmmoItem("energycell");
-		ENERGY_CELL_EMPTY = addAmmoItem("energycellempty");
-		
-		NUCLEAR_POWERCELL = addAmmoItem("nuclearpowercell");
-		NUCLEAR_POWERCELL_EMPTY = addAmmoItem("nuclearpowercelldepleted");
-		
-		REDSTONE_BATTERY = addAmmoItem("redstone_battery");
-		REDSTONE_BATTERY_EMPTY = addAmmoItem("redstone_battery_empty");
+		STONE_BULLETS = addItem("stonebullets", TGSlotType.AMMOSLOT);
+		PISTOL_ROUNDS = addItem("pistolrounds", TGSlotType.AMMOSLOT);
+		SHOTGUN_ROUNDS = addItem("shotgunrounds", TGSlotType.AMMOSLOT);
+		RIFLE_ROUNDS = addItem("riflerounds", TGSlotType.AMMOSLOT);
+		SNIPER_ROUNDS = addItem("sniperrounds", TGSlotType.AMMOSLOT);
+		GRENADE_40MM = addItem("40mmgrenade", TGSlotType.AMMOSLOT);
+		ADVANCED_ROUNDS = addItem("advancedrounds", TGSlotType.AMMOSLOT);
+		ROCKET = addItem("rocket", true, TGSlotType.AMMOSLOT);
+		RIFLE_ROUNDS_STACK = addItem("rifleroundsstack", TGSlotType.AMMOSLOT);
 
-		GAUSSRIFLE_SLUGS = addAmmoItem("gaussrifleslugs");
+		SMG_MAGAZINE = addItem("smgmagazine", TGSlotType.AMMOSLOT);
+		SMG_MAGAZINE_EMPTY = addItem("smgmagazineempty", TGSlotType.AMMOSLOT);
+		PISTOL_MAGAZINE = addItem("pistolmagazine", TGSlotType.AMMOSLOT);
+		PISTOL_MAGAZINE_EMPTY = addItem("pistolmagazineempty", TGSlotType.AMMOSLOT);
+		ASSAULTRIFLE_MAGAZINE = addItem("assaultriflemagazine", true, TGSlotType.AMMOSLOT);
+		ASSAULTRIFLE_MAGAZINE_EMPTY = addItem("assaultriflemagazineempty", true, TGSlotType.AMMOSLOT);
+		LMG_MAGAZINE = addItem("lmgmagazine", true, TGSlotType.AMMOSLOT);
+		LMG_MAGAZINE_EMPTY = addItem("lmgmagazineempty", true, TGSlotType.AMMOSLOT);
+		MINIGUN_DRUM = addItem("minigundrum", TGSlotType.AMMOSLOT);
+		MINIGUN_DRUM_EMPTY = addItem("minigundrumempty", TGSlotType.AMMOSLOT);
+		AS50_MAGAZINE = addItem("as50magazine", true, TGSlotType.AMMOSLOT);
+		AS50_MAGAZINE_EMPTY = addItem("as50magazineempty", true, TGSlotType.AMMOSLOT);
 
-		NETHER_CHARGE = addAmmoItem("nethercharge");
+		ADVANCED_MAGAZINE = addItem("advancedmagazine", TGSlotType.AMMOSLOT);
+		ADVANCED_MAGAZINE_EMPTY = addItem("advancedmagazineempty", TGSlotType.AMMOSLOT);
+
+		COMPRESSED_AIR_TANK = addItem("compressedairtank", TGSlotType.AMMOSLOT);
+		COMPRESSED_AIR_TANK_EMPTY = addItem("compressedairtankempty", TGSlotType.AMMOSLOT);
+
+		BIO_TANK = addItem("biotank", TGSlotType.AMMOSLOT);
+		BIO_TANK_EMPTY = addItem("biotankempty", TGSlotType.AMMOSLOT);
+
+		FUEL_TANK = addItem("fueltank", TGSlotType.AMMOSLOT);
+		FUEL_TANK_EMPTY = addItem("fueltankempty", TGSlotType.AMMOSLOT);
+
+		ENERGY_CELL = addItem("energycell", TGSlotType.AMMOSLOT);
+		ENERGY_CELL_EMPTY = addItem("energycellempty", TGSlotType.AMMOSLOT);
+
+		NUCLEAR_POWERCELL = addItem("nuclearpowercell", TGSlotType.AMMOSLOT);
+		NUCLEAR_POWERCELL_EMPTY = addItem("nuclearpowercelldepleted", TGSlotType.AMMOSLOT);
+
+		REDSTONE_BATTERY = addItem("redstone_battery", TGSlotType.AMMOSLOT);
+		REDSTONE_BATTERY_EMPTY = addItem("redstone_battery_empty", TGSlotType.AMMOSLOT);
+
+		GAUSSRIFLE_SLUGS = addItem("gaussrifleslugs", TGSlotType.AMMOSLOT);
+
+		NETHER_CHARGE = addItem("nethercharge", TGSlotType.AMMOSLOT);
+
+		/**
+		 * GUNPARTS
+		 */
+		RECEIVER_IRON = addItem("ironreceiver");
+		RECEIVER_STEEL = addItem("steelreceiver");
+		RECEIVER_OBSIDIAN_STEEL = addItem("obsidiansteelreceiver");
+		RECEIVER_CARBON = addItem("carbonreceiver");
+
+		BARREL_STONE = addItem("stonebarrel");
+		BARREL_IRON = addItem("ironbarrel");
+		//BARREL_STEEL = addItem("steelbarrel");
+		BARREL_OBSIDIAN_STEEL = addItem("obsidiansteelbarrel");
+		BARREL_CARBON = addItem("carbonbarrel");
+		BARREL_LASER = addItem("laserbarrel");
+
+		STOCK_WOOD = addItem("woodstock");
+		STOCK_PLASTIC = addItem("plasticstock");
+		STOCK_CARBON = addItem("carbonstock");
+
+		STEAMARMOR_PLATE = addItem("steamarmorplate");
+		PLATE_IRON =  addItem("plateiron");
+		PLATE_COPPER =  addItem("platecopper");
+		PLATE_TIN =  addItem("platetin");
+		PLATE_BRONZE =  addItem("platebronze");
+		PLATE_STEEL =  addItem("platesteel");
+		PLATE_OBSIDIAN_STEEL=  addItem("plateobsidiansteel");
+		PLATE_LEAD =  addItem("platelead");
+		PLATE_CARBON =  addItem("platecarbon");
+		PLATE_TITANIUM =  addItem("platetitanium");
+
+		PLASTIC_SHEET =  addItem("plasticsheet");
+		RUBBER_BAR =  addItem("rubberbar");
+
+		MECHANICAL_PARTS_IRON = addItem("mechanicalpartsiron");
+		MECHANICAL_PARTS_OBSIDIAN_STEEL = addItem("mechanicalpartsobsidiansteel");
+		MECHANICAL_PARTS_CARBON = addItem("mechanicalpartscarbon");
+
+		HEAVY_CLOTH = addItem("heavycloth");
+		BIOMASS = addItem("biomass");
+
+		WIRE_COPPER = addItem("copperwire");
+		WIRE_GOLD = addItem("goldwire");
+		CARBON_FIBERS = addItem("carbonfibers");
+
+		CIRCUIT_BOARD_BASIC = addItem("circuitboard");
+		CIRCUIT_BOARD_ELITE = addItem("circuitboardelite");
+		POWER_ARMOR_PLATING = addItem("powerplating");
+
+		COIL = addItem("coil");
+		CYBERNETIC_PARTS = addItem("cyberneticparts");
+		ELECTRIC_ENGINE = addItem("electricengine");
+
+		LASER_FOCUS = addItem("laserfocus");
+		PUMP_MECHANISM = addItem("pumpmechanism");
+		RAD_EMITTER = addItem("rademitter");
+		SONIC_EMITTER = addItem("sonicemitter");
+
+		TGX = addItem("tgx");
+		TREATED_LEATHER = addItem("treatedleather");
+		ORE_TITANIUM = addItem("oretitanium");
+
+		INGOT_COPPER = addItemOptional("ingotcopper",TGConfig.INSTANCE.addCopperIngots);
+		INGOT_TIN = addItemOptional("ingottin",TGConfig.INSTANCE.addTinIngots);
+		INGOT_BRONZE = addItemOptional("ingotbronze",TGConfig.INSTANCE.addBronzeIngots);
+		INGOT_LEAD = addItemOptional("ingotlead",TGConfig.INSTANCE.addLeadIngots);
+		INGOT_STEEL = addItemOptional("ingotsteel",TGConfig.INSTANCE.addSteelIngots);
+		INGOT_OBSIDIAN_STEEL = addItem("ingotobsidiansteel");
+		INGOT_TITANIUM = addItem("ingottitanium");
+
+		NUGGET_COPPER = addItemOptional("nuggetcopper",TGConfig.INSTANCE.addCopperNuggets);
+		NUGGET_LEAD = addItemOptional("nuggetlead", TGConfig.INSTANCE.addLeadNuggets);
+		NUGGET_STEEL = addItemOptional("nuggetsteel", TGConfig.INSTANCE.addSteelNuggets);
+
+		GAS_MASK_FILTER = addItem("gasmaskfilter");
+		GLIDER_BACKBACK = addItem("gliderbackpack");
+		GLIDER_WING = addItem("gliderwing");
+		ANTI_GRAV_CORE = addItem("antigravcore");
+
+		OXYGEN_MASK = addItem("oxygenmask", false, TGSlotType.FACESLOT, 1, true);
+
+		MACHINE_UPGRADE_STACK = addItem("machinestackupgrade", false, TGSlotType.NORMAL, 7, true);
+
+		RAW_RUBBER = addItem("rawrubber");
+		RAW_PLASTIC = addItem("rawplastic");
+		YELLOWCAKE = addItem("yellowcake");
+		ENRICHED_URANIUM = addItem("enricheduranium");
+
+		TURRET_ARMOR_IRON = addItem("turretarmoriron",TGSlotType.TURRETARMOR);
+		TURRET_ARMOR_STEEL = addItem("turretarmorsteel",TGSlotType.TURRETARMOR);
+		TURRET_ARMOR_OBSIDIAN_STEEL = addItem("turretarmorobsidiansteel",TGSlotType.TURRETARMOR);
+		TURRET_ARMOR_CARBON = addItem("turretarmorcarbon",TGSlotType.TURRETARMOR);
+
+		QUARTZ_ROD = addItem("quartzrod");
+		RC_HEAT_RAY = addItem("rcheatray",false,TGSlotType.REACTION_CHAMBER_FOCUS,1,true);
+		RC_UV_EMITTER = addItem("rcuvemitter",false,TGSlotType.REACTION_CHAMBER_FOCUS,1,true);
+
+		SHOTGUN_ROUNDS_INCENDIARY = addItem("shotgunrounds_incendiary", TGSlotType.AMMOSLOT);
+		AS50_MAGAZINE_INCENDIARY = addItem("as50magazine_incendiary", true, TGSlotType.AMMOSLOT);
+		SNIPER_ROUNDS_INCENDIARY = addItem("sniperrounds_incendiary",TGSlotType.AMMOSLOT);
+
+		PISTOL_ROUNDS_INCENDIARY = addItem("pistolrounds_incendiary",TGSlotType.AMMOSLOT);
+		RIFLE_ROUNDS_INCENDIARY = addItem("riflerounds_incendiary",TGSlotType.AMMOSLOT);
+		RIFLE_ROUNDS_STACK_INCENDIARY = addItem("rifleroundsstack_incendiary",TGSlotType.AMMOSLOT);
+
+		SMG_MAGAZINE_INCENDIARY = addItem("smgmagazine_incendiary",TGSlotType.AMMOSLOT);
+		PISTOL_MAGAZINE_INCENDIARY = addItem("pistolmagazine_incendiary",TGSlotType.AMMOSLOT);
+		MINIGUN_DRUM_INCENDIARY = addItem("minigundrum_incendiary", TGSlotType.AMMOSLOT);
+		ASSAULTRIFLE_MAGAZINE_INCENDIARY = addItem("assaultriflemagazine_incendiary",true, TGSlotType.AMMOSLOT);
+		LMG_MAGAZINE_INCENDIARY = addItem("lmgmagazine_incendiary",true, TGSlotType.AMMOSLOT);
+
+		ROCKET_NUKE = addItem("rocket_nuke", true, TGSlotType.AMMOSLOT);
+		TACTICAL_NUKE_WARHEAD = addItem("tacticalnukewarhead");
+
+		MININGDRILLHEAD_OBSIDIAN = addItem("miningdrillhead_obsidian");
+		MININGDRILLHEAD_CARBON = addItem("miningdrillhead_carbon");
+
+		POWERHAMMERHEAD_OBSIDIAN = addItem("powerhammerhead_obsidian");
+		POWERHAMMERHEAD_CARBON = addItem("powerhammerhead_carbon");
+
+		CHAINSAWBLADES_OBSIDIAN = addItem("chainsawblades_obsidian");
+		CHAINSAWBLADES_CARBON = addItem("chainsawblades_carbon");
+
+		BARREL_GAUSS = addItem("gaussbarrel");
+
+		BARREL_TITANIUM =  addItem("shieldedtitaniumbarrel");
+		RECEIVER_TITANIUM =  addItem("titaniumreceiver");
+		PLASMA_GENERATOR =  addItem("plasmagenerator");
+
+		//WORKING_GLOVES = addItem("workinggloves", false, TGSlotType.HANDSLOT, 1, true);
+		//PROTECTIVE_FIBER = addItem("protectivefiber");
+
+		/*OREDRILLHEAD_STEEL = addItem("oredrillsmall_steel", false, TGSlotType.DRILL_SMALL, 1, true);
+		OREDRILLHEAD_OBSIDIANSTEEL = addItem("oredrillsmall_obsidiansteel", false, TGSlotType.DRILL_SMALL, 1, true);
+		OREDRILLHEAD_CARBON = addItem("oredrillsmall_carbon", false, TGSlotType.DRILL_SMALL, 1, true);
+
+		OREDRILLHEAD_MEDIUM_STEEL = addItem("oredrillmedium_steel", false, TGSlotType.DRILL_MEDIUM, 1, true);
+		OREDRILLHEAD_MEDIUM_OBSIDIANSTEEL = addItem("oredrillmedium_obsidiansteel", false, TGSlotType.DRILL_MEDIUM, 1, true);
+		OREDRILLHEAD_MEDIUM_CARBON = addItem("oredrillmedium_carbon", false, TGSlotType.DRILL_MEDIUM, 1, true);
+
+		OREDRILLHEAD_LARGE_STEEL = addItem("oredrilllarge_steel", false, TGSlotType.DRILL_LARGE, 1, true);
+		OREDRILLHEAD_LARGE_OBSIDIANSTEEL = addItem("oredrilllarge_obsidiansteel", false, TGSlotType.DRILL_LARGE, 1, true);
+		OREDRILLHEAD_LARGE_CARBON = addItem("oredrilllarge_carbon", false, TGSlotType.DRILL_LARGE, 1, true);*/
+
+		AS50_MAGAZINE_EXPLOSIVE = addItem("as50magazine_explosive", true, TGSlotType.AMMOSLOT);
+		SNIPER_ROUNDS_EXPLOSIVE = addItem("sniperrounds_explosive",TGSlotType.AMMOSLOT);
+
+		ROCKET_HIGH_VELOCITY = addItem("rocket_high_velocity",true,TGSlotType.AMMOSLOT);
+
+		INFUSION_BAG = addItem("infusionbag");
+
+	/*	UPGRADE_PROTECTION_1 = addItem("upgrade_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
+		UPGRADE_PROJECTILE_PROTECTION_1 = addItem("upgrade_projectile_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
+		UPGRADE_BLAST_PROTECTION_1 = addItem("upgrade_blast_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
+
+		UPGRADE_PROTECTION_2 = addItem("upgrade_protection_2", false, TGSlotType.ARMOR_UPGRADE, 1, true);
+		UPGRADE_PROJECTILE_PROTECTION_2 = addItem("upgrade_projectile_protection_2", false, TGSlotType.ARMOR_UPGRADE, 1, true);
+		UPGRADE_BLAST_PROTECTION_2 = addItem("upgrade_blast_protection_2", false, TGSlotType.ARMOR_UPGRADE, 1, true);
+
+		UPGRADE_PROTECTION_3 = addItem("upgrade_protection_3", false, TGSlotType.ARMOR_UPGRADE, 1, true);
+		UPGRADE_PROJECTILE_PROTECTION_3 = addItem("upgrade_projectile_protection_3", false, TGSlotType.ARMOR_UPGRADE, 1, true);
+		UPGRADE_BLAST_PROTECTION_3 = addItem("upgrade_blast_protection_3", false, TGSlotType.ARMOR_UPGRADE, 1, true);
+*/
 	}
 
-	protected static Item addAmmoItem(String name) {
-		//TODO ammoslot
-		Item item = new GenericItem(new Item.Settings());
-		Registry.register(Registry.ITEM, new TGIdentifier(name), item);
-		return item;
+	public Item addItem(String name){
+		return addItem(name, false);
 	}
-	
-	protected static Item addAmmoItemRenderHack(String name) {
-		//TODO ammoslot
-		Item item = new GenericItemRenderHack(new Item.Settings());
-		Registry.register(Registry.ITEM, new TGIdentifier(name), item);
-		return item;
+
+	protected static Item addItem(String name, boolean useRenderHack){
+		return addItem(name, useRenderHack, TGSlotType.NORMAL);
 	}
-	
+
+	protected static Item addItem(String name, TGSlotType slottype){
+		return addItem(name, false, slottype);
+	}
+
+	protected static Item addItem(String name, boolean useRenderHack, TGSlotType slottype){
+		return addItem(name, useRenderHack,slottype,64,true);
+	}
+
+	protected static Item addItemOptional(String name, boolean enabled) {
+		return addItem(name, false, TGSlotType.NORMAL, 64, enabled);
+	}
+
+	protected static Item addItem(String name, boolean useRenderHack, TGSlotType slottype, int maxStackSize, boolean enabled){
+		if (enabled){
+			GenericItem item = useRenderHack ? new GenericItemRenderHack(new Item.Settings()) : new GenericItem(new Item.Settings());
+			Registry.register(Registry.ITEM, new TGIdentifier(name), item);
+			return item;
+		} else {
+			return null;
+		}
+	}
+
 	public static ItemStack newStack(ItemStack stack, int size) {
 		ItemStack ret = stack.copy();
 		ret.setCount(size);

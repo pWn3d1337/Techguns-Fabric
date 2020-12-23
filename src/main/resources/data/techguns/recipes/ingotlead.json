@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "techguns:ingotlead"
+  },
+  "ingredients": [
+    {
+      "tag": "c:lead_nuggets"
+    },
+    {
+      "tag": "c:lead_nuggets"
+    },
+    {
+      "tag": "c:lead_nuggets"
+    },
+    {
+      "tag": "c:lead_nuggets"
+    },
+    {
+      "tag": "c:lead_nuggets"
+    },
+    {
+      "tag": "c:lead_nuggets"
+    },
+    {
+      "tag": "c:lead_nuggets"
+    },
+    {
+      "tag": "c:lead_nuggets"
+    },
+    {
+      "tag": "c:lead_nuggets"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

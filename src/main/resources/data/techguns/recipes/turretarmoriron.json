@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "techguns:turretarmoriron"
+  },
+  "pattern": [
+    "ppp",
+    " p ",
+    " p "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:iron_plates"
+    }
+  }
+}

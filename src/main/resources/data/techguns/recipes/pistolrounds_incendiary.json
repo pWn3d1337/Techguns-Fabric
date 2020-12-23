@@ -1,0 +1,24 @@
+{
+  "result": {
+    "item": "techguns:pistolrounds_incendiary",
+    "count": 4
+  },
+  "ingredients": [
+    {
+      "item": "techguns:pistolrounds"
+    },
+    {
+      "item": "techguns:pistolrounds"
+    },
+    {
+      "item": "techguns:pistolrounds"
+    },
+    {
+      "item": "techguns:pistolrounds"
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

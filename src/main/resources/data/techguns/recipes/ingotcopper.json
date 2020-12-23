@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "techguns:ingotcopper"
+  },
+  "ingredients": [
+    {
+      "tag": "c:copper_nuggets"
+    },
+    {
+      "tag": "c:copper_nuggets"
+    },
+    {
+      "tag": "c:copper_nuggets"
+    },
+    {
+      "tag": "c:copper_nuggets"
+    },
+    {
+      "tag": "c:copper_nuggets"
+    },
+    {
+      "tag": "c:copper_nuggets"
+    },
+    {
+      "tag": "c:copper_nuggets"
+    },
+    {
+      "tag": "c:copper_nuggets"
+    },
+    {
+      "tag": "c:copper_nuggets"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

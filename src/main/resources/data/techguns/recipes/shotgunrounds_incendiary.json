@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "techguns:shotgunrounds_incendiary",
+    "count": 8
+  },
+  "ingredients": [
+    {
+      "item": "techguns:shotgunrounds"
+    },
+    {
+      "item": "techguns:shotgunrounds"
+    },
+    {
+      "item": "techguns:shotgunrounds"
+    },
+    {
+      "item": "techguns:shotgunrounds"
+    },
+    {
+      "item": "techguns:shotgunrounds"
+    },
+    {
+      "item": "techguns:shotgunrounds"
+    },
+    {
+      "item": "techguns:shotgunrounds"
+    },
+    {
+      "item": "techguns:shotgunrounds"
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:mechanicalpartsobsidiansteel",
+    "count": 2
+  },
+  "pattern": [
+    " i ",
+    "ifi",
+    " i "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "f": {
+      "item": "minecraft:quartz"
+    },
+    "i": {
+      "tag": "c:obsidian_ingots"
+    }
+  }
+}

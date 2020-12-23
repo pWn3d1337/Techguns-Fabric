@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "techguns:redstone_battery"
+  },
+  "ingredients": [
+    {
+      "item": "techguns:redstone_battery_empty"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "item": "minecraft:redstone"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

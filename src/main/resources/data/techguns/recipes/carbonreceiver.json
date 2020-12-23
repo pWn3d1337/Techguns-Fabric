@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "techguns:carbonreceiver"
+  },
+  "pattern": [
+    "ppp",
+    " mi",
+    "  i"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:carbon_plates"
+    },
+    "i": {
+      "tag": "c:obsidian_ingots"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartscarbon"
+    }
+  }
+}

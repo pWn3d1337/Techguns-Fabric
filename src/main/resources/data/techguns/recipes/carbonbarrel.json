@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "techguns:carbonbarrel"
+  },
+  "pattern": [
+    "iii",
+    "   ",
+    "iii"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": {
+      "tag": "c:carbon_plates"
+    }
+  }
+}

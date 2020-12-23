@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:rifleroundsstack"
+  },
+  "ingredients": [
+    {
+      "item": "techguns:riflerounds"
+    },
+    {
+      "item": "techguns:riflerounds"
+    },
+    {
+      "item": "techguns:riflerounds"
+    },
+    {
+      "item": "techguns:riflerounds"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

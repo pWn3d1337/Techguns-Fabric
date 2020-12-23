@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "techguns:stonebarrel"
+  },
+  "pattern": [
+    "sss",
+    "   ",
+    "sss"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "s": {
+      "item": "minecraft:stone"
+    }
+  }
+}

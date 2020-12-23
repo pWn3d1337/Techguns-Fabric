@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:pistolmagazine"
+  },
+  "ingredients": [
+    {
+      "item": "techguns:pistolmagazineempty"
+    },
+    {
+      "item": "techguns:pistolrounds"
+    },
+    {
+      "item": "techguns:pistolrounds"
+    },
+    {
+      "item": "techguns:pistolrounds"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

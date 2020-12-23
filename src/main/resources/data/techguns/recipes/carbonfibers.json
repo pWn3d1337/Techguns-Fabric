@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "techguns:carbonfibers"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:diamond"
+    },
+    {
+      "item": "minecraft:blaze_powder"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

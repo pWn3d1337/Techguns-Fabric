@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:advancedmagazineempty",
+    "count": 4
+  },
+  "pattern": [
+    "i i",
+    "i i",
+    "imi"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": {
+      "tag": "c:obsidian_ingots"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    }
+  }
+}

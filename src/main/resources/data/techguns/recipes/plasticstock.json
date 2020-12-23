@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "techguns:plasticstock"
+  },
+  "pattern": [
+    "ppp",
+    "  p"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:plasticsheet"
+    }
+  }
+}

@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.network.NetworkSide;
@@ -14,6 +16,7 @@ import net.minecraft.network.NetworkState;
 import techguns.items.guns.ammo.AmmoTypes;
 import techguns.mixin.NetworkStateMixin;
 import techguns.packets.PacketSpawnEntity;
+import techguns.recipes.Recipewriter;
 
 public class Techguns implements ModInitializer {
 	public static final String MODID = "techguns";
@@ -25,12 +28,14 @@ public class Techguns implements ModInitializer {
 	public static final TGuns guns = new TGuns();
 	public static final TGCamos camos = new TGCamos();
 	public static final TGEvents events = new TGEvents();
+	public static final TGBlocks blocks = new TGBlocks();
 	protected ArrayList<ITGInitializer> initializers = new ArrayList<>(Arrays.asList(
 	    	sounds,
 	    	items,
 			ammos,
 	    	entities,
 	    	guns,
+	    	blocks,
 	    	camos,
 	    	events
 	    ));
@@ -39,7 +44,7 @@ public class Techguns implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		//Register & get config
-		AutoConfig.register(TGConfig.class, Toml4jConfigSerializer::new);
+		AutoConfig.register(TGConfig.class, JanksonConfigSerializer::new);
 		TGConfig.INSTANCE = AutoConfig.getConfigHolder(TGConfig.class).getConfig();
 
 		for (ITGInitializer init : initializers) {
@@ -48,7 +53,11 @@ public class Techguns implements ModInitializer {
 		TGPacketsC2S.initialize();
 		initializers.clear();
 		initializers=null;
-		
+
+		if (Recipewriter.WRITE_RECIPES) {
+			Recipewriter.generateItemRecipes();
+		}
+
 		/*NetworkStateMixin play = (NetworkStateMixin) (Object)NetworkState.PLAY;
 		Map map = play.getPacketHandlers();
 		

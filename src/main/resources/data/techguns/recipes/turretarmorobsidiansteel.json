@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "techguns:turretarmorobsidiansteel"
+  },
+  "pattern": [
+    "ppp",
+    " p ",
+    " p "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:obsidian_plates"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:coil"
+  },
+  "pattern": [
+    " wi",
+    "wiw",
+    "iw "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "w": {
+      "tag": "c:copper_wires"
+    },
+    "i": {
+      "tag": "c:iron_ingots"
+    }
+  }
+}

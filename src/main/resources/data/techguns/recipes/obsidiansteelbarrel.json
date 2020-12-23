@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "techguns:obsidiansteelbarrel"
+  },
+  "pattern": [
+    "ooo",
+    "   ",
+    "ooo"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "o": {
+      "item": "techguns:ingotobsidiansteel"
+    }
+  }
+}

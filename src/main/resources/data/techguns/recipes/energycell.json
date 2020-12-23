@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "techguns:energycell",
+    "count": 4
+  },
+  "pattern": [
+    "gwg",
+    "prp",
+    "prp"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:plastic_sheets"
+    },
+    "r": {
+      "item": "minecraft:redstone_block"
+    },
+    "w": {
+      "tag": "c:copper_wires"
+    },
+    "g": {
+      "tag": "c:gold_ingots"
+    }
+  }
+}

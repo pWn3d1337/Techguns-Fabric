@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:lmgmagazineempty",
+    "count": 4
+  },
+  "pattern": [
+    " ii",
+    "imi",
+    "iii"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": {
+      "tag": "c:steel_ingots"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsiron"
+    }
+  }
+}

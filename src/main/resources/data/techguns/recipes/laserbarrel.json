@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "techguns:laserbarrel"
+  },
+  "pattern": [
+    "fff",
+    "ggl",
+    "fff"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "f": {
+      "item": "minecraft:gold_ingot"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "l": {
+      "item": "techguns:laserfocus"
+    }
+  }
+}

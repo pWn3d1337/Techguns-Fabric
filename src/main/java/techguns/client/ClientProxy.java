@@ -549,30 +549,27 @@ public class ClientProxy implements ClientModInitializer {
 		
 		TGRenderRegistries.registerItemRenderer(TGItems.ASSAULTRIFLE_MAGAZINE, new RenderItemBase(new ModelARMagazine(false), new TGIdentifier("textures/guns/ar_mag.png")).setBaseScale(1.25f).setGUIScale(0.85f).setBaseTranslation(0, -0.2f, 0).setTransformTranslations(m4magTranslations));
 		TGRenderRegistries.registerItemRenderer(TGItems.ASSAULTRIFLE_MAGAZINE_EMPTY, new RenderItemBase(new ModelARMagazine(true), new TGIdentifier("textures/guns/ar_mag.png")).setBaseScale(1.25f).setGUIScale(0.85f).setBaseTranslation(0, -0.2f, 0).setTransformTranslations(m4magTranslations));
-		
-		//TGRenderRegistries.register_itemrenderer(TGItems.ASSAULTRIFLE_MAGAZINE_INCENDIARY, new RenderItemBase(new ModelARMagazine(false), new TGIdentifier("textures/guns/ar_mag_inc.png")).setBaseScale(1.25f).setGUIScale(0.85f).setBaseTranslation(0, -0.2f, 0).setTransformTranslations(m4magTranslations));
+
+		TGRenderRegistries.registerItemRenderer(TGItems.ASSAULTRIFLE_MAGAZINE_INCENDIARY, new RenderItemBase(new ModelARMagazine(false), new TGIdentifier("textures/guns/ar_mag_inc.png")).setBaseScale(1.25f).setGUIScale(0.85f).setBaseTranslation(0, -0.2f, 0).setTransformTranslations(m4magTranslations));
 		
 		
 		TGRenderRegistries.registerItemRenderer(TGItems.LMG_MAGAZINE, new RenderItemLMGMag(new ModelLmgMag(false), new TGIdentifier("textures/guns/lmg_mag.png")).setBaseScale(1.25f).setGUIScale(0.75f).setBaseTranslation(0, 0f, 0.2f).setTransformTranslations(lmgmagTranslations));
-		TGRenderRegistries.registerItemRenderer(TGItems.LMG_MAGAZINE_EMPTY, new RenderItemLMGMag(new ModelLmgMag(true), new TGIdentifier("textures/guns/lmg_mag.png")).setBaseScale(1.25f).setGUIScale(0.75f).setBaseTranslation(0, 0f, 0.2f).setTransformTranslations(lmgmagTranslations));	
-		
-		//sharedRenderer.addRenderForType("lmgmagazine_incendiary", new RenderItemLMGMag(new ModelLmgMag(false), new ResourceLocation(Techguns.MODID,"textures/guns/lmg_mag_inc.png")).setBaseScale(1.25f).setGUIScale(0.75f).setBaseTranslation(0, 0f, 0.2f).setTransformTranslations(lmgmagTranslations));
+		TGRenderRegistries.registerItemRenderer(TGItems.LMG_MAGAZINE_EMPTY, new RenderItemLMGMag(new ModelLmgMag(true), new TGIdentifier("textures/guns/lmg_mag.png")).setBaseScale(1.25f).setGUIScale(0.75f).setBaseTranslation(0, 0f, 0.2f).setTransformTranslations(lmgmagTranslations));
+
+		TGRenderRegistries.registerItemRenderer(TGItems.LMG_MAGAZINE_INCENDIARY, new RenderItemLMGMag(new ModelLmgMag(false), new TGIdentifier("textures/guns/lmg_mag_inc.png")).setBaseScale(1.25f).setGUIScale(0.75f).setBaseTranslation(0, 0f, 0.2f).setTransformTranslations(lmgmagTranslations));
 		
 		
 		TGRenderRegistries.registerItemRenderer(TGItems.AS50_MAGAZINE, new RenderItemBase(new ModelAS50Mag(false), new TGIdentifier("textures/guns/as50_mag.png")).setBaseScale(1.5f).setGUIScale(0.75f).setBaseTranslation(0.0325f, -0.2f, 0.33f).setTransformTranslations(as50magTranslations));
 		TGRenderRegistries.registerItemRenderer(TGItems.AS50_MAGAZINE_EMPTY, new RenderItemBase(new ModelAS50Mag(true), new TGIdentifier("textures/guns/as50_mag.png")).setBaseScale(1.5f).setGUIScale(0.75f).setBaseTranslation(0.0325f, -0.2f, 0.33f).setTransformTranslations(as50magTranslations));
-		
-		//sharedRenderer.addRenderForType("as50magazine_incendiary", new RenderItemBase(new ModelAS50Mag(false), new ResourceLocation(Techguns.MODID,"textures/guns/as50_mag_inc.png")).setBaseScale(1.5f).setGUIScale(0.75f).setBaseTranslation(0.0325f, -0.2f, 0.33f).setTransformTranslations(as50magTranslations));
-		//sharedRenderer.addRenderForType("as50magazine_explosive", new RenderItemBase(new ModelAS50Mag(false), new ResourceLocation(Techguns.MODID,"textures/guns/as50_mag_exp.png")).setBaseScale(1.5f).setGUIScale(0.75f).setBaseTranslation(0.0325f, -0.2f, 0.33f).setTransformTranslations(as50magTranslations));
+
+		TGRenderRegistries.registerItemRenderer(TGItems.AS50_MAGAZINE_INCENDIARY, new RenderItemBase(new ModelAS50Mag(false), new TGIdentifier("textures/guns/as50_mag_inc.png")).setBaseScale(1.5f).setGUIScale(0.75f).setBaseTranslation(0.0325f, -0.2f, 0.33f).setTransformTranslations(as50magTranslations));
+		TGRenderRegistries.registerItemRenderer(TGItems.AS50_MAGAZINE_EXPLOSIVE, new RenderItemBase(new ModelAS50Mag(false), new TGIdentifier("textures/guns/as50_mag_exp.png")).setBaseScale(1.5f).setGUIScale(0.75f).setBaseTranslation(0.0325f, -0.2f, 0.33f).setTransformTranslations(as50magTranslations));
 		
 		
 		TGRenderRegistries.registerItemRenderer(TGItems.ROCKET, new RenderItemBaseRocketItem(new ModelRocket(), new TGIdentifier("textures/guns/rocket.png")).setBaseScale(1.5f).setGUIScale(0.5f).setBaseTranslation(0, 0, 0.1f).setTransformTranslations(rocketTranslations).setFirstPersonScale(0.35f));
-		
-		//sharedRenderer.addRenderForType("rocket_nuke", new RenderItemBaseRocketItem(new ModelRocket(), new ResourceLocation(Techguns.MODID,"textures/guns/rocket_nuke.png")).setBaseScale(1.5f).setGUIScale(0.5f).setBaseTranslation(0, 0, 0.1f).setTransformTranslations(rocketTranslations).setFirstPersonScale(0.35f));
-		
-		//sharedRenderer.addRenderForType("rocket_high_velocity", new RenderItemBaseRocketItem(new ModelRocket(), new ResourceLocation(Techguns.MODID,"textures/guns/rocket_hv.png")).setBaseScale(1.5f).setGUIScale(0.5f).setBaseTranslation(0, 0, 0.1f).setTransformTranslations(rocketTranslations).setFirstPersonScale(0.35f));
-		
-		
+		TGRenderRegistries.registerItemRenderer(TGItems.ROCKET_NUKE, new RenderItemBaseRocketItem(new ModelRocket(), new TGIdentifier("textures/guns/rocket_nuke.png")).setBaseScale(1.5f).setGUIScale(0.5f).setBaseTranslation(0, 0, 0.1f).setTransformTranslations(rocketTranslations).setFirstPersonScale(0.35f));
+		TGRenderRegistries.registerItemRenderer(TGItems.ROCKET_HIGH_VELOCITY, new RenderItemBaseRocketItem(new ModelRocket(), new TGIdentifier("textures/guns/rocket_hv.png")).setBaseScale(1.5f).setGUIScale(0.5f).setBaseTranslation(0, 0, 0.1f).setTransformTranslations(rocketTranslations).setFirstPersonScale(0.35f));
+
 		ClientTickEvents.END_WORLD_TICK.register((world) -> {
 			ClientProxy.get().particleManager.tickParticles();
 		} );

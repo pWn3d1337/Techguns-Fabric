@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "techguns:machinestackupgrade"
+  },
+  "pattern": [
+    "pgp",
+    "ncn",
+    "pnp"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:iron_plates"
+    },
+    "c": {
+      "item": "minecraft:chest"
+    },
+    "g": {
+      "item": "minecraft:green_dye"
+    },
+    "n": {
+      "tag": "c:gold_ingots"
+    }
+  }
+}

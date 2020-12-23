@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "techguns:woodstock"
+  },
+  "pattern": [
+    "ww",
+    " w"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "w": {
+      "tag": "minecraft:logs"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "result": {
+    "item": "techguns:riflerounds",
+    "count": 4
+  },
+  "ingredients": [
+    {
+      "item": "techguns:rifleroundsstack"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

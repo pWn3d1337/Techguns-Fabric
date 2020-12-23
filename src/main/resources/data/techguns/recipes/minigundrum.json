@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "techguns:minigundrum"
+  },
+  "ingredients": [
+    {
+      "item": "techguns:minigundrumempty"
+    },
+    {
+      "item": "techguns:rifleroundsstack"
+    },
+    {
+      "item": "techguns:rifleroundsstack"
+    },
+    {
+      "item": "techguns:rifleroundsstack"
+    },
+    {
+      "item": "techguns:rifleroundsstack"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

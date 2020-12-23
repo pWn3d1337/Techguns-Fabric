@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:gliderbackpack"
+  },
+  "pattern": [
+    "hhh",
+    "shs",
+    "hhh"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "s": {
+      "tag": "c:iron_ingots"
+    },
+    "h": {
+      "item": "techguns:heavycloth"
+    }
+  }
+}

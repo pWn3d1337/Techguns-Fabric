@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:rifleroundsstack_incendiary"
+  },
+  "ingredients": [
+    {
+      "item": "techguns:riflerounds_incendiary"
+    },
+    {
+      "item": "techguns:riflerounds_incendiary"
+    },
+    {
+      "item": "techguns:riflerounds_incendiary"
+    },
+    {
+      "item": "techguns:riflerounds_incendiary"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "techguns:platecarbon"
+  },
+  "pattern": [
+    "pp"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:carbon_plates"
+    }
+  }
+}

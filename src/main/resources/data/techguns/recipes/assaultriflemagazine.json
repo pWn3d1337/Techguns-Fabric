@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:assaultriflemagazine"
+  },
+  "ingredients": [
+    {
+      "item": "techguns:assaultriflemagazineempty"
+    },
+    {
+      "item": "techguns:riflerounds"
+    },
+    {
+      "item": "techguns:riflerounds"
+    },
+    {
+      "item": "techguns:riflerounds"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "techguns:goldwire"
+  },
+  "pattern": [
+    " cc",
+    " c ",
+    "cc "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "tag": "c:gold_nuggets"
+    }
+  }
+}

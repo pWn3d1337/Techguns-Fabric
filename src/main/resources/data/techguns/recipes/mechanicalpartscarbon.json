@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:mechanicalpartscarbon",
+    "count": 2
+  },
+  "pattern": [
+    " i ",
+    "ifi",
+    " i "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "f": {
+      "item": "minecraft:blaze_rod"
+    },
+    "i": {
+      "tag": "c:carbon_plates"
+    }
+  }
+}

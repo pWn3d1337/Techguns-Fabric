@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "techguns:fueltank",
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "item": "techguns:fueltankempty"
+    },
+    {
+      "item": "techguns:fueltankempty"
+    },
+    {
+      "item": "minecraft:lava_bucket"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

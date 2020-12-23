@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:biomass",
+    "count": 4
+  },
+  "pattern": [
+    " g ",
+    "gbg",
+    " g "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "b": {
+      "tag": "c:slime_balls"
+    },
+    "g": {
+      "item": "minecraft:green_dye"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "result": {
+    "item": "techguns:nuggetlead",
+    "count": 9
+  },
+  "ingredients": [
+    {
+      "tag": "c:lead_ingots"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

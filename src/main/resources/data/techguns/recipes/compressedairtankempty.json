@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:compressedairtankempty",
+    "count": 4
+  },
+  "pattern": [
+    " l ",
+    "i i",
+    "i i"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": {
+      "tag": "c:iron_ingots"
+    },
+    "l": {
+      "item": "minecraft:lever"
+    }
+  }
+}

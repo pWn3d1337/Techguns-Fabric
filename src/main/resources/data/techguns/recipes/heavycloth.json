@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:heavycloth",
+    "count": 3
+  },
+  "pattern": [
+    " w ",
+    "wlw",
+    " w "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "w": {
+      "tag": "minecraft:wool"
+    },
+    "l": {
+      "item": "minecraft:leather"
+    }
+  }
+}
