@@ -92,6 +92,9 @@ public class TGParticleSystemType extends TGFXType{
 	float systemVelocityFactorMin = 0.0f; //How much of the system's velocity is added to the particle's velocity
 	float systemVelocityFactorMax = 0.0f;
 	
+	public float angleRateDampingOnGroundMin = 1.0f;
+	public float angleRateDampingOnGroundMax = 1.0f;
+	
 	Vec3d offset = new Vec3d(0.0, 0.0, 0.0); //TODO! Particles are spawned at this offset
 	
 	IVolumeType volumeType = VOL_POINT;
@@ -106,6 +109,7 @@ public class TGParticleSystemType extends TGFXType{
 	
 	String attachedSystem = null;
 	boolean particlesStickToSystem = false;
+
 	
 	public static class ColorEntry {
 		public float time;
@@ -459,6 +463,8 @@ public class TGParticleSystemType extends TGFXType{
 		this.attachedSystem = other.attachedSystem;
 		this.systemVelocityFactorMin = other.systemVelocityFactorMin;
 		this.systemVelocityFactorMax = other.systemVelocityFactorMax;
+		this.angleRateDampingOnGroundMax = other.angleRateDampingOnGroundMax;
+		this.angleRateDampingOnGroundMin = other.angleRateDampingOnGroundMin;
 	}
 
 

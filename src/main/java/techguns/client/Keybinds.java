@@ -17,6 +17,7 @@ import techguns.TGPacketsC2S;
 import techguns.api.client.entity.ITGExtendedPlayerClient;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.GunManager;
+import techguns.client.deatheffects.DeathEffectHandler;
 import techguns.client.particle.TGFX;
 import techguns.client.particle.TGFXType;
 import techguns.items.guns.GenericGun;
@@ -50,6 +51,7 @@ public class Keybinds implements ITGInitializer{
 		    	System.out.println("Reloading FXLIST...");
 		    	TGFX.FXList = new HashMap<String, TGFXType>();
 		    	TGFX.loadFXList();
+		    	DeathEffectHandler.reloadAllFX();
 		    }
 		});
 	}

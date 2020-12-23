@@ -189,8 +189,8 @@ public class TGRenderHelper extends RenderPhase {
 	public static int getLightAtPos(Vec3d pos) {
 	      BlockPos blockPos = new BlockPos(pos);
 	      
-	      int blockLight = MinecraftClient.getInstance().world.getLightLevel(LightType.SKY, blockPos);
-	      int lightLevel = MinecraftClient.getInstance().world.getLightLevel(LightType.BLOCK, blockPos);
+	      int lightLevel = MinecraftClient.getInstance().world.getLightLevel(LightType.SKY, blockPos);
+	      int blockLight = MinecraftClient.getInstance().world.getLightLevel(LightType.BLOCK, blockPos);
 	      return LightmapTextureManager.pack(blockLight, lightLevel);
 	   }
 	

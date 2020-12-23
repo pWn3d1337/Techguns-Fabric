@@ -23,7 +23,8 @@
     "ModelLoaderMixin",
     "LivingEntityRendererMixin",
     "AnimalModelMixin",
-    "HeldItemRendererMixin"
+    "HeldItemRendererMixin",
+    "ModelPartMixin"
    ],
   "injectors": {
     "defaultRequire": 1

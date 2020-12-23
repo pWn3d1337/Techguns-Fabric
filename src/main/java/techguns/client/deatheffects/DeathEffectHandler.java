@@ -78,6 +78,7 @@ public class DeathEffectHandler {
 		double y = entity.getY() + (entity.getHeight() / 2.0f);
 		double z = entity.getZ();
 
+		System.out.println("CreateDeathEffect for type: " + deathtype);
 		if (deathtype == DeathType.GORE) {
 			
 			GoreData data = getGoreData(entity.getClass());
@@ -108,8 +109,8 @@ public class DeathEffectHandler {
 
 			// Spawn MainFX
 			Vec3d vel = entity.getVelocity();
-			TGParticleSystem sys = new TGParticleSystem(entity.world, data.type_main, x, entity.getY(), z, vel.x, vel.y, vel.z);
-			ClientProxy.get().particleManager.addEffect(sys);
+			//TGParticleSystem sys = new TGParticleSystem(entity.world, data.type_main, x, entity.getY(), z, vel.x, vel.y, vel.z);
+			//ClientProxy.get().particleManager.addEffect(sys);
 
 			int count = gibs.size();
 
@@ -206,6 +207,12 @@ public class DeathEffectHandler {
 			data.init();
 			goreStats.put(entityClass, data);
 			return data;
+		}
+	}
+	
+	public static void reloadAllFX() {
+		for (GoreData data : goreStats.values()) {
+			data.init();
 		}
 	}
 	

@@ -1,9 +1,12 @@
 package techguns.client.particle;
 
 import java.awt.Color;
+import java.util.stream.Stream;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleTextureSheet;
 import net.minecraft.client.render.Camera;
@@ -14,6 +17,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.collection.ReusableStream;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
@@ -37,6 +42,7 @@ public class TGParticle extends Particle implements ITGParticle {
 	float angle;
 	float angleRate;
 	float angleRateDamping;
+	float angleRateDampingOnGround;
 	
 	float size;
 	float sizePrev;
@@ -65,6 +71,9 @@ public class TGParticle extends Particle implements ITGParticle {
 	public TGParticle(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
 			double ySpeedIn, double zSpeedIn, TGParticleSystem particleSystem) {
 		super((ClientWorld)worldIn, xCoordIn, yCoordIn, zCoordIn);
+		
+		this.collidesWithWorld = false;
+		
 		this.velocityX = xSpeedIn;
 		this.velocityY = ySpeedIn;
 		this.velocityZ = zSpeedIn;
@@ -89,6 +98,8 @@ public class TGParticle extends Particle implements ITGParticle {
 		    this.angle = MathUtil.randomFloat(random, type.angleMin, type.angleMax);
 		    this.angleRate = MathUtil.randomFloat(random, type.angleRateMin, type.angleRateMax);
 		    this.angleRateDamping = MathUtil.randomFloat(random, type.angleRateDampingMin, type.angleRateDampingMax);
+		    this.angleRateDampingOnGround = MathUtil.randomFloat(random, type.angleRateDampingOnGroundMin, type.angleRateDampingOnGroundMax);
+			
 		    
 		    //System.out.printf("###INIT:Motion1=(%.2f / %.2f / %.2f)\n",this.motionX, this.motionY, this.motionZ);
 		    
@@ -218,22 +229,32 @@ public class TGParticle extends Particle implements ITGParticle {
 		/* -------------
 		 * MOTION
 		 */
+		
+		if (!this.onGround)
+			this.velY -= type.gravity * 0.1D;
 
+		this.checkWorldCollision(velX, velY, velZ);
+		
+		//this.velocityY -= type.gravity;
+		
+		
 		this.velocityX = velX;
 		this.velocityY = velY;
 		this.velocityZ = velZ;
-		this.velocityY -= type.gravity;
 
+		
 		//System.out.printf("Velocity=(%.2f / %.2f / %.2f)\n",this.velX, this.velY, this.velZ);
 		//System.out.printf("Motion=(%.2f / %.2f / %.2f)\n",this.motionX, this.motionY, this.motionZ);
 		this.setPos(this.x+this.velocityX, this.y+this.velocityY, this.z+this.velocityZ);
-		
+		this.setBoundingBox(this.getBoundingBox().offset(velocityX, velocityY, velocityZ));
 		
 		this.velX *= velocityDamping;
 		this.velY *= velocityDamping;
 		this.velZ *= velocityDamping;
 
 		if (this.onGround) {
+			this.angleRate *= angleRateDampingOnGround;
+			
 			this.velX *= velocityDampingOnGround;
 			this.velY *= velocityDampingOnGround; // ?
 			this.velZ *= velocityDampingOnGround;
@@ -252,6 +273,60 @@ public class TGParticle extends Particle implements ITGParticle {
 		 */
 		angle = (angle + angleRate) % 360.0f;
 		angleRate *= angleRateDamping;
+    }
+    
+    
+    protected void checkWorldCollision(double dx, double dy, double dz) {
+//    	BlockState state = this.world.getBlockState(new BlockPos(this.x+dx, this.y+dy, this.z+dz));
+//    	if (!state.isAir()) {
+//    		this.onGround = true;
+//    	}
+    	double dx1 = dx;
+    	double dy1 = dy;
+    	double dz1 = dz;
+    	
+         if (this.collidesWithWorld && (dx != 0.0D || dy != 0.0D || dz != 0.0D)) {
+             Vec3d vec3d = Entity.adjustMovementForCollisions((Entity)null, new Vec3d(dx, dy, dz), this.getBoundingBox(), this.world, ShapeContext.absent(), new ReusableStream(Stream.empty()));
+             dx = vec3d.x;
+             dy = vec3d.y;
+             dz = vec3d.z;
+          }
+
+//         if (dx != 0.0D || dy != 0.0D || dz != 0.0D) {
+//            this.setBoundingBox(this.getBoundingBox().offset(dx, dy, dz));
+//            this.repositionFromBoundingBox();
+//         }
+         
+
+         if (dy1 != dy && dy1 < 0.0D) {
+        	 this.onGround = true;
+         }
+         
+//         if (dx1 != dx) {
+//            this.velX = 0.0D;
+//         }
+//
+//         if (dz1 != dz) {
+//            this.velZ = 0.0D;
+//         }
+         
+
+//         if (Math.abs(dy) >= 9.999999747378752E-6D && Math.abs(dy) < 9.999999747378752E-6D) {
+//            this.field_21507 = true;
+//         }
+//
+//         if (velY != dy && velY < 0.0D) {
+//        	 this.onGround = true;
+//         }
+//         
+//         if (velX != dx) {
+//            this.velX = 0.0D;
+//         }
+//
+//         if (velZ != dz) {
+//            this.velZ = 0.0D;
+//         }
+		
     }
     
     
