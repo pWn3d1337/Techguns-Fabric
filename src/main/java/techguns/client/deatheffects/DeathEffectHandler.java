@@ -14,9 +14,12 @@ import net.minecraft.client.render.entity.model.CompositeEntityModel;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.render.entity.model.ZombieEntityModel;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.mob.SkeletonEntity;
+import net.minecraft.entity.mob.WitherSkeletonEntity;
 import net.minecraft.entity.mob.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import techguns.TGEntities;
@@ -46,6 +49,8 @@ public class DeathEffectHandler {
 	static{
 
 		//addGore(PlayerEntity.class, (new GoreData(modelAnimal, 110,21,41)));
+		addGore(SkeletonEntity.class, (new GoreData(192,192,192).setFX("GoreFX_Dust", "GoreTrailFX_Dust")).setSound(SoundEvents.ENTITY_SKELETON_DEATH));
+		addGore(WitherSkeletonEntity.class, (new GoreData(64,64,64).setFX("GoreFX_Dust", "GoreTrailFX_Dust")).setSound(SoundEvents.ENTITY_SKELETON_DEATH));
 		
 		genericGore = (new GoreData(160,21,31)).setTexture(GORE_TEXTURE);
 		genericGore.setRandomScale(0.5f, 0.8f);
@@ -53,6 +58,13 @@ public class DeathEffectHandler {
 		ZombieEntityModel<ZombieEntity> model = new ZombieEntityModel<>(0, false);
 		genericGibs = getModelParts(model);
 	}
+	
+	
+	public static void addGore(Class<? extends LivingEntity> type, GoreData data) {
+		data.init();
+		goreStats.put(type, data);
+	}
+	
 	
 	
 	public static final Identifier BIO_DEATH_TEXTURE = new TGIdentifier("textures/fx/bio.png");
@@ -108,13 +120,13 @@ public class DeathEffectHandler {
 					TGSoundCategory.DEATHEFFECT);
 
 			// Spawn MainFX
-			Vec3d vel = entity.getVelocity();
-			//TGParticleSystem sys = new TGParticleSystem(entity.world, data.type_main, x, entity.getY(), z, vel.x, vel.y, vel.z);
-			//ClientProxy.get().particleManager.addEffect(sys);
+			//Vec3d vel = entity.getVelocity();
+			TGParticleSystem sys = new TGParticleSystem(entity.world, data.type_main, x, entity.getY(), z, motionX, motionY, motionZ);
+			ClientProxy.get().particleManager.addEffect(sys);
 
 			int count = gibs.size();
 
-			TGParticleSystem gibsSys = new TGParticleSystem(entity.world, data.type_gibs, x, entity.getY(), z, vel.x, vel.y, vel.z);
+			TGParticleSystem gibsSys = new TGParticleSystem(entity.world, data.type_gibs, x, entity.getY(), z, motionX, motionY, motionZ);
 			gibsSys.type.is3d = true;
 			gibsSys.models = gibs;
 			gibsSys.modelsTexture = gibsTexture;

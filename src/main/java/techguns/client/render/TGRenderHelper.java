@@ -77,6 +77,14 @@ public class TGRenderHelper extends RenderPhase {
 	public static RenderLayer get_fx_renderlayer(Identifier texture) {
 		return RenderLayer.of("techguns_fx", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).writeMaskState(COLOR_MASK).transparency(LIGHTNING_TRANSPARENCY).target(PARTICLES_TARGET).shadeModel(SMOOTH_SHADE_MODEL).cull(DISABLE_CULLING).build(false));
 	}
+	
+	public static RenderLayer get_fx_renderlayer_additive(Identifier texture) {
+		return RenderLayer.of("techguns_fx_additive", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).writeMaskState(COLOR_MASK).transparency(LIGHTNING_TRANSPARENCY).target(PARTICLES_TARGET).shadeModel(SMOOTH_SHADE_MODEL).cull(DISABLE_CULLING).build(false));
+	}
+	
+	public static RenderLayer get_fx_renderlayer_alpha(Identifier texture) {
+		return RenderLayer.of("techguns_fx_alpha", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).writeMaskState(COLOR_MASK).transparency(TRANSLUCENT_TRANSPARENCY).diffuseLighting(ENABLE_DIFFUSE_LIGHTING).lightmap(ENABLE_LIGHTMAP).target(PARTICLES_TARGET).shadeModel(SMOOTH_SHADE_MODEL).cull(DISABLE_CULLING).build(false));
+	}
 
 	public static RenderLayer get_scope_renderlayer(Identifier texture) {
 		return RenderLayer.of("techguns_scope", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).transparency(TRANSLUCENT_TRANSPARENCY).target(MAIN_TARGET).build(false));
@@ -104,9 +112,11 @@ public class TGRenderHelper extends RenderPhase {
 			return get_scope_renderlayer(texture);
 		case ALPHA:
 		case ALPHA_SHADED:
-		case NO_Z_TEST:
-		case SOLID:
+			return get_fx_renderlayer_alpha(texture);
 		case ADDITIVE:
+			return get_fx_renderlayer_additive(texture);
+		case NO_Z_TEST:
+		case SOLID:	
 		default:
 			return get_fx_renderlayer(texture);
 		}
@@ -185,6 +195,19 @@ public class TGRenderHelper extends RenderPhase {
         }
 
 	}
+	
+	public static int getLightAtPosForBrightness(Vec3d pos, float brightness) {
+		BlockPos blockPos = new BlockPos(pos);
+	      
+		int lightLevel = MinecraftClient.getInstance().world.getLightLevel(LightType.SKY, blockPos);
+		int blockLight = MinecraftClient.getInstance().world.getLightLevel(LightType.BLOCK, blockPos);
+		
+		lightLevel = Math.round(((brightness * 240.0f) + (1f-brightness) * (float)lightLevel));
+		blockLight = Math.round(((brightness * 240.0f) + (1f-brightness) * (float)blockLight));
+		
+		return LightmapTextureManager.pack(blockLight, lightLevel);
+	}
+	
 	
 	public static int getLightAtPos(Vec3d pos) {
 	      BlockPos blockPos = new BlockPos(pos);
