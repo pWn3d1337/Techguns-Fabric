@@ -531,7 +531,7 @@
 "tile.techguns.tg_spawner.0.name": "Monster Hole",
 "tile.techguns.tg_spawner.1.name": "Military Spawn Point",
 "techguns.block.hasTileEntityData": "Has TileEntity Data",
-"tile.techguns.bioblob.0.name": "Bioblob",
+"block.techguns.bioblob": "Bio Blob",
 "item.techguns.miningdrill": "Mining Drill",
 "techguns.default": "Default",
 "techguns.tooltip.mininghead": "Mining Head",

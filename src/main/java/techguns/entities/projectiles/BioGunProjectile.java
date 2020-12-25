@@ -1,22 +1,40 @@
 package techguns.entities.projectiles;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import techguns.TGEntities;
+import org.jetbrains.annotations.Nullable;
+import techguns.*;
 import techguns.api.damagesystem.DamageType;
+import techguns.blocks.BlockBioBlob;
 import techguns.client.ClientProxy;
 import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGExplosion;
 import techguns.deatheffects.EntityDeathUtils.DeathType;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.IChargedProjectileFactory;
+import techguns.packets.PacketPlaySound;
+import techguns.packets.PacketSpawnParticle;
+import techguns.sounds.TGSoundCategory;
+
+import java.time.Clock;
 
 public class BioGunProjectile extends GenericProjectile{
 
@@ -69,98 +87,101 @@ public class BioGunProjectile extends GenericProjectile{
     	return src;
 	}
 
-	/*@Override
-	protected void doImpactEffects(Material mat, RayTraceResult rayTraceResult, SoundType sound) {
-		double x = rayTraceResult.hitVec.x;
-    	double y = rayTraceResult.hitVec.y;
-    	double z = rayTraceResult.hitVec.z;
-    	boolean distdelay=true;
-    	
-    	float pitch = 0.0f;
-    	float yaw = 0.0f;
-    	if (rayTraceResult.typeOfHit == Type.BLOCK) {
-    		if (rayTraceResult.sideHit == EnumFacing.UP) {
-    			pitch = -90.0f;
-    		}else if (rayTraceResult.sideHit == EnumFacing.DOWN) {
-    			pitch = 90.0f;
-    		}else {
-    			yaw = rayTraceResult.sideHit.getHorizontalAngle();
-    		}
-    	}else {
-    		pitch = -this.rotationPitch;
-    		yaw = -this.rotationYaw;
-    	}
-    	
-		this.world.playSound(x, y, z, TGSounds.BIOGUN_IMPACT, SoundCategory.AMBIENT, 1.0f, 1.0f, distdelay);
-		Techguns.proxy.createFX("biogunImpact", world, x, y, z, 0.0D, 0.0D, 0.0D, pitch, yaw);
-			
-	}
-	
-	
 	@Override
-	protected void hitBlock(RayTraceResult mop) {
-		 IBlockState statehit = this.world.getBlockState(mop.getBlockPos());
-		 
-		 if(statehit.getBlock() == TGBlocks.BIOBLOB){
-			 //System.out.println("Hit Bioblob, increase size");       	
-			 
-			 TileEntity tile = this.world.getTileEntity(mop.getBlockPos());
-			 if(tile!=null && tile instanceof BioBlobTileEnt){
-				 
-				 ((BioBlobTileEnt)tile).hitBlob(level, this.shooter);
-			 }
-			 
-			 
-		 } else {
-			 if (!this.world.isRemote){
-   
-    			 BlockPos blobPos = mop.getBlockPos().offset(mop.sideHit);
-    			 
-    			 if (this.world.isAirBlock(blobPos)){
-    				 
-    				 if(this.blockdamage) {
-	    				 boolean canPlace = true;
-	    				 
-	    				 if ( this.shooter instanceof EntityPlayer){
-		    				 final BlockEvent.PlaceEvent placeEvent = new BlockEvent.PlaceEvent(BlockSnapshot.getBlockSnapshot(world, blobPos), statehit, (EntityPlayer) this.shooter,EnumHand.MAIN_HAND);
-		    				 MinecraftForge.EVENT_BUS.post(placeEvent);
-		    				 canPlace = !placeEvent.isCanceled();
-	    				 }
-	    				 
-	    				 if (canPlace){
-	    					 IBlockState state = TGBlocks.BIOBLOB.getDefaultState().withProperty(TGBlocks.BIOBLOB.FACING_ALL, mop.sideHit.getOpposite()).withProperty(TGBlocks.BIOBLOB.SIZE, 0);
-	    					 int lvl = 0;
-		    				 this.world.setBlockState(blobPos, TGBlocks.BIOBLOB.getDefaultState());
-		    				 if (this.level>1){
-		    					 TileEntity tile = this.world.getTileEntity(blobPos);
-		    					 if(tile!=null && tile instanceof BioBlobTileEnt){
-		    						 BioBlobTileEnt blob = (BioBlobTileEnt) tile;
-		    						 blob.hitBlob(level-1, this.shooter);
-		    					 }
-		    					 lvl = level-1;
-		    				 }
-		    				 this.world.setBlockState(blobPos, state.withProperty(TGBlocks.BIOBLOB.SIZE, lvl), 3);
-	    				 }
-    				 }
-    			 } else {
-    				 
-    				 TileEntity tile = this.world.getTileEntity(blobPos);
-        			 if(tile!=null && tile instanceof BioBlobTileEnt){
-        				 
-        				 ((BioBlobTileEnt)tile).hitBlob(level, this.shooter);
-        			 }
-    				 
-    			 }
-    			 
-    			 
-    		 }
-		 }
-	
-		 super.hitBlock(mop);
-	    //this.world.spawnParticle(EnumParticleTypes.SLIME,mop.hitVec.x,mop.hitVec.y,mop.hitVec.z,0.0D, 0.0D, 0.0D);
-		//TGPackets.network.sendToAllAround(new PacketSpawnParticle("biogunImpact", mop.hitVec.x,mop.hitVec.y,mop.hitVec.z), TGPackets.targetPointAroundEnt(this, 25.0f));
-			
-	}*/
+	protected void doImpactEffects(BlockHitResult rayTraceResult) {
+		if(!this.world.isClient) {
+			double x = rayTraceResult.getPos().x;
+			double y = rayTraceResult.getPos().y;
+			double z = rayTraceResult.getPos().z;
+
+			float pitch = 0.0f;
+			float yaw = 0.0f;
+
+			if (rayTraceResult.getSide() == Direction.UP) {
+				pitch = -90.0f;
+			} else if (rayTraceResult.getSide() == Direction.DOWN) {
+				pitch = 90.0f;
+			} else {
+				yaw = rayTraceResult.getSide().getHorizontal() * 90.0f;
+			}
+
+
+			TGPacketsS2C.sentToAllTrackingPos(new PacketPlaySound(TGSounds.BIOGUN_IMPACT, this, 1.0f, 1.0f, false, false, false, true, TGSoundCategory.EXPLOSION), this.world, rayTraceResult.getBlockPos());
+			TGPacketsS2C.sentToAllTrackingPos(new PacketSpawnParticle("biogunImpact", x, y, z, 0f, 0f, 0f, pitch, yaw, 1.0f), this.world, rayTraceResult.getBlockPos());
+		}
+	}
+
+	private void hitExistingBlob(BlockState statehit, BlockPos blockPos){
+
+		int blob_size = statehit.get(BlockBioBlob.SIZE);
+
+		int new_size = blob_size + this.level;
+
+		if (new_size <= 2){
+			BlockState newState = statehit.with(BlockBioBlob.SIZE, new_size);
+			world.setBlockState(blockPos, newState);
+			((BlockBioBlob)TGBlocks.BIOBLOB).scheduleTick(this.world, blockPos, this.world.random);
+		} else {
+			//KABOOM
+
+			float radius = 3.0f;
+
+			TGDamageSource dmgSrc = TGDamageSource.causePoisonDamage(null, this.shooter, DeathType.BIO);
+			dmgSrc.goreChance=1.0f;
+			dmgSrc.armorPenetration=0.35f;
+
+			TGExplosion explosion = new TGExplosion(world, this.shooter, null, blockPos.getX()+0.5, blockPos.getY()+0.5, blockPos.getZ()+0.5, 30, 15, radius, radius*1.5f,0.0f);
+			explosion.setDmgSrc(dmgSrc);
+
+			world.setBlockState(blockPos, Blocks.AIR.getDefaultState());
+
+			explosion.doExplosion(false);
+			this.world.playSound((PlayerEntity) null, blockPos, TGSounds.DEATH_BIO, SoundCategory.BLOCKS, 4.0F, 1.0F);
+
+			if(!this.world.isClient){
+				TGPacketsS2C.sentToAllTrackingPos(new PacketSpawnParticle("bioblobExplosion", blockPos.getX()+0.5,blockPos.getY()+0.5, blockPos.getZ()+0.5), world, blockPos);
+			}
+		}
+	}
+
+	/**
+	 * just to access the protected constructor without a player
+	 */
+	private static class ItemPlacementContextAccessor extends ItemPlacementContext {
+		protected ItemPlacementContextAccessor(World world, @Nullable PlayerEntity playerEntity, Hand hand, ItemStack itemStack, BlockHitResult blockHitResult) {
+			super(world, playerEntity, hand, itemStack, blockHitResult);
+		}
+	}
+
+	@Override
+	protected void onBlockHit(BlockHitResult blockHitResult) {
+		BlockPos hitpos = blockHitResult.getBlockPos();
+		BlockState statehit = this.world.getBlockState(hitpos);
+		if(statehit.getBlock() == TGBlocks.BIOBLOB){
+
+			this.hitExistingBlob(statehit, hitpos);
+		} else {
+			if (!this.world.isClient){
+
+				BlockPos blobPos = hitpos.offset(blockHitResult.getSide());
+				BlockState state =world.getBlockState(blobPos);
+				if(state.getBlock() == TGBlocks.BIOBLOB){
+					this.hitExistingBlob(state, blobPos);
+				} else {
+					BlockHitResult newHitRes = new BlockHitResult(blockHitResult.getPos(), blockHitResult.getSide(), blobPos,false);
+					if (this.blockdamage && state.canReplace(new ItemPlacementContextAccessor(this.world, null, Hand.MAIN_HAND, new ItemStack(TGItems.BIOBLOB), newHitRes))) {
+
+						BlockState newState = TGBlocks.BIOBLOB.getDefaultState().with(BlockBioBlob.FACING, blockHitResult.getSide().getOpposite()).with(BlockBioBlob.SIZE, this.level-1);
+						this.world.setBlockState(blobPos, newState);
+						((BlockBioBlob) TGBlocks.BIOBLOB).scheduleTick(this.world, blobPos, this.world.random);
+					}
+				}
+
+			}
+		}
+
+		super.onBlockHit(blockHitResult);
+	}
 
 	@Override
 	public void tick() {

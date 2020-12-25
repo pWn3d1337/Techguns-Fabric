@@ -32,6 +32,7 @@ import techguns.util.SoundUtil;
 
 public class GenericGunCharge extends GenericGun {
 
+	private static final int MAX_USE_TIME = 288000;
 	/**
 	 * In ticks
 	 */
@@ -269,7 +270,7 @@ public class GenericGunCharge extends GenericGun {
 	
 	@Override
 	public int getMaxUseTime(ItemStack stack) {
-		return 288000;
+		return MAX_USE_TIME;
 	}
 
 	public int getRecoilTime(float charge) {

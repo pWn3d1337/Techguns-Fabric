@@ -225,6 +225,8 @@ public class TGItems implements ITGInitializer {
 	public static Item URANIUM_ORE;
 	public static Item TITANIUM_ORE;
 
+	public static Item BIOBLOB;
+
 	public static final ItemGroup ITEM_GROUP_TECHGUNS = FabricItemGroupBuilder.build(
 			new TGIdentifier("techguns"),
 			() -> new ItemStack(TGItems.RIFLE_ROUNDS));

@@ -1284,7 +1284,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		    		}
 				}
 				
-				extendedPlayer.setFireDelay(hand, this.reloadtime-this.minFiretime);
+				extendedPlayer.setFireDelay(hand, this.reloadtime);
 						    			
     			if (ammoCount >1) {
     				int i =1;
@@ -1313,7 +1313,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 			    	TGPacketsS2C.sendToAllAroundEntity(new ReloadStartedMessage(player,hand, msg_reloadtime,0), player, 100.0f);
 			    	//
 				}
-				player.setCurrentHand(hand);
+				//player.setCurrentHand(hand);
 				
 			} else {
 
