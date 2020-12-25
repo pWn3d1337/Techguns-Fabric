@@ -358,6 +358,10 @@ public class TGFX {
 								type.velocityDampingOnGroundMin = sc.nextFloat();
 								type.velocityDampingOnGroundMax = sc.nextFloat();
 								break;
+							case "angleratedampingonground":
+								type.angleRateDampingOnGroundMin = sc.nextFloat();
+								type.angleRateDampingOnGroundMax = sc.nextFloat();
+								break;
 							case "offset":
 								float x = sc.nextFloat();
 								float y = sc.nextFloat();
