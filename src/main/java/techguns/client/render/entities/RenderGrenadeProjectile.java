@@ -29,7 +29,7 @@ public class RenderGrenadeProjectile extends EntityRenderer<GrenadeProjectile> {
 
     @Override
     public Identifier getTexture(GrenadeProjectile entity) {
-        switch (entity.getProjectileType()){
+        switch (entity.getProjectileTypeId()){
             case 0:
             default:
                 return texture_40mm;
@@ -46,7 +46,7 @@ public class RenderGrenadeProjectile extends EntityRenderer<GrenadeProjectile> {
         float rot = ((entity.age % 20) +tickDelta) * -0.025f;
         TGMatrixOps.rotate(matrices, 360.0f*rot, 0F, 0F, 1F);
 
-        switch (entity.getProjectileType()){
+        switch (entity.getProjectileTypeId()){
             case 0:
             default:
                 VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(texture_40mm));

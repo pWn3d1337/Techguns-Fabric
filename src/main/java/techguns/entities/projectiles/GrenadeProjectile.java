@@ -46,7 +46,7 @@ public class GrenadeProjectile extends GenericProjectile {
     protected void explode(){
         if (!this.world.isClient){
             TGPacketsS2C.sendToAllAroundEntity(new PacketSpawnParticle("RocketExplosion", this.getX(), this.getY(), this.getZ()), this, 50.0f);
-            TGExplosion explosion = new TGExplosion(world, this.shooter, this, this.getX(), this.getY(), this.getZ(), this.damage, this.damageMin, this.damageDropStart,this.damageDropEnd, this.blockdamage?0.25:0.0);
+            TGExplosion explosion = new TGExplosion(world, this.shooter, this, this.getX(), this.getY(), this.getZ(), this.damage, this.damageMin, this.damageDropStart,this.damageDropEnd, this.blockdamage?0.05:0.0);
             explosion.doExplosion(true);
         }else {
             //Techguns.proxy.createLightPulse(this.posX, this.posY, this.posZ, 5, 15, 10.0f, 1.0f, 1f, 0.9f, 0.5f);
@@ -94,7 +94,7 @@ public class GrenadeProjectile extends GenericProjectile {
     }
 
     protected float getBounceSpeedFactor() {
-        return 0.9f;
+        return 0.75f;
     }
 
     public static class Factory implements IProjectileFactory<GrenadeProjectile> {

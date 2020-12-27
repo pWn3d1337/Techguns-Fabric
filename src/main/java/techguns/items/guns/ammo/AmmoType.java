@@ -66,6 +66,10 @@ public class AmmoType {
 		return this.variants.get(variant).ammo;
 	}
 
+	public ItemStack[] getAmmo(String variant) {
+		return this.variants.get(this.getIDforVariantKey(variant)).ammo;
+	}
+
 	public ItemStack[] getEmptyMag() {
 		return emptyMag;
 	}

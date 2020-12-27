@@ -40,7 +40,7 @@ public class GenericProjectileFX extends GenericProjectile {
     @Override
     public void clientInitializeFinal() {
         super.clientInitializeFinal();
-        switch (getProjectileType()){
+        switch (getProjectileTypeId()){
             case PROJECTILE_TYPE_ALIENBLASTER:
                 ClientProxy.get().createFXOnEntity("AlienBlasterTrail", this);
                 break;
@@ -58,7 +58,7 @@ public class GenericProjectileFX extends GenericProjectile {
     protected TGDamageSource getProjectileDamageSource() {
         TGDamageSource src=null;
 
-        switch (this.getProjectileType()) {
+        switch (this.getProjectileTypeId()) {
             case PROJECTILE_TYPE_NETHERBLASTER:
                 src = TGDamageSource.causeFireDamage(this, this.shooter, EntityDeathUtils.DeathType.DEFAULT);
                 break;
@@ -78,7 +78,7 @@ public class GenericProjectileFX extends GenericProjectile {
 
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
-        if (this.getProjectileType() == PROJECTILE_TYPE_ALIENBLASTER && this.blockdamage) {
+        if (this.getProjectileTypeId() == PROJECTILE_TYPE_ALIENBLASTER && this.blockdamage) {
             burnBlocks(world, blockHitResult, 0.35);
         }
         super.onBlockHit(blockHitResult);
@@ -88,7 +88,7 @@ public class GenericProjectileFX extends GenericProjectile {
     protected void doImpactEffects(BlockHitResult rayTraceResult) {
         if(!this.world.isClient){
             Vec3d pos = rayTraceResult.getPos();
-            switch (this.getProjectileType()) {
+            switch (this.getProjectileTypeId()) {
                 case PROJECTILE_TYPE_ALIENBLASTER:
                     TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("AlienExplosion", pos.x, pos.y, pos.z), this.world, pos, 32.0f);
                     break;
@@ -105,7 +105,7 @@ public class GenericProjectileFX extends GenericProjectile {
 
     @Override
     protected void onHitEffect(LivingEntity livingEntity, EntityHitResult entityHitResult) {
-       switch(this.getProjectileType()){
+       switch(this.getProjectileTypeId()){
            case PROJECTILE_TYPE_ALIENBLASTER:
                livingEntity.setOnFireFor(3);
            default:

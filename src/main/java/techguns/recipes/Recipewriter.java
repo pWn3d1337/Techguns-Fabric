@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+import techguns.TGIdentifier;
 import techguns.TGItems;
 
 import java.util.*;
@@ -316,6 +317,8 @@ public class Recipewriter {
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(REDSTONE_BATTERY,2), "nwn","nrn","nrn", 'n', TAG_COPPER_NUGGETS, 'r',Items.REDSTONE, 'w', TAG_COPPER_WIRES);
         RecipeJsonConverter.addShapelessRecipe(new ItemStack(REDSTONE_BATTERY, 1), TGItems.REDSTONE_BATTERY_EMPTY, Items.REDSTONE, Items.REDSTONE);
+
+        RecipeJsonConverter.write_special_recipetype("ammo_change_recipe", new TGIdentifier("ammo_change_recipe"));
 
         addNonMachineRecipes();
     }

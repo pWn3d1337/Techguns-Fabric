@@ -28,11 +28,11 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 	@Override
 	public Identifier getTexture(GenericProjectile entity) {
 		switch (entity.getProjectileType()){
-			case GenericProjectile.PROJECTILE_TYPE_BLASTER:
+			case BLASTER:
 				return blasterTextures;
-			case GenericProjectile.PROJECTILE_TYPE_ADVANCED:
+			case ADVANCED:
 				return advancedTextures;
-			case GenericProjectile.PROJECTILE_TYPE_DEFAULT:
+			case DEFAULT:
 			default:
 				return bulletTextures;
 		}
@@ -41,10 +41,10 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 
 	public RenderLayer getRenderLayer(GenericProjectile entity){
 		switch (entity.getProjectileType()){
-			case GenericProjectile.PROJECTILE_TYPE_BLASTER:
-			case GenericProjectile.PROJECTILE_TYPE_ADVANCED:
+			case BLASTER:
+			case ADVANCED:
 				return TGRenderHelper.getProjectileAdditive(this.getTexture(entity));
-			case GenericProjectile.PROJECTILE_TYPE_DEFAULT:
+			case DEFAULT:
 			default:
 				return TGRenderHelper.getProjectileCutout(this.getTexture(entity));
 		}
