@@ -34,7 +34,7 @@ public class TGParticleStreak extends TGParticle{
 				float rotZ, float rotYZ, float rotXY, float rotXZ, Matrix4f mat, Camera camera) {
     	float progress = ((float)this.age+partialTickTime) / (float)this.maxAge;
     	
-    	preRenderStep(progress);
+    	preRenderStep(progress, partialTickTime);
     	
     	if (this.next == null) {
     		this.colorAlpha = 0.0f;

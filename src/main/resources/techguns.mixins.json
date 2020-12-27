@@ -24,7 +24,8 @@
     "LivingEntityRendererMixin",
     "AnimalModelMixin",
     "HeldItemRendererMixin",
-    "ModelPartMixin"
+    "ModelPartMixin",
+    "LightmapTextureManagerAccessor"
    ],
   "injectors": {
     "defaultRequire": 1

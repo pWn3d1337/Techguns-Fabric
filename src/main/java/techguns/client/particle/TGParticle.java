@@ -67,6 +67,11 @@ public class TGParticle extends Particle implements ITGParticle {
 	protected double depth;
 	
 	protected boolean itemAttached=false;
+
+	float brightness;
+	Vec3d worldLightColor;
+	Vec3d worldLightColorPrev;
+	
 	
 	public TGParticle(World worldIn, double xCoordIn, double yCoordIn, double zCoordIn, double xSpeedIn,
 			double ySpeedIn, double zSpeedIn, TGParticleSystem particleSystem) {
@@ -273,6 +278,13 @@ public class TGParticle extends Particle implements ITGParticle {
 		 */
 		angle = (angle + angleRate) % 360.0f;
 		angleRate *= angleRateDamping;
+		
+		/*
+		 * Brightness
+		 */
+		this.worldLightColorPrev = this.worldLightColor;
+		this.worldLightColor = TGRenderHelper.getLightColorAtPos(this.getPos());
+		if (this.worldLightColorPrev == null) this.worldLightColorPrev = worldLightColor;
     }
     
     
@@ -337,7 +349,7 @@ public class TGParticle extends Particle implements ITGParticle {
     {
     	float progress = ((float)this.age+partialTickTime) / (float)this.maxAge;
     	
-    	preRenderStep(progress);   	
+    	preRenderStep(progress, partialTickTime);   	
     	
 		/*-------------------
 		 * ANIMATION
@@ -354,7 +366,7 @@ public class TGParticle extends Particle implements ITGParticle {
          */
         //this.particleScale = sizePrev + (size-sizePrev)*partialTickTime; 	
         
-        CameraAccessor cam = (CameraAccessor) camera;
+        //CameraAccessor cam = (CameraAccessor) camera;
         
         float fscale = 0.1F * this.size;
 
@@ -387,24 +399,6 @@ public class TGParticle extends Particle implements ITGParticle {
 		
 		RenderLayer layer = TGRenderHelper.get_fx_layerForType(this.type.texture, this.type.renderType);
 		VertexConsumer buffer = vertexConsumerProvider.getBuffer(layer);
-		
-		//TODO: Dynamic Brightness
-		float brightness;
-		switch (this.type.renderType) {
-		case ADDITIVE:
-		default:
-			brightness = 1.0f;
-			break;
-		case ALPHA:
-		case ALPHA_SHADED:
-		case NO_Z_TEST:
-		case SCOPE:
-		case SOLID:
-			brightness = 0.0f;
-			break;	
-		}
-		int light = TGRenderHelper.getLightAtPosForBrightness(this.getPos(), brightness);
-		
 
         double a = (angle + (partialTickTime * angleRate)) * MathUtil.D2R;
 		Vec3d p1, p2, p3, p4;
@@ -439,10 +433,10 @@ public class TGParticle extends Particle implements ITGParticle {
 	        }	        		
 		}
 	
-		buffer.vertex(mat, (float)p1.x + fPosX, (float)p1.y + fPosY, (float)p1.z + fPosZ).texture(ua, va).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
-		buffer.vertex(mat, (float)p2.x + fPosX, (float)p2.y + fPosY, (float)p2.z + fPosZ).texture(ub, vb).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
-		buffer.vertex(mat, (float)p3.x + fPosX, (float)p3.y + fPosY, (float)p3.z + fPosZ).texture(uc, vc).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
-		buffer.vertex(mat, (float)p4.x + fPosX, (float)p4.y + fPosY, (float)p4.z + fPosZ).texture(ud, vd).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(light).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p1.x + fPosX, (float)p1.y + fPosY, (float)p1.z + fPosZ).texture(ua, va).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p2.x + fPosX, (float)p2.y + fPosY, (float)p2.z + fPosZ).texture(ub, vb).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p3.x + fPosX, (float)p3.y + fPosY, (float)p3.z + fPosZ).texture(uc, vc).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p4.x + fPosX, (float)p4.y + fPosY, (float)p4.z + fPosZ).texture(ud, vd).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
 
 		vertexConsumerProvider.draw(layer);
     }
@@ -450,7 +444,67 @@ public class TGParticle extends Particle implements ITGParticle {
 	/**
      * interpolate colors and alpha values
      */
-    protected void preRenderStep(float progress) {
+    protected void preRenderStep(float progress, float partialTickTime) {
+    	
+    	
+    	/*-------------------------
+		 * INTERPOLATE BRIGHTNESS VALUES
+		 */
+		AlphaEntry b1 = null;
+		AlphaEntry b2 = null;
+		if (type.brightnessEntries.size() == 0) {
+			//Backwards compatibility: If no brightness is specified, use 1.0 for Additive and 0.0 for alpha
+			switch (this.type.renderType) {
+			case ADDITIVE:
+			default:
+				this.brightness = 1.0f;
+				break;
+			case ALPHA:
+			case ALPHA_SHADED:
+			case NO_Z_TEST:
+			case SCOPE:
+			case SOLID:
+				this.brightness = 0.0f;
+				break;	
+			}
+			
+		}else if (type.brightnessEntries.size() == 1) {
+			b1 = type.brightnessEntries.get(0);
+			this.brightness = b1.alpha;
+		}else {
+			b1 = type.brightnessEntries.get(0);
+    		for (int i = 1; i < type.brightnessEntries.size(); i++) {
+    			b2 = type.brightnessEntries.get(i);
+				if (progress < b2.time) {
+					break;
+				}else {
+					b1 = b2;
+				}
+			}
+    		if (b1.time != b2.time) {
+    			float p = (progress-b1.time) / (b2.time-b1.time);		
+    			//interpolate
+    			this.brightness = b1.alpha*(1f-p) + b2.alpha * p;
+    		}else {
+    			this.brightness = b1.alpha;
+    		}
+		}
+		
+		float b_r;
+		float b_g;
+		float b_b;
+		if (this.brightness < 1.0f) {
+			float wb_r = MathHelper.lerp(partialTickTime, (float)this.worldLightColorPrev.x, (float)this.worldLightColor.x);
+			float wb_g = MathHelper.lerp(partialTickTime, (float)this.worldLightColorPrev.y, (float)this.worldLightColor.y);
+			float wb_b = MathHelper.lerp(partialTickTime, (float)this.worldLightColorPrev.z, (float)this.worldLightColor.z);
+			b_r = this.brightness + (1f-this.brightness) * wb_r;
+			b_g = this.brightness + (1f-this.brightness) * wb_g;
+			b_b = this.brightness + (1f-this.brightness) * wb_b;
+		}else {
+			b_r = 1.0f;
+			b_g = 1.0f;
+			b_b = 1.0f;
+		}
     	
 		/* ------------------------
 		 * INTERPOLATE COLOR VALUES
@@ -475,21 +529,26 @@ public class TGParticle extends Particle implements ITGParticle {
 				}
 			}
     	}
-		float p = (progress-c1.time) / (c2.time-c1.time);		
+    	float p = (progress-c1.time) / (c2.time-c1.time);		
 		if (c1 != c2) {
 			
 			//RGB to HSB
 			float[] hsb1 = Color.RGBtoHSB((int)(c1.r*255), (int)(c1.g*255), (int)(c1.b*255), null);
 			float[] hsb2 = Color.RGBtoHSB((int)(c2.r*255), (int)(c2.g*255), (int)(c2.b*255), null);	
 			//HSB to RGB;
-			Color color = new Color(Color.HSBtoRGB(hsb1[0]*(1f-p) + hsb2[0]*p, hsb1[1]*(1f-p) + hsb2[1]*p, hsb1[2]*(1f-p) + hsb2[2]*p));
-			this.colorRed = (float)color.getRed() / 255.0f;
-			this.colorGreen = (float)color.getGreen() / 255.0f;
-			this.colorBlue = (float)color.getBlue() / 255.0f;
+			Color color = new Color(Color.HSBtoRGB(hsb1[0]*(1f-p) + hsb2[0]*p, hsb1[1]*(1f-p) + hsb2[1]*p, (hsb1[2]*(1f-p) + hsb2[2]*p)));
+			this.colorRed = ((float)color.getRed() / 255.0f) * b_r;
+			this.colorGreen = ((float)color.getGreen() / 255.0f) * b_g;
+			this.colorBlue = ((float)color.getBlue() / 255.0f) * b_b;
 		}else {
-			this.colorRed = (float)c1.r;
-			this.colorGreen = (float)c1.g;
-			this.colorBlue = (float)c1.b;
+//			float[] hsb = Color.RGBtoHSB((int)(c1.r*255), (int)(c1.g*255), (int)(c1.b*255), null);
+//			Color color = new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]*brightnessFactor));
+//			this.colorRed = (float)color.getRed() / 255.0f;
+//			this.colorGreen = (float)color.getGreen() / 255.0f;
+//			this.colorBlue = (float)color.getBlue() / 255.0f;
+			this.colorRed = c1.r * b_r;
+			this.colorGreen = c1.g * b_g;
+			this.colorBlue = c1.b * b_b;
 		}
 				
 		/*-------------------------
@@ -520,6 +579,8 @@ public class TGParticle extends Particle implements ITGParticle {
     			this.colorAlpha = a1.alpha;
     		}
 		}
+		
+		
         
     }
 	

@@ -73,6 +73,7 @@ public class TGParticleSystemType extends TGFXType{
 	
 	public List<ColorEntry> colorEntries = new ArrayList<ColorEntry>();
 	List<AlphaEntry> alphaEntries = new ArrayList<AlphaEntry>();
+	List<AlphaEntry> brightnessEntries = new ArrayList<AlphaEntry>();
 	
 	public int particleCountMin = 1; //number of Spawned particles each spawn/burst
 	public int particleCountMax = 1;
@@ -131,6 +132,7 @@ public class TGParticleSystemType extends TGFXType{
 	
 	}
 	
+	//This is now also used for brightness entries
 	public static class AlphaEntry {
 		float time;
 		float alpha;
@@ -393,6 +395,8 @@ public class TGParticleSystemType extends TGFXType{
 	public void extend(TGParticleSystemType other) {
 		this.alphaEntries = new ArrayList<AlphaEntry>();
 		other.alphaEntries.forEach(ae -> this.alphaEntries.add(ae.clone()));
+		this.brightnessEntries = new ArrayList<AlphaEntry>();
+		other.brightnessEntries.forEach(ae -> this.brightnessEntries.add(ae.clone()));
 		this.animationSpeedMax = other.animationSpeedMax;
 		this.animationSpeedMin = other.animationSpeedMin;
 		this.colorEntries = new ArrayList<ColorEntry>();

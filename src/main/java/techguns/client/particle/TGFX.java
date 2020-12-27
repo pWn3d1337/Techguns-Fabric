@@ -255,6 +255,9 @@ public class TGFX {
 							case "color":
 								type.colorEntries.add(new ColorEntry(sc.nextInt(), sc.nextInt(), sc.nextInt(), sc.nextFloat()));
 								break;
+							case "brightness":
+								type.brightnessEntries.add(new AlphaEntry(sc.nextFloat(), sc.nextFloat()));
+								break;
 							case "particlecount":
 								type.particleCountMin = sc.nextInt();
 								type.particleCountMax = sc.nextInt();
