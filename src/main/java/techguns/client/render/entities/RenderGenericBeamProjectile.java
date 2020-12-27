@@ -149,7 +149,7 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 			v1 = 0f;
 			v2 = 1f;
 		}
-		switch (entity.getProjectileType()) {
+		switch (entity.getProjectileTypeId()) {
 			case GenericBeamProjectile.BEAM_TYPE_NDR:
 				float maxWidth = 0.05f;
 				renderBeam(entity, rand, prog, maxWidth, distance, u1, u2, v1, v2, tickDelta, matrixStack,

@@ -13,9 +13,13 @@ import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.network.NetworkSide;
 import net.minecraft.network.NetworkState;
+import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.SpecialRecipeSerializer;
+import net.minecraft.util.registry.Registry;
 import techguns.items.guns.ammo.AmmoTypes;
 import techguns.mixin.NetworkStateMixin;
 import techguns.packets.PacketSpawnEntity;
+import techguns.recipes.AmmoChangeRecipe;
 import techguns.recipes.Recipewriter;
 
 public class Techguns implements ModInitializer {
@@ -40,7 +44,8 @@ public class Techguns implements ModInitializer {
 	    	events
 	    ));
 	    
-	
+	public static SpecialRecipeSerializer<AmmoChangeRecipe> AMMO_CHANGE_SERIALIZER;
+
 	@Override
 	public void onInitialize() {
 		//Register & get config
@@ -53,6 +58,8 @@ public class Techguns implements ModInitializer {
 		TGPacketsC2S.initialize();
 		initializers.clear();
 		initializers=null;
+
+		AMMO_CHANGE_SERIALIZER = (SpecialRecipeSerializer<AmmoChangeRecipe>)Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("ammo_change_recipe"), new SpecialRecipeSerializer<AmmoChangeRecipe>(AmmoChangeRecipe::new));
 
 		if (Recipewriter.WRITE_RECIPES) {
 			Recipewriter.generateItemRecipes();

@@ -108,7 +108,8 @@ public class TGuns implements ITGInitializer {
 	@Override
 	public void init() {
 		IProjectileFactory<GenericProjectile> GENERIC_PROJECTILE = new GenericProjectile.Factory();
-		IProjectileFactory[] GENERIC_BULLET = {GENERIC_PROJECTILE, GENERIC_PROJECTILE};
+		IProjectileFactory<GenericProjectile> GENERIC_PROJECTILE_INCENDIARY = new GenericProjectile.Factory(GenericProjectile.GenericProjectileType.INCENDIARY);
+		IProjectileFactory[] GENERIC_BULLET = {GENERIC_PROJECTILE, GENERIC_PROJECTILE_INCENDIARY};
 		
 		ASSAULTRIFLE_MAG_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.ASSAULT_RIFLE_MAGAZINE, GENERIC_BULLET);
 		GUIDED_MISSILE_PROJECTILES = new ChargedProjectileSelector(AmmoTypes.ROCKETS_NO_NUKES, new GuidedMissileProjectile.Factory(), new GuidedMissileProjectile.Factory()); //new GuidedMissileProjectileHV.Factory());//TODO HV missiles
@@ -118,7 +119,7 @@ public class TGuns implements ITGInitializer {
 		BIOGUN_PROJECTILES = new ChargedProjectileSelector<BioGunProjectile>(AmmoTypes.BIO_TANK, new BioGunProjectile.Factory());
 		
 		TFG_PROJECTILES = new ChargedProjectileSelector<TFGProjectile>(AmmoTypes.NUCLEAR_POWER_CELL, new TFGProjectile.Factory());
-		SNIPER_MAG_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.AS50_MAGAZINE, new IProjectileFactory[]{GENERIC_PROJECTILE, GENERIC_PROJECTILE, GENERIC_PROJECTILE});
+		SNIPER_MAG_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.AS50_MAGAZINE, new IProjectileFactory[]{GENERIC_PROJECTILE, GENERIC_PROJECTILE_INCENDIARY, new GenericProjectile.Factory(GenericProjectile.GenericProjectileType.EXPLOSIVE)});
 		
 		PISTOL_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.PISTOL_ROUNDS, GENERIC_BULLET);
 		PISTOL_MAG_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.PISTOL_MAGAZINE, GENERIC_BULLET);
@@ -134,7 +135,7 @@ public class TGuns implements ITGInitializer {
 		
 		CHAINSAW_PROJECTILES = new ChargedProjectileSelector<ChainsawProjectile>(AmmoTypes.FUEL_TANK, new ChainsawProjectile.Factory(ChainsawProjectile.PROJECTILE_TYPE_CHAINSAW));
 		
-		SHOTGUN_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.SHOTGUN_ROUNDS, GENERIC_PROJECTILE, GENERIC_PROJECTILE);//TODO new GenericProjectileIncendiary.Factory(true));
+		SHOTGUN_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.SHOTGUN_ROUNDS, GENERIC_PROJECTILE, GENERIC_PROJECTILE_INCENDIARY);//TODO new GenericProjectileIncendiary.Factory(true));
 		
 		NDR_PROJECTILES = new ProjectileSelector<GenericBeamProjectile>(AmmoTypes.NUCLEAR_POWER_CELL, new GenericBeamProjectile.Factory(15, true, GenericBeamProjectile.BEAM_TYPE_NDR, "BeamGunImpactFX"));
 
@@ -145,11 +146,11 @@ public class TGuns implements ITGInitializer {
 
 		NETHERBLASTER_PROJECTILES = new ProjectileSelector<GenericProjectileFX>(AmmoTypes.NETHER_CHARGE, new GenericProjectileFX.Factory(GenericProjectileFX.PROJECTILE_TYPE_NETHERBLASTER));
 
-		BLASTER_ENERGYCELL_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.ENERGY_CELL, new GenericProjectile.Factory(GenericProjectile.PROJECTILE_TYPE_BLASTER));
+		BLASTER_ENERGYCELL_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.ENERGY_CELL, new GenericProjectile.Factory(GenericProjectile.GenericProjectileType.BLASTER));
 
-		ADVANCED_MAG_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.ADVANCED_MAGAZINE, new GenericProjectile.Factory(GenericProjectile.PROJECTILE_TYPE_ADVANCED));
+		ADVANCED_MAG_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.ADVANCED_MAGAZINE, new GenericProjectile.Factory(GenericProjectile.GenericProjectileType.ADVANCED));
 
-		GAUSS_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.AMMO_GAUSS_RIFLE, new GenericProjectile.Factory(GenericProjectile.PROJECTILE_TYPE_GAUSS));
+		GAUSS_PROJECTILES = new ProjectileSelector<GenericProjectile>(AmmoTypes.AMMO_GAUSS_RIFLE, new GenericProjectile.Factory(GenericProjectile.GenericProjectileType.GAUSS));
 
 		GRENADE40MM_PROJECTILES = new ProjectileSelector<GrenadeProjectile>(AmmoTypes.GRENADES_40MM, new GrenadeProjectile.Factory(0,3));
 
@@ -213,7 +214,7 @@ public class TGuns implements ITGInitializer {
 
 		GAUSS_RIFLE = reg(new GenericGun("gaussrifle", GAUSS_PROJECTILES, true, 30, 8, 60, 40.0f, TGSounds.GAUSS_RIFLE_FIRE, TGSounds.GAUSS_RIFLE_RELOAD, MAX_RANGE_SNIPER, 0.025f).setZoom(0.35f, true,0.0f,true).setBulletSpeed(5.0f).setAIStats(RANGE_FAR, 30, 0, 0).setRechamberSound(TGSounds.GAUSS_RIFLE_RECHAMBER).setRecoiltime(8).setTurretPosOffset(0, -0.02f, 0.12f).setMuzzleLight(0f, 0.8f, 1.0f).setForwardOffset(0.45f).setPenetration(PENETRATION_MED_HIGH).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART_LARGE));
 
-		GRENADE_LAUNCHER = reg(new GenericGun("grenadelauncher", GRENADE40MM_PROJECTILES, true, 5, 6, 100, 30.0f, TGSounds.GRENADE_LAUNCHER_FIRE, TGSounds.GRENADE_LAUNCHER_RELOAD, 160, 0.015f).setBulletSpeed(0.5f).setAIStats(RANGE_MEDIUM, 40, 3, 20).setAmmoCount(6).setDamageDrop(4.0f, 8.0f, 12f).setGravity(0.01d).setRangeTooltipType(RangeTooltipType.RADIUS).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
+		GRENADE_LAUNCHER = reg(new GenericGun("grenadelauncher", GRENADE40MM_PROJECTILES, true, 5, 6, 100, 30.0f, TGSounds.GRENADE_LAUNCHER_FIRE, TGSounds.GRENADE_LAUNCHER_RELOAD, 160, 0.015f).setBulletSpeed(1.0f).setAIStats(RANGE_MEDIUM, 40, 3, 20).setAmmoCount(6).setDamageDrop(1.5f, 3.0f, 12f).setGravity(0.02d).setRangeTooltipType(RangeTooltipType.RADIUS).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
 
 		FLAMETHROWER = reg(new GenericGun("flamethrower", FLAMETHROWER_PROJECTILES, false, 2, 100, 45, 5.0f, TGSounds.FLAMETHROWER_FIRE, TGSounds.FLAMETHROWER_RELOAD,16,0.05f).setBulletSpeed(0.5f).setGravity(0.01d).setFiresoundStart(TGSounds.FLAMETHROWER_START).setMaxLoopDelay(10).setDamageDrop(4, 16, 2.0f).setAIStats(RANGE_CLOSE, 20, 5, 5).setCheckRecoil().setRecoiltime(10).setCheckMuzzleFlash().setMuzzleFlashTime(10).setTurretPosOffset(0, 0, 0.1f).setForwardOffset(0.35f).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
 
