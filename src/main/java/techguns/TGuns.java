@@ -72,6 +72,7 @@ public class TGuns implements ITGInitializer {
 	public static GenericGun MININGDRILL;
 	public static GenericGun LASERGUN;
 	public static GenericGun LASERPISTOL;
+	public static GenericGun SONICSHOTGUN;
 
 	public static ProjectileSelector<GenericProjectile> ASSAULTRIFLE_MAG_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> SNIPER_MAG_PROJECTILES;
@@ -96,7 +97,8 @@ public class TGuns implements ITGInitializer {
 	public static ProjectileSelector<GenericProjectileFX> NETHERBLASTER_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> BLASTER_ENERGYCELL_PROJECTILES;
 	public static ProjectileSelector<GenericProjectile> ADVANCED_MAG_PROJECTILES;
-	
+	public static ProjectileSelector<SonicShotgunProjectile> SONIC_SHOTGUN_PROJECTILES;
+
 	public static ChargedProjectileSelector<GuidedMissileProjectile> GUIDED_MISSILE_PROJECTILES;
 	public static ChargedProjectileSelector<BioGunProjectile> BIOGUN_PROJECTILES;
 	public static ChargedProjectileSelector<TFGProjectile> TFG_PROJECTILES;
@@ -160,6 +162,7 @@ public class TGuns implements ITGInitializer {
 		LASERGUN_PROJECTILES = new ProjectileSelector<GenericBeamProjectile>(AmmoTypes.ENERGY_CELL, LASER_BEAM);
 		LASERPISTOL_PROJECTILES = new ProjectileSelector<GenericBeamProjectile>(AmmoTypes.REDSTONE_BATTERY, LASER_BEAM);
 
+		SONIC_SHOTGUN_PROJECTILES = new ProjectileSelector<SonicShotgunProjectile>(AmmoTypes.ENERGY_CELL, new SonicShotgunProjectile.Factory());
 
 		HANDCANNON = reg(new GenericGun("handcannon", new ProjectileSelector<StoneBulletProjectile>(AmmoTypes.STONE_BULLETS, new StoneBulletProjectile.Factory()), true, 12,1,30, 8.0f, TGSounds.HANDGUN_FIRE, TGSounds.HANDGUN_RELOAD,25,0.035f).setBulletSpeed(1.0f).setGravity(0.015d).setDamageDrop(10, 25, 5.0f).setAIStats(RANGE_CLOSE, 60, 0, 0).setRecoiltime(12).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
 		
@@ -239,6 +242,8 @@ public class TGuns implements ITGInitializer {
 		LASERGUN = reg(new GenericGun("lasergun", LASERGUN_PROJECTILES, false, 5, 45, 45, 12.0f, TGSounds.LASERGUN_FIRE, TGSounds.LASERGUN_RELOAD, MAX_RANGE_SNIPER, 0.0f).setZoom(0.75f, true,0.75f,false).setBulletSpeed(100.0f).setAIStats(RANGE_MEDIUM, 30, 0, 0).setTurretPosOffset(0, 0.01f, 0.11f).setMuzzleLight(0.9f, 0.3f, 0.1f).setRangeTooltipType(RangeTooltipType.NO_DROP).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART));
 
 		LASERPISTOL = reg(new GenericGun("laserpistol", LASERPISTOL_PROJECTILES, false, 6, 20, 40, 9.0f, TGSounds.LASER_PISTOL_FIRE, TGSounds.LASER_PISTOL_RELOAD, MAX_RANGE_SNIPER, 0.025f).setBulletSpeed(100.0f).setAIStats(RANGE_MEDIUM, 30, 0, 0).setMuzzleLight(0.9f, 0.3f, 0.1f).setRangeTooltipType(RangeTooltipType.NO_DROP).setHandType(GunHandType.ONE_HANDED).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART));
+
+		SONICSHOTGUN = reg(new SonicShotgun("sonicshotgun",SONIC_SHOTGUN_PROJECTILES,true, 12, 8, 40, 25.0f, TGSounds.SONIC_SHOTGUN_FIRE, TGSounds.SONIC_SHOTGUN_RELOAD,20,0.0f).setDamageDrop(5, 15, 5.0f).setPenetration(PENETRATION_MED).setAIStats(RANGE_SHORT, 40, 0, 0).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
 
 
 	}

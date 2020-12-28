@@ -96,6 +96,9 @@ public class PacketSpawnEntity extends EntitySpawnS2CPacket implements Packet<Cl
 		}
 		else if (this.getEntityTypeId() == TGEntities.FLYING_GIBS){
 			ent = new FlyingGibs(TGEntities.FLYING_GIBS, mc.player.world);
+
+		} else if (this.getEntityTypeId() == TGEntities.SONIC_SHOTGUN_PROJECTILE){
+			ent = new SonicShotgunProjectile(TGEntities.SONIC_SHOTGUN_PROJECTILE, mc.player.world, shooter, additionalData);
 		}
 
 		if (ent != null) {

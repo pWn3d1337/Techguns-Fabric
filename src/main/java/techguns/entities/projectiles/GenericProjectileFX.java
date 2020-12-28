@@ -19,11 +19,67 @@ import techguns.items.guns.IProjectileFactory;
 import techguns.items.guns.ammo.DamageModifier;
 import techguns.packets.PacketSpawnParticle;
 
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
 public class GenericProjectileFX extends GenericProjectile {
 
     public static final byte PROJECTILE_TYPE_DEATOMIZER = 0;
     public static final byte PROJECTILE_TYPE_ALIENBLASTER = 1;
     public static final byte PROJECTILE_TYPE_NETHERBLASTER = 2;
+
+    public enum ProjectileFXType {
+        DEATOMIZER(0, DamageType.PROJECTILE, EntityDeathUtils.DeathType.GORE, 1.0f, TGDamageSource::causeEnergyDamage,
+                (world, x, y, z, pitch, yaw, soundGroup)->{
+            TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("BlueBlasterExplosion", x, y, z), world, new Vec3d(x,y,z), 32.0f);
+        }),
+        ALIENBLASTER(1, DamageType.FIRE, EntityDeathUtils.DeathType.DEFAULT, 0f, TGDamageSource::causeFireDamage,
+                (world, x, y, z, pitch, yaw, soundGroup)->{
+            TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("AlienExplosion", x, y, z), world, new Vec3d(x,y,z), 32.0f);
+        });
+
+        public final byte id;
+        protected DamageType damageType;
+        protected EntityDeathUtils.DeathType deathType;
+        protected float goreChance;
+        protected DamageSourceGetter dmgSourceGetter;
+        protected BiConsumer<LivingEntity, EntityHitResult> onHitCode;
+        protected ImpactFXCode impactFXCode;
+        protected Consumer<GenericProjectile> clientTrailFXCode;
+
+        ProjectileFXType(int id, DamageType damageType, EntityDeathUtils.DeathType deathType, float goreChance, DamageSourceGetter dmgSourceGetter) {
+            this.id = (byte)id;
+            this.damageType = damageType;
+            this.dmgSourceGetter = dmgSourceGetter;
+            this.deathType = deathType;
+            this.goreChance = goreChance;
+            this.onHitCode = (entity, hitres)-> {};
+            this.impactFXCode = (world, x, y, z, pitch, yaw, soundGroup) -> {};
+            this.clientTrailFXCode = (entity)->{};
+        };
+
+        ProjectileFXType(int id, DamageType damageType, EntityDeathUtils.DeathType deathType, float goreChance, DamageSourceGetter dmgSourceGetter,
+                              BiConsumer<LivingEntity, EntityHitResult> onHitCode, ImpactFXCode impactFXCode) {
+            this(id, damageType, deathType, goreChance, dmgSourceGetter);
+            this.onHitCode = onHitCode;
+            this.impactFXCode = impactFXCode;
+        }
+
+        ProjectileFXType(int id, DamageType damageType, EntityDeathUtils.DeathType deathType, float goreChance, DamageSourceGetter dmgSourceGetter,
+                              ImpactFXCode impactFXCode) {
+            this(id, damageType, deathType, goreChance, dmgSourceGetter);
+            this.impactFXCode = impactFXCode;
+        }
+
+        ProjectileFXType(int id, DamageType damageType, EntityDeathUtils.DeathType deathType, float goreChance, DamageSourceGetter dmgSourceGetter,
+                              BiConsumer<LivingEntity, EntityHitResult> onHitCode, ImpactFXCode impactFXCode,
+                              Consumer<GenericProjectile> clientTrailFXCode) {
+            this(id,damageType,deathType, goreChance, dmgSourceGetter,onHitCode,impactFXCode);
+            this.clientTrailFXCode = clientTrailFXCode;
+        }
+
+    }
+
 
     public GenericProjectileFX(EntityType<? extends ProjectileEntity> entityType, World world) {
         super(entityType, world);

@@ -457,6 +457,15 @@ public class ClientProxy implements ClientModInitializer {
 						{-0.18f,0f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.11f, -0.83f).setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 5.0f));
 
+		TGRenderRegistries.registerItemRenderer(TGuns.SONICSHOTGUN,new RenderGunBase90(new ModelSonicShotgun(),new TGIdentifier("textures/guns/sonicshotgun.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE*0.5f-0.10f)
+				.setBaseScale(1.0f).setGUIScale(0.35f).setMuzzleFx(ScreenEffect.muzzleFlashSonic, 0, 0.28f, -0.98f, 0.5f,0).setTransformTranslations(new float[][]{
+						{0f,0.10f,0.04f}, //First Person
+						{0f,-0.01f,-0.03f}, //Third Person
+						{0.08f,0.0f,0f}, //GUI
+						{0f,0.05f,0.15f}, //Ground
+						{-0.18f,0f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.11f, -0.81f));
+
 
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (dispatcher, context) -> {
             return new GenericProjectileRenderer(dispatcher);
@@ -500,6 +509,10 @@ public class ClientProxy implements ClientModInitializer {
 
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_FX_PROJECTILE, (dispatcher, context) -> {
 			return new RenderInvisibleProjectile(dispatcher);
+		});
+
+		EntityRendererRegistry.INSTANCE.register(TGEntities.SONIC_SHOTGUN_PROJECTILE, (dispatcher, context) -> {
+			return new GenericProjectileRenderer(dispatcher);
 		});
 		
 		EntityRendererRegistry.INSTANCE.register(TGEntities.FLYING_GIBS, (dispatcher, context) -> {

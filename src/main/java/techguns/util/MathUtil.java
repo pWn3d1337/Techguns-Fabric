@@ -49,4 +49,30 @@ public class MathUtil {
 	public static int clamp(int val, int min, int max) {
 		return Math.max(min, Math.min(max, val));
 	}
+
+	/**
+	 * The Vec3d method is client only
+	 * @param dir
+	 * @param angle
+	 * @return
+	 */
+	public static Vec3d rotateVec3dAroundZ(Vec3d dir, float angle) {
+		float f = MathHelper.cos(angle);
+		float g = MathHelper.sin(angle);
+		double d = dir.x * (double)f + dir.y * (double)g;
+		double e = dir.y * (double)f - dir.x * (double)g;
+		double h = dir.z;
+		return new Vec3d(d, e, h);
+	}
+
+	/**
+	 * Rodrigues Formula
+	 * @param v
+	 * @param k
+	 * @param theta
+	 * @return
+	 */
+	public static Vec3d rotateVec3dAroundAxis(Vec3d v, Vec3d k, double theta){
+		return v.multiply(Math.cos(theta)).add(k.crossProduct(v).multiply(Math.sin(theta))).add(k.multiply(k.dotProduct(v)*(1-Math.cos(theta))));
+	}
 }
