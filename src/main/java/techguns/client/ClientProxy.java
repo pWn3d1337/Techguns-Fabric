@@ -512,7 +512,7 @@ public class ClientProxy implements ClientModInitializer {
 		});
 
 		EntityRendererRegistry.INSTANCE.register(TGEntities.SONIC_SHOTGUN_PROJECTILE, (dispatcher, context) -> {
-			return new GenericProjectileRenderer(dispatcher);
+			return new RenderInvisibleProjectile(dispatcher);
 		});
 		
 		EntityRendererRegistry.INSTANCE.register(TGEntities.FLYING_GIBS, (dispatcher, context) -> {

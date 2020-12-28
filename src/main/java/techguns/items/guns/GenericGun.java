@@ -149,7 +149,9 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	float zoombonus=1.0f;
 	
 	float radius=1.0f;
-	double gravity=0.0f;
+
+	public static final double DEFAULT_GRAVITY = 0.005000000074505806D;
+	double gravity = DEFAULT_GRAVITY;
 
 	boolean shootWithLeftClick=true;
 	

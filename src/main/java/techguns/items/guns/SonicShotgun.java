@@ -68,17 +68,17 @@ public class SonicShotgun extends GenericGun {
         spread = 0.075f;
 
 
+        Vec3d FORWARD = projectile.getVelocity().normalize();
+        Vec3d UP = new Vec3d(0,1,0); //Vec3.createVectorHelper(1, 0, 0);
+
+        Vec3d sideVec = FORWARD.crossProduct(UP).normalize();
+
         //Rings
         for (int j = 1; j <= rings; j++) {
 
             double angle =(Math.PI*2.0)/(double)(count*j);
 
-            Vec3d FORWARD = projectile.getVelocity();
-            Vec3d UP = new Vec3d(0,1,0); //Vec3.createVectorHelper(1, 0, 0);
-
-            Vec3d sideVec = FORWARD.crossProduct(UP).normalize();
-
-            Vec3d rotated = MathUtil.rotateVec3dAroundAxis(FORWARD, sideVec, 10.0*MathUtil.D2R);
+            Vec3d rotated = MathUtil.rotateVec3dAroundAxis(FORWARD, sideVec, 5.0*j*MathUtil.D2R);
 
             for (int i = 0; i < (count*j); i++) {
 
@@ -88,9 +88,9 @@ public class SonicShotgun extends GenericGun {
                 projectile.entitiesHit = entitiesHit;
                 projectile.mainProjectile = false;
 
-                Vec3d newRotation = MathUtil.rotateVec3dAroundAxis(rotated, FORWARD.normalize(), angle);
+                Vec3d newRotation = MathUtil.rotateVec3dAroundAxis(rotated, FORWARD, angle*(i+1));
                 projectile.setPos(projectile.getX(), projectile.getY(), projectile.getZ());
-                projectile.setVelocity(newRotation);
+                projectile.setVelocity(newRotation.x, newRotation.y, newRotation.z, modified_speed, 0f);
 
                 if (offset>0.0f){
                     projectile.shiftForward(offset);
@@ -99,6 +99,9 @@ public class SonicShotgun extends GenericGun {
                 this.onProjectileSpawn(projectile, world, player, itemstack, spread, offset, damagebonus, firePos, target);
 
                 world.spawnEntity(projectile);
+                if(!world.isClient) {
+                    TGPacketsS2C.sentToAllTrackingPos(new PacketEntityAdditionalSpawnData(projectile), world, new BlockPos(projectile.getPos()));
+                }
             }
         }
     }

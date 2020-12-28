@@ -422,9 +422,9 @@ public class GenericProjectile extends ProjectileEntity {
 		}
 
 		this.setVelocity(vec3d.multiply((double) m));
-		if (!this.hasNoGravity()) {
+		if (!this.hasNoGravity() && this.gravity>=0.0d) {
 			Vec3d vec3d5 = this.getVelocity();
-			this.setVelocity(vec3d5.x, vec3d5.y - 0.005000000074505806D, vec3d5.z);
+			this.setVelocity(vec3d5.x, vec3d5.y - this.gravity, vec3d5.z);
 		}
 
 		this.updatePosition(h, j, k);
@@ -756,6 +756,7 @@ public class GenericProjectile extends ProjectileEntity {
     @Override
 	protected void writeCustomDataToTag(CompoundTag tag) {
 		super.writeCustomDataToTag(tag);
+		tag.putDouble("gravity", this.gravity);
 		tag.putInt("lifetime", this.ticksToLive);
 		tag.putFloat("speed", this.speed);
 		tag.putByte("projectile_type", this.projectileType);
@@ -764,6 +765,7 @@ public class GenericProjectile extends ProjectileEntity {
 	@Override
 	protected void readCustomDataFromTag(CompoundTag tag) {
 		super.readCustomDataFromTag(tag);
+		this.gravity = tag.getDouble("gravity");
 		this.ticksToLive = tag.getInt("lifetime");
 		this.speed = tag.getFloat("speed");
 		this.projectileType = tag.getByte("projectile_type");
@@ -775,6 +777,7 @@ public class GenericProjectile extends ProjectileEntity {
     }
 
 	public void getAdditionalSpawnData(CompoundTag data) {
+		data.putDouble("gravity", this.gravity);
 		data.putInt("lifetime", this.ticksToLive);
 		data.putFloat("speed", this.speed);
 		data.putByte("projectile_type", this.projectileType);
@@ -785,6 +788,7 @@ public class GenericProjectile extends ProjectileEntity {
 	 * @param data
 	 */
 	public void parseAdditionalData(CompoundTag data) {
+		this.gravity = data.getDouble("gravity");
 		this.ticksToLive = data.getInt("lifetime");
 		this.speed = data.getFloat("speed");
 		this.projectileType = data.getByte("projectile_type");
