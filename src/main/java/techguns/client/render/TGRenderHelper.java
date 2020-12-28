@@ -81,11 +81,11 @@ public class TGRenderHelper extends RenderPhase {
 	}
 	
 	public static RenderLayer get_fx_renderlayer_additive(Identifier texture) {
-		return RenderLayer.of("techguns_fx_additive", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).writeMaskState(COLOR_MASK).transparency(LIGHTNING_TRANSPARENCY)/*.lightmap(ENABLE_LIGHTMAP)*/.target(PARTICLES_TARGET).shadeModel(SMOOTH_SHADE_MODEL).cull(DISABLE_CULLING).build(false));
+		return RenderLayer.of("techguns_fx_additive", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).writeMaskState(COLOR_MASK).transparency(LIGHTNING_TRANSPARENCY)/*.lightmap(ENABLE_LIGHTMAP)*/.target(WEATHER_TARGET).shadeModel(SMOOTH_SHADE_MODEL).cull(DISABLE_CULLING).build(false));
 	}
 	
 	public static RenderLayer get_fx_renderlayer_alpha(Identifier texture) {
-		return RenderLayer.of("techguns_fx_alpha", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).writeMaskState(COLOR_MASK).transparency(TRANSLUCENT_TRANSPARENCY)/*.lightmap(ENABLE_LIGHTMAP)*/.target(PARTICLES_TARGET).shadeModel(SMOOTH_SHADE_MODEL).cull(DISABLE_CULLING).build(false));
+		return RenderLayer.of("techguns_fx_alpha", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, 7, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).writeMaskState(COLOR_MASK).transparency(TRANSLUCENT_TRANSPARENCY)/*.lightmap(ENABLE_LIGHTMAP)*/.target(WEATHER_TARGET).shadeModel(SMOOTH_SHADE_MODEL).cull(DISABLE_CULLING).build(false));
 	}
 
 	public static RenderLayer get_scope_renderlayer(Identifier texture) {

@@ -1,5 +1,7 @@
 package techguns.client.render.entities;
 
+import java.util.Random;
+
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -43,8 +45,8 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 		switch (entity.getProjectileType()){
 			case BLASTER:
 			case ADVANCED:
-				return TGRenderHelper.getProjectileAdditive(this.getTexture(entity));
 			case DEFAULT:
+				return TGRenderHelper.getProjectileAdditive(this.getTexture(entity));
 			default:
 				return TGRenderHelper.getProjectileCutout(this.getTexture(entity));
 		}
@@ -54,7 +56,11 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 	public void render(GenericProjectile entity, float yaw, float tickDelta, MatrixStack matrixStack,
 			VertexConsumerProvider vertexConsumerProvider, int light) {
 		
-		if (entity.age >= 2 || (entity.age == 1 && tickDelta > 0.25f)) {
+		long seed = entity.getEntityId();
+		Random rand = new Random(seed);		
+		float angleX = (float)rand.nextGaussian();
+		
+		if (entity.age >= 2 || (entity.age == 1 && tickDelta > 0.35f /*0.25f*/)) {
 
 			matrixStack.push();
 			matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(
@@ -62,7 +68,8 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 			matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(
 					MathHelper.lerp(tickDelta, entity.prevPitch, entity.pitch)));
 
-			matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(45.0F));
+	        matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(360.0f * angleX));
+			//matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(45.0F));
 			matrixStack.scale(0.05625F, 0.05625F, 0.05625F);
 			matrixStack.translate(-4.0D, 0.0D, 0.0D);
 			VertexConsumer vertexConsumer = vertexConsumerProvider
@@ -70,8 +77,8 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 			MatrixStack.Entry entry = matrixStack.peek();
 			Matrix4f model_mat = entry.getModel();
 
-			float length = 10f;
-			float width = 1.5f;
+			float length = 10f; //10f;
+			float width = 1.25f; //1.5f;
 			
 			float u1 = 0.0f;
 	        float u2 = 1.0f;
@@ -79,7 +86,7 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 	        float v2 = 1.0f;
 			
 			for (int u = 0; u < 4; ++u) {
-				matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(90.0F));
+				matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(45.0F));
 				this.addVertex(model_mat, vertexConsumer, -length, -width, 0f, u1,v1, light);
 				this.addVertex(model_mat, vertexConsumer, length, -width, 0f, u2,v1, light);
 				this.addVertex(model_mat, vertexConsumer, length, width, 0f, u2,v2, light);
