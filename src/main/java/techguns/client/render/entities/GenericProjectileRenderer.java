@@ -18,7 +18,7 @@ import techguns.TGIdentifier;
 import techguns.client.render.TGRenderHelper;
 import techguns.entities.projectiles.GenericProjectile;
 
-public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>{
+public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericProjectile>{
 	private static final Identifier bulletTextures = new TGIdentifier("textures/entity/bullet1.png");
 	private static final Identifier blasterTextures = new TGIdentifier("textures/fx/laser3.png");
 	private static final Identifier advancedTextures = new TGIdentifier("textures/entity/bullet_blue.png");
@@ -53,7 +53,7 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 	}
 
 	@Override
-	public void render(GenericProjectile entity, float yaw, float tickDelta, MatrixStack matrixStack,
+	public void renderLate(GenericProjectile entity, float yaw, float tickDelta, MatrixStack matrixStack,
 			VertexConsumerProvider vertexConsumerProvider, int light) {
 		
 		long seed = entity.getEntityId();
