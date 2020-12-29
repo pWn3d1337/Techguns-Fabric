@@ -91,12 +91,12 @@ public class GenericGunCharge extends GenericGun {
 
 				if (firedelay<=0) {
 
+					this.startCharge( item, world, player, handIn);
 					extendedPlayer.setFireDelay(handIn, this.minFiretime);
 
 					player.setCurrentHand(handIn);
 					//player.setItemInUse(item, this.getMaxItemUseDuration(item));
 					
-					this.startCharge( item, world, player);
 					extendedPlayer.setChargingWeapon(true);
 					
 					if (this.startChargeSound != null) {
@@ -181,7 +181,7 @@ public class GenericGunCharge extends GenericGun {
 	/**
 	 * Override for onCharge code.
 	 */
-	protected void startCharge(ItemStack item, World world, PlayerEntity player) {}
+	protected void startCharge(ItemStack item, World world, PlayerEntity player, Hand hand) {}
 
 		
 	@Override

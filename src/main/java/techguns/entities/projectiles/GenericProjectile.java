@@ -301,11 +301,13 @@ public class GenericProjectile extends ProjectileEntity {
 	double gravity=0.0f;
 	
 	boolean clientSlowDeath = false;
+	protected boolean shouldCollide = true;
 	
 	protected IntOpenHashSet piercedEntities;
 	protected List<Entity> piercingKilledEntities;
 	
 	protected byte projectileType=0;
+
 		
 	public GenericProjectileType getProjectileType() {
 		if(this.projectileType>=0&& projectileType<GenericProjectileType.values().length) {
@@ -366,7 +368,7 @@ public class GenericProjectile extends ProjectileEntity {
 				vec3d4 = ((HitResult) hitResult).getPos();
 			}
 	
-			while (!this.removed & !this.clientSlowDeath) {
+			while (!this.removed && !this.clientSlowDeath && this.shouldCollide) {
 				EntityHitResult entityHitResult = this.getEntityCollision(vec3d3, vec3d4);
 				if (entityHitResult != null) {
 					hitResult = entityHitResult;

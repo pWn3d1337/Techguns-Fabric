@@ -22,8 +22,9 @@ public class TGEntities implements ITGInitializer {
 	public static EntityType<FlamethrowerProjectile> FLAMETHROWER_PROJECTILE;
 	public static EntityType<GenericProjectileFX> GENERIC_FX_PROJECTILE;
 	public static EntityType<SonicShotgunProjectile> SONIC_SHOTGUN_PROJECTILE;
+	public static EntityType<GrapplingHookProjectile> GRAPPLING_HOOK_PROJECTILE;
 	//Client Only:
-	public static EntityType<FlyingGibs> FLYING_GIBS;
+	//public static EntityType<FlyingGibs> FLYING_GIBS;
 	
 	public static final int bulletTrackRange = 128;
 	public static final int gibsTrackRange = 64;
@@ -85,16 +86,21 @@ public class TGEntities implements ITGInitializer {
 				new TGIdentifier("generic_fx_projectile"),
 				FabricEntityTypeBuilder.<GenericProjectileFX>create(SpawnGroup.MISC, GenericProjectileFX::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(bulletTrackRange).build());
 
-		FLYING_GIBS = Registry.register(
-				Registry.ENTITY_TYPE,
-				new TGIdentifier("flying_gibs"),
-				FabricEntityTypeBuilder.<FlyingGibs>create(SpawnGroup.MISC, FlyingGibs::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(gibsTrackRange).build());
+//		FLYING_GIBS = Registry.register(
+//				Registry.ENTITY_TYPE,
+//				new TGIdentifier("flying_gibs"),
+//				FabricEntityTypeBuilder.<FlyingGibs>create(SpawnGroup.MISC, FlyingGibs::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(gibsTrackRange).build());
 
 		SONIC_SHOTGUN_PROJECTILE = Registry.register(
 				Registry.ENTITY_TYPE,
 				new TGIdentifier("sonic_shotgun_projectile"),
 				FabricEntityTypeBuilder.<SonicShotgunProjectile>create(SpawnGroup.MISC, SonicShotgunProjectile::new).dimensions(EntityDimensions.fixed(0.35f, 0.35f)).trackRangeBlocks(bulletTrackRange).build());
 
+		GRAPPLING_HOOK_PROJECTILE = Registry.register(
+	            Registry.ENTITY_TYPE,
+	            new TGIdentifier("grappling_hook_projectile"),
+	            FabricEntityTypeBuilder.<GrapplingHookProjectile>create(SpawnGroup.MISC, GrapplingHookProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
+		
 	}
 
 }
