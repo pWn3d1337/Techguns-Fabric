@@ -16,6 +16,7 @@ import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Matrix4f;
 import techguns.client.ClientProxy;
+import techguns.client.render.entities.RenderLateEntityRenderer;
 
 @Mixin(WorldRenderer.class)
 public class WorldRendererMixin {
@@ -31,6 +32,7 @@ public class WorldRendererMixin {
 		
 		MinecraftClient mc = MinecraftClient.getInstance();
 		ClientProxy.get().particleManager.renderParticles(immediate, mc.cameraEntity, tickDelta, matrices, camera, matrix4f);
-		
+
+		RenderLateEntityRenderer.renderEntities(immediate, mc.cameraEntity, tickDelta, matrices, camera, matrix4f);
 	}
 }

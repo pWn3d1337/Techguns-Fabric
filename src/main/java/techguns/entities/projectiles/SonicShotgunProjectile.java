@@ -159,7 +159,6 @@ public class SonicShotgunProjectile extends GenericProjectile {
     @Override
     public void clientInitializeFinal() {
         if(this.mainProjectile){
-            System.out.println("MAIN!");
             ClientProxy.get().createFXOnEntity("SonicShotgunTrail", this);
         }
     }
