@@ -32,7 +32,12 @@ public class GrapplingHook extends GenericGunCharge{
 		super.shootGunPrimary(item, world, player, false, hand, null);
 		
 	}
-	
+
+	@Override
+	public boolean hasRightClickAction() {
+		return true;
+	}
+
 	@Override
 	public void onStoppedUsing(ItemStack item, World world, LivingEntity entityLiving, int timeLeft) {
 		super.onStoppedUsing(item, world, entityLiving, timeLeft);

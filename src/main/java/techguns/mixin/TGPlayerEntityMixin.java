@@ -21,6 +21,7 @@ import net.minecraft.world.World;
 import techguns.TGPacketsS2C;
 import techguns.api.entity.AttackTime;
 import techguns.api.entity.ITGExtendedPlayer;
+import techguns.api.guns.GunManager;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.GenericGunCharge;
 import techguns.packets.PacketSwapWeapon;
@@ -238,7 +239,10 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 		 */
 		if (server) {
 			if (this.isChargingWeapon()) {
-				if (this.getItemUseTime() <= 0 || !(this.getMainHandStack().getItem() instanceof GenericGunCharge)){
+				boolean canChargeMainhand = (this.getMainHandStack().getItem() instanceof GenericGunCharge);
+				boolean canChargeOffhand = GunManager.canUseOffhand(this) && this.getOffHandStack().getItem() instanceof GenericGunCharge;
+
+				if (this.getItemUseTime() <= 0 || !(canChargeMainhand || canChargeOffhand)){
 					this.setChargingWeapon(false);
 				}
 			}
