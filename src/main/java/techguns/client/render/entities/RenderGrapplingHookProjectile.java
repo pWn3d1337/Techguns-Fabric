@@ -33,7 +33,7 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
 	}
 
 	private Identifier texture_projectile = new TGIdentifier("textures/guns/rocket.png");
-	private Identifier texture_chain = new TGIdentifier("textures/fx/laser_blue.png");
+	private Identifier texture_chain = new TGIdentifier("textures/entity/chain.png");
 	
 	private Model model = new ModelRocket();
 
@@ -44,6 +44,8 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
 		
 		//Render Projectile
 		matrices.push();
+		
+		//System.out.println("Render Grappling Hook with TickDelta = "+tickDelta);
 	
        	TGMatrixOps.rotate(matrices, entity.prevYaw + (entity.yaw-entity.prevYaw)*tickDelta -90.0f, 0F, 1F, 0F);
        	TGMatrixOps.rotate(matrices, entity.prevPitch + (entity.pitch-entity.prevPitch)*tickDelta, 0F, 0F, 1F);
@@ -61,25 +63,34 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
 			Entity shooter = entity.getOwner();
 			if (shooter != null) {
 				matrices.push();
-				Vec3d dst = shooter.getCameraPosVec(tickDelta);
-				dst = dst.add(new Vec3d(0, -0.1, 0)); //Offset to avoid stabbing laser into the eye; TODO: Firepos offset
-				Vec3d src = entity.getPos();
+				Vec3d src = shooter.getCameraPosVec(tickDelta);
+				src = src.add(new Vec3d(0, -0.15, 0)); //Offset to avoid stabbing laser into the eye; TODO: Firepos offset
+				
+				double ex = MathHelper.lerp(tickDelta, entity.prevX, entity.getX());
+				double ey = MathHelper.lerp(tickDelta, entity.prevY, entity.getY());
+				double ez = MathHelper.lerp(tickDelta, entity.prevZ, entity.getZ());
+				
+				Vec3d dst = new Vec3d(ex, ey, ez);
 				Vec3d diff = dst.subtract(src);
 				float distance = (float) diff.length();
 				Vec3d dir = diff.normalize();
 				
 				double c_pitch = MathUtil.R2D*Math.asin(dir.getY());
 				double c_yaw = MathUtil.R2D*Math.atan2(dir.getX(), dir.getZ());
-				float width = 0.05f;
+				float width = 0.035f;
+				
+		       	matrices.translate(src.x-ex, src.y-ey, src.z-ez);
 				
 				TGMatrixOps.rotate(matrices, (float)c_yaw -90.0f, 0F, 1F, 0F);
 		       	TGMatrixOps.rotate(matrices, (float)c_pitch, 0F, 0F, 1F);
+		       	TGMatrixOps.rotate(matrices, 45f, 1f, 0f, 0f);
 		       	Matrix4f model_mat = matrices.peek().getModel();
 		       	
 		       	float u1 = 0f;
 		       	float v1 = 0f;
-		       	float u2 = 1f;
+		       	float u2 = (distance / width) * 0.25f;
 		       	float v2 = 1f;
+				
 		       	
 		       	vertexConsumer = vertexConsumers.getBuffer(TGRenderHelper.get_fx_renderlayer_alpha(texture_chain));	
 		       	

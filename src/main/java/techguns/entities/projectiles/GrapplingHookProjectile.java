@@ -11,6 +11,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import techguns.TGEntities;
@@ -86,7 +87,11 @@ public class GrapplingHookProjectile extends GenericProjectile{
 		
 		// ---
 		if (this.status == GrapplingStatus.LAUNCHING) {
-			super.tick();
+			if (isShooterGrappling()) {
+				super.tick();
+			}else {
+				stopGrappling();
+			}
 		}
 		else if (this.status == GrapplingStatus.NONE) {
 			this.remove();
@@ -189,10 +194,14 @@ public class GrapplingHookProjectile extends GenericProjectile{
 		super.onBlockHit(blockHitResult);
 		//If block was hit --> Set block to grappling target (block)
 		BlockState block = this.world.getBlockState(blockHitResult.getBlockPos());
-		if (!block.isAir()) {
+		if (!block.isAir() && !this.getOwner().isSneaking()) {
 			//TODO: Adjust target pos depending on which side of block was hit
 			this.targetBlock = blockHitResult.getBlockPos();
-			this.targetPos = blockHitResult.getPos();
+			if (blockHitResult.getSide() == Direction.UP) {
+				this.targetPos = blockHitResult.getPos().add(0, 0.15d, 0);
+			}else {
+				this.targetPos = blockHitResult.getPos();
+			}
 			this.status = GrapplingStatus.GRAPPLING_BLOCK;
 			this.shouldCollide = false;
 		}else {
@@ -226,6 +235,7 @@ public class GrapplingHookProjectile extends GenericProjectile{
 				float speed, int TTL, float spread, float dmgDropStart, float dmgDropEnd, float dmgMin,
 				float penetration, boolean blockdamage, EnumBulletFirePos firePos, float radius, double gravity) {
 			GrapplingHookProjectile proj = new GrapplingHookProjectile(TGEntities.GRAPPLING_HOOK_PROJECTILE, world,p,damage,speed,TTL,spread,dmgDropStart,dmgDropEnd,dmgMin,penetration,blockdamage,firePos,gravity);
+			System.out.println("Spawn Grappling Hook Projectile");
 			return proj;
 		}
 
