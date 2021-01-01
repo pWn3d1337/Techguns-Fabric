@@ -103,6 +103,9 @@ public class PacketSpawnEntity extends EntitySpawnS2CPacket implements Packet<Cl
 		} else if (this.getEntityTypeId() == TGEntities.GRAPPLING_HOOK_PROJECTILE){
 			ent = new GrapplingHookProjectile(TGEntities.GRAPPLING_HOOK_PROJECTILE, mc.player.world, shooter, additionalData);
 		}
+		else if (this.getEntityTypeId() == TGEntities.TESLA_PROJECTILE){
+			ent = new TeslaProjectile(TGEntities.TESLA_PROJECTILE, mc.player.world, shooter, additionalData);
+		}
 
 		if (ent != null) {
 			ent.updateTrackedPosition(this.getX(), this.getY(), this.getZ());

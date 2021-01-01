@@ -43,7 +43,7 @@ public class SonicShotgunProjectile extends GenericProjectile {
 
     @Override
     protected TGDamageSource getProjectileDamageSource() {
-        TGDamageSource src = new TGDamageSource("tg_sonic",this, shooter, DamageType.PHYSICAL, EntityDeathUtils.DeathType.GORE);
+        TGDamageSource src = new TGDamageSource("tg_sonic",this, this.getOwner(), DamageType.PHYSICAL, EntityDeathUtils.DeathType.GORE);
         src.ignoreHurtresistTime=true;
         src.armorPenetration = this.penetration;
         src.setKnockback(2.0f);
@@ -72,7 +72,7 @@ public class SonicShotgunProjectile extends GenericProjectile {
         }
         this.entitiesHit.add(targetid);
 
-        Entity shooter = this.shooter;
+        Entity shooter = this.getOwner();
         TGDamageSource damageSource;
         TGDamageSource damageSourceKnockback;
         if (shooter == null) {

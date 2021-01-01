@@ -20,6 +20,7 @@ import techguns.items.guns.ammo.AmmoTypes;
 import techguns.mixin.NetworkStateMixin;
 import techguns.packets.PacketSpawnEntity;
 import techguns.recipes.AmmoChangeRecipe;
+import techguns.recipes.NBTShapedRecipe;
 import techguns.recipes.Recipewriter;
 
 public class Techguns implements ModInitializer {
@@ -58,6 +59,8 @@ public class Techguns implements ModInitializer {
 		TGPacketsC2S.initialize();
 		initializers.clear();
 		initializers=null;
+
+		NBTShapedRecipe.SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("crafting_shaped_nbt"), new NBTShapedRecipe.Serializer());
 
 		AMMO_CHANGE_SERIALIZER = (SpecialRecipeSerializer<AmmoChangeRecipe>)Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("ammo_change_recipe"), new SpecialRecipeSerializer<AmmoChangeRecipe>(AmmoChangeRecipe::new));
 

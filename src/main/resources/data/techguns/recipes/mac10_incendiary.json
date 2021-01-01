@@ -1,0 +1,33 @@
+{
+  "result": {
+    "item": "techguns:mac10",
+    "data": {
+      "ammo": 32,
+      "ammovariant": "incendiary",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    " pi",
+    "bri",
+    " m "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:plastic_sheets"
+    },
+    "r": {
+      "item": "techguns:steelreceiver"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "i": {
+      "tag": "c:iron_nuggets"
+    },
+    "m": {
+      "item": "techguns:smgmagazine_incendiary"
+    }
+  }
+}

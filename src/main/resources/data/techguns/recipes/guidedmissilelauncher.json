@@ -1,0 +1,33 @@
+{
+  "result": {
+    "item": "techguns:guidedmissilelauncher",
+    "data": {
+      "ammo": 1,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    " gc",
+    "mbb",
+    " f "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "c": {
+      "item": "techguns:circuitboardelite"
+    },
+    "f": {
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "m": {
+      "item": "techguns:rocket"
+    }
+  }
+}

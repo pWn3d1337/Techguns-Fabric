@@ -1,0 +1,39 @@
+{
+  "result": {
+    "item": "techguns:blasterrifle",
+    "data": {
+      "ammo": 50,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "pcg",
+    "brs",
+    " m "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:carbon_plates"
+    },
+    "b": {
+      "item": "techguns:laserbarrel"
+    },
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "c": {
+      "item": "techguns:circuitboardelite"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "m": {
+      "item": "techguns:energycell"
+    }
+  }
+}

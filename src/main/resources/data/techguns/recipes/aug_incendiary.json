@@ -1,0 +1,39 @@
+{
+  "result": {
+    "item": "techguns:aug",
+    "data": {
+      "ammo": 30,
+      "ammovariant": "incendiary",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "gpg",
+    "bfs",
+    "i m"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:steel_ingots"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "f": {
+      "item": "techguns:steelreceiver"
+    },
+    "g": {
+      "item": "minecraft:glass_pane"
+    },
+    "i": {
+      "tag": "c:plastic_sheets"
+    },
+    "m": {
+      "item": "techguns:assaultriflemagazine_incendiary"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "techguns:lmg",
+    "data": {
+      "ammo": 100,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    " gr",
+    "bfs",
+    " m "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "f": {
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    "g": {
+      "item": "minecraft:glass_pane"
+    },
+    "m": {
+      "item": "techguns:lmgmagazine"
+    }
+  }
+}

@@ -5,18 +5,32 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import org.apache.commons.lang3.ArrayUtils;
+import sun.security.util.ArrayUtil;
 import techguns.TGIdentifier;
 import techguns.TGItems;
-
-import java.util.*;
+import techguns.Techguns;
+import techguns.items.guns.GenericGun;
+import techguns.items.guns.ammo.AmmoType;
+import techguns.items.guns.ammo.AmmoTypes;
+import techguns.items.guns.ammo.AmmoVariant;
 
 import static techguns.TGItems.*;
+import static techguns.TGuns.*;
 
 public class Recipewriter {
     public static final String itemStackHasNBTInt = "itemstackHasNBTInt";
 
     //TODO set this to false for releases
     public static final boolean WRITE_RECIPES = true;
+
+
     private static final Identifier TAG_CARBON_PLATES = new Identifier("c:carbon_plates");
 
     private static final Identifier TAG_COPPER_NUGGETS = new Identifier("c:copper_nuggets");
@@ -50,6 +64,13 @@ public class Recipewriter {
     private static final Identifier TAG_BASIC_CIRCUITS = new Identifier("c:basic_circuits");
 
     private static final Identifier TAG_URANIUM_ENRICHED = new Identifier("c:enriched_uranium");
+
+    private static final Identifier TAG_TITANIUM_INGOTS = new Identifier("c:titanium_ingots");
+
+    /**
+     * Vanilla tag
+     */
+    private static final Identifier TAG_LOGS = new Identifier("logs");
 
     public static final Map<Identifier, List<Item>> TAG_LIST = new TreeMap<Identifier, List<Item>>();
     static {
@@ -103,6 +124,8 @@ public class Recipewriter {
         TAG_LIST.put(TAG_BASIC_CIRCUITS, Arrays.asList(CIRCUIT_BOARD_BASIC));
 
         TAG_LIST.put(TAG_URANIUM_ENRICHED, Arrays.asList(ENRICHED_URANIUM));
+
+        TAG_LIST.put(TAG_TITANIUM_INGOTS, Arrays.asList(INGOT_TITANIUM));
     }
 
     public static void generateItemRecipes(){
@@ -320,6 +343,7 @@ public class Recipewriter {
 
         RecipeJsonConverter.write_special_recipetype("ammo_change_recipe", new TGIdentifier("ammo_change_recipe"));
 
+        addGunRecipes();
         addNonMachineRecipes();
     }
 
@@ -350,5 +374,163 @@ public class Recipewriter {
         RecipeJsonConverter.addShapelessRecipe(new ItemStack(ENERGY_CELL, 1), TGItems.ENERGY_CELL_EMPTY, Items.REDSTONE, Items.REDSTONE, Items.REDSTONE, Items.REDSTONE);
 
         RecipeJsonConverter.addShapelessRecipe(new ItemStack(FUEL_TANK,2 ),FUEL_TANK_EMPTY, FUEL_TANK_EMPTY, Items.LAVA_BUCKET);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(ADVANCED_ROUNDS,16), "i", "t", 'i', TAG_OBSIDIAN_INGOTS, 't', TGX);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(GRENADE_40MM,12), " i ","sts","sgs", 's', TAG_IRON_NUGGETS, 't', Blocks.TNT, 'g', Items.GUNPOWDER, 'i', TAG_IRON_INGOTS);
+
+        RecipeJsonConverter.addShapelessRecipe(new ItemStack(BIO_TANK,1), BIO_TANK_EMPTY, BIOMASS);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(NUCLEAR_POWERCELL_EMPTY,2), "wgw","prp","prp", 'p', TAG_LEAD_INGOTS, 'r',Items.REDSTONE_BLOCK, 'w', TAG_GOLD_WIRES, 'g', CIRCUIT_BOARD_BASIC);
+        RecipeJsonConverter.addShapelessRecipe(new ItemStack(NUCLEAR_POWERCELL, 1), NUCLEAR_POWERCELL_EMPTY, ENRICHED_URANIUM);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(GAUSSRIFLE_SLUGS,4), "i", "t", 'i', TAG_TITANIUM_INGOTS, 't', TAG_OBSIDIAN_INGOTS);
+
+        RecipeJsonConverter.addShapelessRecipe(new ItemStack(NETHER_CHARGE, 4), Items.NETHERRACK, Items.SOUL_SAND, Items.LAVA_BUCKET);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(LASER_FOCUS,1), "rrr", "rdr", "rrr", 'r', Items.REDSTONE, 'd', Items.DIAMOND);
+
+        RecipeJsonConverter.addShapelessRecipe(new ItemStack(CYBERNETIC_PARTS,1), Items.SOUL_SAND, Items.REDSTONE, TAG_GOLD_WIRES, TAG_PLASTIC_SHEETS);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(RAD_EMITTER,1), " c ", "lul", "lpl", 'c', CIRCUIT_BOARD_ELITE, 'l', TAG_LEAD_INGOTS, 'u', TAG_URANIUM_ENRICHED, 'p', MECHANICAL_PARTS_CARBON);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(SONIC_EMITTER,1), " t ", "cpc", "tbt", 'b', CIRCUIT_BOARD_ELITE, 't', TAG_TITANIUM_INGOTS, 'c', COIL, 'p', MECHANICAL_PARTS_CARBON);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(TGX,4), "glg","lbl", "glg", 'g', Items.GUNPOWDER, 'l', Items.LAPIS_LAZULI, 'b', Items.BLAZE_POWDER);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(TGX,4), "glg","lbl", "glg", 'l', Items.GUNPOWDER, 'g', Items.LAPIS_LAZULI, 'b', Items.BLAZE_POWDER);
+
+        RecipeJsonConverter.addShapelessRecipe(new ItemStack(TREATED_LEATHER,1), Items.LEATHER, Items.LEATHER, Items.SLIME_BALL, Items.GUNPOWDER);
+
+
+    }
+
+    /**
+     * 'm' is expected to be the magazine in the pattern
+     * @param gun
+     * @param components
+     */
+    protected static void addForAllCombos(GenericGun gun , Object... components){
+        AmmoType type = gun.getAmmoType();
+        if(type.getEmptyMag()[0] != ItemStack.EMPTY){
+
+            RecipeJsonConverter.addGunShapedRecipe(gun, false, AmmoTypes.TYPE_DEFAULT, "", ArrayUtils.addAll(components, new Object[]{'m', type.getEmptyMag()[0]}));
+            for (AmmoVariant var : type.getVariants()){
+                RecipeJsonConverter.addGunShapedRecipe(gun, true, var.getKey(), "", ArrayUtils.addAll(components, new Object[]{'m', var.getAmmo()[0]}));
+            }
+        } else {
+            throw new UnsupportedOperationException("Only guns with Magazines are supported!");
+        }
+
+
+    }
+
+    public static void addGunRecipes() {
+
+        RecipeJsonConverter.addEmptyGunRecipe(HANDCANNON,  "bfs", 'b', TGItems.BARREL_STONE, 'f', Items.FLINT_AND_STEEL, 's', TGItems.STOCK_WOOD);
+
+        addForAllCombos(PISTOL, "bsp"," fp","  m", 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.MECHANICAL_PARTS_OBSIDIAN_STEEL, 'p', TGItems.PLASTIC_SHEET, 's', TAG_STEEL_INGOTS);
+
+        RecipeJsonConverter.addEmptyGunRecipe(REVOLVER,  "bmf"," s ", 'f', Items.FLINT_AND_STEEL, 'b', TGItems.BARREL_IRON, 's', TGItems.STOCK_WOOD, 'm', TGItems.MECHANICAL_PARTS_IRON);
+
+        RecipeJsonConverter.addEmptyGunRecipe(SAWEDOFF,  "bfw","bf ", 'b', TGItems.BARREL_IRON, 'f', Items.FLINT_AND_STEEL, 'w', TGItems.STOCK_WOOD);
+
+        addForAllCombos(THOMPSON, "bfs"," m ", 'f', TGItems.RECEIVER_IRON, 'b', TGItems.BARREL_IRON, 's', TGItems.STOCK_WOOD);
+
+        addForAllCombos(M4," gr","bfs","nmi", 'g', Items.GLASS_PANE, 'r', Items.REDSTONE, 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.RECEIVER_STEEL, 's', TGItems.STOCK_PLASTIC, 'n', TAG_IRON_NUGGETS, 'i', TAG_IRON_INGOTS);
+
+
+        RecipeJsonConverter.addEmptyGunRecipe(BOLTACTION, "gi ", "bfs", 'g', TAG_GLASS_BLOCKS, 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.RECEIVER_IRON, 's', TGItems.STOCK_WOOD,'i', TAG_IRON_INGOTS);
+
+        RecipeJsonConverter.addEmptyGunRecipe(COMBAT_SHOTGUN, "bfs","i  ",'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.RECEIVER_STEEL, 's', TGItems.STOCK_PLASTIC, 'i', TAG_STEEL_INGOTS);
+
+
+        addForAllCombos(FLAMETHROWER, "prs","fm ",'r', TGItems.RECEIVER_IRON, 'p', TGItems.PUMP_MECHANISM, 's', TGItems.STOCK_PLASTIC, 'f', Items.FLINT_AND_STEEL);
+
+        addForAllCombos(BIOGUN, "frs"," m ",'r', TGItems.RECEIVER_STEEL, 'f', TGItems.PUMP_MECHANISM, 's', TGItems.STOCK_PLASTIC);
+
+        addForAllCombos(LASERGUN, " gd","brs"," mp", 'g', Items.GLASS_PANE, 'd', Items.REDSTONE, 'b', TGItems.BARREL_LASER, 'p', TGItems.MECHANICAL_PARTS_CARBON, 's', TGItems.STOCK_PLASTIC, 'r', TGItems.RECEIVER_OBSIDIAN_STEEL);
+
+        addForAllCombos(BLASTERRIFLE, "pcg","brs"," m ", 'g', TAG_GLASS_BLOCKS,'p', TAG_CARBON_PLATES, 'c', CIRCUIT_BOARD_ELITE, 'b', TGItems.BARREL_LASER, 'r', TGItems.RECEIVER_CARBON, 's', TGItems.STOCK_CARBON);
+
+        addForAllCombos(AK47, "bfs","wm ", 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.RECEIVER_IRON, 's', TGItems.STOCK_WOOD, 'w', TAG_LOGS);
+
+        addForAllCombos(AS50, "dpd","bbf", " mt", 'f', TGItems.RECEIVER_OBSIDIAN_STEEL, 'b', TGItems.BARREL_OBSIDIAN_STEEL, 't', TGItems.STOCK_PLASTIC, 'd', Items.DIAMOND, 'p', TAG_OBSIDIAN_INGOTS);
+
+        RecipeJsonConverter.addGunShapedRecipe(ROCKET_LAUNCHER, false, AmmoTypes.TYPE_DEFAULT, "", "bb","f ", 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.RECEIVER_STEEL);
+        for(AmmoVariant var: ROCKET_LAUNCHER.getAmmoType().getVariants()){
+            RecipeJsonConverter.addGunShapedRecipe(ROCKET_LAUNCHER, true, var.getKey(), "", "mbb"," f ", 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.RECEIVER_STEEL, 'm', var.getAmmo()[0]);
+        }
+
+        RecipeJsonConverter.addGunShapedRecipe(GUIDED_MISSLE_LAUNCHER, false, AmmoTypes.TYPE_DEFAULT, "", "gc","bb","f ", 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.RECEIVER_OBSIDIAN_STEEL, 'g', TAG_GLASS_BLOCKS, 'c', CIRCUIT_BOARD_ELITE);
+        for(AmmoVariant var: GUIDED_MISSLE_LAUNCHER.getAmmoType().getVariants()){
+            RecipeJsonConverter.addGunShapedRecipe(GUIDED_MISSLE_LAUNCHER, true, var.getKey(), "", " gc","mbb"," f ", 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.RECEIVER_OBSIDIAN_STEEL, 'g', TAG_GLASS_BLOCKS, 'c', CIRCUIT_BOARD_ELITE, 'm', var.getAmmo()[0]);
+        }
+
+        addForAllCombos(LMG, " gr","bfs"," m ", 'g', Items.GLASS_PANE, 'r', Items.REDSTONE, 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.RECEIVER_OBSIDIAN_STEEL, 's', TGItems.STOCK_PLASTIC);
+
+        addForAllCombos(LMG, " gr","bfs"," m ", 'g', Items.GLASS_PANE, 'r', Items.REDSTONE, 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.RECEIVER_OBSIDIAN_STEEL, 's', TGItems.STOCK_PLASTIC);
+
+        addForAllCombos(MINIGUN, "bbe","bbr","bbm", 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'e', TGItems.ELECTRIC_ENGINE, 'r', TGItems.RECEIVER_OBSIDIAN_STEEL);
+
+        addForAllCombos(PDW, "brs"," m ", 'b', TGItems.BARREL_CARBON, 'r', TGItems.RECEIVER_CARBON, 's', TGItems.STOCK_CARBON);
+
+        addForAllCombos(PULSERIFLE,"dpc","brs"," m ", 'b', TGItems.BARREL_CARBON, 'r', TGItems.RECEIVER_CARBON, 's', TGItems.STOCK_CARBON, 'd', Items.DIAMOND, 'p', TAG_TITANIUM_INGOTS, 'c', CIRCUIT_BOARD_ELITE);
+
+        RecipeJsonConverter.addEmptyGunRecipe(GOLDEN_REVOLVER,  "ggg","grg","ggg", 'g', TAG_GOLD_INGOTS, 'r', new ItemStack(REVOLVER,1));
+
+        RecipeJsonConverter.addGunShapedRecipe(NETHERBLASTER, true,AmmoTypes.TYPE_DEFAULT, "", "cpc","bns","cpc", 'c', TGItems.CYBERNETIC_PARTS, 'p', TAG_OBSIDIAN_INGOTS, 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'n', TGItems.NETHER_CHARGE, 's', TGItems.PUMP_MECHANISM);
+
+        addForAllCombos(AUG, "gpg","bfs","i m", 'g', Items.GLASS_PANE, 'p', TAG_STEEL_INGOTS, 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'f', TGItems.RECEIVER_STEEL, 's', TGItems.STOCK_PLASTIC, 'i', TAG_PLASTIC_SHEETS);
+
+
+        RecipeJsonConverter.addEmptyGunRecipe(GRENADE_LAUNCHER, "brs"," p ", 'b', TGItems.BARREL_OBSIDIAN_STEEL, 'r', TGItems.RECEIVER_STEEL, 's', TGItems.STOCK_PLASTIC, 'p', TAG_STEEL_INGOTS);
+
+        addForAllCombos(SONICSHOTGUN, " p ", "ers", " m ", 'p', TAG_TITANIUM_INGOTS, 'e', TGItems.SONIC_EMITTER, 'r', TGItems.RECEIVER_CARBON, 's', TGItems.STOCK_CARBON);
+
+        addForAllCombos(NUCLEAR_DEATHRAY, "ltl","ers"," m ", 'l', TAG_LEAD_INGOTS, 't', TAG_TITANIUM_INGOTS, 'e', TGItems.RAD_EMITTER, 'r', TGItems.RECEIVER_CARBON, 's', TGItems.STOCK_CARBON);
+
+        addForAllCombos(MAC10, " pi","bri"," m ", 'p', TAG_PLASTIC_SHEETS, 'i', TAG_IRON_NUGGETS, 'r', TGItems.RECEIVER_STEEL, 'b', TGItems.BARREL_OBSIDIAN_STEEL);
+
+        addForAllCombos(SCAR, "gpd","brs", " m ", 'r', TGItems.RECEIVER_OBSIDIAN_STEEL, 'b', TGItems.BARREL_OBSIDIAN_STEEL, 's', TGItems.STOCK_PLASTIC,'d', Items.DIAMOND, 'p', TAG_PLASTIC_SHEETS, 'g', TAG_GLASS_BLOCKS);
+
+        addForAllCombos(VECTOR, " gd","brs", " m ", 'r', TGItems.RECEIVER_OBSIDIAN_STEEL, 'b', TGItems.BARREL_OBSIDIAN_STEEL, 's', TGItems.STOCK_PLASTIC,'m', TGItems.SMG_MAGAZINE, 'd', Items.REDSTONE, 'g', Items.GLASS_PANE);
+
+        addForAllCombos(MIBGUN, "bsp"," fp","  m", 'b', TGItems.BARREL_LASER, 'f', TGItems.MECHANICAL_PARTS_CARBON, 'p', TAG_TITANIUM_INGOTS, 's', TGItems.SONIC_EMITTER, 'm', TGItems.ENERGY_CELL);
+
+        RecipeJsonConverter.addGunShapedRecipe(GAUSS_RIFLE, true,AmmoTypes.TYPE_DEFAULT, "", "dpc","brs"," ae", 'b', TGItems.BARREL_GAUSS, 'r', TGItems.RECEIVER_CARBON, 's', TGItems.STOCK_CARBON, 'e', TGItems.ENERGY_CELL, 'a', TGItems.GAUSSRIFLE_SLUGS, 'd', Items.DIAMOND, 'p', TAG_TITANIUM_INGOTS, 'c', CIRCUIT_BOARD_ELITE);
+        RecipeJsonConverter.addGunShapedRecipe(GAUSS_RIFLE, false,AmmoTypes.TYPE_DEFAULT, "", "dpc","brs","  e", 'b', TGItems.BARREL_GAUSS, 'r', TGItems.RECEIVER_CARBON, 's', TGItems.STOCK_CARBON, 'e', ENERGY_CELL_EMPTY, 'd', Items.DIAMOND, 'p', TAG_TITANIUM_INGOTS, 'c', CIRCUIT_BOARD_ELITE);
+
+        addForAllCombos(TFG, "t  ","bpr","tm ", 'b', TGItems.BARREL_TITANIUM, 'r', TGItems.RECEIVER_TITANIUM, 't', TAG_TITANIUM_INGOTS, 'p', TGItems.PLASMA_GENERATOR);
+
+        addForAllCombos(LASERPISTOL, "obo","scr","ssp", 'b', TGItems.BARREL_LASER, 'r', TGItems.REDSTONE_BATTERY, 'o', TAG_OBSIDIAN_INGOTS, 's', TAG_STEEL_NUGGETS, 'p', TAG_PLASTIC_SHEETS, 'c', CIRCUIT_BOARD_ELITE);
+        /*
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(stielgranate,16), " it"," wi","i  ",'i', "ingotIron",'w', "plankWood", 't', Blocks.TNT);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(powerhammer,1), " m ", "spr", " mc", 'p', new ItemStack(Blocks.PISTON,1), 'r', TGItems.RECEIVER_IRON, 'm', TGItems.MECHANICAL_PARTS_IRON, 's', "plateIron", 'c', TGItems.COMPRESSED_AIR_TANK);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(powerhammer,1,powerhammer.getMaxDamage()), " m ", "spr", " mc", 'p', new ItemStack(Blocks.PISTON,1), 'r', TGItems.RECEIVER_IRON, 'm', TGItems.MECHANICAL_PARTS_IRON, 's', "plateIron", 'c', TGItems.COMPRESSED_AIR_TANK_EMPTY);
+
+        //RecipeJsonConverter.addRecipe(new ShapelessOreRecipeCopyNBT(new ItemStack(powerHammerAdv,1), new ItemStack(powerHammer,1), "gemDiamond", "gemDiamond", "gemDiamond"));
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(teslagun,1), " gd", "crs", " e ", 'g', "paneGlass", 'd', "dustRedstone", 'c', TGItems.COIL, 'r', TGItems.RECEIVER_CARBON, 's', TGItems.STOCK_CARBON, 'e', TGItems.ENERGY_CELL);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(teslagun,1,teslagun.getMaxDamage()), " gd", "crs", " e ", 'g', "paneGlass", 'd', "dustRedstone", 'c', TGItems.COIL, 'r', TGItems.RECEIVER_CARBON, 's', TGItems.STOCK_CARBON, 'e', TGItems.ENERGY_CELL_EMPTY);
+
+        RecipeJsonConverter.addShapedAmmoSumRecipe(new ItemStack(grimreaper,1), "rr ", "rrc", 'r', new ItemStack(guidedmissilelauncher,1,0), 'c', TGItems.RECEIVER_CARBON);
+
+        //RecipeJsonConverter.addRecipe(new ShapelessOreRecipe(new ItemStack(m4_uq,1), new ItemStack(m4,1,OreDictionary.WILDCARD_VALUE), Items.nether_star));
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(m4_infiltrator,1), "gpg","wwm","rri", 'm', new ItemStack(m4,1), 'g', hardenedGlassOrGlass, 'p', "plateSteel", 'w', "blockWool",'i',"ingotSteel", 'r', "dustRedstone");
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(m4_infiltrator,1,m4_infiltrator.getMaxDamage()), "gpg","wwm","rri", 'm', new ItemStack(m4,1,m4.getMaxDamage()), 'g', hardenedGlassOrGlass, 'p', "plateSteel", 'w', "blockWool",'i',"ingotSteel", 'r', "dustRedstone");
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(chainsaw,1), "ccp","mmr","ccf", 'c', TGItems.MECHANICAL_PARTS_IRON, 'm', "plateIron", 'r', TGItems.RECEIVER_IRON, 'p', TGItems.PLASTIC_SHEET, 'f', TGItems.FUEL_TANK);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(chainsaw,1,chainsaw.getMaxDamage()), "ccp","mmr","ccf", 'c', TGItems.MECHANICAL_PARTS_IRON, 'm', "plateIron", 'r', TGItems.RECEIVER_IRON, 'p', TGItems.PLASTIC_SHEET, 'f', TGItems.FUEL_TANK_EMPTY);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(fraggrenade,16), " if","iti"," i ",'i', "ingotSteel",'f', Items.FLINT_AND_STEEL, 't', Blocks.TNT);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(miningdrill,1), " m ","drs"," f ", 'm', TGItems.MECHANICAL_PARTS_CARBON, 'f', TGItems.FUEL_TANK, 'd', TGItems.MININGDRILLHEAD_OBSIDIAN, 's', TGItems.STOCK_PLASTIC, 'r', TGItems.RECEIVER_OBSIDIAN_STEEL);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(miningdrill,1,miningdrill.getMaxDamage()), " m ","drs"," f ", 'm', TGItems.MECHANICAL_PARTS_CARBON, 'f', TGItems.FUEL_TANK_EMPTY, 'd', TGItems.MININGDRILLHEAD_OBSIDIAN, 's', TGItems.STOCK_PLASTIC, 'r', TGItems.RECEIVER_OBSIDIAN_STEEL);
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(shishkebap,1),"p ","pm","sf", 'p', "plateObsidianSteel", 'm', TGItems.PUMP_MECHANISM, 's', "sheetPlastic", 'f', TGItems.FUEL_TANK);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(shishkebap,1,shishkebap.getMaxDamage()),"p ","pm","sf", 'p', "plateObsidianSteel", 'm', TGItems.PUMP_MECHANISM, 's', "sheetPlastic", 'f', TGItems.FUEL_TANK_EMPTY);
+        */
     }
 }

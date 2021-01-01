@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "techguns:sonicemitter"
+  },
+  "pattern": [
+    " t ",
+    "cpc",
+    "tbt"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    "b": {
+      "item": "techguns:circuitboardelite"
+    },
+    "c": {
+      "item": "techguns:coil"
+    },
+    "t": {
+      "tag": "c:titanium_ingots"
+    }
+  }
+}

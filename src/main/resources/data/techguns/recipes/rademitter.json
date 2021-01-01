@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "techguns:rademitter"
+  },
+  "pattern": [
+    " c ",
+    "lul",
+    "lpl"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    "c": {
+      "item": "techguns:circuitboardelite"
+    },
+    "u": {
+      "tag": "c:enriched_uranium"
+    },
+    "l": {
+      "tag": "c:lead_ingots"
+    }
+  }
+}

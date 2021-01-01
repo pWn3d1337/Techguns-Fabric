@@ -1,0 +1,39 @@
+{
+  "result": {
+    "item": "techguns:gaussrifle",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "dpc",
+    "brs",
+    "  e"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:titanium_ingots"
+    },
+    "b": {
+      "item": "techguns:gaussbarrel"
+    },
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "c": {
+      "item": "techguns:circuitboardelite"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "e": {
+      "item": "techguns:energycellempty"
+    }
+  }
+}

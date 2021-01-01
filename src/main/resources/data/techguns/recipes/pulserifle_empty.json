@@ -1,0 +1,39 @@
+{
+  "result": {
+    "item": "techguns:pulserifle",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "dpc",
+    "brs",
+    " m "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:titanium_ingots"
+    },
+    "b": {
+      "item": "techguns:carbonbarrel"
+    },
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "c": {
+      "item": "techguns:circuitboardelite"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "m": {
+      "item": "techguns:advancedmagazineempty"
+    }
+  }
+}

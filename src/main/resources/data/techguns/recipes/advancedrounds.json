@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:advancedrounds",
+    "count": 16
+  },
+  "pattern": [
+    "i",
+    "t"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "t": {
+      "item": "techguns:tgx"
+    },
+    "i": {
+      "tag": "c:obsidian_ingots"
+    }
+  }
+}

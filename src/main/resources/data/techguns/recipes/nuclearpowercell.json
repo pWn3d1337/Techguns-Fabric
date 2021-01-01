@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "techguns:nuclearpowercell"
+  },
+  "ingredients": [
+    {
+      "item": "techguns:nuclearpowercelldepleted"
+    },
+    {
+      "item": "techguns:enricheduranium"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

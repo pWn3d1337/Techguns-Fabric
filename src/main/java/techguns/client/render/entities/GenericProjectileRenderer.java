@@ -2,17 +2,14 @@ package techguns.client.render.entities;
 
 import java.util.Random;
 
-import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
 import techguns.TGIdentifier;
 import techguns.client.render.TGRenderHelper;
@@ -29,7 +26,7 @@ public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericP
 
 	@Override
 	public Identifier getTexture(GenericProjectile entity) {
-		switch (entity.getProjectileType()){
+		switch (entity.getProjectileTypeEnum()){
 			case BLASTER:
 				return blasterTextures;
 			case ADVANCED:
@@ -42,7 +39,7 @@ public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericP
 	}
 
 	public RenderLayer getRenderLayer(GenericProjectile entity){
-		switch (entity.getProjectileType()){
+		switch (entity.getProjectileTypeEnum()){
 			case BLASTER:
 			case ADVANCED:
 			case DEFAULT:

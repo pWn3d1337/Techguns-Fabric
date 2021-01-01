@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "techguns:rocketlauncher",
+    "data": {
+      "ammo": 1,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "mbb",
+    " f "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "f": {
+      "item": "techguns:steelreceiver"
+    },
+    "m": {
+      "item": "techguns:rocket"
+    }
+  }
+}

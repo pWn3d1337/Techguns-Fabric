@@ -1,0 +1,30 @@
+{
+  "result": {
+    "item": "techguns:minigun",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "bbe",
+    "bbr",
+    "bbm"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "r": {
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    "e": {
+      "item": "techguns:electricengine"
+    },
+    "m": {
+      "item": "techguns:minigundrumempty"
+    }
+  }
+}

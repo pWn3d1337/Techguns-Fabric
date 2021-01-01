@@ -1,0 +1,33 @@
+{
+  "result": {
+    "item": "techguns:netherblaster",
+    "data": {
+      "ammo": 10,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "cpc",
+    "bns",
+    "cpc"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:obsidian_ingots"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "c": {
+      "item": "techguns:cyberneticparts"
+    },
+    "s": {
+      "item": "techguns:pumpmechanism"
+    },
+    "n": {
+      "item": "techguns:nethercharge"
+    }
+  }
+}

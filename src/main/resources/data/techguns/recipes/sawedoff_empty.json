@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "techguns:sawedoff",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "bfw",
+    "bf "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "b": {
+      "item": "techguns:ironbarrel"
+    },
+    "f": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "w": {
+      "item": "techguns:woodstock"
+    }
+  }
+}

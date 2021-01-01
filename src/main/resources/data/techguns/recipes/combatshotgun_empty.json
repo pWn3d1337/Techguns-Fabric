@@ -1,0 +1,29 @@
+{
+  "result": {
+    "item": "techguns:combatshotgun",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "bfs",
+    "i  "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "f": {
+      "item": "techguns:steelreceiver"
+    },
+    "i": {
+      "tag": "c:steel_ingots"
+    }
+  }
+}

@@ -4,6 +4,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Vec3d;
@@ -16,7 +17,6 @@ import techguns.damagesystem.TGDamageSource;
 import techguns.deatheffects.EntityDeathUtils;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.IProjectileFactory;
-import techguns.items.guns.ammo.DamageModifier;
 import techguns.packets.PacketSpawnParticle;
 
 import java.util.function.BiConsumer;
@@ -29,14 +29,23 @@ public class GenericProjectileFX extends GenericProjectile {
     public static final byte PROJECTILE_TYPE_NETHERBLASTER = 2;
 
     public enum ProjectileFXType {
-        DEATOMIZER(0, DamageType.PROJECTILE, EntityDeathUtils.DeathType.GORE, 1.0f, TGDamageSource::causeEnergyDamage,
+        DEATOMIZER(0, DamageType.PROJECTILE, EntityDeathUtils.DeathType.GORE, 1.0f, TGDamageSource::causeEnergyDamage, (entity, hitres) ->{},
                 (world, x, y, z, pitch, yaw, soundGroup)->{
             TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("BlueBlasterExplosion", x, y, z), world, new Vec3d(x,y,z), 32.0f);
-        }),
-        ALIENBLASTER(1, DamageType.FIRE, EntityDeathUtils.DeathType.DEFAULT, 0f, TGDamageSource::causeFireDamage,
+        }, (entity) -> ClientProxy.get().createFXOnEntity("BlueBlasterTrail", entity)),
+
+        ALIENBLASTER(1, DamageType.FIRE, EntityDeathUtils.DeathType.DEFAULT, 0f, TGDamageSource::causeFireDamage, (entity, hitres) ->{},
                 (world, x, y, z, pitch, yaw, soundGroup)->{
             TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("AlienExplosion", x, y, z), world, new Vec3d(x,y,z), 32.0f);
-        });
+        }, (entity) -> ClientProxy.get().createFXOnEntity("AlienBlasterTrail", entity)),
+
+        NETHERBLASTER(2, DamageType.FIRE, EntityDeathUtils.DeathType.DEFAULT, 0f, TGDamageSource::causeFireDamage,(entity, hitres)-> {
+            if(!entity.isFireImmune()) {
+                entity.setOnFireFor(3);
+            }
+        }, (world, x, y, z, pitch, yaw, soundGroup)->{
+            TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("CyberdemonBlasterImpact", x, y, z), world, new Vec3d(x,y,z), 32.0f);
+        }, (entity) -> ClientProxy.get().createFXOnEntity("CyberDemonBlasterTrail", entity));
 
         public final byte id;
         protected DamageType damageType;
@@ -95,78 +104,40 @@ public class GenericProjectileFX extends GenericProjectile {
 
     @Override
     public void clientInitializeFinal() {
-        super.clientInitializeFinal();
-        switch (getProjectileTypeId()){
-            case PROJECTILE_TYPE_ALIENBLASTER:
-                ClientProxy.get().createFXOnEntity("AlienBlasterTrail", this);
-                break;
-            case PROJECTILE_TYPE_NETHERBLASTER:
-                ClientProxy.get().createFXOnEntity("CyberDemonBlasterTrail", this);
-                break;
-            case PROJECTILE_TYPE_DEATOMIZER:
-            default:
-                ClientProxy.get().createFXOnEntity("BlueBlasterTrail", this);
-                break;
-        }
+        this.getProjectileTypeEnnum().clientTrailFXCode.accept(this);
     }
 
     @Override
     protected TGDamageSource getProjectileDamageSource() {
-        TGDamageSource src=null;
-
-        switch (this.getProjectileTypeId()) {
-            case PROJECTILE_TYPE_NETHERBLASTER:
-                src = TGDamageSource.causeFireDamage(this, this.shooter, EntityDeathUtils.DeathType.DEFAULT);
-                break;
-            case PROJECTILE_TYPE_ALIENBLASTER:
-                src = TGDamageSource.causeFireDamage(this, this.shooter, EntityDeathUtils.DeathType.LASER);
-                src.goreChance = 0.25f;
-                break;
-            case PROJECTILE_TYPE_DEATOMIZER:
-            default:
-                src = TGDamageSource.causeEnergyDamage(this, this.shooter, EntityDeathUtils.DeathType.GORE);
-                src.goreChance=1.0f;
-                break;
-        }
-        src.armorPenetration = this.penetration;
+        ProjectileFXType type = this.getProjectileTypeEnnum();
+        TGDamageSource src = type.dmgSourceGetter.getDamageSource(this, this.getOwner(), type.deathType);
+        src.goreChance = type.goreChance;
         return src;
     }
 
     @Override
     protected void onBlockHit(BlockHitResult blockHitResult) {
-        if (this.getProjectileTypeId() == PROJECTILE_TYPE_ALIENBLASTER && this.blockdamage) {
+        if (this.getProjectileType() == PROJECTILE_TYPE_ALIENBLASTER && this.blockdamage) {
             burnBlocks(world, blockHitResult, 0.35);
         }
         super.onBlockHit(blockHitResult);
     }
 
     @Override
-    protected void doImpactEffects(BlockHitResult rayTraceResult) {
-        if(!this.world.isClient){
-            Vec3d pos = rayTraceResult.getPos();
-            switch (this.getProjectileTypeId()) {
-                case PROJECTILE_TYPE_ALIENBLASTER:
-                    TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("AlienExplosion", pos.x, pos.y, pos.z), this.world, pos, 32.0f);
-                    break;
-                case PROJECTILE_TYPE_NETHERBLASTER:
-                    TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("CyberdemonBlasterImpact", pos.x, pos.y, pos.z), this.world, pos, 32.0f);
-                    break;
-                case PROJECTILE_TYPE_DEATOMIZER:
-                default:
-                    TGPacketsS2C.sendToAllAround(new PacketSpawnParticle("BlueBlasterExplosion", pos.x, pos.y, pos.z), this.world, pos, 32.0f);
-                    break;
-            }
-        }
+    protected void doImpactEffectForType(double x, double y, double z, float pitch, float yaw, BlockSoundGroup blockSoundGroup) {
+         this.getProjectileTypeEnnum().impactFXCode.handleImpactFX(this.world, x, y, z, pitch, yaw, blockSoundGroup);
     }
 
     @Override
     protected void onHitEffect(LivingEntity livingEntity, EntityHitResult entityHitResult) {
-       switch(this.getProjectileTypeId()){
-           case PROJECTILE_TYPE_ALIENBLASTER:
-               livingEntity.setOnFireFor(3);
-           default:
-               break;
-       }
+       this.getProjectileTypeEnum().onHitCode.accept(livingEntity,entityHitResult);
+    }
+
+    public ProjectileFXType getProjectileTypeEnnum() {
+        if(this.projectileType>=0&& projectileType<ProjectileFXType.values().length) {
+            return ProjectileFXType.values()[projectileType];
+        }
+        return ProjectileFXType.DEATOMIZER;
     }
 
     public static class Factory implements IProjectileFactory<GenericProjectileFX>{
@@ -189,14 +160,7 @@ public class GenericProjectileFX extends GenericProjectile {
 
         @Override
         public DamageType getDamageType() {
-            switch (this.projectileType){
-                case PROJECTILE_TYPE_NETHERBLASTER:
-                case PROJECTILE_TYPE_ALIENBLASTER:
-                    return DamageType.FIRE;
-                case PROJECTILE_TYPE_DEATOMIZER:
-                default:
-                    return DamageType.ENERGY;
-            }
+            return ProjectileFXType.values()[projectileType].damageType;
         }
 
         @Override

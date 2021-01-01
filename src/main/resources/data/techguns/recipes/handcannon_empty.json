@@ -1,0 +1,25 @@
+{
+  "result": {
+    "item": "techguns:handcannon",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "bfs"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "b": {
+      "item": "techguns:stonebarrel"
+    },
+    "s": {
+      "item": "techguns:woodstock"
+    },
+    "f": {
+      "item": "minecraft:flint_and_steel"
+    }
+  }
+}

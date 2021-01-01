@@ -48,7 +48,7 @@ public class ChainsawProjectile extends GenericProjectile {
 
 	@Override
 	protected TGDamageSource getProjectileDamageSource() {
-		TGDamageSource src = new TGDamageSource("chainsaw", this, this.shooter, DamageType.PHYSICAL, DeathType.GORE);
+		TGDamageSource src = new TGDamageSource("chainsaw", this, this.getOwner(), DamageType.PHYSICAL, DeathType.GORE);
     	src.goreChance=1.0f;
     	src.armorPenetration=this.penetration;
     	return src;

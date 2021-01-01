@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:gaussrifleslugs",
+    "count": 4
+  },
+  "pattern": [
+    "i",
+    "t"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "t": {
+      "tag": "c:obsidian_ingots"
+    },
+    "i": {
+      "tag": "c:titanium_ingots"
+    }
+  }
+}

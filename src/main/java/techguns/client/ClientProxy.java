@@ -308,17 +308,6 @@ public class ClientProxy implements ClientModInitializer {
 					{0,0,0f} //frame
 				}).setMuzzleFXPos3P(0.24f, -0.56f).setBaseScale(1.25f).setFirstPersonScale(0.4f).setGroundAndFrameScale(0.35f));
 
-		/*TGRenderRegistries.registerItemRenderer(TGuns.GAUSS_RIFLE,new RenderGunBaseObj(
-				new ModelGaussrifle(),1, new TGIdentifier("textures/guns/gaussrifle.png"), -90f)
-				.setBaseTranslation(0.6f, 0f, RenderItemBase.SCALE*0.5f-0.09f)
-				.setBaseScale(0.9f).setGUIScale(0.25f).setMuzzleFx(ScreenEffect.muzzleFlashSonic, 0, 0.21f, -1.56f, 1.0f,0).setTransformTranslations(new float[][]{
-						{0f,0.12f,-0.1f}, //First Person
-						{0f,0.05f,-0.17f}, //Third Person
-						{0.f,0.06f,0.06f}, //GUI
-						{0f,0f,0.f}, //Ground
-						{0f,0f,-0.05f} //frame
-				}).setMuzzleFXPos3P(0.09f, -1.26f).setRecoilAnim(GunAnimation.genericRecoil, 0.25f, 7.5f).setScope(ScreenEffect.techScope,2.125f).setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.15f, 1.0f));
-*/
 		TGRenderRegistries.registerItemRenderer(TGuns.GRENADE_LAUNCHER,new RenderGunBaseObj(new ModelGrenadeLauncher(),2,
 				new TGIdentifier("textures/guns/grenadelauncher.png"),90.0f)
 				.setBaseTranslation(0f, 0f, 0f)
@@ -474,7 +463,15 @@ public class ClientProxy implements ClientModInitializer {
 					{0.02f,-0.08f,0}, //Ground
 					{0,0,0f} //frame
 				}).setRecoilAnim(GunAnimation.genericRecoil, 0.025f, 12.0f)); //.setMuzzleFlashJitter(0.01f, 0.01f, 5.0f, 0.05f).setMuzzleFXPos3P(0.07f, -0.26f));
-		
+
+		TGRenderRegistries.registerItemRenderer(TGuns.TESLAGUN,new RenderGunBase90(new ModelTeslaGun(),1, new TGIdentifier("textures/guns/teslagun.png")).setBaseTranslation(0.25f, -0.2f, RenderItemBase.SCALE-0.09f)
+				.setGUIScale(0.45f).setMuzzleFx(ScreenEffect.muzzleFlashLightning, 0, 0.26f, -0.67f, 0.5f,0).setTransformTranslations(new float[][]{
+						{0f,0.15f,0.04f}, //First Person
+						{0f,0.05f,-0.08f}, //Third Person
+						{0.03f,0.01f,0f}, //GUI
+						{0f,0f,0f}, //Ground
+						{0f,0f,-0.05f} //frame
+				}).setMuzzleFXPos3P(0.12f, -0.65f).setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 5.0f));
 
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (dispatcher, context) -> {
             return new GenericProjectileRenderer(dispatcher);
@@ -527,7 +524,10 @@ public class ClientProxy implements ClientModInitializer {
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GRAPPLING_HOOK_PROJECTILE, (dispatcher, context) -> {
             return new RenderGrapplingHookProjectile(dispatcher);
         });
-		
+
+		EntityRendererRegistry.INSTANCE.register(TGEntities.TESLA_PROJECTILE, (dispatcher, context) -> {
+			return new RenderTeslaProjectile(dispatcher);
+		});
 //		EntityRendererRegistry.INSTANCE.register(TGEntities.FLYING_GIBS, (dispatcher, context) -> {
 //			return new RenderFlyingGibs(dispatcher);
 //		});

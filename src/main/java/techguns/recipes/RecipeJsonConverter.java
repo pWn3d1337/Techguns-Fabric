@@ -21,10 +21,13 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import techguns.TGConfig;
+import techguns.TGIdentifier;
 import techguns.TGItems;
 import techguns.Techguns;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.ammo.AmmoType;
+import techguns.items.guns.ammo.AmmoTypes;
+import techguns.items.guns.ammo.AmmoVariant;
 
 
 /**
@@ -198,6 +201,72 @@ public class RecipeJsonConverter {
                 suffix += "_"+ bm.getNameSuffix(result.getMetadata());
             }*/
         }
+
+        File f = new File(RECIPE_DIR, name + suffix + ".json");
+
+        while (f.exists()) {
+            suffix += "_alt";
+            f = new File(RECIPE_DIR, name + suffix + ".json");
+        }
+
+        try (FileWriter w = new FileWriter(f)) {
+            GSON.toJson(json, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addEmptyGunRecipe(GenericGun gun, Object... components) {
+        addGunShapedRecipe(gun, false, AmmoTypes.TYPE_DEFAULT, "", components);
+    }
+
+    public static void addGunShapedRecipe(GenericGun gun, boolean full, String ammoVariant, String camo, Object... components) {
+        Map<String, Object> json = new HashMap<>();
+
+        List<String> pattern = new ArrayList<>();
+        int i = 0;
+        while (i < components.length && components[i] instanceof String) {
+            pattern.add((String) components[i]);
+            i++;
+        }
+        json.put("pattern", pattern);
+
+        Map<String, Map<String, Object>> key = new HashMap<>();
+        Character curKey = null;
+        for (; i < components.length; i++) {
+            Object o = components[i];
+            if (o instanceof Character) {
+                if (curKey != null)
+                    throw new IllegalArgumentException("Provided two char keys in a row");
+                curKey = (Character) o;
+            } else {
+                if (curKey == null)
+                    throw new IllegalArgumentException("Providing object without a char key");
+                if (o instanceof String)
+                    throw new IllegalArgumentException("Providing oredict Strings is no longer supported, use Identifiers for tags");
+                key.put(Character.toString(curKey), serializeItem(o));
+                curKey = null;
+            }
+        }
+        json.put("key", key);
+        json.put("type", "techguns:crafting_shaped_nbt");
+        json.put("result", serializeGun(gun, full, ammoVariant, camo));
+
+        // names the json the same name as the output's registry name
+        // repeatedly adds _alt if a file already exists
+        // janky I know but it works
+        String suffix = "";
+        if(!ammoVariant.equals(AmmoTypes.TYPE_DEFAULT)){
+            suffix+="_"+ammoVariant.toLowerCase(Locale.ROOT);
+        }
+        if(!full){
+            suffix+="_empty";
+        }
+        if(camo != null && !camo.equals("")){
+            suffix+="_"+camo;
+        }
+
+        String name = Registry.ITEM.getId(gun).getPath();
 
         File f = new File(RECIPE_DIR, name + suffix + ".json");
 
@@ -497,9 +566,9 @@ public class RecipeJsonConverter {
                 ret.put("count", stack.getCount());
             }
 
-            if (stack.hasTag()) {
+            /*if (stack.hasTag()) {
                 throw new IllegalArgumentException("nbt not implemented");
-            }
+            }*/
 
             return ret;
         }
@@ -517,6 +586,21 @@ public class RecipeJsonConverter {
         }*/
 
         throw new IllegalArgumentException("Not a block, item, stack, or tag");
+    }
+
+    private static Map<String, Object> serializeGun(GenericGun gun, boolean full, String ammo_variant, String camo) {
+
+        ItemStack stack = new ItemStack(gun,1);
+        Map<String, Object> ret = new HashMap<>();
+        ret.put("item", Registry.ITEM.getId(gun).toString());
+        TreeMap<String, Object> data = new TreeMap<>();
+        data.put("camo", camo);
+        data.put("ammovariant", ammo_variant);
+        data.put("ammo", full ? gun.getClipsize() : 0);
+        ret.put("data", data);
+
+        return ret;
+
     }
 
     private static Map<String, Object> serializeItemFromResourceLocation(Identifier item, CompoundTag tags) {

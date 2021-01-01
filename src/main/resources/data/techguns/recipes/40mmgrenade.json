@@ -1,0 +1,26 @@
+{
+  "result": {
+    "item": "techguns:40mmgrenade",
+    "count": 12
+  },
+  "pattern": [
+    " i ",
+    "sts",
+    "sgs"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "s": {
+      "tag": "c:iron_nuggets"
+    },
+    "t": {
+      "item": "minecraft:tnt"
+    },
+    "g": {
+      "item": "minecraft:gunpowder"
+    },
+    "i": {
+      "tag": "c:iron_ingots"
+    }
+  }
+}

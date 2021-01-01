@@ -80,7 +80,7 @@ public class BioGunProjectile extends GenericProjectile{
 	 
 	@Override
 	protected TGDamageSource getProjectileDamageSource() {
-		TGDamageSource src = TGDamageSource.causePoisonDamage(this, this.shooter, DeathType.BIO);
+		TGDamageSource src = TGDamageSource.causePoisonDamage(this, this.getOwner(), DeathType.BIO);
     	src.goreChance = 1.0f;
     	src.armorPenetration = this.penetration;
     	src.setNoKnockback();
@@ -126,11 +126,11 @@ public class BioGunProjectile extends GenericProjectile{
 
 			float radius = 3.0f;
 
-			TGDamageSource dmgSrc = TGDamageSource.causePoisonDamage(null, this.shooter, DeathType.BIO);
+			TGDamageSource dmgSrc = TGDamageSource.causePoisonDamage(null, this.getOwner(), DeathType.BIO);
 			dmgSrc.goreChance=1.0f;
 			dmgSrc.armorPenetration=0.35f;
 
-			TGExplosion explosion = new TGExplosion(world, this.shooter, null, blockPos.getX()+0.5, blockPos.getY()+0.5, blockPos.getZ()+0.5, 30, 15, radius, radius*1.5f,0.0f);
+			TGExplosion explosion = new TGExplosion(world, this.getOwner(), null, blockPos.getX()+0.5, blockPos.getY()+0.5, blockPos.getZ()+0.5, 30, 15, radius, radius*1.5f,0.0f);
 			explosion.setDmgSrc(dmgSrc);
 
 			world.setBlockState(blockPos, Blocks.AIR.getDefaultState());

@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "techguns:as50",
+    "data": {
+      "ammo": 10,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "dpd",
+    "bbf",
+    " mt"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:obsidian_ingots"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "t": {
+      "item": "techguns:plasticstock"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "f": {
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    "m": {
+      "item": "techguns:as50magazine"
+    }
+  }
+}

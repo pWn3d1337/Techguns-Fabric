@@ -271,9 +271,9 @@ public class GenericBeamProjectile extends GenericProjectile{
     protected TGDamageSource getProjectileDamageSource() {
 		TGDamageSource src;
 		if (this.projectileType == BEAM_TYPE_NDR) {
-			src = TGDamageSource.causeRadiationDamage(this, this.shooter, EntityDeathUtils.DeathType.LASER);
+			src = TGDamageSource.causeRadiationDamage(this, this.getOwner(), EntityDeathUtils.DeathType.LASER);
 		}else {
-			src = TGDamageSource.causeEnergyDamage(this, this.shooter, EntityDeathUtils.DeathType.LASER);
+			src = TGDamageSource.causeEnergyDamage(this, this.getOwner(), EntityDeathUtils.DeathType.LASER);
 		}
 		src.armorPenetration = this.penetration;
         src.setNoKnockback();

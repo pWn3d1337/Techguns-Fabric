@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "techguns:nethercharge",
+    "count": 4
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:netherrack"
+    },
+    {
+      "item": "minecraft:soul_sand"
+    },
+    {
+      "item": "minecraft:lava_bucket"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

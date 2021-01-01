@@ -1,0 +1,42 @@
+{
+  "result": {
+    "item": "techguns:m4",
+    "data": {
+      "ammo": 30,
+      "ammovariant": "incendiary",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    " gr",
+    "bfs",
+    "nmi"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "f": {
+      "item": "techguns:steelreceiver"
+    },
+    "g": {
+      "item": "minecraft:glass_pane"
+    },
+    "i": {
+      "tag": "c:iron_ingots"
+    },
+    "m": {
+      "item": "techguns:assaultriflemagazine_incendiary"
+    },
+    "n": {
+      "tag": "c:iron_nuggets"
+    }
+  }
+}

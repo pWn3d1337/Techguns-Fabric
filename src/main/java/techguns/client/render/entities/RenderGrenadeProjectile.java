@@ -12,7 +12,6 @@ import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.util.ModelIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import techguns.TGEntities;
 import techguns.TGIdentifier;
 import techguns.client.render.math.TGMatrixOps;
 import techguns.entities.projectiles.GrenadeProjectile;
@@ -29,7 +28,7 @@ public class RenderGrenadeProjectile extends EntityRenderer<GrenadeProjectile> {
 
     @Override
     public Identifier getTexture(GrenadeProjectile entity) {
-        switch (entity.getProjectileTypeId()){
+        switch (entity.getProjectileType()){
             case 0:
             default:
                 return texture_40mm;
@@ -46,7 +45,7 @@ public class RenderGrenadeProjectile extends EntityRenderer<GrenadeProjectile> {
         float rot = ((entity.age % 20) +tickDelta) * -0.025f;
         TGMatrixOps.rotate(matrices, 360.0f*rot, 0F, 0F, 1F);
 
-        switch (entity.getProjectileTypeId()){
+        switch (entity.getProjectileType()){
             case 0:
             default:
                 VertexConsumer vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(texture_40mm));

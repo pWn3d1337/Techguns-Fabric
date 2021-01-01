@@ -23,6 +23,7 @@ public class TGEntities implements ITGInitializer {
 	public static EntityType<GenericProjectileFX> GENERIC_FX_PROJECTILE;
 	public static EntityType<SonicShotgunProjectile> SONIC_SHOTGUN_PROJECTILE;
 	public static EntityType<GrapplingHookProjectile> GRAPPLING_HOOK_PROJECTILE;
+	public static EntityType<TeslaProjectile> TESLA_PROJECTILE;
 	//Client Only:
 	//public static EntityType<FlyingGibs> FLYING_GIBS;
 	
@@ -100,7 +101,12 @@ public class TGEntities implements ITGInitializer {
 	            Registry.ENTITY_TYPE,
 	            new TGIdentifier("grappling_hook_projectile"),
 	            FabricEntityTypeBuilder.<GrapplingHookProjectile>create(SpawnGroup.MISC, GrapplingHookProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
-		
+
+		TESLA_PROJECTILE = Registry.register(
+				Registry.ENTITY_TYPE,
+				new TGIdentifier("tesla_projectile"),
+				FabricEntityTypeBuilder.<TeslaProjectile>create(SpawnGroup.MISC, TeslaProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(bulletTrackRange).build());
+
 	}
 
 }

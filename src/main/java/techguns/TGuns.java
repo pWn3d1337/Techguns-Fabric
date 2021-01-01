@@ -74,6 +74,7 @@ public class TGuns implements ITGInitializer {
 	public static GenericGun LASERGUN;
 	public static GenericGun LASERPISTOL;
 	public static GenericGun SONICSHOTGUN;
+	public static GenericGun TESLAGUN;
 	public static GenericGun GRAPPLING_HOOK;
 
 	public static ProjectileSelector<GenericProjectile> ASSAULTRIFLE_MAG_PROJECTILES;
@@ -109,6 +110,7 @@ public class TGuns implements ITGInitializer {
 	public static ChargedProjectileSelector<ChainsawProjectile> POWERHAMMER_PROJECTILES;
 	
 	public static ChargedProjectileSelector<GrapplingHookProjectile> GRAPPLING_HOOK_PROJECTILES;
+	public static ProjectileSelector<TeslaProjectile> TESLAGUN_PROJECTILES;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" }) //java does not like generics in arrays so there are these warnings
 	@Override
@@ -170,7 +172,10 @@ public class TGuns implements ITGInitializer {
 		
 		GRAPPLING_HOOK_PROJECTILES = new ChargedProjectileSelector<GrapplingHookProjectile>(AmmoTypes.COMPRESSED_AIR_TANK, new GrapplingHookProjectile.Factory());
 
-		
+		TESLAGUN_PROJECTILES = new ProjectileSelector<TeslaProjectile>(AmmoTypes.ENERGY_CELL, new TeslaProjectile.Factory());
+
+
+
 		HANDCANNON = reg(new GenericGun("handcannon", new ProjectileSelector<StoneBulletProjectile>(AmmoTypes.STONE_BULLETS, new StoneBulletProjectile.Factory()), true, 12,1,30, 8.0f, TGSounds.HANDGUN_FIRE, TGSounds.HANDGUN_RELOAD,25,0.035f).setBulletSpeed(1.0f).setGravity(0.015d).setDamageDrop(10, 25, 5.0f).setAIStats(RANGE_CLOSE, 60, 0, 0).setRecoiltime(12).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
 		
 		SAWEDOFF = reg(new GenericGun("sawedoff",SHOTGUN_PROJECTILES, true, 4, 2, 28, 4.0f, TGSounds.SAWEDOFF_FIRE, TGSounds.SAWEDOFF_RELOAD,10, 0.01f).setAmmoCount(2).setShotgunSpread(7,0.2f,false).setDamageDrop(1, 4, 1.5f).setAIStats(RANGE_CLOSE, 60, 2, 20).setBulletSpeed(1.5f).setCrossHair(EnumCrosshairStyle.FOUR_PARTS));
@@ -252,8 +257,11 @@ public class TGuns implements ITGInitializer {
 
 		SONICSHOTGUN = reg(new SonicShotgun("sonicshotgun",SONIC_SHOTGUN_PROJECTILES,true, 12, 8, 40, 25.0f, TGSounds.SONIC_SHOTGUN_FIRE, TGSounds.SONIC_SHOTGUN_RELOAD,20,0.0f).setBulletSpeed(0.75f).setGravity(0.0f).setDamageDrop(5, 15, 5.0f).setPenetration(PENETRATION_MED).setAIStats(RANGE_SHORT, 40, 0, 0).setCrossHair(EnumCrosshairStyle.QUAD_NO_CORNERS));
 
+		TESLAGUN = reg(new GenericGun("teslagun", TESLAGUN_PROJECTILES, false, 8, 25, 45, 12.0f, TGSounds.TESLA_FIRE, TGSounds.TESLA_RELOAD, MAX_RANGE_RIFLE/*TODO ?Teslagun.LIFETIME*/, 0.0f).setZoom(0.75f, true,1.0f,false).setBulletSpeed(80.0f/* TODO ??Lasergun.SPEED*/).setMuzzleFlashTime(10).setAIStats(RANGE_MEDIUM, 30, 0, 0).setMuzzleLight(0f, 0.8f, 1.0f).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART_E));
+
 		GRAPPLING_HOOK = reg(new GrapplingHook("grapplinghook", GRAPPLING_HOOK_PROJECTILES, true, 6, 100,25,1.0f, SoundEvents.ITEM_CROSSBOW_SHOOT, TGSounds.POWERHAMMER_RELOAD, MAX_RANGE_RIFLE, 0.0f,30.0f,1).setChargeSound(SoundEvents.ITEM_CROSSBOW_QUICK_CHARGE_1).setFireWhileCharging(true).setShootWithLeftClick(false).setHandType(GunHandType.ONE_HANDED).setBulletSpeed(2.5f).setGravity(0.005d).setPenetration(PENETRATION_LOW).setAIStats(RANGE_SHORT, 30, 0, 0).setDamageDrop(8, 15, 0.5f).setForwardOffset(0.40f).setCrossHair(EnumCrosshairStyle.TRI));
-		
+
+
 	}
 	
 	public static GenericGun reg(GenericGun gun) {

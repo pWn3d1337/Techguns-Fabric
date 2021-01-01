@@ -70,7 +70,7 @@ public class RocketProjectile extends GenericProjectile {
 		
 			TGPacketsS2C.sendToAllAroundEntity(new PacketSpawnParticle("RocketExplosion", this.getX(), this.getY(), this.getZ()), this, 50.0f);
 			
-			TGExplosion explosion = new TGExplosion(world, this.shooter, this, this.getX(), this.getY(), this.getZ(), this.damage, this.damageMin, this.damageDropStart,this.damageDropEnd, this.blockdamage?0.25:0.0);
+			TGExplosion explosion = new TGExplosion(world, this.getOwner(), this, this.getX(), this.getY(), this.getZ(), this.damage, this.damageMin, this.damageDropStart,this.damageDropEnd, this.blockdamage?0.25:0.0);
 			
 			explosion.doExplosion(true);
 		}else {
@@ -83,7 +83,7 @@ public class RocketProjectile extends GenericProjectile {
 	
 	@Override
 	protected TGDamageSource getProjectileDamageSource() {
-		TGDamageSource dmgsrc = TGDamageSource.causeExplosionDamage(this, this.shooter, DeathType.GORE);
+		TGDamageSource dmgsrc = TGDamageSource.causeExplosionDamage(this, this.getOwner(), DeathType.GORE);
 		dmgsrc.goreChance = 1.0f;
 		dmgsrc.knockbackMultiplier=3.0f;
 		return dmgsrc;

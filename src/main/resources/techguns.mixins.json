@@ -6,7 +6,8 @@
   "mixins": [
     "TGPlayerEntityMixin",
     "DamageSourceMixin",
-    "LivingEntityMixin"
+    "LivingEntityMixin",
+    "ShapedRecipeAccessor"
   ],
   "client": [
     "ItemRendererMixin",

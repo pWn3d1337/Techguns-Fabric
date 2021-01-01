@@ -5,8 +5,6 @@ import java.util.Random;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.options.Perspective;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -21,7 +19,6 @@ import net.minecraft.util.Pair;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix3f;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
@@ -29,10 +26,8 @@ import net.minecraft.world.RaycastContext;
 import techguns.TGIdentifier;
 import techguns.client.render.TGRenderHelper;
 import techguns.client.render.math.TGMatrixOps;
-import techguns.entities.projectiles.BioGunProjectile;
 import techguns.entities.projectiles.EnumBulletFirePos;
 import techguns.entities.projectiles.GenericBeamProjectile;
-import techguns.entities.projectiles.GenericProjectile;
 import techguns.util.MathUtil;
 
 public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProjectile> {
@@ -136,7 +131,7 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 		setupBeamTransforms(entity, pos, laser_pitch, laser_yaw, prog, matrixStack, tickDelta);
 
 		float u1, u2, v1, v2;
-		BeamRenderParams params = BeamRenderParamDict.get(entity.getProjectileType());
+		BeamRenderParams params = BeamRenderParamDict.get(entity.getProjectileTypeEnum());
 		if (params != null) {
 			Pair<Vec2f, Vec2f> uv = params.getUV(distance, entity.age, tickDelta);
 			u1 = uv.getLeft().x;
@@ -149,7 +144,7 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 			v1 = 0f;
 			v2 = 1f;
 		}
-		switch (entity.getProjectileTypeId()) {
+		switch (entity.getProjectileType()) {
 			case GenericBeamProjectile.BEAM_TYPE_NDR:
 				float maxWidth = 0.05f;
 				renderBeam(entity, rand, prog, maxWidth, distance, u1, u2, v1, v2, tickDelta, matrixStack,

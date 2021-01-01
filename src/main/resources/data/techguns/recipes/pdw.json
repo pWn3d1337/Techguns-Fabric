@@ -1,0 +1,29 @@
+{
+  "result": {
+    "item": "techguns:pdw",
+    "data": {
+      "ammo": 40,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "brs",
+    " m "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "b": {
+      "item": "techguns:carbonbarrel"
+    },
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "m": {
+      "item": "techguns:advancedmagazine"
+    }
+  }
+}

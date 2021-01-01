@@ -1,0 +1,29 @@
+{
+  "result": {
+    "item": "techguns:biogun",
+    "data": {
+      "ammo": 30,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "frs",
+    " m "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "r": {
+      "item": "techguns:steelreceiver"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "f": {
+      "item": "techguns:pumpmechanism"
+    },
+    "m": {
+      "item": "techguns:biotank"
+    }
+  }
+}

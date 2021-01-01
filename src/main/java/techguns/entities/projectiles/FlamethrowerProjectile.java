@@ -56,7 +56,7 @@ public class FlamethrowerProjectile extends GenericProjectile {
 
     @Override
     protected TGDamageSource getProjectileDamageSource() {
-        TGDamageSource src = TGDamageSource.causeFireDamage(this, this.shooter, EntityDeathUtils.DeathType.DEFAULT);
+        TGDamageSource src = TGDamageSource.causeFireDamage(this, this.getOwner(), EntityDeathUtils.DeathType.DEFAULT);
         src.armorPenetration = this.penetration;
         src.setNoKnockback();
         return src;

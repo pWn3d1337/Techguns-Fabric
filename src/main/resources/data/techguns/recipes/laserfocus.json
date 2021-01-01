@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:laserfocus"
+  },
+  "pattern": [
+    "rrr",
+    "rdr",
+    "rrr"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    }
+  }
+}

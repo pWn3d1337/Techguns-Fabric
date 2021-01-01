@@ -1,0 +1,33 @@
+{
+  "result": {
+    "item": "techguns:pistol",
+    "data": {
+      "ammo": 18,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "bsp",
+    " fp",
+    "  m"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "item": "techguns:plasticsheet"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "tag": "c:steel_ingots"
+    },
+    "f": {
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    },
+    "m": {
+      "item": "techguns:pistolmagazine"
+    }
+  }
+}

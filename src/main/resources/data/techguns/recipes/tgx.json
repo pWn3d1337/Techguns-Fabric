@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "techguns:tgx",
+    "count": 4
+  },
+  "pattern": [
+    "glg",
+    "lbl",
+    "glg"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "b": {
+      "item": "minecraft:blaze_powder"
+    },
+    "g": {
+      "item": "minecraft:gunpowder"
+    },
+    "l": {
+      "item": "minecraft:lapis_lazuli"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "result": {
+    "item": "techguns:revolver",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "bmf",
+    " s "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "b": {
+      "item": "techguns:ironbarrel"
+    },
+    "s": {
+      "item": "techguns:woodstock"
+    },
+    "f": {
+      "item": "minecraft:flint_and_steel"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartsiron"
+    }
+  }
+}

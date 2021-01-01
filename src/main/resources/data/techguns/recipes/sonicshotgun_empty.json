@@ -1,0 +1,33 @@
+{
+  "result": {
+    "item": "techguns:sonicshotgun",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    " p ",
+    "ers",
+    " m "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:titanium_ingots"
+    },
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "e": {
+      "item": "techguns:sonicemitter"
+    },
+    "m": {
+      "item": "techguns:energycellempty"
+    }
+  }
+}

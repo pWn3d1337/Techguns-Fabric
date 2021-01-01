@@ -1,0 +1,33 @@
+{
+  "result": {
+    "item": "techguns:mibgun",
+    "data": {
+      "ammo": 20,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "bsp",
+    " fp",
+    "  m"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:titanium_ingots"
+    },
+    "b": {
+      "item": "techguns:laserbarrel"
+    },
+    "s": {
+      "item": "techguns:sonicemitter"
+    },
+    "f": {
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    "m": {
+      "item": "techguns:energycell"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "result": {
+    "item": "techguns:goldenrevolver",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "ggg",
+    "grg",
+    "ggg"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "r": {
+      "item": "techguns:revolver"
+    },
+    "g": {
+      "tag": "c:gold_ingots"
+    }
+  }
+}

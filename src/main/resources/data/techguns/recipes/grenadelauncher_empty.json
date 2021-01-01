@@ -1,0 +1,29 @@
+{
+  "result": {
+    "item": "techguns:grenadelauncher",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "brs",
+    " p "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:steel_ingots"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "r": {
+      "item": "techguns:steelreceiver"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    }
+  }
+}

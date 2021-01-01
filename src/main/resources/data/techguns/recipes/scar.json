@@ -1,0 +1,39 @@
+{
+  "result": {
+    "item": "techguns:scar",
+    "data": {
+      "ammo": 20,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "gpd",
+    "brs",
+    " m "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:plastic_sheets"
+    },
+    "r": {
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "d": {
+      "item": "minecraft:diamond"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "m": {
+      "item": "techguns:assaultriflemagazine"
+    }
+  }
+}

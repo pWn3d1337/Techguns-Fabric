@@ -1,0 +1,39 @@
+{
+  "result": {
+    "item": "techguns:laserpistol",
+    "data": {
+      "ammo": 20,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "obo",
+    "scr",
+    "ssp"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "tag": "c:plastic_sheets"
+    },
+    "b": {
+      "item": "techguns:laserbarrel"
+    },
+    "r": {
+      "item": "techguns:redstone_battery"
+    },
+    "s": {
+      "tag": "c:steel_nuggets"
+    },
+    "c": {
+      "item": "techguns:circuitboardelite"
+    },
+    "m": {
+      "item": "techguns:redstone_battery"
+    },
+    "o": {
+      "tag": "c:obsidian_ingots"
+    }
+  }
+}

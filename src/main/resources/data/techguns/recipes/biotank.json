@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "techguns:biotank"
+  },
+  "ingredients": [
+    {
+      "item": "techguns:biotankempty"
+    },
+    {
+      "item": "techguns:biomass"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -1,0 +1,33 @@
+{
+  "result": {
+    "item": "techguns:tfg",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "t  ",
+    "bpr",
+    "tm "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "item": "techguns:plasmagenerator"
+    },
+    "b": {
+      "item": "techguns:shieldedtitaniumbarrel"
+    },
+    "r": {
+      "item": "techguns:titaniumreceiver"
+    },
+    "t": {
+      "tag": "c:titanium_ingots"
+    },
+    "m": {
+      "item": "techguns:nuclearpowercelldepleted"
+    }
+  }
+}

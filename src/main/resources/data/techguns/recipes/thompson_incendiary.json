@@ -1,0 +1,29 @@
+{
+  "result": {
+    "item": "techguns:thompson",
+    "data": {
+      "ammo": 20,
+      "ammovariant": "incendiary",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "bfs",
+    " m "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "b": {
+      "item": "techguns:ironbarrel"
+    },
+    "s": {
+      "item": "techguns:woodstock"
+    },
+    "f": {
+      "item": "techguns:ironreceiver"
+    },
+    "m": {
+      "item": "techguns:smgmagazine_incendiary"
+    }
+  }
+}

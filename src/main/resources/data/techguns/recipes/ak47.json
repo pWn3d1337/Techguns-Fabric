@@ -1,0 +1,32 @@
+{
+  "result": {
+    "item": "techguns:ak47",
+    "data": {
+      "ammo": 30,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "bfs",
+    "wm "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:woodstock"
+    },
+    "f": {
+      "item": "techguns:ironreceiver"
+    },
+    "w": {
+      "tag": "minecraft:logs"
+    },
+    "m": {
+      "item": "techguns:assaultriflemagazine"
+    }
+  }
+}

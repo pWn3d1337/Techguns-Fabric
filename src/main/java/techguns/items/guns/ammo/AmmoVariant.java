@@ -30,4 +30,12 @@ public class AmmoVariant {
 	public String getKey() {
 		return key;
 	}
+
+	public ItemStack[] getAmmo() {
+		return ammo;
+	}
+
+	public ItemStack[] getBullet() {
+		return bullet;
+	}
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 import net.minecraft.block.Blocks;
 
@@ -285,7 +284,6 @@ public class GenericProjectile extends ProjectileEntity {
 	float damageDropStart;
 	float damageDropEnd;
 	float damageMin;
-	protected LivingEntity shooter;
 
 	float penetration = 0.0f;
 
@@ -309,14 +307,14 @@ public class GenericProjectile extends ProjectileEntity {
 	protected byte projectileType=0;
 
 		
-	public GenericProjectileType getProjectileType() {
+	public GenericProjectileType getProjectileTypeEnum() {
 		if(this.projectileType>=0&& projectileType<GenericProjectileType.values().length) {
 			return GenericProjectileType.values()[projectileType];
 		}
 		return GenericProjectileType.DEFAULT;
 	}
 
-	public byte getProjectileTypeId() {
+	public byte getProjectileType() {
 		return this.projectileType;
 	}
 
@@ -521,7 +519,7 @@ public class GenericProjectile extends ProjectileEntity {
 			this.piercedEntities.add(target.getEntityId());
 		}
 
-		Entity shooter = this.shooter;
+		Entity shooter = this.getOwner();
 		TGDamageSource damageSource;
 		TGDamageSource damageSourceKnockback;
 		if (shooter == null) {
@@ -606,7 +604,7 @@ public class GenericProjectile extends ProjectileEntity {
 	 * @param entityHitResult 
 	 */
 	protected void onHitEffect(LivingEntity livingEntity, EntityHitResult entityHitResult) {
-		this.getProjectileType().onHitCode.accept(livingEntity,entityHitResult);
+		this.getProjectileTypeEnum().onHitCode.accept(livingEntity,entityHitResult);
 	}
 
 	protected int getPierceLevel() {
@@ -653,7 +651,11 @@ public class GenericProjectile extends ProjectileEntity {
     		yaw = -this.yaw;
     	}
 
-		this.getProjectileType().impactFXCode.handleImpactFX(this.world, x,y,z, pitch,yaw, sound);
+		this.doImpactEffectForType(x,y,z,pitch,yaw,sound);
+	}
+
+	protected void doImpactEffectForType(double x, double y, double z, float pitch, float yaw, BlockSoundGroup blockSoundGroup){
+		this.getProjectileTypeEnum().impactFXCode.handleImpactFX(this.world, x,y,z, pitch,yaw, blockSoundGroup);
 	}
 
     public EntityHitResult getEntityCollision(Vec3d currentPosition, Vec3d nextPosition) {
@@ -722,8 +724,8 @@ public class GenericProjectile extends ProjectileEntity {
 	 * @return
 	 */
 	protected TGDamageSource getProjectileDamageSource() {
-		GenericProjectileType type = this.getProjectileType();
-		TGDamageSource src=type.dmgSourceGetter.getDamageSource(this, this.shooter, type.deathType);
+		GenericProjectileType type = this.getProjectileTypeEnum();
+		TGDamageSource src=type.dmgSourceGetter.getDamageSource(this, this.getOwner(), type.deathType);
 		src.armorPenetration = this.penetration;
 		src.setNoKnockback();
 		return src;
@@ -809,7 +811,7 @@ public class GenericProjectile extends ProjectileEntity {
 	 */
 	@Environment(EnvType.CLIENT)
 	public void clientInitializeFinal(){
-		this.getProjectileType().clientTrailFXCode.accept(this);
+		this.getProjectileTypeEnum().clientTrailFXCode.accept(this);
 	}
 
 	@Override

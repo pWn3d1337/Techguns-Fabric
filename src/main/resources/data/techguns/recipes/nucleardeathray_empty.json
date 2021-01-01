@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "techguns:nucleardeathray",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "ltl",
+    "ers",
+    " m "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "r": {
+      "item": "techguns:carbonreceiver"
+    },
+    "s": {
+      "item": "techguns:carbonstock"
+    },
+    "t": {
+      "tag": "c:titanium_ingots"
+    },
+    "e": {
+      "item": "techguns:rademitter"
+    },
+    "l": {
+      "tag": "c:lead_ingots"
+    },
+    "m": {
+      "item": "techguns:nuclearpowercelldepleted"
+    }
+  }
+}

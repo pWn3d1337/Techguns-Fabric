@@ -1,0 +1,32 @@
+{
+  "result": {
+    "item": "techguns:boltaction",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "gi ",
+    "bfs"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:woodstock"
+    },
+    "f": {
+      "item": "techguns:ironreceiver"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "i": {
+      "tag": "c:iron_ingots"
+    }
+  }
+}

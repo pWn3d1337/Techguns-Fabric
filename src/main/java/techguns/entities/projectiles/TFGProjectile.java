@@ -84,7 +84,7 @@ public class TFGProjectile extends GenericProjectile{
 			TGPacketsS2C.sendToAllAroundEntity(new PacketSpawnParticle("TFGExplosion", this.getX(), this.getY(), this.getZ(), size*0.75f), this, 100.0f);
 			
 			
-			TGExplosion explosion = new TGExplosion(world, this.shooter, this, this.getX(), this.getY(), this.getZ(), exp_dmgMax, exp_dmgMin, exp_r1, exp_r2, this.blockdamage?0.5:0.0);		
+			TGExplosion explosion = new TGExplosion(world, this.getOwner(), this, this.getX(), this.getY(), this.getZ(), exp_dmgMax, exp_dmgMin, exp_r1, exp_r2, this.blockdamage?0.5:0.0);
 			explosion.blockDropChance = 0.1f;			
 			explosion.doExplosion(false);
 
@@ -102,7 +102,7 @@ public class TFGProjectile extends GenericProjectile{
 
 	@Override
 	protected TGDamageSource getProjectileDamageSource() {
-		TGDamageSource dmgsrc = TGDamageSource.causeEnergyDamage(this, this.shooter, DeathType.GORE);
+		TGDamageSource dmgsrc = TGDamageSource.causeEnergyDamage(this, this.getOwner(), DeathType.GORE);
 		dmgsrc.goreChance = 1.0f;
 		dmgsrc.knockbackMultiplier=3.0f;
 		return dmgsrc;

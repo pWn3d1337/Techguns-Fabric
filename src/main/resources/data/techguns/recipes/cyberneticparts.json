@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:cyberneticparts"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:soul_sand"
+    },
+    {
+      "item": "minecraft:redstone"
+    },
+    {
+      "tag": "c:gold_wires"
+    },
+    {
+      "tag": "c:plastic_sheets"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

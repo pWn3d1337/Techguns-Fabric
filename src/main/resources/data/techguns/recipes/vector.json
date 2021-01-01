@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "techguns:vector",
+    "data": {
+      "ammo": 25,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    " gd",
+    "brs",
+    " m "
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "r": {
+      "item": "techguns:obsidiansteelreceiver"
+    },
+    "b": {
+      "item": "techguns:obsidiansteelbarrel"
+    },
+    "s": {
+      "item": "techguns:plasticstock"
+    },
+    "d": {
+      "item": "minecraft:redstone"
+    },
+    "g": {
+      "item": "minecraft:glass_pane"
+    },
+    "m": {
+      "item": "techguns:smgmagazine"
+    }
+  }
+}
