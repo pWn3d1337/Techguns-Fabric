@@ -526,7 +526,7 @@ public class ClientProxy implements ClientModInitializer {
         });
 
 		EntityRendererRegistry.INSTANCE.register(TGEntities.TESLA_PROJECTILE, (dispatcher, context) -> {
-			return new RenderTeslaProjectile(dispatcher);
+			return new RenderGenericBeamProjectile(dispatcher);
 		});
 //		EntityRendererRegistry.INSTANCE.register(TGEntities.FLYING_GIBS, (dispatcher, context) -> {
 //			return new RenderFlyingGibs(dispatcher);

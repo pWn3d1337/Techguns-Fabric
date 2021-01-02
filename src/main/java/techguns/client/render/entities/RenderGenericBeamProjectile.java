@@ -5,6 +5,7 @@ import java.util.Random;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.options.Perspective;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
@@ -30,15 +31,16 @@ import techguns.entities.projectiles.EnumBulletFirePos;
 import techguns.entities.projectiles.GenericBeamProjectile;
 import techguns.util.MathUtil;
 
-public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProjectile> {
+public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<GenericBeamProjectile> {
 
 	
 	public static HashMap<Byte, BeamRenderParams> BeamRenderParamDict;
 	
 	static {
 		BeamRenderParamDict = new HashMap<Byte, BeamRenderParams>();
-		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_NDR, new BeamRenderParams(null, "textures/fx/nukebeam.png", null, 17, 0.5f, 2.0f));
-		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_LASER, new BeamRenderParams("textures/fx/laser3_start.png", "textures/fx/laser3.png", null, 1, 1.0f, 2.0f));
+		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_NDR, new BeamRenderParams(null, "textures/fx/nukebeam.png", null, 17, 0.5f, 2.0f, true));
+		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_LASER, new BeamRenderParams("textures/fx/laser3_start.png", "textures/fx/laser3.png", null, 1, 1.0f, 2.0f, false));
+		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_TESLA, new BeamRenderParams(null, "textures/fx/laser_blue.png", null, 1, 1.0f, 2.0f, false));
 	}
 
 	public RenderGenericBeamProjectile(EntityRenderDispatcher dispatcher) {
@@ -46,7 +48,12 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 	}
 
 	@Override
-	public void render(GenericBeamProjectile entity, float yaw, float tickDelta, MatrixStack matrixStack,
+	protected RenderLayer getRenderLayer(GenericBeamProjectile entity) {
+		return TGRenderHelper.get_fx_renderlayer(getTexture(entity));
+	}
+
+	@Override
+	public void renderLate(GenericBeamProjectile entity, float yaw, float tickDelta, MatrixStack matrixStack,
 			VertexConsumerProvider vertexConsumerProvider, int light) {
 
 		// Generic stuff for all beam types
@@ -125,13 +132,13 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 		if (distance <= 0) {
 			distance = (float) entity.speed;
 		}
-		
+		BeamRenderParams params = BeamRenderParamDict.get(entity.getProjectileType());
+
 		// float distance = (float) entity.distance;
 		matrixStack.push();
-		setupBeamTransforms(entity, pos, laser_pitch, laser_yaw, prog, matrixStack, tickDelta);
+		setupBeamTransforms(entity, pos, laser_pitch, laser_yaw, prog, matrixStack, tickDelta, params.spinning);
 
 		float u1, u2, v1, v2;
-		BeamRenderParams params = BeamRenderParamDict.get(entity.getProjectileTypeEnum());
 		if (params != null) {
 			Pair<Vec2f, Vec2f> uv = params.getUV(distance, entity.age, tickDelta);
 			u1 = uv.getLeft().x;
@@ -152,6 +159,10 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 				renderSpiralEffect(entity, rand, prog, maxWidth, distance, u1, u2, v1, v2, tickDelta, matrixStack,
 						vertexConsumerProvider, light);
 				break;
+			case GenericBeamProjectile.BEAM_TYPE_TESLA:
+				renderLightning(entity, rand, prog, 0.2f, -distance, u1, u2, v1, v2, tickDelta, matrixStack,
+						vertexConsumerProvider, light);
+				break;
 			default:
 				renderBeam(entity, rand, prog, 0.05f, distance, u1, u2, v1, v2, tickDelta, matrixStack,
 						vertexConsumerProvider, light);
@@ -162,7 +173,7 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 
 	}
 
-	private void setupBeamTransforms(Entity entity, Vec3d pos, float pitch, float yaw, float prog, MatrixStack matrixStack, float tickDelta) {
+	protected void setupBeamTransforms(Entity entity, Vec3d pos, float pitch, float yaw, float prog, MatrixStack matrixStack, float tickDelta, boolean spinning) {
 	
 		double ex = MathHelper.lerp(tickDelta, entity.prevX, entity.getX());
 		double ey = MathHelper.lerp(tickDelta, entity.prevY, entity.getY());
@@ -175,7 +186,9 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 
 		matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(-(yaw - 90.0F)));
 		matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(pitch));
-		matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(360.0f * prog));
+		if(spinning) {
+			matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(360.0f * prog));
+		}
 		
 	}
 
@@ -228,7 +241,7 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 	}
 
 	
-	private Vec3d getViewBobbingOffset(PlayerEntity playerEntity, float ptt) {
+	protected Vec3d getViewBobbingOffset(PlayerEntity playerEntity, float ptt) {
 		float g = playerEntity.horizontalSpeed - playerEntity.prevHorizontalSpeed;
 		float h = -(playerEntity.horizontalSpeed + g * ptt);
 		float i = MathHelper.lerp(ptt, playerEntity.prevStrideDistance, playerEntity.strideDistance);
@@ -249,7 +262,7 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 		float width = maxWidth * intensity;
 
 		VertexConsumer vertexConsumer = vertexConsumerProvider
-				.getBuffer(TGRenderHelper.get_fx_renderlayer(getTexture(entity)));
+				.getBuffer(this.getRenderLayer(entity));
 		Matrix4f model_mat = matrixStack.peek().getModel();
 		
 		matrixStack.push();
@@ -293,7 +306,7 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 		// -
 		
 		VertexConsumer vertexConsumer = vertexConsumerProvider
-				.getBuffer(TGRenderHelper.get_fx_renderlayer(getTexture(entity)));
+				.getBuffer(this.getRenderLayer(entity));
 		
 		matrixStack.push();
 		
@@ -331,7 +344,113 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 		
 		matrixStack.pop();
 	}
-	
+
+	protected void renderLightning(GenericBeamProjectile laser, Random rand, float prog, float maxWidth, float distance,
+									  float u1, float u2, float v1, float v2, float tickDelta, MatrixStack matrixStack,
+								   VertexConsumerProvider vertexConsumerProvider, int light) {
+
+		final int SIN_COUNT = 5; // Number of overlapping sin functions
+		final float WIDTH = 0.5f;
+		final float SIN_DISTANCE = 10.0f; //ideal distance for one sinus curve;
+
+		float offset = 0.20f; // Distance per bolt vertex
+
+		int maxTicks = laser.maxTicks;
+
+		double[] dY = new double[SIN_COUNT];
+		double[] dZ = new double[SIN_COUNT];
+
+		for (int i = 0; i < SIN_COUNT; i++) {
+			//TODO: Y/Z random vectors with fixed length, or whatever
+			dY[i] = 0.5-rand.nextDouble(); //fixed for this bolt
+			dZ[i] = 0.5-rand.nextDouble();
+		}
+
+		int count = (int) Math.round((Math.abs(distance) / offset));
+		offset = (distance / (float) count);
+
+		float xOffset = 0.0f;
+
+		int xreps = Math.max(1, (int) Math.round(distance / SIN_DISTANCE)); //TODO: get modulo as additional y/z scale?
+		float xprev = 0f, yprev = 0f, zprev = 0f, widthprev = 1.0f, alphaprev = 1.0f;
+
+		double u = (distance / maxWidth) * 2.0D;
+
+		VertexConsumer vertexConsumer = vertexConsumerProvider
+				.getBuffer(this.getRenderLayer(laser));
+
+		matrixStack.push();
+
+		//TGMatrixOps.rotate(matrixStack, laser.laserYaw-90F, 0.0F, 1.0F, 0.0F);
+		//TGMatrixOps.rotate(matrixStack, laser.laserPitch, 0.0F, 0.0F, 1.0F);
+
+		for (int i = 0; i <= count; i++) {
+			float d = (float)i/(float)count; //distance progress (0-1)
+
+
+			float x = xOffset + (float)i*offset;
+			float y = 0;
+			float z = 0;
+			double randomness = 0.00;
+
+			if (i > 1) {
+				for (int j = 1; j <= SIN_COUNT; j++) {
+					double yfactor = ((rand.nextDouble()-0.5) + (prog*dY[j-1] *1.0)) * (2.0/(double)j);
+					double zfactor = ((rand.nextDouble()-0.5) + (prog*dZ[j-1] *1.0)) * (2.0/(double)j);
+					y+= Math.sin((d * Math.PI) * (double)( j * xreps))*yfactor;
+					z+= Math.sin((d * Math.PI) * (double)( j * xreps))*zfactor;
+				}
+			}
+
+
+			float pulse = (float) (1.0f - Math.sqrt(Math.abs(prog-d)*2.0f));
+			//1-WURZEL(ABS(B2-C2))
+
+			//System.out.printf("X/Y/Z: (%2.2f/%2.2f/%2.2f)\n",x,y,z);
+			float width =  Math.max(0.0f, WIDTH*pulse); //WIDTH+(WIDTH*10.0*pulse);
+			if (i >= 1) {
+				drawSegment(matrixStack, vertexConsumer, xprev, yprev, zprev, x,y,z, widthprev, width, alphaprev, pulse, light);
+			}
+			widthprev = width;
+			alphaprev = pulse;
+			xprev = x;
+			yprev = y;
+			zprev = z;
+		}
+
+		matrixStack.pop();
+	}
+
+	void drawSegment(MatrixStack matrixStack, VertexConsumer vertexConsumer, float x1, float y1, float z1, float x2, float y2, float z2, float width1, float width2, float a1, float a2, int light) {
+
+		double scale = 0.5;
+		y1*=scale;
+		y2*=scale;
+		z1*=scale;
+		z2*=scale;
+		width1*=scale;
+		width2*=scale;
+
+		matrixStack.push();
+		TGMatrixOps.rotate(matrixStack, 45.0f, 1.0f, 0.0f, 0.0f);
+
+		Matrix4f modelMat = matrixStack.peek().getModel();
+
+		//set alpha1
+		vertexConsumer.vertex(modelMat, x1,  y1- width1,  z1).texture(0,0).color(1f,1f,1f, a1).light(light).next();
+		vertexConsumer.vertex(modelMat, x1,  y1+ width1,  z1).texture(0,1).color(1f,1f,1f, a1).light(light).next();
+		vertexConsumer.vertex(modelMat, x2,  y2+ width2,  z2).texture(1,1).color(1f,1f,1f, a1).light(light).next();
+		vertexConsumer.vertex(modelMat, x2,  y2- width2,  z2).texture(1,0).color(1f,1f,1f, a1).light(light).next();
+
+		//set alpha2
+		vertexConsumer.vertex(modelMat, x1,  y1, z1-width1).texture(0,0).color(1f,1f,1f, a1).light(light).next();
+		vertexConsumer.vertex(modelMat, x1,  y1, z1+width1).texture(0,1).color(1f,1f,1f, a1).light(light).next();
+		vertexConsumer.vertex(modelMat, x2,  y2, z2+width2).texture(1,1).color(1f,1f,1f, a1).light(light).next();
+		vertexConsumer.vertex(modelMat, x2,  y2, z2-width2).texture(1,0).color(1f,1f,1f, a1).light(light).next();
+
+		matrixStack.pop();
+	}
+
 	@Override
 	public Identifier getTexture(GenericBeamProjectile entity) {
 		if (BeamRenderParamDict.containsKey(entity.getProjectileType())) {
@@ -348,15 +467,17 @@ public class RenderGenericBeamProjectile extends EntityRenderer<GenericBeamProje
 		int numFrames;
 		float frametime;
 		float uscale;
+		boolean spinning; //rotate around beam axis
 		
 		public BeamRenderParams(String beamTextureStart, String beamTexture, String beamTextureEnd,
-				int numFrames, float frametime, float uscale) {
+				int numFrames, float frametime, float uscale, boolean spinning) {
 			if (beamTextureStart != null) this.beamTextureStart = new TGIdentifier(beamTextureStart);
 			if (beamTexture != null) this.beamTexture = new TGIdentifier(beamTexture);
 			if (beamTextureEnd != null) this.beamTextureEnd = new TGIdentifier(beamTextureEnd);
 			this.numFrames = numFrames;
 			this.frametime = frametime;
 			this.uscale = uscale;
+			this.spinning = spinning;
 		}
 		
 		

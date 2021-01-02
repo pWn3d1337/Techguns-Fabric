@@ -57,6 +57,11 @@ public class TeslaProjectile extends GenericBeamProjectile {
         }
 
         @Override
+        public byte getProjectileType() {
+            return GenericBeamProjectile.BEAM_TYPE_TESLA;
+        }
+
+        @Override
         public DamageType getDamageType() {
             return DamageType.LIGHTNING;
         }
