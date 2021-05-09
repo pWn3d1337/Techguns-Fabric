@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:miningdrill",
+    "data": {
+      "ammo": 300,
+      "ammovariant": "default",
+      "camo": "",
+      "mininghead": 0
+    }
+  },
+  "ingredients": [
+    {
+      "item": "techguns:miningdrill"
+    },
+    {
+      "item": "techguns:miningdrillhead_obsidian"
+    }
+  ],
+  "type": "techguns:mininghead_upgrade"
+}

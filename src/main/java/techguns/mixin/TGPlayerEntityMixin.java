@@ -1,10 +1,18 @@
 package techguns.mixin;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.entity.Entity;
@@ -24,7 +32,11 @@ import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.GunManager;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.GenericGunCharge;
+import techguns.items.guns.GenericGunMeleeCharge;
 import techguns.packets.PacketSwapWeapon;
+import techguns.util.BlockUtil;
+
+import java.util.List;
 
 @Mixin(PlayerEntity.class)
 public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExtendedPlayer {
@@ -80,7 +92,7 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	    this.dataTracker.startTracking(TECHGUNS_DATA_CHARGING_WEAPON, false);
 	    this.dataTracker.startTracking(TECHGUNS_SAFE_MODE, false);
 	}
-	
+
 	@Override
 	public AttackTime getAttackTime(boolean offHand) {
 		if(offHand) {

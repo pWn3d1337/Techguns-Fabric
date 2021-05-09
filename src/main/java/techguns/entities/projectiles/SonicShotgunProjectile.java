@@ -37,8 +37,8 @@ public class SonicShotgunProjectile extends GenericProjectile {
         super(T, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos);
     }
 
-    public SonicShotgunProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
-        super(T, world, shooter, data);
+    public SonicShotgunProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+        super(T, world, shooter);
     }
 
     @Override

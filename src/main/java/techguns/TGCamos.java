@@ -24,8 +24,7 @@ public class TGCamos implements ITGInitializer {
 		registerWeaponCamo(TGuns.M4, DEFAULT, new TGIdentifier("textures/guns/m4texture.png"));
 		registerWeaponCamo(TGuns.M4, new TGIdentifier("woodland"), new TGIdentifier("textures/guns/m4texture_1.png"));
 		registerWeaponCamo(TGuns.M4, new TGIdentifier("desert"), new TGIdentifier("textures/guns/m4texture_2.png"));
-		registerWeaponCamo(TGuns.M4, new TGIdentifier("snow"), new TGIdentifier("textures/guns/m4texture_3.png"));
-		registerWeaponCamo(TGuns.M4, new TGIdentifier("hazard"), new TGIdentifier("textures/guns/m4texture_4.png"));
+		registerWeaponCamo(TGuns.M4, new TGIdentifier("arctic"), new TGIdentifier("textures/guns/m4texture_3.png"));
 		
 		registerWeaponCamo(TGuns.ROCKET_LAUNCHER, DEFAULT, new TGIdentifier("textures/guns/rocketlauncher.png"));
 		registerWeaponCamo(TGuns.ROCKET_LAUNCHER, new TGIdentifier("wasteland"), new TGIdentifier("textures/guns/rocketlauncher_1.png"));

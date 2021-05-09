@@ -8,11 +8,16 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.options.GameOptions;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.BufferRenderer;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Matrix4f;
 import techguns.TGIdentifier;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.GunHandType;
@@ -274,14 +279,15 @@ public class TGGuiRender {
 				showCustomCrosshair = true;
 			} else {
 				if (gun.isZooming()) {
-					IItemRenderer irenderer = TGRenderRegistries.getRendererForItem(gun);
+					/*IItemRenderer irenderer = TGRenderRegistries.getRendererForItem(gun);
 					if (irenderer != null && irenderer instanceof RenderGunBase) {
 						RenderGunBase rgun = (RenderGunBase) irenderer;
 
 						if (rgun.hasScopeTexture()) {
 							return true;
 						}
-					}
+					}*/
+					return true;
 				}
 
 				if (gun.getCrossHairStyle() != EnumCrosshairStyle.VANILLA) {
@@ -415,5 +421,25 @@ public class TGGuiRender {
 			count = count / gun.getAmmoCount();
 		} 
 		return count;
+	}*/
+
+	/*public static void drawTextureFloat(MatrixStack matrices, float x, float y, int z, int u, int v, int width, int height) {
+		drawTextureFloat(matrices, x, x + width, y, y + height, z, width, height, (float)u, (float)v, 256, 256);
+	}
+
+	private static void drawTextureFloat(MatrixStack matrices, float x0, float y0, float x1, float y1, float z, int regionWidth, int regionHeight, float u, float v, int textureWidth, int textureHeight) {
+		drawTexturedQuadFloat(matrices.peek().getModel(), x0, y0, x1, y1, z, (u + 0.0F) / (float)textureWidth, (u + (float)regionWidth) / (float)textureWidth, (v + 0.0F) / (float)textureHeight, (v + (float)regionHeight) / (float)textureHeight);
+	}
+
+	private static void drawTexturedQuadFloat(Matrix4f matrices, float x0, float x1, float y0, float y1, float z, float u0, float u1, float v0, float v1) {
+		BufferBuilder bufferBuilder = Tessellator.getInstance().getBuffer();
+		bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE);
+		bufferBuilder.vertex(matrices, x0, y1, z).texture(u0, v1).next();
+		bufferBuilder.vertex(matrices, x1, y1, z).texture(u1, v1).next();
+		bufferBuilder.vertex(matrices, x1, y0, z).texture(u1, v0).next();
+		bufferBuilder.vertex(matrices, x0, y0, z).texture(u0, v0).next();
+		bufferBuilder.end();
+		RenderSystem.enableAlphaTest();
+		BufferRenderer.draw(bufferBuilder);
 	}*/
 }

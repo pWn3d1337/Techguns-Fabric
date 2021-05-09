@@ -14,10 +14,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import techguns.client.ClientProxy;
-import techguns.client.deatheffects.DeathEffectHandler;
 import techguns.client.deatheffects.DeathEffectHandler.GoreData;
 import techguns.client.particle.TGParticleSystem;
-import techguns.packets.PacketSpawnEntity;
 
 public class FlyingGibs extends Entity{
 
@@ -148,6 +146,6 @@ public class FlyingGibs extends Entity{
 
 	@Override
 	public Packet<?> createSpawnPacket() {
-	    return new PacketSpawnEntity(this);
+	    return null;
 	}
 }

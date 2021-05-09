@@ -55,13 +55,13 @@ public class ModelLasergun extends ModelMultipart {
   
   public ModelLasergun()
   {
-        super(RenderLayer::getEntitySolid);
+        super(RenderLayer::getEntityCutout);
     textureWidth = 64;
     textureHeight = 64;
     
       Glow5 = new ModelPart(this, 34, 0);
-      Glow5.addCuboid(0F, 0F, 0F, 0, 1, 1);
-      Glow5.setPivot(-1F, -6.25F, 0.5F);
+      Glow5.addCuboid(0F, 0F, 0F, 0, 0.1F, 0.1F);
+      Glow5.setPivot(-1F, -6.25F+0.45F, 0.5F+0.45F);
       Glow5.setTextureSize(64, 64);
       Glow5.mirror = true;
       setRotation(Glow5, 0F, 0F, 0F);
@@ -350,12 +350,12 @@ public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertice
     Shape37.render(matrices, vertices, light, overlay);
     Shape38.render(matrices, vertices, light, overlay);
     
-    TGRenderHelper.enableFXLighting();
-    Glow1.render(matrices, vertices, light, overlay);
-    Glow2.render(matrices, vertices, light, overlay);
-    Glow3.render(matrices, vertices, light, overlay);
-    Glow5.render(matrices, vertices, light, overlay);
-    TGRenderHelper.disableFXLighting();
+    //TGRenderHelper.enableFXLighting();
+    Glow1.render(matrices, vertices, bright_light, overlay);
+    Glow2.render(matrices, vertices, bright_light, overlay);
+    Glow3.render(matrices, vertices, bright_light, overlay);
+    Glow5.render(matrices, vertices, bright_light, overlay);
+    //TGRenderHelper.disableFXLighting();
   }
 
 }

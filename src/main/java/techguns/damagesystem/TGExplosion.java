@@ -105,7 +105,7 @@ public class TGExplosion {
         
         
         Explosion.DestructionType destructionType = this.damagesTerrain ? DestructionType.BREAK : DestructionType.NONE;
-        this.explosionDummy = new Explosion(world, exploder, x, y, z, (float)Math.max(primaryRadius, secondaryRadius), false, destructionType);
+        this.explosionDummy = new Explosion(world, exploder, null, null, x, y, z, (float)Math.max(primaryRadius, secondaryRadius), false, destructionType);
     }
 
     public TGExplosion setDmgSrc(TGDamageSource src) {

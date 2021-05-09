@@ -13,9 +13,8 @@ import techguns.items.guns.IProjectileFactory;
 public class StoneBulletProjectile extends GenericProjectile {
 
 	
-	public StoneBulletProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter,
-			CompoundTag data) {
-		super(T, world, shooter, data);
+	public StoneBulletProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+		super(T, world, shooter);
 	}
 
 	public StoneBulletProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity p, float damage,

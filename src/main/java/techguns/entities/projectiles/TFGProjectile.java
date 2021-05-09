@@ -48,8 +48,8 @@ public class TFGProjectile extends GenericProjectile{
 		this(TGEntities.TFG_PROJECTILE, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos, gravity, size);
 	}
 	
-	public TFGProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
-		super(T, world, shooter, data);
+	public TFGProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+		super(T, world, shooter);
 //		if (world.isClient) {	
 //			this.createTrailFX();
 //		}

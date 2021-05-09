@@ -35,8 +35,8 @@ public class GrenadeProjectile extends GenericProjectile {
         this.bounces = maxbounces;
     }
 
-    public GrenadeProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
-        super(T, world, shooter, data);
+    public GrenadeProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+        super(T, world, shooter);
     }
 
     protected void playBounceSound() {

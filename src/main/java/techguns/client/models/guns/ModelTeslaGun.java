@@ -54,7 +54,7 @@ public class ModelTeslaGun extends ModelMultipart {
 	ModelPart Shape40;
 	ModelPart Shape41;
 	ModelPart Shape42;
-	ModelPart Shape43;
+	ModelPart RedDot;
 	ModelPart Shape44;
 	ModelPart Shape45;
 	ModelPart Shape46;
@@ -338,12 +338,12 @@ public class ModelTeslaGun extends ModelMultipart {
 		Shape42.setTextureSize(64, 64);
 		Shape42.mirror = true;
 		setRotation(Shape42, 0F, 0F, 0.7853982F);
-		Shape43 = new ModelPart(this, 18, 37);
-		Shape43.addCuboid(0F, 0F, 0F, 0, 1, 1);
-		Shape43.setPivot(-7F, -5.5F, 0F);
-		Shape43.setTextureSize(64, 64);
-		Shape43.mirror = true;
-		setRotation(Shape43, 0F, 0F, 0F);
+		RedDot = new ModelPart(this, 18, 38);
+		RedDot.addCuboid(0F, 0F, 0F, 0, 0.1F, 0.1F);
+		RedDot.setPivot(-7F, -5.5F+0.45F, 0F+0.45F);
+		RedDot.setTextureSize(64, 64);
+		RedDot.mirror = true;
+		setRotation(RedDot, 0F, 0F, 0F);
 		Shape44 = new ModelPart(this, 0, 58);
 		Shape44.addCuboid(-2F, -5F, 0F, 2, 5, 1);
 		Shape44.setPivot(-18.5F, 4F, -1.5F);
@@ -531,7 +531,7 @@ public class ModelTeslaGun extends ModelMultipart {
 		Glow6.render(matrices, vertices, light, overlay);
 		Glow7.render(matrices, vertices, light, overlay);
 		Glow8.render(matrices, vertices, light, overlay);
-		Shape43.render(matrices, vertices, light, overlay);
+		RedDot.render(matrices, vertices, bright_light, overlay);
 		//RenderHelper.enableStandardItemLighting();
 		TGRenderHelper.disableFXLighting();
 	}

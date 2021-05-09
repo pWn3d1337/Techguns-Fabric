@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:chainsawblades_carbon"
+  },
+  "pattern": [
+    " i",
+    "ip",
+    " i"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    "i": {
+      "tag": "c:carbon_plates"
+    }
+  }
+}

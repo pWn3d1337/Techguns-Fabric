@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:chainsaw",
+    "data": {
+      "ammo": 300,
+      "ammovariant": "default",
+      "camo": "",
+      "mininghead": 2
+    }
+  },
+  "ingredients": [
+    {
+      "item": "techguns:chainsaw"
+    },
+    {
+      "item": "techguns:chainsawblades_carbon"
+    }
+  ],
+  "type": "techguns:mininghead_upgrade"
+}

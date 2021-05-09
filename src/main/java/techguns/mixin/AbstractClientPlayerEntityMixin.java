@@ -21,7 +21,7 @@ public class AbstractClientPlayerEntityMixin {
 		//float speed_fov = (float)((double)1.0 * ((self.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) / (double)self.abilities.getWalkSpeed() + 1.0D) / 2.0D));
 		
 		if(!self.getMainHandStack().isEmpty() && self.getMainHandStack().getItem() instanceof GenericGun) {
-			info.setReturnValue(f* ClientProxy.get().player_zoom);
+			info.setReturnValue(f* ClientProxy.get().getZoomfactor());
 		}
 		
 	}

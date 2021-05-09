@@ -1,5 +1,6 @@
 package techguns.mixin;
 
+import net.minecraft.entity.EntityPose;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -98,14 +99,13 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 	private long lastDamageTime;
 	
 	@Inject(method = "damage", at = @At(value = "HEAD"), cancellable = true)
-	public boolean damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
+	public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
 		boolean ret = false;
 		if (source instanceof TGDamageSource) {
 			ret = Techguns_damage_func((TGDamageSource)source, amount);
 			info.setReturnValue(ret);
 			info.cancel();
 		}
-		return ret;
 	}
 
 	/**
@@ -303,5 +303,10 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 				}
 			}
 		}
+	}
+
+	@Override
+	public float getEyeHeight_ServerSide(EntityPose pose) {
+		return this.getEyeHeight(pose, this.getDimensions(pose));
 	}
 }

@@ -1,6 +1,6 @@
 {
   "result": {
-    "item": "techguns:lmg",
+    "item": "techguns:teslagun",
     "data": {
       "ammo": 0,
       "ammovariant": "default",
@@ -8,29 +8,29 @@
     }
   },
   "pattern": [
-    " gr",
-    "bfs",
+    " gd",
+    "crs",
     " m "
   ],
   "type": "techguns:crafting_shaped_nbt",
   "key": {
     "r": {
-      "item": "minecraft:redstone"
+      "item": "techguns:carbonreceiver"
     },
-    "b": {
-      "item": "techguns:obsidiansteelbarrel"
+    "c": {
+      "item": "techguns:coil"
     },
     "s": {
-      "item": "techguns:plasticstock"
+      "item": "techguns:carbonstock"
     },
-    "f": {
-      "item": "techguns:obsidiansteelreceiver"
+    "d": {
+      "item": "minecraft:redstone"
     },
     "g": {
       "item": "minecraft:glass_pane"
     },
     "m": {
-      "item": "techguns:lmgmagazineempty"
+      "item": "techguns:energycellempty"
     }
   }
 }

@@ -17,6 +17,7 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import techguns.TGSounds;
 import techguns.api.entity.ITGExtendedPlayer;
+import techguns.api.entity.ITGLivingEntity;
 import techguns.entities.projectiles.EnumBulletFirePos;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
@@ -62,7 +63,7 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 	}
 	
 	protected void traceTarget(LivingEntity shooter) {
-		Vec3d vec3d1 = new Vec3d(shooter.getPos().x, shooter.getPos().y+shooter.getEyeHeight(shooter.getPose()), shooter.getPos().z);
+		Vec3d vec3d1 = new Vec3d(shooter.getPos().x, shooter.getPos().y+((ITGLivingEntity)shooter).getEyeHeight_ServerSide(shooter.getPose()), shooter.getPos().z);
 		Vec3d vec3d = vec3d1.add(shooter.getRotationVector().multiply(LOCK_RANGE));
 		
 		

@@ -61,8 +61,8 @@ public class ModelM4 extends ModelMultipart {
 		textureHeight = 64;
 
 		Grip1 = new ModelPart(this, 68, 0);
-		Grip1.addCuboid(0F, 0F, 0F, 3, 9, 4);
-		Grip1.setPivot(-2F, 2F, 6F);
+		Grip1.addCuboid(0F, 0F, 0F, 2.98F, 9, 4);
+		Grip1.setPivot(-2.01F, 2F, 6F);
 		Grip1.setTextureSize(128, 64);
 		Grip1.mirror = true;
 		setRotation(Grip1, 0.4461433F, 0F, 0F);
@@ -121,8 +121,8 @@ public class ModelM4 extends ModelMultipart {
 		BarrelRails01.mirror = true;
 		setRotation(BarrelRails01, 0F, 0F, 0F);
 		Eotech01 = new ModelPart(this, 0, 3);
-		Eotech01.addCuboid(0F, 0F, 0F, 1, 2, 4);
-		Eotech01.setPivot(0.5F, -10F, -1F);
+		Eotech01.addCuboid(0F, 0F, 0F, 1, 2.5F, 4);
+		Eotech01.setPivot(0.5F, -11F, -1F);
 		Eotech01.setTextureSize(128, 64);
 		Eotech01.mirror = true;
 		setRotation(Eotech01, 0F, 0F, 0F);
@@ -133,8 +133,8 @@ public class ModelM4 extends ModelMultipart {
 		BarrelRails02.mirror = true;
 		setRotation(BarrelRails02, 0F, 0F, 0F);
 		IronSight01 = new ModelPart(this, 0, 47);
-		IronSight01.addCuboid(0F, 0F, 0F, 1, 4, 1);
-		IronSight01.setPivot(-1F, -8F, -25F);
+		IronSight01.addCuboid(0F, 0F, 0F, 0.98F, 4, 1);
+		IronSight01.setPivot(-1.01F, -8F, -25F);
 		IronSight01.setTextureSize(128, 64);
 		IronSight01.mirror = true;
 		setRotation(IronSight01, 0.4363323F, 0F, 0F);
@@ -217,14 +217,14 @@ public class ModelM4 extends ModelMultipart {
 		Stock07.mirror = true;
 		setRotation(Stock07, 0F, 0F, 0F);
 		Stock08 = new ModelPart(this, 81, 34);
-		Stock08.addCuboid(0F, 0F, 0F, 2, 9, 2);
-		Stock08.setPivot(-1.5F, -1F, 21F);
+		Stock08.addCuboid(0F, 0F, 0F, 1.98F, 9, 2);
+		Stock08.setPivot(-1.51F, -1F, 21F);
 		Stock08.setTextureSize(128, 64);
 		Stock08.mirror = true;
 		setRotation(Stock08, 0.5915014F, 0F, 0F);
 		Stock09 = new ModelPart(this, 72, 51);
-		Stock09.addCuboid(0F, 0F, 0F, 2, 4, 2);
-		Stock09.setPivot(-1.5F, 2F, 16F);
+		Stock09.addCuboid(0F, 0F, 0F, 1.98F, 4, 2);
+		Stock09.setPivot(-1.51F, 2F, 16F);
 		Stock09.setTextureSize(128, 64);
 		Stock09.mirror = true;
 		setRotation(Stock09, 1.047198F, 0F, 0F);
@@ -247,20 +247,20 @@ public class ModelM4 extends ModelMultipart {
 		IronSightTop.mirror = true;
 		setRotation(IronSightTop, 0F, 0F, 0F);
 		Eotech02 = new ModelPart(this, 56, 15);
-		Eotech02.addCuboid(0F, 0F, 0F, 4, 3, 9);
-		Eotech02.setPivot(-2.5F, -8F, -5F);
+		Eotech02.addCuboid(0F, 0F, 0F, 4, 3.5F, 9);
+		Eotech02.setPivot(-2.5F, -8.5F, -5F);
 		Eotech02.setTextureSize(128, 64);
 		Eotech02.mirror = true;
 		setRotation(Eotech02, 0F, 0F, 0F);
 		Eotech03 = new ModelPart(this, 0, 10);
 		Eotech03.addCuboid(0F, 0F, 0F, 4, 1, 4);
-		Eotech03.setPivot(-2.5F, -11F, -1F);
+		Eotech03.setPivot(-2.5F, -12F, -1F);
 		Eotech03.setTextureSize(128, 64);
 		Eotech03.mirror = true;
 		setRotation(Eotech03, 0F, 0F, 0F);
 		Eotech04 = new ModelPart(this, 0, 3);
-		Eotech04.addCuboid(0F, 0F, 0F, 1, 2, 4);
-		Eotech04.setPivot(-2.5F, -10F, -1F);
+		Eotech04.addCuboid(0F, 0F, 0F, 1, 2.5F, 4);
+		Eotech04.setPivot(-2.5F, -11F, -1F);
 		Eotech04.setTextureSize(128, 64);
 		Eotech04.mirror = true;
 		setRotation(Eotech04, 0F, 0F, 0F);
@@ -306,9 +306,9 @@ public class ModelM4 extends ModelMultipart {
 		Bolt02.setTextureSize(128, 64);
 		Bolt02.mirror = true;
 		setRotation(Bolt02, 0F, 0F, 0F);
-		RedDot = new ModelPart(this, 0, 11);
-		RedDot.addCuboid(0F, 0F, 0F, 1, 1, 0);
-		RedDot.setPivot(-1F, -9.5F, 1F);
+		RedDot = new ModelPart(this, 1, 11);
+		RedDot.addCuboid(0F, 0F, 0F, 0.1F, 0.1F, 0);
+		RedDot.setPivot(-1F+0.45F, -10.5F+0.45F, 1F);
 		RedDot.setTextureSize(128, 64);
 		RedDot.mirror = true;
 		setRotation(RedDot, 0F, 0F, 0F);
@@ -361,7 +361,7 @@ public class ModelM4 extends ModelMultipart {
 		Receiver04.render(matrices, vertices, light, overlay);
 		Bolt01.render(matrices, vertices, light, overlay);
 		Bolt02.render(matrices, vertices, light, overlay);
-		RedDot.render(matrices, vertices, light, overlay);
+		RedDot.render(matrices, vertices, bright_light, overlay);
 	}
 
 }

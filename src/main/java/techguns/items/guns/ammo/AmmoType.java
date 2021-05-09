@@ -48,6 +48,10 @@ public class AmmoType {
 		return this.addVariant(key,new ItemStack(ammo,1), new ItemStack(mag,1));
 	}
 
+	public boolean hasVariant(String key){
+		return ammoVariantIDs.containsKey(key);
+	}
+
 	public int getIDforVariantKey(String key) {
 		if (ammoVariantIDs.containsKey(key)) {
 			return ammoVariantIDs.get(key);
@@ -76,6 +80,10 @@ public class AmmoType {
 
 	public ItemStack[] getBullet(int variant) {
 		return this.variants.get(variant).bullet;
+	}
+
+	public boolean hasMagazine(int index){
+		return !this.getEmptyMag()[index].isEmpty();
 	}
 
 	public AmmoType (ItemStack ammo, ItemStack emptyMag, ItemStack bullet, int bulletsPerMag) {

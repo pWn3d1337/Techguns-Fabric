@@ -1,27 +1,15 @@
 package techguns;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
-import java.util.function.Supplier;
 
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.GsonConfigSerializer;
 import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
-import me.sargunvohra.mcmods.autoconfig1u.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.network.NetworkSide;
-import net.minecraft.network.NetworkState;
-import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.util.registry.Registry;
 import techguns.items.guns.ammo.AmmoTypes;
-import techguns.mixin.NetworkStateMixin;
-import techguns.packets.PacketSpawnEntity;
-import techguns.recipes.AmmoChangeRecipe;
-import techguns.recipes.NBTShapedRecipe;
-import techguns.recipes.Recipewriter;
+import techguns.recipes.*;
 
 public class Techguns implements ModInitializer {
 	public static final String MODID = "techguns";
@@ -62,6 +50,10 @@ public class Techguns implements ModInitializer {
 
 		NBTShapedRecipe.SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("crafting_shaped_nbt"), new NBTShapedRecipe.Serializer());
 
+		TransferAmmoRecipe.SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("transfer_ammo"), new TransferAmmoRecipe.Serializer());
+
+		MiningHeadUpgradeRecipe.SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("mininghead_upgrade"), new MiningHeadUpgradeRecipe.Serializer());
+
 		AMMO_CHANGE_SERIALIZER = (SpecialRecipeSerializer<AmmoChangeRecipe>)Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("ammo_change_recipe"), new SpecialRecipeSerializer<AmmoChangeRecipe>(AmmoChangeRecipe::new));
 
 		if (Recipewriter.WRITE_RECIPES) {
@@ -73,7 +65,9 @@ public class Techguns implements ModInitializer {
 		
 		Map handlerStateMap = play.getHANDLER_STATE_MAP();		
 		try {
-			Class<?> PacketHandlerClass = Class.forName("net.minecraft.network.NetworkState$PacketHandler"); 
+
+			Class<?> PacketHandlerClass = net.minecraft.network.NetworkState.class.getDeclaredClasses()[1];
+			//Class<?> PacketHandlerClass = Class.forName("net.minecraft.network.NetworkState$PacketHandler");
 			Object handler = map.get(NetworkSide.CLIENTBOUND);
 			
 			Method m_register = PacketHandlerClass.getDeclaredMethod("register", Class.class, Supplier.class);

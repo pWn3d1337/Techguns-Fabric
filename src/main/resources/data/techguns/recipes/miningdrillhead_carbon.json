@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "techguns:miningdrillhead_carbon"
+  },
+  "pattern": [
+    " ii",
+    "iii",
+    " ii"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": {
+      "tag": "c:carbon_plates"
+    }
+  }
+}

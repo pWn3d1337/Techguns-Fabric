@@ -6,9 +6,23 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
+import techguns.TGIdentifier;
+import techguns.api.guns.IGenericGun;
 import techguns.client.models.ModelMultipart;
+import techguns.items.guns.GenericGunMeleeCharge;
+import techguns.items.guns.ammo.AmmoTypes;
+
+import java.util.HashMap;
 
 public class ModelPowerHammer extends ModelMultipart {
+	protected static final Identifier[] textures = new Identifier[]{
+			new TGIdentifier("textures/guns/powerhammer.png"),
+			new TGIdentifier("textures/guns/powerhammer_obsidian.png"),
+			new TGIdentifier("textures/guns/powerhammer_carbon.png"),
+	};
+
 	// fields
 	ModelPart Shape1;
 	ModelPart Shape2;
@@ -296,6 +310,16 @@ public class ModelPowerHammer extends ModelMultipart {
 		Shape40.setTextureSize(64, 64);
 		Shape40.mirror = true;
 		setRotation(Shape40, 0F, 0F, 0F);
+	}
+
+	@Override
+	public RenderLayer getLayerForPart(IGenericGun gun, ItemStack stack, Identifier texture, int part) {
+		GenericGunMeleeCharge tool = (GenericGunMeleeCharge) gun;
+		int level = tool.getMiningHeadLevel(stack);
+		if (level > -1) {
+			return this.getLayer(textures[level]);
+		}
+		return this.getLayer(texture);
 	}
 
 	@Override

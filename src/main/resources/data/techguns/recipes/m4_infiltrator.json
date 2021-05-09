@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "techguns:m4_infiltrator",
+    "data": {
+      "ammo": 30,
+      "ammovariant": "default",
+      "camo": ""
+    }
+  },
+  "pattern": [
+    "gpg",
+    "wwm",
+    "rri"
+  ],
+  "type": "techguns:transfer_ammo",
+  "key": {
+    "p": {
+      "tag": "c:steel_ingots"
+    },
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "g": {
+      "tag": "c:glass_blocks"
+    },
+    "w": {
+      "tag": "minecraft:wool"
+    },
+    "i": {
+      "tag": "c:steel_ingots"
+    },
+    "m": {
+      "item": "techguns:m4"
+    }
+  }
+}

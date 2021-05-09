@@ -23,9 +23,8 @@ public class ChainsawProjectile extends GenericProjectile {
 	public static final byte PROJECTILE_TYPE_CHAINSAW = 0;
 	public static final byte PROJECTILE_TYPE_POWERHAMMER = 1;
 
-	public ChainsawProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter,
-			CompoundTag data) {
-		super(T, world, shooter, data);
+	public ChainsawProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+		super(T, world, shooter);
 	}
 
 	public ChainsawProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity p, float damage,

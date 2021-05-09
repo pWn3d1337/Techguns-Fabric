@@ -7,7 +7,13 @@
     "TGPlayerEntityMixin",
     "DamageSourceMixin",
     "LivingEntityMixin",
-    "ShapedRecipeAccessor"
+    "ShapedRecipeAccessor",
+    "ShapelessRecipeAccessor",
+    "AbstractBlockMixin",
+    "ShovelItemAccessor",
+    "ServerPlayerInteractionManagerMixin",
+    "MinecraftServerMixin",
+    "ItemStackMixin"
   ],
   "client": [
     "ItemRendererMixin",
@@ -28,6 +34,8 @@
     "ModelPartMixin",
     "LightmapTextureManagerAccessor"
    ],
+  "server": [
+  ],
   "injectors": {
     "defaultRequire": 1
   }

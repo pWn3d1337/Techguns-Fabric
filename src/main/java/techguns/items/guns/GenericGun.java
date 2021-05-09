@@ -81,9 +81,9 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	SoundEvent reloadsound = TGSounds.M4_RELOAD;
 	SoundEvent firesoundStart = TGSounds.M4_FIRE;
 	SoundEvent rechamberSound = null;
-	int ammoCount; // ammo per reload
+	int ammoCount=1; // ammo per reload
 	// float recoil = 25.0f;
-	float zoomMult = 1.0f;
+	float zoomMult = 0.0f;
 	boolean canZoom = false;
 	boolean toggleZoom = false;
 	boolean fireCenteredZoomed=false;
@@ -391,10 +391,10 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	public boolean gunSecondaryAction(PlayerEntity player, ItemStack stack) {
 		if (player.world.isClient && canZoom  && this.toggleZoom && !ShooterValues.getPlayerIsReloading(player, false)) {
 			ClientProxy cp = ClientProxy.get();
-			if (cp.player_zoom != 1.0f) {
-				cp.player_zoom= 1.0f;
+			if (cp.isZooming()) {
+				cp.resetZoom();
 			} else {
-				cp.player_zoom = this.zoomMult;
+				cp.setZooming(this.zoomMult);
 			}
 			return true;
     	}
@@ -532,9 +532,13 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		return this;
 	}
 
+	public boolean shouldCheckRecoil() {
+		return checkRecoil;
+	}
+
 	@Override
 	public boolean isZooming() {
-		return ClientProxy.get().player_zoom==this.zoomMult;
+		return ClientProxy.get().getZoomfactor()==this.zoomMult;
 	}
 
 	@Override
@@ -595,9 +599,9 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 			        	
 			        	if(zooming){
 			        		accuracybonus*=this.zoombonus;
-			        		if (fireCenteredZoomed) {
+			        		//if (fireCenteredZoomed) {
 			        			firePos=EnumBulletFirePos.CENTER;
-			        		}
+			        		//}
 			        	}
 			        	this.shootGun(world, player,stack, accuracybonus,1.0f,ATTACK_TYPE, hand,firePos, target);
 			        	      
@@ -686,8 +690,8 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
     				if (world.isClient) {
     					if (canZoom  && this.toggleZoom) {
     						ClientProxy cp = ClientProxy.get();
-    		    			if (cp.player_zoom != 1.0f) {
-    		    				cp.player_zoom= 1.0f;
+    		    			if (cp.isZooming()) {
+    		    				cp.resetZoom();
     		    			}
     		    		}
     				}
@@ -736,11 +740,15 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
     			}
     		}
 	}
-	
+
 	/**
 	 * for extra actions in subclass
 	 */
 	protected void client_weaponFired() {	
+	}
+
+	public SoundEvent getFiresound() {
+		return firesound;
 	}
 
 	/**
@@ -1030,13 +1038,14 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	
 	}
 		
-	protected void addMiningTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {}
+	protected void addMiningTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {};
 	
-	
+	protected void addMiningHeadTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {};
 	
 	@Override
 	public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 		super.appendTooltip(stack, world, tooltip, context);
+		this.addMiningHeadTooltip(stack, world, tooltip, context);
 		//lshift and rshift
 		if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 340) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 344)){
 			tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.handtype")+": "+this.getGunHandType().toString()));
@@ -1276,8 +1285,8 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 				if (world.isClient) {
 					if (canZoom  && this.toggleZoom) {
 						ClientProxy cp = ClientProxy.get();
-		    			if (cp.player_zoom != 1.0f) {
-		    				cp.player_zoom= 1.0f;
+		    			if (cp.isZooming()) {
+		    				cp.resetZoom();
 		    			}
 		    		}
 				}

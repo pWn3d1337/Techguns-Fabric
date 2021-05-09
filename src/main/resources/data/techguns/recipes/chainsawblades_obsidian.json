@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:chainsawblades_obsidian"
+  },
+  "pattern": [
+    " i",
+    "ip",
+    " i"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:mechanicalpartsobsidiansteel"
+    },
+    "i": {
+      "tag": "c:obsidian_ingots"
+    }
+  }
+}

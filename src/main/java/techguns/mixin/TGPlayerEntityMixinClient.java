@@ -1,5 +1,11 @@
 package techguns.mixin;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.item.Item;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,21 +19,30 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import techguns.TGPacketsC2S;
 import techguns.api.client.entity.ITGExtendedPlayerClient;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.IGenericGun;
 import techguns.client.ClientProxy;
+import techguns.items.guns.GenericGun;
 import techguns.items.guns.GenericGunCharge;
+import techguns.items.guns.GenericGunMeleeCharge;
 import techguns.packets.c2s.PacketShootGun;
 import techguns.packets.c2s.PacketShootGunTarget;
+import techguns.util.BlockUtil;
+
+import java.util.List;
 
 @Mixin(PlayerEntity.class)
 public abstract class TGPlayerEntityMixinClient extends LivingEntity implements ITGExtendedPlayerClient {
 
 	@Unique
 	protected int techguns_swingSoundDelay=0;
-	
+
+	@Unique
+	protected ItemStack techguns_lastMainhandStack=ItemStack.EMPTY;
+
 	protected TGPlayerEntityMixinClient(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
 	}
@@ -37,8 +52,9 @@ public abstract class TGPlayerEntityMixinClient extends LivingEntity implements 
 		if(this.world.isClient) {
 			this.clientPlayerTick();
 		}
-	}	
-	
+	}
+
+
 	public void clientPlayerTick() {
 		ClientProxy cp = ClientProxy.get();
 		
@@ -105,6 +121,15 @@ public abstract class TGPlayerEntityMixinClient extends LivingEntity implements 
 						//System.out.println("reset lock.");
 					}
 				}
+
+				//Reset zoom if weapon switched
+
+				ClientProxy.get().zoomTick();
+				if (!techguns_lastMainhandStack.isItemEqual(ply.getMainHandStack())){
+					ClientProxy.get().resetZoom();
+				}
+				techguns_lastMainhandStack = ply.getMainHandStack();
+
 				
 			} else {
 				cp.keyFirePressedMainhand = false;

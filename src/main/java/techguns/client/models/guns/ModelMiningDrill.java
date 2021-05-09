@@ -6,10 +6,19 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
+import techguns.TGIdentifier;
+import techguns.api.guns.IGenericGun;
 import techguns.client.models.ModelMultipart;
 import techguns.client.render.math.TGMatrixOps;
+import techguns.items.guns.GenericGunMeleeCharge;
 
 public class ModelMiningDrill extends ModelMultipart {
+    protected static final Identifier[] textures = new Identifier[]{
+            new TGIdentifier("textures/guns/miningdrill_obsidian.png"),
+            new TGIdentifier("textures/guns/miningdrill_carbon.png")
+    };
 
 	public ModelPart Drill01;
     public ModelPart Drill02;
@@ -179,6 +188,16 @@ public class ModelMiningDrill extends ModelMultipart {
         this.Grip2_02 = new ModelPart(this, 0, 4);
         this.Grip2_02.setPivot(0.0F, -5.3F, 2.1F);
         this.Grip2_02.addCuboid(0.0F, 0.0F, 0.0F, 1, 5, 1, 0.0F);
+    }
+
+    @Override
+    public RenderLayer getLayerForPart(IGenericGun gun, ItemStack stack, Identifier texture, int part) {
+        GenericGunMeleeCharge tool = (GenericGunMeleeCharge) gun;
+        int level = tool.getMiningHeadLevel(stack);
+        if (level > -1) {
+            return this.getLayer(textures[level]);
+        }
+        return this.getLayer(texture);
     }
 
 	@Override

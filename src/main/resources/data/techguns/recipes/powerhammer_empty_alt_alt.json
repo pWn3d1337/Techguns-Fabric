@@ -1,0 +1,34 @@
+{
+  "result": {
+    "item": "techguns:powerhammer",
+    "data": {
+      "ammo": 0,
+      "ammovariant": "default",
+      "camo": "",
+      "mininghead": 2
+    }
+  },
+  "pattern": [
+    " i ",
+    "hpr",
+    " im"
+  ],
+  "type": "techguns:crafting_shaped_nbt",
+  "key": {
+    "p": {
+      "item": "minecraft:piston"
+    },
+    "r": {
+      "item": "techguns:ironreceiver"
+    },
+    "h": {
+      "item": "techguns:powerhammerhead_carbon"
+    },
+    "i": {
+      "item": "techguns:mechanicalpartsiron"
+    },
+    "m": {
+      "item": "techguns:compressedairtankempty"
+    }
+  }
+}

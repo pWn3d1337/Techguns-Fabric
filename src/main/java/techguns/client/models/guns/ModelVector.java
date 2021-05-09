@@ -102,8 +102,8 @@ public class ModelVector extends ModelMultipart {
         this.Bottom2.setPivot(-1.0F, 8.4F, -3.5F);
         this.Bottom2.addCuboid(-1.0F, 0.0F, 0.0F, 3, 1, 9, 0.0F);
         this.RedDot = new ModelPart(this, 0, 11);
-        this.RedDot.setPivot(-1.0F, -7.1F, 1.0F);
-        this.RedDot.addCuboid(0.0F, 0.0F, 0.0F, 1, 1, 0, 0.0F);
+        this.RedDot.setPivot(-1.0F+0.45F, -7.1F+0.45F, 1.0F+0.45f);
+        this.RedDot.addCuboid(0.0F, 0.0F, 0.0F, 0.1f, 0.1f, 0, 0.0F);
         this.Grip01 = new ModelPart(this, 49, 14);
         this.Grip01.setPivot(-2.0F, 3.1F, -12.5F);
         this.Grip01.addCuboid(0.0F, 0.0F, 0.0F, 3, 1, 4, 0.0F);
@@ -207,7 +207,7 @@ public class ModelVector extends ModelMultipart {
         this.Grip02.render(matrices, vertices, light, overlay);
         this.TopRails.render(matrices, vertices, light, overlay);
         this.Bottom2.render(matrices, vertices, light, overlay);
-        this.RedDot.render(matrices, vertices, light, overlay);
+        this.RedDot.render(matrices, vertices, bright_light, overlay);
         this.Grip01.render(matrices, vertices, light, overlay);
         matrices.push();
         matrices.translate(this.Eotech01.pivotX * scale, this.Eotech01.pivotY * scale, this.Eotech01.pivotZ * scale);

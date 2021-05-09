@@ -2,7 +2,7 @@
   "result": {
     "item": "techguns:goldenrevolver",
     "data": {
-      "ammo": 0,
+      "ammo": 6,
       "ammovariant": "default",
       "camo": ""
     }
@@ -12,7 +12,7 @@
     "grg",
     "ggg"
   ],
-  "type": "techguns:crafting_shaped_nbt",
+  "type": "techguns:transfer_ammo",
   "key": {
     "r": {
       "item": "techguns:revolver"

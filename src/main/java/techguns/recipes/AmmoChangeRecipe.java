@@ -135,27 +135,33 @@ public class AmmoChangeRecipe extends SpecialCraftingRecipe {
                 int ammos = gun.getAmmoType().getEmptyMag().length;
 
                 for (int a=0;a<ammos; a++) {
-                    if (!gun.getAmmoType().getEmptyMag()[a].isEmpty()) {
 
-                        int bulletsBack = (int) Math.floor(oldAmmo / gun.getAmmoType().getShotsPerBullet(gun.getClipsize(), oldAmmo));
-                        if (bulletsBack == gun.getAmmoType().getBulletsPerMag()){
-                            defaultedList.set(i, TGItems.newStack(gun.getAmmoType().getAmmo(variant)[a],1));
-                        } else {
-                            if (bulletsBack > 0) {
-                                ItemStack stack1 = TGItems.newStack(gun.getAmmoType().getBullet(gun.getCurrentAmmoVariant(stack))[a], bulletsBack);
-                                itemsBack.add(stack1);
-                            }
-                            for (ItemStack mag : gun.getAmmoType().getEmptyMag()) {
-                                if (defaultedList.get(i).isEmpty()) {
-                                    defaultedList.set(i, TGItems.newStack(mag, 1));
-                                } else {
-                                    itemsBack.add(TGItems.newStack(mag, 1));
-                                }
+                    int bulletsBack = 0;
+                    if(gun.getAmmoType().hasMagazine(a)) {
+                        bulletsBack = (int) Math.floor(oldAmmo / gun.getAmmoType().getShotsPerBullet(gun.getClipsize(), oldAmmo));
+                    } else {
+                        double factor = 1.0/((double) gun.getClipsize()/ (double) gun.getAmmoCount());
+                        bulletsBack = (int) Math.floor(oldAmmo *factor);
+                    }
+
+                    if (gun.getAmmoType().hasMagazine(a) && bulletsBack == gun.getAmmoType().getBulletsPerMag()){
+                        defaultedList.set(i, TGItems.newStack(gun.getAmmoType().getAmmo(variant)[a],1));
+                    } else {
+                        if (bulletsBack > 0) {
+                            ItemStack stack1 = TGItems.newStack(gun.getAmmoType().getBullet(gun.getCurrentAmmoVariant(stack))[a], bulletsBack);
+                            itemsBack.add(stack1);
+                        }
+
+                        ItemStack emptyMag = gun.getAmmoType().getEmptyMag()[a];
+                        if (!emptyMag.isEmpty()) {
+                            if (defaultedList.get(i).isEmpty()) {
+                                defaultedList.set(i, TGItems.newStack(emptyMag, 1));
+                            } else {
+                                itemsBack.add(TGItems.newStack(emptyMag, 1));
                             }
                         }
                     }
                 }
-
             }
             else if (stack.getItem().hasRecipeRemainder()) {
                 defaultedList.set(i, new ItemStack(stack.getItem().getRecipeRemainder()));

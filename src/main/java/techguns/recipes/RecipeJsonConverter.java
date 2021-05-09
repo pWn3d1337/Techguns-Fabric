@@ -25,6 +25,7 @@ import techguns.TGIdentifier;
 import techguns.TGItems;
 import techguns.Techguns;
 import techguns.items.guns.GenericGun;
+import techguns.items.guns.GenericGunMeleeCharge;
 import techguns.items.guns.ammo.AmmoType;
 import techguns.items.guns.ammo.AmmoTypes;
 import techguns.items.guns.ammo.AmmoVariant;
@@ -71,7 +72,7 @@ public class RecipeJsonConverter {
             }
         });
         System.out.println("Deleting json files, THIS SHOULD ONLY BE DONE IN DEV ENVIRONMENT!!!");
-        if (files!=null) {
+        if (files != null) {
             Arrays.stream(files).forEach(f -> {
                 f.delete();
             });
@@ -221,6 +222,10 @@ public class RecipeJsonConverter {
     }
 
     public static void addGunShapedRecipe(GenericGun gun, boolean full, String ammoVariant, String camo, Object... components) {
+        addMiningToolShapedRecipe(gun, full, ammoVariant, camo, -1, components);
+    }
+
+    public static void addMiningToolShapedRecipe(GenericGun gun, boolean full, String ammoVariant, String camo, int mininghead, Object... components) {
         Map<String, Object> json = new HashMap<>();
 
         List<String> pattern = new ArrayList<>();
@@ -250,6 +255,72 @@ public class RecipeJsonConverter {
         }
         json.put("key", key);
         json.put("type", "techguns:crafting_shaped_nbt");
+        if (mininghead >= 0){
+            json.put("result", serializeGunTool((GenericGunMeleeCharge) gun, full, ammoVariant, mininghead));
+        } else {
+            json.put("result", serializeGun(gun, full, ammoVariant, camo));
+        }
+
+        // names the json the same name as the output's registry name
+        // repeatedly adds _alt if a file already exists
+        // janky I know but it works
+        String suffix = "";
+        if(!ammoVariant.equals(AmmoTypes.TYPE_DEFAULT)){
+            suffix+="_"+ammoVariant.toLowerCase(Locale.ROOT);
+        }
+        if(!full){
+            suffix+="_empty";
+        }
+        if(camo != null && !camo.equals("")){
+            suffix+="_"+camo;
+        }
+
+        String name = Registry.ITEM.getId(gun).getPath();
+
+        File f = new File(RECIPE_DIR, name + suffix + ".json");
+
+        while (f.exists()) {
+            suffix += "_alt";
+            f = new File(RECIPE_DIR, name + suffix + ".json");
+        }
+
+        try (FileWriter w = new FileWriter(f)) {
+            GSON.toJson(json, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addAmmoTransferRecipe(GenericGun gun, boolean full, String ammoVariant, String camo, Object... components) {
+        Map<String, Object> json = new HashMap<>();
+
+        List<String> pattern = new ArrayList<>();
+        int i = 0;
+        while (i < components.length && components[i] instanceof String) {
+            pattern.add((String) components[i]);
+            i++;
+        }
+        json.put("pattern", pattern);
+
+        Map<String, Map<String, Object>> key = new HashMap<>();
+        Character curKey = null;
+        for (; i < components.length; i++) {
+            Object o = components[i];
+            if (o instanceof Character) {
+                if (curKey != null)
+                    throw new IllegalArgumentException("Provided two char keys in a row");
+                curKey = (Character) o;
+            } else {
+                if (curKey == null)
+                    throw new IllegalArgumentException("Providing object without a char key");
+                if (o instanceof String)
+                    throw new IllegalArgumentException("Providing oredict Strings is no longer supported, use Identifiers for tags");
+                key.put(Character.toString(curKey), serializeItem(o));
+                curKey = null;
+            }
+        }
+        json.put("key", key);
+        json.put("type", "techguns:transfer_ammo");
         json.put("result", serializeGun(gun, full, ammoVariant, camo));
 
         // names the json the same name as the output's registry name
@@ -330,6 +401,38 @@ public class RecipeJsonConverter {
 
         File f = new File(RECIPE_DIR, name + suffix + ".json");
 
+        while (f.exists()) {
+            suffix += "_alt";
+            f = new File(RECIPE_DIR, name + suffix + ".json");
+        }
+
+        try (FileWriter w = new FileWriter(f)) {
+            GSON.toJson(json, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void addMiningheadChangeRecipe(GenericGunMeleeCharge gun, int headlevel, Object... components)
+    {
+        Map<String, Object> json = new HashMap<>();
+
+        List<Map<String, Object>> ingredients = new ArrayList<>();
+        for (Object o : components) {
+            ingredients.add(serializeItem(o));
+        }
+        json.put("ingredients", ingredients);
+        json.put("type", "techguns:mininghead_upgrade");
+        json.put("result", serializeGunTool(gun, true, AmmoTypes.TYPE_DEFAULT, headlevel));
+
+        // names the json the same name as the output's registry name
+        // repeatedly adds _alt if a file already exists
+        // janky I know but it works
+        String suffix = "";
+
+        String name = Registry.ITEM.getId(gun).getPath();
+
+        File f = new File(RECIPE_DIR, name + suffix + ".json");
         while (f.exists()) {
             suffix += "_alt";
             f = new File(RECIPE_DIR, name + suffix + ".json");
@@ -601,6 +704,14 @@ public class RecipeJsonConverter {
 
         return ret;
 
+    }
+
+    private static Map<String, Object> serializeGunTool(GenericGunMeleeCharge gun, boolean full, String ammo_variant, int mininghead){
+        Map<String, Object> ret = serializeGun(gun, full, ammo_variant, "");
+        Map<String, Object> data = (Map<String, Object>) ret.get("data");
+        data.put("mininghead", mininghead);
+
+        return ret;
     }
 
     private static Map<String, Object> serializeItemFromResourceLocation(Identifier item, CompoundTag tags) {

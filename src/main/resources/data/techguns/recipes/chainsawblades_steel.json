@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:chainsawblades_steel"
+  },
+  "pattern": [
+    " i",
+    "ip",
+    " i"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:mechanicalpartsiron"
+    },
+    "i": {
+      "tag": "c:steel_ingots"
+    }
+  }
+}

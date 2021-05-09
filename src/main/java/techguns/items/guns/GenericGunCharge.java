@@ -73,10 +73,10 @@ public class GenericGunCharge extends GenericGun {
 		if (canZoom && player.isSneaking() && this.toggleZoom) {
 			if (world.isClient) {
 				ClientProxy cp = ClientProxy.get();
-				if (cp.player_zoom != 1.0f) {
-					cp.player_zoom = 1.0f;
+				if (cp.isZooming()) {
+					cp.resetZoom();
 				} else {
-					cp.player_zoom = this.zoomMult;
+					cp.setZooming(this.zoomMult);
 				}
 			}
 
@@ -136,8 +136,8 @@ public class GenericGunCharge extends GenericGun {
 					if (world.isClient) {
 						if (canZoom && this.toggleZoom) {
 							ClientProxy cp = ClientProxy.get();
-							if (cp.player_zoom != 1.0f) {
-								cp.player_zoom = 1.0f;
+							if (cp.isZooming()) {
+								cp.resetZoom();
 							}
 						}
 					}

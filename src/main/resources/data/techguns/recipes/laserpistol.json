@@ -9,7 +9,7 @@
   },
   "pattern": [
     "obo",
-    "scr",
+    "scm",
     "ssp"
   ],
   "type": "techguns:crafting_shaped_nbt",
@@ -19,9 +19,6 @@
     },
     "b": {
       "item": "techguns:laserbarrel"
-    },
-    "r": {
-      "item": "techguns:redstone_battery"
     },
     "s": {
       "tag": "c:steel_nuggets"

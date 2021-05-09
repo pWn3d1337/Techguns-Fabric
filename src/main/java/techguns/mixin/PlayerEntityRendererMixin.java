@@ -18,7 +18,7 @@ import techguns.client.ShooterValues;
 @Mixin(PlayerEntityRenderer.class)
 public class PlayerEntityRendererMixin {
 
-	@Inject(at = @At("INVOKE"), method = "(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/client/render/entity/model/BipedEntityModel$ArmPose;", cancellable = true)
+	@Inject(at = @At("INVOKE"), method = "getArmPose(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/client/render/entity/model/BipedEntityModel$ArmPose;", cancellable = true)
 	private static void getArmPose(AbstractClientPlayerEntity abstractClientPlayerEntity, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> info) {
 		ItemStack itemStack = abstractClientPlayerEntity.getStackInHand(hand);
 		if (!itemStack.isEmpty() && itemStack.getItem() instanceof IGenericGun) {

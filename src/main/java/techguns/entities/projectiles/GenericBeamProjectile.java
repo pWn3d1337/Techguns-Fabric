@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import techguns.TGEntities;
 import techguns.TGPacketsS2C;
 import techguns.api.damagesystem.DamageType;
+import techguns.api.entity.ITGLivingEntity;
 import techguns.damagesystem.TGDamageSource;
 import techguns.deatheffects.EntityDeathUtils;
 import techguns.items.guns.GenericGun;
@@ -50,9 +51,8 @@ public class GenericBeamProjectile extends GenericProjectile{
 	
 	public String impactFX = "";
 	
-	public GenericBeamProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter,
-			CompoundTag data) {
-		super(T, world, shooter, data);
+	public GenericBeamProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+		super(T, world, shooter);
 		this.maxTicks = (short)this.ticksToLive;
 		this.updateBeamPosition();
 	}
@@ -111,7 +111,7 @@ public class GenericBeamProjectile extends GenericProjectile{
 		this.prevZ = this.getZ();
 		LivingEntity p = (LivingEntity) this.getOwner();
 		if (p != null) {
-			this.updatePosition(p.getX(), p.getY()+p.getEyeHeight(p.getPose()), p.getZ());
+			this.updatePosition(p.getX(), p.getY()+((ITGLivingEntity)p).getEyeHeight_ServerSide(p.getPose()), p.getZ());
 
 			//Spread for Laser? Perhaps?
 			//float spread = 0f;
@@ -157,9 +157,9 @@ public class GenericBeamProjectile extends GenericProjectile{
 		} else if (this.firePos == EnumBulletFirePos.LEFT) {
 			offsetZ = -offsetSide;
 		}
-		
-		Vec3d offset = new Vec3d(offsetForward, offsetHeight, offsetZ).rotateZ((float)(MathUtil.D2R*this.pitch)).rotateY((float) (MathUtil.D2R*-(this.yaw+90f)));
-		
+
+		Vec3d offset = MathUtil.rotateVec3dAroundZ(new Vec3d(offsetForward, offsetHeight, offsetZ), (float)(MathUtil.D2R*this.pitch)).rotateY((float) (MathUtil.D2R*-(this.yaw+90f)));
+
 		this.updatePosition(posX+offset.x, posY+offset.y, posZ+offset.z);
 		
 		Vec3d motion = this.getVelocity();

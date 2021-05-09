@@ -41,8 +41,8 @@ public class RocketProjectile extends GenericProjectile {
 		this(TGEntities.ROCKET_PROJECTILE, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos, radius, gravity);
 	}
 	
-	public RocketProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
-		super(T, world, shooter, data);
+	public RocketProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+		super(T, world, shooter);
 		if (world.isClient) {
 			this.createTrailFX();
 		}

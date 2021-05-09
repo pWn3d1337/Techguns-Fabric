@@ -1,5 +1,6 @@
 package techguns.mixin;
 
+import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,15 +21,45 @@ import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.RocketProjectile;
 
-/**
- * Based on https://gist.github.com/matjojo/011bbd340a71f258e25806bf1c82229c
- */
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin {
 	
 	@Shadow
 	private MinecraftClient client;
-	
+
+	@Shadow
+	private ClientWorld world;
+
+	@Inject(method = "onEntitySpawn", at = @At("TAIL"), cancellable = false)
+	private void onEntitySpawn(EntitySpawnS2CPacket packet, CallbackInfo info){
+		Entity ent =null;
+
+		Entity entity = this.world.getEntityById(packet.getEntityData());
+		LivingEntity shooter = null;
+		if (entity != null && entity instanceof LivingEntity) {
+			shooter = (LivingEntity) entity;
+		}
+
+		EntityType<?> type = packet.getEntityTypeId();
+		if(TGEntities.ENTITY_SPAWN_PACKET_MAP.containsKey(type)){
+			ent = TGEntities.ENTITY_SPAWN_PACKET_MAP.get(type).create(type, this.world, shooter);
+		}
+
+		if (ent !=null) {
+			int i = packet.getId();
+			double x = packet.getX();
+			double y = packet.getY();
+			double z = packet.getZ();
+			ent.updateTrackedPosition(x, y, z);
+			ent.refreshPositionAfterTeleport(x, y, z);
+			ent.pitch = (float) (packet.getPitch() * 360) / 256.0F;
+			ent.yaw = (float) (packet.getYaw() * 360) / 256.0F;
+			ent.setEntityId(i);
+			ent.setUuid(packet.getUuid());
+			this.world.addEntity(i, ent);
+		}
+	}
+
 	/*@Shadow
 	private ClientWorld world;
 

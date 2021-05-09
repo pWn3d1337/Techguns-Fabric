@@ -34,8 +34,8 @@ public class FlamethrowerProjectile extends GenericProjectile {
         this.gravity=gravity;
     }
 
-    public FlamethrowerProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
-        super(T, world, shooter, data);
+    public FlamethrowerProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+        super(T, world, shooter);
         ClientProxy.get().createFXOnEntity("FlamethrowerTrail", this);
     }
 

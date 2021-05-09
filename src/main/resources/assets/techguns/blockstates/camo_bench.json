@@ -1,0 +1,8 @@
+{
+  "variants": {
+	"facing=north": { "model": "techguns:block/camo_bench"},
+	"facing=south": { "model": "techguns:block/camo_bench","y": 180},
+	"facing=west":  { "model": "techguns:block/camo_bench","y": 270 },
+	"facing=east":  { "model": "techguns:block/camo_bench","y": 90 }
+  }
+}

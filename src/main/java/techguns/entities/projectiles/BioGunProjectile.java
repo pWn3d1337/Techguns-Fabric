@@ -62,8 +62,8 @@ public class BioGunProjectile extends GenericProjectile{
 		this(TGEntities.BIOGUN_PROJECTILE, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos, gravity, level);
 	}
 	
-	public BioGunProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
-		super(T, world, shooter, data);
+	public BioGunProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+		super(T, world, shooter);
 		if (world.isClient) {
 			this.createTrailFX();
 		}

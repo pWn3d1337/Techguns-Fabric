@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "techguns:powerhammerhead_obsidian"
+  },
+  "pattern": [
+    "i  ",
+    "iii",
+    "i  "
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": {
+      "tag": "c:obsidian_ingots"
+    }
+  }
+}

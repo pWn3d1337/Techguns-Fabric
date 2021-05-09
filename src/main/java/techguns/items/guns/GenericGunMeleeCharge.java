@@ -1,7 +1,16 @@
 package techguns.items.guns;
 
 import java.util.HashMap;
+import java.util.List;
 
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 
 import com.google.common.collect.ImmutableMultimap;
@@ -36,10 +45,11 @@ import techguns.packets.PacketPlaySound;
 import techguns.packets.c2s.PacketTGToolMiningUpdate;
 import techguns.sounds.TGSoundCategory;
 import techguns.util.EntityCondition;
+import techguns.util.TextUtil;
 
 public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAttributeTool {
 
-	protected final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers;
+	protected final Multimap<EntityAttribute, EntityAttributeModifier>[] attributeModifiers;
 	protected final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers_unpowered;
 		
 	protected final float miningSpeed;
@@ -50,19 +60,51 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 	protected SoundEvent hitSound = TGSounds.CHAINSAW_SWING;
 		
 	protected HashMap<Tag<Item>, Integer> toollevels = new HashMap<>();
-	
+
+	protected final MiningHead[] miningHeads;
+
+	public static class MiningHead {
+		protected final Item item;
+		protected final int mininglevel_bonus;
+		protected final double attack_damage_bonus;
+		protected final float mining_speed_bonus;
+		protected final Formatting text_color;
+
+		public MiningHead(Item item, int mininglevel_bonus, double attack_damage_bonus, float mining_speed_bonus, Formatting text_color) {
+			this.item = item;
+			this.mininglevel_bonus = mininglevel_bonus;
+			this.attack_damage_bonus = attack_damage_bonus;
+			this.mining_speed_bonus = mining_speed_bonus;
+			this.text_color = text_color;
+		}
+
+		public MiningHead(Item item, Formatting text_color) {
+			this.item = item;
+			this.mininglevel_bonus = 0;
+			this.attack_damage_bonus = 0D;
+			this.mining_speed_bonus = 0F;
+			this.text_color = text_color;
+		}
+	}
+
 	public GenericGunMeleeCharge(String name, @SuppressWarnings("rawtypes") ChargedProjectileSelector projectile_selector, boolean semiAuto,
 			int minFiretime, int clipsize, int reloadtime, float damage, SoundEvent firesound, SoundEvent reloadsound,
-			int TTL, float accuracy, float fullChargeTime, int ammoConsumedOnFullCharge, float meleeDamage, float meleeDamageUnpowered, float attackspeed, float miningspeed) {
+			int TTL, float accuracy, float fullChargeTime, int ammoConsumedOnFullCharge, float meleeDamage, float meleeDamageUnpowered, float attackspeed, float miningspeed, MiningHead[] miningHeads) {
 		super(name, projectile_selector, semiAuto, minFiretime, clipsize, reloadtime, damage, firesound, reloadsound, TTL,
 				accuracy, fullChargeTime, ammoConsumedOnFullCharge);
 		
 	      this.miningSpeed = miningspeed;
-	      
-	      Builder<EntityAttribute, EntityAttributeModifier> builder = ImmutableMultimap.builder();
-	      builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", (double)meleeDamage, EntityAttributeModifier.Operation.ADDITION));
-	      builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", (double)attackspeed, EntityAttributeModifier.Operation.ADDITION));
-	      this.attributeModifiers = builder.build();
+
+	      this.attributeModifiers = new Multimap[miningHeads.length];
+	      this.miningHeads = miningHeads;
+
+	      Builder<EntityAttribute, EntityAttributeModifier> builder;
+	      for(int i=0; i< miningHeads.length; i++) {
+			  builder = ImmutableMultimap.builder();
+			  builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", (double) meleeDamage + miningHeads[i].attack_damage_bonus, EntityAttributeModifier.Operation.ADDITION));
+			  builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", (double) attackspeed, EntityAttributeModifier.Operation.ADDITION));
+			  this.attributeModifiers[i] = builder.build();
+		  }
 
 	      builder = ImmutableMultimap.builder();
 	      builder.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new EntityAttributeModifier(ATTACK_DAMAGE_MODIFIER_ID, "Tool modifier", (double)meleeDamageUnpowered, EntityAttributeModifier.Operation.ADDITION));
@@ -74,8 +116,20 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 		this.toollevels.put(tooltag, mininglevel);
 		return this;
 	}
-	
-	
+
+	public int getMiningRadius(PlayerEntity player, ItemStack stack){
+		return 0;
+	}
+
+	@Nullable
+	public BlockHitResult getMiningTarget(PlayerEntity player, BlockView world){
+		HitResult hitResult = player.raycast(16F, 0F, false);
+		if(hitResult !=null && hitResult instanceof BlockHitResult){
+			return (BlockHitResult) hitResult;
+		}
+		return null;
+	}
+
 	/**
 	 * called by client only
 	 * @param player
@@ -97,18 +151,32 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 			ClientProxy.get().handleSoundEvent(player, player.getEntityId(), this.miningSound, 1.0f, 1.0f, false, false, true, true, TGSoundCategory.GUN_FIRE,  EntityCondition.NONE);
 
 		}
-		
 	}
-		
+
+	@Override
+	protected void addMiningHeadTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
+		super.addMiningHeadTooltip(stack, world, tooltip, context);
+		int level = getMiningHeadLevel(stack);
+		if(level >=0){
+			Item head = this.miningHeads[level].item;
+			Text t = head.getName();
+			String itemname = "";
+			if (t instanceof TranslatableText) {
+				itemname = TextUtil.trans(((TranslatableText)t).getKey());
+			}
+			tooltip.add(new LiteralText(this.miningHeads[level].text_color+itemname));
+		}
+	}
+
 	public boolean shouldSwing(ItemStack stack) {
 		return this.getCurrentAmmo(stack) <= 0;
 	}
 
-
 	@Override
 	public int getMiningLevel(Tag<Item> tag, BlockState state, ItemStack stack, @Nullable LivingEntity user) {
 		if (this.toollevels.containsKey(tag) && this.getCurrentAmmo(stack) > 0 ) {
-			return this.toollevels.get(tag);
+			int level = this.getMiningHeadLevel(stack);
+			return this.toollevels.get(tag) + this.miningHeads[level].mininglevel_bonus;
 		}
 		return 0;
 	}
@@ -118,7 +186,8 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 			@Nullable LivingEntity user) {
 		if (this.toollevels.containsKey(tag)) {
 			if (this.getCurrentAmmo(stack) > 0) {
-				return this.miningSpeed;
+				int level = this.getMiningHeadLevel(stack);
+				return this.miningSpeed + this.miningHeads[level].mining_speed_bonus;
 			}
 		}
 		return 1.0f;
@@ -129,7 +198,12 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 		if(this.hitSound!=null && !target.world.isClient && this.getCurrentAmmo(stack)>0) {
 			TGPacketsS2C.sendToAllTracking(new PacketPlaySound(this.hitSound, attacker, 1.0f, 1.0f, false, false, true, true, TGSoundCategory.GUN_FIRE, EntityCondition.NONE), target, true);
 		}
-		this.useAmmo(stack, 1);
+		if(attacker instanceof PlayerEntity){
+			PlayerEntity player = (PlayerEntity)attacker;
+			if (!player.isCreative() && !player.isSpectator()){
+				this.useAmmo(stack, 1);
+			}
+		}
 		return true;
 	}
 
@@ -138,8 +212,37 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 		/*if(!miner.world.isClient && this.getCurrentAmmo(stack)>0) {
 			TGPacketsS2C.sendToAllTracking(new PacketPlaySound(this.hitSound, miner, 1.0f, 1.0f, false, false, true, true, TGSoundCategory.GUN_FIRE, EntityCondition.NONE), miner, true);
 		}*/
-		this.useAmmo(stack, 1);
+		if(miner instanceof PlayerEntity){
+			PlayerEntity player = (PlayerEntity)miner;
+			if (!player.isCreative() && !player.isSpectator()){
+				this.useAmmo(stack, 1);
+			}
+		}
 		return true;
+	}
+
+	@Override
+	protected void addInitialTags(CompoundTag tags) {
+		super.addInitialTags(tags);
+		tags.putByte("mininghead", (byte)0);
+	}
+
+	public ItemStack getMiningHeadItemForLevel(int level){
+		if (level >= 0 && level < miningHeads.length){
+			return new ItemStack(miningHeads[level].item);
+		}
+		return ItemStack.EMPTY;
+	}
+
+	public int getMiningHeadLevel(ItemStack stack){
+		CompoundTag tag = stack.getTag();
+		if(tag!=null){
+			byte b = tag.getByte("mininghead");
+			if(b >= 0 && b < miningHeads.length){
+				return b;
+			}
+		}
+		return 0;
 	}
 
 	@Override
@@ -147,13 +250,27 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 			@Nullable LivingEntity user) {
 		if (slot == EquipmentSlot.MAINHAND) {
 			if (this.getCurrentAmmo(stack) > 0) {
-				return attributeModifiers;
+				int level = this.getMiningHeadLevel(stack);
+				return attributeModifiers[level];
 			} else {
 				return attributeModifiers_unpowered;
 			}
 		}
 		return DynamicAttributeTool.super.getDynamicModifiers(slot, stack, user);
 	}
-	
+
+	/**
+	 * Return -1 when not a valid head
+	 * @param stack
+	 * @return
+	 */
+	public int getMiningHeadLevelForItem(ItemStack stack){
+		for (int i=0; i<miningHeads.length; i++){
+			if (miningHeads[i].item == stack.getItem()){
+				return i;
+			}
+		}
+		return -1;
+	}
 	
 }

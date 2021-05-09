@@ -24,8 +24,8 @@ public class TeslaProjectile extends GenericBeamProjectile {
     protected int chainTargets = CHAIN_TARGETS;
     protected Entity prevTarget = null;
 
-    public TeslaProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
-        super(T, world, shooter, data);
+    public TeslaProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+        super(T, world, shooter);
         this.seed = world.random.nextInt();
     }
 

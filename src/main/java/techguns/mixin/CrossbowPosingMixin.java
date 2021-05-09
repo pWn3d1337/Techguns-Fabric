@@ -15,7 +15,7 @@ import techguns.api.entity.ITGShooterValues;
 @Mixin(CrossbowPosing.class)
 public class CrossbowPosingMixin {
 
-	@Inject(at = @At("INVOKE"), method = "(Lnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/model/ModelPart;Lnet/minecraft/entity/LivingEntity;Z)V", cancellable = true)
+	@Inject(at = @At("INVOKE"), method = "charge(Lnet/minecraft/client/model/ModelPart;Lnet/minecraft/client/model/ModelPart;Lnet/minecraft/entity/LivingEntity;Z)V", cancellable = true)
 	private static void charge(ModelPart holdingArm, ModelPart pullingArm, LivingEntity actor, boolean rightArmed, CallbackInfo info) {
 		ITGShooterValues shooter = (ITGShooterValues) actor;
 		AttackTime attackTimes = shooter.getAttackTime(!rightArmed);

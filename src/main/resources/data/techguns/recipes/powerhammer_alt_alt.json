@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:powerhammer",
+    "data": {
+      "ammo": 300,
+      "ammovariant": "default",
+      "camo": "",
+      "mininghead": 2
+    }
+  },
+  "ingredients": [
+    {
+      "item": "techguns:powerhammer"
+    },
+    {
+      "item": "techguns:powerhammerhead_carbon"
+    }
+  ],
+  "type": "techguns:mininghead_upgrade"
+}

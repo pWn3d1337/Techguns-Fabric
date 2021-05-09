@@ -23,8 +23,10 @@ public class NBTShapedRecipe extends ShapedRecipe {
     public static NBTShapedRecipe.Serializer SERIALIZER;
 
     protected static Map<String, Class> NUMBER_DTYPES = new HashMap<>();
+    //also add type to if-statement below
     static {
         NUMBER_DTYPES.put("ammo", Short.class);
+        NUMBER_DTYPES.put("mininghead", Byte.class);
     }
 
     public NBTShapedRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> ingredients, ItemStack output) {
@@ -42,8 +44,10 @@ public class NBTShapedRecipe extends ShapedRecipe {
             } else if(primitive.isNumber()){
                 Number number = primitive.getAsNumber();
                 Class type = NUMBER_DTYPES.getOrDefault(key, Integer.class);
-                if(type == Short.class){
+                if(type == Short.class) {
                     tags.putShort(key, number.shortValue());
+                } else if(type == Byte.class){
+                    tags.putByte(key, number.byteValue());
                 } else {
                     tags.putInt(key, number.intValue());
                 }

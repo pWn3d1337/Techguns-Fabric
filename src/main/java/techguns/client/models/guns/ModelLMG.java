@@ -270,8 +270,8 @@ public class ModelLMG extends ModelMultipart {
 		Receiver04.mirror = true;
 		setRotation(Receiver04, 0F, 0F, 0F);
 		RedDot = new ModelPart(this, 105, 10);
-		RedDot.addCuboid(0F, 0F, 0F, 1, 1, 0);
-		RedDot.setPivot(-1F, -10.5F, 5.5F);
+		RedDot.addCuboid(0F, 0F, 0F, 0.1f, 0.1f, 0f);
+		RedDot.setPivot(-1F+0.45f, -10.5F+0.45f, 5.5F+0.45f);
 		RedDot.setTextureSize(128, 128);
 		RedDot.mirror = true;
 		setRotation(RedDot, 0F, 0F, 0F);
@@ -386,7 +386,7 @@ public class ModelLMG extends ModelMultipart {
    Barrel.render(matrices, vertices, light, overlay);
    Receiver03.render(matrices, vertices, light, overlay);
    Receiver04.render(matrices, vertices, light, overlay);
-   RedDot.render(matrices, vertices, light, overlay);
+   RedDot.render(matrices, vertices, bright_light, overlay);
    TopRails.render(matrices, vertices, light, overlay);
    Holo01.render(matrices, vertices, light, overlay);
    Holo02.render(matrices, vertices, light, overlay);
@@ -442,12 +442,12 @@ public class ModelLMG extends ModelMultipart {
 				recoilProgress=1.0f;
 			}
 			
-			x = (targetPos.pitch-bullet.pitch)*recoilProgress;
-			y = (targetPos.yaw-bullet.yaw)*recoilProgress;
-			z = (targetPos.roll-bullet.roll)*recoilProgress;
-			
+			x = (targetPos.pivotX-bullet.pivotX)*recoilProgress;
+			y = (targetPos.pivotY-bullet.pivotY)*recoilProgress;
+			z = (targetPos.pivotZ-bullet.pivotZ)*recoilProgress;
+
 			matrices.push();
-			matrices.translate(x*scale * scale, y*scale * scale, z*scale * scale);
+			matrices.translate(x*scale, y*scale, z*scale);
 			bullet.render(matrices, vertices, light, overlay);
 			matrices.pop();
 		} else {

@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "techguns:miningdrillhead_obsidian"
+  },
+  "pattern": [
+    " ii",
+    "iii",
+    " ii"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "i": {
+      "tag": "c:obsidian_ingots"
+    }
+  }
+}

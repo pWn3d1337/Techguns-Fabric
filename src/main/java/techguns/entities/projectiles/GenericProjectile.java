@@ -24,6 +24,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Packet;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -45,13 +46,13 @@ import techguns.TGEntities;
 import techguns.TGPacketsS2C;
 import techguns.TGSounds;
 import techguns.api.damagesystem.DamageType;
+import techguns.api.entity.ITGLivingEntity;
 import techguns.client.ClientProxy;
 import techguns.damagesystem.TGDamageSource;
 import techguns.deatheffects.EntityDeathUtils.DeathType;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.IProjectileFactory;
 import techguns.packets.PacketGunImpactFX;
-import techguns.packets.PacketSpawnEntity;
 import techguns.packets.PacketSpawnParticle;
 
 public class GenericProjectile extends ProjectileEntity {
@@ -203,7 +204,8 @@ public class GenericProjectile extends ProjectileEntity {
 		this.blockdamage = blockdamage;
 		
 		this.setOwner(p);
-		this.updatePosition(p.getX(), p.getY()+p.getEyeHeight(p.getPose()), p.getZ());
+
+		this.updatePosition(p.getX(), p.getY()+((ITGLivingEntity)p).getEyeHeight_ServerSide(p.getPose()), p.getZ());
 		
 		this.setRotation(p.headYaw +(float) (spread - (2 * Math.random() * spread)) * 40.0f,
 				p.pitch + (float) (spread - (2 * Math.random() * spread)) * 40.0f);
@@ -269,9 +271,8 @@ public class GenericProjectile extends ProjectileEntity {
 	 * @param shooter
 	 * @param data
 	 */
-	public GenericProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
+	public GenericProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
 		this(T, world, shooter, 0, 0,0,0,0,0,0,0,false, EnumBulletFirePos.CENTER);
-		//this.parseAdditionalData(data);
 	}
 	
 	float damage;
@@ -798,12 +799,17 @@ public class GenericProjectile extends ProjectileEntity {
 		this.projectileType = data.getByte("projectile_type");
 	}
 	
-	@Override
+	/*@Override
 	public Packet<?> createSpawnPacket() {
 		Entity owner = this.getOwner();
 		CompoundTag data = new CompoundTag();
 		this.getAdditionalSpawnData(data);
 	    return new PacketSpawnEntity(this, owner == null ? 0 : owner.getEntityId(), data);
+	}*/
+	@Override
+	public Packet<?> createSpawnPacket() {
+		Entity entity = this.getOwner();
+		return new EntitySpawnS2CPacket(this, entity == null ? 0 : entity.getEntityId());
 	}
 
 	/**

@@ -18,7 +18,7 @@ import techguns.util.MathUtil;
 
 public class GuidedMissileProjectile extends RocketProjectile{
 
-	public static final double MAX_TURN_ANGLE = 9.0 *MathUtil.D2R; //= 180° per second
+	public static final double MAX_TURN_ANGLE = 9.0 *MathUtil.D2R; //= 180 degree per second
 	
 	public Entity target;
 	
@@ -55,9 +55,8 @@ public class GuidedMissileProjectile extends RocketProjectile{
 	public GuidedMissileProjectile(EntityType<? extends ProjectileEntity> entityType, World world) {
 		super(entityType, world);
 	}
-
-	public GuidedMissileProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter, CompoundTag data) {
-		super(T, world, shooter, data);
+	public GuidedMissileProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+		super(T, world, shooter);
 	}
 
 	@Override

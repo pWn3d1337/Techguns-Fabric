@@ -6,9 +6,20 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
+import techguns.TGIdentifier;
+import techguns.api.guns.IGenericGun;
 import techguns.client.models.ModelMultipart;
+import techguns.items.guns.GenericGunMeleeCharge;
 
 public class ModelChainsaw extends ModelMultipart {
+    protected static final Identifier[] textures = new Identifier[]{
+            new TGIdentifier("textures/guns/chainsaw.png"),
+            new TGIdentifier("textures/guns/chainsaw_blades_obsidian.png"),
+            new TGIdentifier("textures/guns/chainsaw_blades_carbon.png"),
+    };
+
     public ModelPart shape87;
     public ModelPart shape87_1;
     public ModelPart shape87_2;
@@ -211,8 +222,18 @@ public class ModelChainsaw extends ModelMultipart {
         this.shape87_34.addCuboid(0.0F, 0.0F, 0.0F, 33, 6, 1, 0.0F);
     }
 
-    
-    
+    @Override
+    public RenderLayer getLayerForPart(IGenericGun gun, ItemStack stack, Identifier texture, int part) {
+        if(part==1) {
+            GenericGunMeleeCharge tool = (GenericGunMeleeCharge) gun;
+            int level = tool.getMiningHeadLevel(stack);
+            if (level > -1) {
+                return this.getLayer(textures[level]);
+            }
+        }
+        return this.getLayer(texture);
+    }
+
     @Override
 	public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
 		float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
@@ -264,7 +285,6 @@ public class ModelChainsaw extends ModelMultipart {
 	        this.shape87_24.render(matrices, vertices, light, overlay);
 	        this.shape87_34.render(matrices, vertices, light, overlay);
     	} else if(part==1) {
-	        //System.out.println("fireProgress: "+fireProgress);
 	        int i = Math.round(fireProgress*40f)% 2;
 	        if (i==0) {
 	        	this.blade1.render(matrices, vertices, light, overlay);

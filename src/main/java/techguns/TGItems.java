@@ -207,10 +207,12 @@ public class TGItems implements ITGInitializer {
 	
 	public static Item MININGDRILLHEAD_OBSIDIAN;
 	public static Item MININGDRILLHEAD_CARBON;
-	
+
+	public static Item POWERHAMMERHEAD_STEEL;
 	public static Item POWERHAMMERHEAD_OBSIDIAN;
 	public static Item POWERHAMMERHEAD_CARBON;
-	
+
+	public static Item CHAINSAWBLADES_STEEL;
 	public static Item CHAINSAWBLADES_OBSIDIAN;
 	public static Item CHAINSAWBLADES_CARBON;
 	
@@ -226,6 +228,8 @@ public class TGItems implements ITGInitializer {
 	public static Item TITANIUM_ORE;
 
 	public static Item BIOBLOB;
+
+	public static Item CAMO_BENCH;
 
 	public static final ItemGroup ITEM_GROUP_TECHGUNS = FabricItemGroupBuilder.build(
 			new TGIdentifier("techguns"),
@@ -397,9 +401,11 @@ public class TGItems implements ITGInitializer {
 		MININGDRILLHEAD_OBSIDIAN = addItem("miningdrillhead_obsidian");
 		MININGDRILLHEAD_CARBON = addItem("miningdrillhead_carbon");
 
+		POWERHAMMERHEAD_STEEL = addItem("powerhammerhead_steel");
 		POWERHAMMERHEAD_OBSIDIAN = addItem("powerhammerhead_obsidian");
 		POWERHAMMERHEAD_CARBON = addItem("powerhammerhead_carbon");
 
+		CHAINSAWBLADES_STEEL = addItem("chainsawblades_steel");
 		CHAINSAWBLADES_OBSIDIAN = addItem("chainsawblades_obsidian");
 		CHAINSAWBLADES_CARBON = addItem("chainsawblades_carbon");
 

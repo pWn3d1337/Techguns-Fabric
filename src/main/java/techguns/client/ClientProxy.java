@@ -46,9 +46,42 @@ public class ClientProxy implements ClientModInitializer {
 	public static ClientProxy INSTANCE;
 	
 	public TGParticleManager particleManager = new TGParticleManager();
-	
-	public float player_zoom = 1.0f;
-	
+
+	public static final float DEFAULT_ZOOM = 1.0F;
+	private float player_zoom = DEFAULT_ZOOM;
+	private int zooming_ticks = 0;
+
+	private static final int MAX_ZOOM_TICKS = 20*10; //10 seconds
+	public void zoomTick(){
+		if (zooming_ticks<MAX_ZOOM_TICKS) {
+			zooming_ticks++;
+		}
+	}
+
+	public void setZooming(float mult){
+		this.player_zoom = mult;
+		zooming_ticks = 0;
+	}
+
+	public void resetZoom() {
+		if (this.isZooming()) {
+			this.player_zoom = DEFAULT_ZOOM;
+			this.zooming_ticks = 0;
+		}
+	}
+
+	public boolean isZooming() {
+		return player_zoom != DEFAULT_ZOOM;
+	}
+
+	public float getZoomfactor(){
+		return player_zoom;
+	}
+
+	public int getZoomTicks(){
+		return this.zooming_ticks;
+	}
+
 	//local muzzle flash jitter offsets
 	public float muzzleFlashJitterX = 0; //-1.0 to 1.0
 	public float muzzleFlashJitterY = 0; //-1.0 to 1.0
@@ -58,10 +91,7 @@ public class ClientProxy implements ClientModInitializer {
 	public boolean keyFirePressedMainhand;
 	public boolean keyFirePressedOffhand;
 	
-	//TODO set this
-	public double PARTIAL_TICK_TIME=0.0d;
-
-	public long lastReloadsoundPlayed=0L; 
+	public long lastReloadsoundPlayed=0L;
 	
 	public Keybinds keybinds;
 	
@@ -88,7 +118,7 @@ public class ClientProxy implements ClientModInitializer {
 					{0f,0f,0f}, //GUI
 					{0f,0f,0f}, //Ground
 					{0f,0f,-0.05f} //frame
-				}).setMuzzleFXPos3P(0.13f, -1f).setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f));
+				}).setMuzzleFXPos3P(0.13f, -1f).setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f).setAdsOffsets(-0.001F, 0F, 0F).setScopeRecoilAnim(GunAnimation.genericRecoil, 0.05F, 2.0F));
 	
 		TGRenderRegistries.registerItemRenderer(TGuns.M4_INFILTRATOR,new RenderGunBase(new ModelM4Infiltrator(),1, new TGIdentifier("textures/guns/m4_uq_texture.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.1f, 0)
 				.setGUIScale(0.35f)/*.setMuzzleFx(ScreenEffect.muzzleFlash_rifle, 0, 0.18f, -1.5f, 0.5f,0)*/.setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 4.0f).setTransformTranslations(new float[][]{
@@ -249,7 +279,7 @@ public class ClientProxy implements ClientModInitializer {
 					{0.05f,-0.03f,0f}, //GUI
 					{0f,0f,0f}, //Ground
 					{0f,0f,-0.05f} //frame
-				}).setMuzzleFXPos3P(0.14f, -1.02f).setMuzzleFlashJitter(0.03f, 0.03f, 5.0f, 0.1f));
+				}).setMuzzleFXPos3P(0.14f, -1.02f).setMuzzleFlashJitter(0.03f, 0.03f, 5.0f, 0.1f).setAdsOffsets(-0.001f,-0.013f,0f));
 
 		TGRenderRegistries.registerItemRenderer(TGuns.THOMPSON,new RenderGunBase90(new ModelThompson(),1, new TGIdentifier("textures/guns/thompson.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE*0.5f-0.1f)
 				.setGUIScale(0.45f).setMuzzleFx(ScreenEffect.muzzleFlash_rifle, 0, 0.14f, -0.75f, 0.55f,0).setMuzzleFXPos3P(0.1f, -0.59f).setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f));
@@ -364,14 +394,6 @@ public class ClientProxy implements ClientModInitializer {
 						{0f,0f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.09f, -0.57f).setScope(ScreenEffect.sniperScope).setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 1.0f));
 
-		TGRenderRegistries.registerItemRenderer(TGuns.BLASTERSHOTGUN,new RenderGunBase(new ModelLasergun2(),1, new TGIdentifier("textures/guns/lasergun.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.1f, 0.1f)
-				.setGUIScale(0.35f).setMuzzleFx(ScreenEffect.muzzleFlashLaser, 0, 0.22f, -1.09f, 0.75f,0).setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 4.0f).setTransformTranslations(new float[][]{
-						{0f,0.04f,-0.05f}, //First Person
-						{0f,0.01f,-0.1f}, //Third Person
-						{0f,0f,0f}, //GUI
-						{0f,0f,0f}, //Ground
-						{0f,0f,-0.05f} //frame
-				}).setMuzzleFXPos3P(0.14f, -0.82f));
 
 		TGRenderRegistries.registerItemRenderer(TGuns.BLASTERSHOTGUN,new RenderGunBase(new ModelLasergun2(),1, new TGIdentifier("textures/guns/lasergunnew.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.1f, 0.1f)
 				.setGUIScale(0.35f).setMuzzleFx(ScreenEffect.muzzleFlashLaser, 0, 0.22f, -1.09f, 0.75f,0).setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 4.0f).setTransformTranslations(new float[][]{
@@ -444,7 +466,7 @@ public class ClientProxy implements ClientModInitializer {
 						{0.13f,0.01f,0f}, //GUI
 						{0f,0f,0.15f}, //Ground
 						{-0.18f,0f,-0.05f} //frame
-				}).setMuzzleFXPos3P(0.11f, -0.83f).setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 5.0f));
+				}).setMuzzleFXPos3P(0.11f, -0.83f).setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 5.0f).setAdsOffsets(-0.004F, -0.092F, 0F).setScopeRecoilAnim(GunAnimation.genericRecoil, 0.1F, 2.0F));
 
 		TGRenderRegistries.registerItemRenderer(TGuns.SONICSHOTGUN,new RenderGunBase90(new ModelSonicShotgun(),new TGIdentifier("textures/guns/sonicshotgun.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE*0.5f-0.10f)
 				.setBaseScale(1.0f).setGUIScale(0.35f).setMuzzleFx(ScreenEffect.muzzleFlashSonic, 0, 0.28f, -0.98f, 0.5f,0).setTransformTranslations(new float[][]{
@@ -471,7 +493,7 @@ public class ClientProxy implements ClientModInitializer {
 						{0.03f,0.01f,0f}, //GUI
 						{0f,0f,0f}, //Ground
 						{0f,0f,-0.05f} //frame
-				}).setMuzzleFXPos3P(0.12f, -0.65f).setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 5.0f));
+				}).setMuzzleFXPos3P(0.12f, -0.65f).setRecoilAnim(GunAnimation.genericRecoil, 0.15f, 5.0f).setAdsOffsets(0.001f, -0.036f, 0f).setScopeRecoilAnim(GunAnimation.genericRecoil, 0.05f, 2.0f));
 
 		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (dispatcher, context) -> {
             return new GenericProjectileRenderer(dispatcher);
@@ -538,6 +560,7 @@ public class ClientProxy implements ClientModInitializer {
         TGFX.loadFXList();
         
 		TGPacketsS2C.initialize();
+		TGClientScreenHandlers.initialize();
 	}
 
 	public void register_ammo_itemrenderers() {

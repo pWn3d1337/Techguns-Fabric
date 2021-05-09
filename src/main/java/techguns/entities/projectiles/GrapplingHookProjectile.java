@@ -43,9 +43,8 @@ public class GrapplingHookProjectile extends GenericProjectile{
 		super(entityType, world);
 	}
 	
-	public GrapplingHookProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter,
-			CompoundTag data) {
-		super(T, world, shooter, data);
+	public GrapplingHookProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
+		super(T, world, shooter);
 		this.status = GrapplingStatus.LAUNCHING;
 	}	
 	

@@ -60,7 +60,9 @@ public class RenderGunBase extends RenderItemBase {
 	protected float[] recoilParams3p = new float[] {0f, 5.0f};
 	protected GunAnimation reloadAnim3p = GunAnimation.genericReload;
 	protected float[] reloadParams3p = new float[] {0f, 40.0f};
-	
+
+	protected float[] adsOffsets = new float[]{0f,0f,0f};
+
 	protected float scopescale=3.0f;
 	
 	protected float chargeTranslation=0.25f;
@@ -157,6 +159,11 @@ public class RenderGunBase extends RenderItemBase {
 		return (RenderGunBase) super.setTransformTranslations(translations);
 	}
 
+	public RenderGunBase setAdsOffsets(float offsetX, float offsetY, float offsetZ){
+		this.adsOffsets = new float[]{offsetX, offsetY, offsetZ};
+		return this;
+	}
+
 	public RenderGunBase setMuzzleFx(IScreenEffect muzzleFX, float x, float y, float z, float scale, float x_l){
 		this.muzzleFX=muzzleFX;
 		this.muzzleFX_x_r=x;
@@ -225,7 +232,8 @@ public class RenderGunBase extends RenderItemBase {
 		float reloadProgress = 0.0f;
 		float muzzleFlashProgress = 0.0f;
 		float chargeProgress = 0.0f;
-		
+		float zoomProgress = 1.0f;
+
 		byte attackType=0;
 		
 		boolean renderScope = false;
@@ -298,17 +306,35 @@ public class RenderGunBase extends RenderItemBase {
 		this.applyTranslation(matrices, transform);
 
 		if (Mode.FIRST_PERSON_LEFT_HAND == transform || Mode.FIRST_PERSON_RIGHT_HAND == transform) {
-			
-			if (!isOffhand && gun.isZooming() && this.scope!=null) {
-				renderScope = true;
+
+			//calculate zoomprogress
+			ClientProxy cp = ClientProxy.get();
+			float zoomtime = cp.getZoomTicks()+MinecraftClient.getInstance().getTickDelta();
+
+			if (cp.isZooming()) {
+				zoomProgress = MathUtil.clamp(zoomtime, 0F, 4F) / 4F;
 			} else {
-			
-				/*if (!isOffhand && gun.getZoomMult()>0f && gun.isZooming()) {
-					this.transformADS();
-				}*/
-				
-				this.transformFirstPerson(matrices, fireProgress, reloadProgress, chargeProgress, Mode.FIRST_PERSON_LEFT_HAND == transform, sneaking&&isOffhand);
+				zoomProgress = 1F - MathUtil.clamp(zoomtime, 0F, 2.5F) / 2.5F;
 			}
+
+			boolean doADSrecoil = false;
+			if (!isOffhand && gun.isZooming()) {
+
+				if (this.scope != null) {
+					renderScope = true;
+				} else {
+
+					if (!isOffhand && gun.getZoomMult() > 0f && gun.isZooming()) {
+						doADSrecoil = true;
+					}
+				}
+			}
+			if (zoomProgress>0F) {
+				this.transformADS(matrices, zoomProgress);
+			}
+
+			this.transformFirstPerson(matrices, fireProgress, reloadProgress, chargeProgress, Mode.FIRST_PERSON_LEFT_HAND == transform, sneaking && isOffhand, doADSrecoil);
+
 
 		} else if (Mode.THIRD_PERSON_LEFT_HAND == transform || Mode.THIRD_PERSON_RIGHT_HAND == transform) {
 			this.transformThirdPerson(matrices, entityIn, fireProgress, reloadProgress, Mode.THIRD_PERSON_LEFT_HAND == transform, gun.getArmPose(akimbo));
@@ -357,6 +383,11 @@ public class RenderGunBase extends RenderItemBase {
 			//Draw muzzle FX
 			if (muzzleFlashProgress>0){
 				if (Mode.FIRST_PERSON_LEFT_HAND== transform || Mode.FIRST_PERSON_RIGHT_HAND == transform ) {
+
+					if (!isOffhand && gun.getZoomMult() > 0f && gun.isZooming()  && this.scope==null) {
+						this.transformADS(matrices, zoomProgress);
+					}
+
 					this.drawMuzzleFx(matrices, vertexConsumers, muzzleFlashProgress, attackType, leftHand);
 				} else {
 					matrices.push();
@@ -397,22 +428,26 @@ public class RenderGunBase extends RenderItemBase {
 		matrices.push();
 		if(reloadProgress==0) return;
 		if (transform==Mode.FIRST_PERSON_LEFT_HAND || transform==Mode.FIRST_PERSON_RIGHT_HAND) {
-			this.transformFirstPerson(matrices, 0f, reloadProgress, 0f, Mode.FIRST_PERSON_LEFT_HAND == transform, sneaking&&isOffhand);
+			this.transformFirstPerson(matrices, 0f, reloadProgress, 0f, Mode.FIRST_PERSON_LEFT_HAND == transform, sneaking&&isOffhand, false);
 		} else if (transform==Mode.THIRD_PERSON_LEFT_HAND || transform==Mode.THIRD_PERSON_RIGHT_HAND) {
 			this.transformThirdPerson(matrices, entity, 0f, reloadProgress, Mode.THIRD_PERSON_LEFT_HAND == transform, armPose);
 		}
 		
 	}
 	
-	protected void transformFirstPerson(MatrixStack matrices, float fireProgress, float reloadProgress, float chargeProgress, boolean left, boolean shoudLowerWeapon) {
+	protected void transformFirstPerson(MatrixStack matrices, float fireProgress, float reloadProgress, float chargeProgress, boolean left, boolean shoudLowerWeapon, boolean ads) {
 		if (chargeProgress>0) {
 		
 			matrices.translate(0, 0, this.chargeTranslation*chargeProgress);
 			
 		}
 		if (fireProgress >0){
-		
-			this.recoilAnim.play(matrices, fireProgress, left, this.recoilParams);
+
+			if(ads && this.scopeRecoilAnim !=null){
+				this.scopeRecoilAnim.play(matrices, fireProgress, left, this.scopeRecoilParams);
+			} else {
+				this.recoilAnim.play(matrices, fireProgress, left, this.recoilParams);
+			}
 			
 		} else if (reloadProgress>0){
 			
@@ -507,9 +542,9 @@ public class RenderGunBase extends RenderItemBase {
 		return (RenderGunBase) super.setBaseScale(baseScale);
 	}
 	
-	/*protected void transformADS() {
-		GlStateManager.translate(-0.56f, 0.15f, 0.31f);
-	}*/
+	protected void transformADS(MatrixStack matrices, float zoomProgress) {
+		matrices.translate((-0.5588f + this.adsOffsets[0]) * zoomProgress, (0.15f+this.adsOffsets[1])*zoomProgress, (0.31f+this.adsOffsets[2])*zoomProgress);
+	}
 	
 	public RenderGunBase setMuzzleFlashJitter(float jX, float jY, float jAngle, float jScale) {
 		this.mf_jitterX = jX;

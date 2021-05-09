@@ -12,11 +12,11 @@ public class PowerHammer extends GenericGunMeleeCharge {
     public PowerHammer(String name, ChargedProjectileSelector projectile_selector, boolean semiAuto, int minFiretime,
                        int clipsize, int reloadtime, float damage, SoundEvent firesound, SoundEvent reloadsound, int TTL,
                        float accuracy, float fullChargeTime, int ammoConsumedOnFullCharge, float meleeDamage,
-                       float meleeDamageUnpowered, float attackspeed, float miningspeed) {
+                       float meleeDamageUnpowered, float attackspeed, float miningspeed, MiningHead[] miningHeads) {
 
         super(name, projectile_selector, semiAuto, minFiretime, clipsize, reloadtime, damage, firesound, reloadsound,
                 TTL, accuracy, fullChargeTime, ammoConsumedOnFullCharge, meleeDamage, meleeDamageUnpowered, attackspeed,
-                miningspeed);
+                miningspeed, miningHeads);
 
         miningSound = TGSounds.POWERHAMMER_SWING;
         hitSound = TGSounds.POWERHAMMER_IMPACT;
