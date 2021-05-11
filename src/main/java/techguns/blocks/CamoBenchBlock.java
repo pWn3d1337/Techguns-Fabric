@@ -15,6 +15,7 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import techguns.inventory.CamoBenchScreenHandler;
 
 public class CamoBenchBlock extends TGHorizontalFacingBlock {
 
@@ -37,7 +38,7 @@ public class CamoBenchBlock extends TGHorizontalFacingBlock {
     @Nullable
     public NamedScreenHandlerFactory createScreenHandlerFactory(BlockState state, World world, BlockPos pos) {
         return new SimpleNamedScreenHandlerFactory((i, playerInventory, playerEntity) -> {
-            return new StonecutterScreenHandler(i, playerInventory, ScreenHandlerContext.create(world, pos));
+            return new CamoBenchScreenHandler(i, playerInventory, ScreenHandlerContext.create(world, pos));
         }, TITLE);
     }
 

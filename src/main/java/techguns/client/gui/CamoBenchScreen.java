@@ -6,9 +6,13 @@ import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ToolItem;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.recipe.StonecuttingRecipe;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import techguns.inventory.CamoBenchScreenHandler;
@@ -57,14 +61,20 @@ public class CamoBenchScreen extends HandledScreen<CamoBenchScreenHandler> {
             int i = this.x + 52;
             int j = this.y + 14;
             int k = this.scrollOffset + 12;
-            List<StonecuttingRecipe> list = this.camoHandler.getAvailableRecipes();
+            List<ItemStack> list = this.camoHandler.getAvailableRecipes();
 
             for(int l = this.scrollOffset; l < k && l < this.camoHandler.getAvailableRecipeCount(); ++l) {
                 int m = l - this.scrollOffset;
                 int n = i + m % 4 * 16;
                 int o = j + m / 4 * 18 + 2;
                 if (x >= n && x < n + 16 && y >= o && y < o + 18) {
-                    this.renderTooltip(matrices, ((StonecuttingRecipe)list.get(l)).getOutput(), x, y);
+                    CompoundTag tag = list.get(l).getTag();
+                    if (tag!=null) {
+                        String camoname = tag.getString("camo");
+                        if (camoname != null) {
+                            this.renderTooltip(matrices, new TranslatableText(camoname.replace(':', '.')), x, y);
+                        }
+                    }
                 }
             }
         }
@@ -90,14 +100,14 @@ public class CamoBenchScreen extends HandledScreen<CamoBenchScreenHandler> {
     }
 
     private void renderRecipeIcons(int x, int y, int scrollOffset) {
-        List<StonecuttingRecipe> list = this.camoHandler.getAvailableRecipes();
+        List<ItemStack> list = this.camoHandler.getAvailableRecipes();
 
         for(int i = this.scrollOffset; i < scrollOffset && i < this.camoHandler.getAvailableRecipeCount(); ++i) {
             int j = i - this.scrollOffset;
             int k = x + j % 4 * 16;
             int l = j / 4;
             int m = y + l * 18 + 2;
-            this.client.getItemRenderer().renderInGuiWithOverrides(((StonecuttingRecipe)list.get(i)).getOutput(), k, m);
+            this.client.getItemRenderer().renderInGuiWithOverrides(list.get(i), k, m);
         }
 
     }

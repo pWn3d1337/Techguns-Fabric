@@ -827,5 +827,8 @@
 "tile.techguns.stairs_concrete.15.name": "Reinforced Concrete Stairs (Light)",
 "tile.techguns.stairs_concrete.7.name": "Reinforced Concrete Stairs (Dark)",
 "item.techguns.item_door3x3_3": "Techdoor (Nether)",
-"item.techguns.laserpistol": "Laser Pistol"
+"item.techguns.laserpistol": "Laser Pistol",
+"techguns.woodland": "Woodland",
+"techguns.arctic": "Arctic",
+"techguns.desert": "Desert"
 }

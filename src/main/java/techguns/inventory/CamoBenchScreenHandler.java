@@ -10,23 +10,28 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.StonecuttingRecipe;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import techguns.TGBlocks;
+import techguns.TGCamos;
 import techguns.api.ICamoChangeable;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class CamoBenchScreenHandler extends TGBaseScreenHandler {
     protected final ScreenHandlerContext context;
     protected final Property selectedRecipe;
     protected final World world;
-    protected List<StonecuttingRecipe> availableRecipes;
+    protected List<ItemStack> availableRecipes;
     protected ItemStack inputStack;
     protected long lastTakeTime;
     protected final Slot inputSlot;
@@ -65,7 +70,6 @@ public class CamoBenchScreenHandler extends TGBaseScreenHandler {
 
             public ItemStack onTakeItem(PlayerEntity player, ItemStack stack) {
                 stack.onCraft(player.world, player, stack.getCount());
-                CamoBenchScreenHandler.this.output.unlockLastRecipe(player);
                 ItemStack itemStack = CamoBenchScreenHandler.this.inputSlot.takeStack(1);
                 if (!itemStack.isEmpty()) {
                     CamoBenchScreenHandler.this.populateResult();
@@ -99,12 +103,7 @@ public class CamoBenchScreenHandler extends TGBaseScreenHandler {
     protected void populateResult() {
         boolean hasCamoChangeableItem = this.inputSlot.hasStack() && this.inputSlot.getStack().getItem() instanceof ICamoChangeable;
         if (hasCamoChangeableItem && this.selctionWithinBounds(this.selectedRecipe.get())) {
-            /*StonecuttingRecipe stonecuttingRecipe = (StonecuttingRecipe)this.availableRecipes.get(this.selectedRecipe.get());
-            this.output.setLastRecipe(stonecuttingRecipe);
-            this.outputSlot.setStack(stonecuttingRecipe.craft(this.input));*/
-
-
-
+            this.outputSlot.setStack(this.availableRecipes.get(this.selectedRecipe.get()));
         } else {
             this.outputSlot.setStack(ItemStack.EMPTY);
         }
@@ -135,9 +134,20 @@ public class CamoBenchScreenHandler extends TGBaseScreenHandler {
         this.availableRecipes.clear();
         this.selectedRecipe.set(-1);
         this.outputSlot.setStack(ItemStack.EMPTY);
-        if (!stack.isEmpty()) {
-            this.availableRecipes = this.world.getRecipeManager().getAllMatches(RecipeType.STONECUTTING, input, this.world);
+        List<ItemStack> available_camos = new ArrayList<ItemStack>();
+        if (!stack.isEmpty() && stack.getItem() instanceof ICamoChangeable) {
+            ICamoChangeable camo = (ICamoChangeable) stack.getItem();
+            Identifier currentcamo = new Identifier(camo.getCurrentCamoName(stack));
+            for (Identifier camoname: TGCamos.getCamosFor(camo)){
+                if (!camoname.equals(currentcamo)) {
+                    ItemStack newStack = stack.copy();
+                    if (ICamoChangeable.setCamo(newStack, camoname)){
+                        available_camos.add(newStack);
+                    }
+                }
+            }
         }
+        this.availableRecipes = available_camos;
 
     }
 
@@ -157,7 +167,7 @@ public class CamoBenchScreenHandler extends TGBaseScreenHandler {
     }
 
     @Environment(EnvType.CLIENT)
-    public List<StonecuttingRecipe> getAvailableRecipes() {
+    public List<ItemStack> getAvailableRecipes() {
         return this.availableRecipes;
     }
 
@@ -193,7 +203,7 @@ public class CamoBenchScreenHandler extends TGBaseScreenHandler {
                 if (!this.insertItem(itemStack2, 2, 38, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (this.world.getRecipeManager().getFirstMatch(RecipeType.STONECUTTING, new SimpleInventory(new ItemStack[]{itemStack2}), this.world).isPresent()) {
+            } else if (itemStack2.getItem() instanceof ICamoChangeable) {
                 if (!this.insertItem(itemStack2, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }

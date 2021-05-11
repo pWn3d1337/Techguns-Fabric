@@ -1,10 +1,9 @@
 package techguns;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
+import net.minecraft.util.collection.DefaultedList;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -17,7 +16,7 @@ public class TGCamos implements ITGInitializer {
 
 	protected static HashMap<Item, WeaponCamoList> weapon_camos = new HashMap<>();
 	
-	protected static final Identifier DEFAULT = new TGIdentifier("default");
+	public static final Identifier DEFAULT = new TGIdentifier("default");
 	
 	@Override
 	public void init() {
@@ -91,6 +90,16 @@ public class TGCamos implements ITGInitializer {
 			}
 		}
 		return 0;
+	}
+
+	public static List<Identifier> getCamosFor(ICamoChangeable c)
+	{
+		WeaponCamoList list = weapon_camos.getOrDefault(c, null);
+		if (list!=null){
+			return list.camo_names;
+		}
+		//return empty list if no camos found
+		return new ArrayList<Identifier>();
 	}
 	
 

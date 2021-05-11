@@ -11,7 +11,21 @@ import techguns.Techguns;
 
 public interface ICamoChangeable {
 	public int getCamoCount();
-	
+
+	public static boolean setCamo(ItemStack stack, Identifier camo){
+		WeaponCamoEntry entry = TGCamos.getCamoEntry(stack.getItem(), camo);
+		if (entry!=null) {
+			CompoundTag tags = stack.getTag();
+			if (tags == null) {
+				tags = new CompoundTag();
+				stack.setTag(tags);
+			}
+			tags.putString("camo", camo.toString());
+			return true;
+		}
+		return false;
+	}
+
 	public default int switchCamo(ItemStack item){
 		return this.switchCamo(item, false);
 	}
@@ -92,7 +106,7 @@ public interface ICamoChangeable {
 				return camo;
 			}
 		}
-		return Techguns.MODID+":nocamo";
+		return TGCamos.DEFAULT.toString();
 	}
 	
 	public default int getFirstItemCamoDamageValue() {
