@@ -1,22 +1,18 @@
 package techguns.recipes;
 
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.inventory.CraftingInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
+import net.minecraft.recipe.SpecialRecipeSerializer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import techguns.TGItems;
-import techguns.Techguns;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.ammo.AmmoType;
 import techguns.items.guns.ammo.AmmoVariant;
-import techguns.util.InventoryUtil;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -24,6 +20,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class AmmoChangeRecipe extends SpecialCraftingRecipe {
+
+    public static SpecialRecipeSerializer<AmmoChangeRecipe> SERIALIZER;
 
     public AmmoChangeRecipe(Identifier id) {
         super(id);
@@ -117,7 +115,7 @@ public class AmmoChangeRecipe extends SpecialCraftingRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return Techguns.AMMO_CHANGE_SERIALIZER;
+        return SERIALIZER;
     }
 
     @Override

@@ -1,17 +1,30 @@
 package techguns.client;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
+import com.google.common.collect.Sets;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.TexturedRenderLayers;
+import net.minecraft.client.render.block.entity.BellBlockEntityRenderer;
+import net.minecraft.client.render.block.entity.ConduitBlockEntityRenderer;
+import net.minecraft.client.render.block.entity.EnchantingTableBlockEntityRenderer;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.ModelIdentifier;
+import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import techguns.TGEntities;
@@ -39,6 +52,7 @@ import techguns.client.render.entities.*;
 import techguns.client.render.fx.ScreenEffect;
 import techguns.client.render.item.*;
 import techguns.deatheffects.EntityDeathUtils.DeathType;
+import techguns.inventory.slots.SlotTagItem;
 import techguns.sounds.TGSoundCategory;
 import techguns.util.EntityCondition;
 
@@ -110,6 +124,8 @@ public class ClientProxy implements ClientModInitializer {
 		TGObjLoader.INSTANCE.registerManualModel(new TGIdentifier("item/grenadelauncher.obj"), true);
 		TGObjLoader.INSTANCE.registerManualModel(new TGIdentifier("item/grenadelauncher_1.obj"), true);
 		TGObjLoader.INSTANCE.registerManualModel(new TGIdentifier("item/grenade40mm.obj"));
+
+		this.registerTexturesToAtlas();
 
 		TGRenderRegistries.registerItemRenderer(TGuns.M4, new RenderGunBase(new ModelM4(), new TGIdentifier("textures/guns/m4texture.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.1f, 0)
 				.setGUIScale(0.35f).setMuzzleFx(ScreenEffect.muzzleFlash_rifle, 0, 0.18f, -1.29f, 0.75f,0).setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 4.0f).setTransformTranslations(new float[][]{
@@ -561,6 +577,16 @@ public class ClientProxy implements ClientModInitializer {
         
 		TGPacketsS2C.initialize();
 		TGClientScreenHandlers.initialize();
+	}
+
+	protected void registerTexturesToAtlas() {
+		// Add sprites to block texture atlas
+		ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
+			registry.register(SlotTagItem.SLOT_BG_INGOT_DARK);
+			registry.register(SlotTagItem.SLOT_BG_INGOT);
+			registry.register(SlotTagItem.SLOT_BG_POWDER);
+		});
+
 	}
 
 	public void register_ammo_itemrenderers() {

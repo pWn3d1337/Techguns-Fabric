@@ -1,4 +1,4 @@
-package techguns.inventory;
+package techguns.inventory.slots;
 
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.api.EnvType;

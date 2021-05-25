@@ -24,4 +24,12 @@ public abstract class TGBaseScreenHandler extends ScreenHandler {
             }
         }
     }
+
+    protected void addPlayerInventorySlots(Inventory playerInventory)
+    {
+        //The player inventory
+        addSlotGrid(playerInventory, 9, 9, 3, 8, 84);
+        //The player Hotbar
+        addSlotGrid(playerInventory, 0, 9, 1, 8, 142);
+    }
 }

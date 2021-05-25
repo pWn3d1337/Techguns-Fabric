@@ -1,8 +1,5 @@
 package techguns.inventory;
 
-import com.google.common.collect.Lists;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftingResultInventory;
@@ -10,48 +7,27 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.StonecuttingRecipe;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
 import techguns.TGBlocks;
 import techguns.TGCamos;
 import techguns.api.ICamoChangeable;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class CamoBenchScreenHandler extends TGBaseScreenHandler {
-    protected final ScreenHandlerContext context;
-    protected final Property selectedRecipe;
-    protected final World world;
-    protected List<ItemStack> availableRecipes;
-    protected ItemStack inputStack;
-    protected long lastTakeTime;
-    protected final Slot inputSlot;
-    protected final Slot outputSlot;
-    protected Runnable contentsChangedListener;
-    public final Inventory input;
-    protected final CraftingResultInventory output;
+public class CamoBenchScreenHandler extends StoneCutterStyleScreenHandler<ItemStack> {
 
     public CamoBenchScreenHandler(int syncId, PlayerInventory playerInventory) {
         this(syncId, playerInventory, ScreenHandlerContext.EMPTY);
     }
 
     public CamoBenchScreenHandler(int syncId, PlayerInventory playerInventory, final ScreenHandlerContext context) {
-        super(TGBlocks.CAMO_BENCH_SCREEN_HANDLER, syncId);
+        super(TGBlocks.CAMO_BENCH_SCREEN_HANDLER, syncId, playerInventory, context);
 
-        this.selectedRecipe = Property.create();
-        this.availableRecipes = Lists.newArrayList();
-        this.inputStack = ItemStack.EMPTY;
-        this.contentsChangedListener = () -> {
-        };
         this.input = new SimpleInventory(1) {
             public void markDirty() {
                 super.markDirty();
@@ -60,8 +36,7 @@ public class CamoBenchScreenHandler extends TGBaseScreenHandler {
             }
         };
         this.output = new CraftingResultInventory();
-        this.context = context;
-        this.world = playerInventory.player.world;
+
         this.inputSlot = this.addSlot(new Slot(this.input, 0, 20, 33));
         this.outputSlot = this.addSlot(new Slot(this.output, 1, 143, 33) {
             public boolean canInsert(ItemStack stack) {
@@ -87,19 +62,10 @@ public class CamoBenchScreenHandler extends TGBaseScreenHandler {
             }
         });
 
-        //The player inventory
-        addSlotGrid(playerInventory, 9, 9, 3, 8, 84);
-        //The player Hotbar
-        addSlotGrid(playerInventory, 0, 9, 1, 8, 142);
-
-        this.addProperty(this.selectedRecipe);
-
+        addPlayerInventorySlots(playerInventory);
     }
 
-    protected boolean selctionWithinBounds(int i) {
-        return i >= 0 && i < this.availableRecipes.size();
-    }
-
+    @Override
     protected void populateResult() {
         boolean hasCamoChangeableItem = this.inputSlot.hasStack() && this.inputSlot.getStack().getItem() instanceof ICamoChangeable;
         if (hasCamoChangeableItem && this.selctionWithinBounds(this.selectedRecipe.get())) {
@@ -109,16 +75,6 @@ public class CamoBenchScreenHandler extends TGBaseScreenHandler {
         }
 
         this.sendContentUpdates();
-    }
-
-    @Override
-    public boolean onButtonClick(PlayerEntity player, int id) {
-        if (this.selctionWithinBounds(id)) {
-            this.selectedRecipe.set(id);
-            this.populateResult();
-        }
-
-        return true;
     }
 
     @Override
@@ -156,35 +112,7 @@ public class CamoBenchScreenHandler extends TGBaseScreenHandler {
         return TGBlocks.CAMO_BENCH_SCREEN_HANDLER;
     }
 
-    @Environment(EnvType.CLIENT)
-    public void setContentsChangedListener(Runnable runnable) {
-        this.contentsChangedListener = runnable;
-    }
-
-    @Environment(EnvType.CLIENT)
-    public int getSelectedRecipe() {
-        return this.selectedRecipe.get();
-    }
-
-    @Environment(EnvType.CLIENT)
-    public List<ItemStack> getAvailableRecipes() {
-        return this.availableRecipes;
-    }
-
-    @Environment(EnvType.CLIENT)
-    public int getAvailableRecipeCount() {
-        return this.availableRecipes.size();
-    }
-
-    @Environment(EnvType.CLIENT)
-    public boolean canCraft() {
-        return this.inputSlot.hasStack() && !this.availableRecipes.isEmpty();
-    }
-
-    public boolean canInsertIntoSlot(ItemStack stack, Slot slot) {
-        return slot.inventory != this.output && super.canInsertIntoSlot(stack, slot);
-    }
-
+    @Override
     public ItemStack transferSlot(PlayerEntity player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = (Slot)this.slots.get(index);
@@ -231,6 +159,7 @@ public class CamoBenchScreenHandler extends TGBaseScreenHandler {
         return itemStack;
     }
 
+    @Override
     public void close(PlayerEntity player) {
         super.close(player);
         this.output.removeStack(1);

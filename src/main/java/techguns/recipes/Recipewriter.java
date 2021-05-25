@@ -66,6 +66,10 @@ public class Recipewriter {
 
     private static final Identifier TAG_TITANIUM_INGOTS = new Identifier("c:titanium_ingots");
 
+    private static final Identifier TAG_TIN_INGOTS = new Identifier("c:tin_ingots");
+
+    private static final Identifier TAG_BRONZE_INGOTS = new Identifier("c:bronze_ingots");
+
     /**
      * Vanilla tag
      */
@@ -127,6 +131,10 @@ public class Recipewriter {
         TAG_LIST.put(TAG_URANIUM_ENRICHED, Arrays.asList(ENRICHED_URANIUM));
 
         TAG_LIST.put(TAG_TITANIUM_INGOTS, Arrays.asList(INGOT_TITANIUM));
+
+        TAG_LIST.put(TAG_TIN_INGOTS, Arrays.asList(INGOT_TIN));
+
+        TAG_LIST.put(TAG_BRONZE_INGOTS, Arrays.asList(INGOT_BRONZE));
     }
 
     public static void generateItemRecipes(){
@@ -357,6 +365,12 @@ public class Recipewriter {
 
         addGunRecipes();
         addNonMachineRecipes();
+
+        RecipeJsonConverter.addAmmoBenchRecipe(new ItemStack(PISTOL_ROUNDS, 12));
+        RecipeJsonConverter.addAmmoBenchRecipe(new ItemStack(SHOTGUN_ROUNDS, 16));
+        RecipeJsonConverter.addAmmoBenchRecipe(new ItemStack(RIFLE_ROUNDS, 8));
+        RecipeJsonConverter.addAmmoBenchRecipe(new ItemStack(SNIPER_ROUNDS, 4));
+        RecipeJsonConverter.addAmmoBenchRecipe(new ItemStack(RIFLE_ROUNDS_STACK, 2));
     }
 
     /**

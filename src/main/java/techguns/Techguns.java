@@ -22,6 +22,7 @@ public class Techguns implements ModInitializer {
 	public static final TGCamos camos = new TGCamos();
 	public static final TGEvents events = new TGEvents();
 	public static final TGBlocks blocks = new TGBlocks();
+	public static final TGRecipes recipes = new TGRecipes();
 	protected ArrayList<ITGInitializer> initializers = new ArrayList<>(Arrays.asList(
 	    	sounds,
 	    	items,
@@ -30,10 +31,9 @@ public class Techguns implements ModInitializer {
 	    	guns,
 	    	blocks,
 	    	camos,
-	    	events
+	    	events,
+			recipes
 	    ));
-	    
-	public static SpecialRecipeSerializer<AmmoChangeRecipe> AMMO_CHANGE_SERIALIZER;
 
 	@Override
 	public void onInitialize() {
@@ -48,17 +48,7 @@ public class Techguns implements ModInitializer {
 		initializers.clear();
 		initializers=null;
 
-		NBTShapedRecipe.SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("crafting_shaped_nbt"), new NBTShapedRecipe.Serializer());
 
-		TransferAmmoRecipe.SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("transfer_ammo"), new TransferAmmoRecipe.Serializer());
-
-		MiningHeadUpgradeRecipe.SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("mininghead_upgrade"), new MiningHeadUpgradeRecipe.Serializer());
-
-		AMMO_CHANGE_SERIALIZER = (SpecialRecipeSerializer<AmmoChangeRecipe>)Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("ammo_change_recipe"), new SpecialRecipeSerializer<AmmoChangeRecipe>(AmmoChangeRecipe::new));
-
-		if (Recipewriter.WRITE_RECIPES) {
-			Recipewriter.generateItemRecipes();
-		}
 
 		/*NetworkStateMixin play = (NetworkStateMixin) (Object)NetworkState.PLAY;
 		Map map = play.getPacketHandlers();

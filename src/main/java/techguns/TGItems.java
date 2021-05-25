@@ -2,15 +2,25 @@ package techguns;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.tag.FabricItemTags;
+import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.BlastingRecipe;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.tag.Tag;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import techguns.api.inventory.TGSlotType;
+import techguns.inventory.slots.SlotTagItem;
 import techguns.items.GenericItem;
 import techguns.items.GenericItemRenderHack;
+import techguns.recipes.AmmoBenchRecipe;
+
+import java.util.Locale;
 
 public class TGItems implements ITGInitializer {
 
@@ -230,11 +240,22 @@ public class TGItems implements ITGInitializer {
 	public static Item BIOBLOB;
 
 	public static Item CAMO_BENCH;
+	public static Item AMMO_BENCH;
 
 	public static final ItemGroup ITEM_GROUP_TECHGUNS = FabricItemGroupBuilder.build(
 			new TGIdentifier("techguns"),
 			() -> new ItemStack(TGItems.RIFLE_ROUNDS));
-	
+
+	public static Tag<Item> TAG_BULLET_CORE;
+	public static Tag<Item> TAG_BULLET_CASING;
+	public static Tag<Item> TAG_BULLET_POWDER;
+
+	public static final Identifier TAG_BULLET_CORE_ID = new TGIdentifier("bullet_metal_core");
+	public static final Identifier TAG_BULLET_CASING_ID = new TGIdentifier("bullet_metal_casing");
+	public static final Identifier TAG_BULLET_POWDER_ID = new TGIdentifier("bullet_powder");
+
+
+
 	@Override
 	public void init() {
 		STONE_BULLETS = addItem("stonebullets", TGSlotType.AMMOSLOT);
@@ -449,6 +470,12 @@ public class TGItems implements ITGInitializer {
 		UPGRADE_PROJECTILE_PROTECTION_3 = addItem("upgrade_projectile_protection_3", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 		UPGRADE_BLAST_PROTECTION_3 = addItem("upgrade_blast_protection_3", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 */
+
+		TAG_BULLET_CORE = TagRegistry.item(TAG_BULLET_CORE_ID);
+		TAG_BULLET_CASING = TagRegistry.item(TAG_BULLET_CASING_ID);
+		TAG_BULLET_POWDER = TagRegistry.item(TAG_BULLET_POWDER_ID);
+
+		SlotTagItem.initSlotBGMap();
 	}
 
 	public Item addItem(String name){
@@ -486,4 +513,5 @@ public class TGItems implements ITGInitializer {
 		ret.setCount(size);
 		return ret;
 	}
+
 }

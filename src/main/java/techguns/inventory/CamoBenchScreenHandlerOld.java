@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import techguns.TGBlocks;
-import techguns.blocks.entity.CamoBenchBlockEntity;
+import techguns.inventory.slots.PlayerArmorSlot;
 
 public class CamoBenchScreenHandlerOld extends ScreenHandler {
     protected final Inventory inventory;

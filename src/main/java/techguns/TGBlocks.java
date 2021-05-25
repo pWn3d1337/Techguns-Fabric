@@ -16,12 +16,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.BlockView;
+import techguns.blocks.AmmoBenchBlock;
 import techguns.blocks.BlockBioBlob;
 import techguns.blocks.CamoBenchBlock;
-import techguns.blocks.TGSimpleMachineBlock;
+import techguns.blocks.entity.AmmoBenchBlockEntity;
 import techguns.blocks.entity.CamoBenchBlockEntity;
+import techguns.inventory.AmmoBenchScreenHandler;
 import techguns.inventory.CamoBenchScreenHandler;
-import techguns.inventory.CamoBenchScreenHandlerOld;
 
 import java.util.function.Supplier;
 
@@ -42,16 +43,19 @@ public class TGBlocks implements ITGInitializer {
 
     //Machines
     public static Block CAMO_BENCH = new CamoBenchBlock(FabricBlockSettings.of(Material.METAL).breakByTool(FabricToolTags.PICKAXES, 0).strength(5.0F, 5.0F).sounds(BlockSoundGroup.METAL));
+    public static Block AMMO_BENCH = new AmmoBenchBlock(FabricBlockSettings.of(Material.WOOD).breakByTool(FabricToolTags.AXES, 0).strength(5.0F, 5.0F).sounds(BlockSoundGroup.WOOD));
 
     /*
         Block Entities
     */
-    public static BlockEntityType<CamoBenchBlockEntity> CAMO_BENCH_BLOCK_ENTITY;
+    public static BlockEntityType<CamoBenchBlockEntity> CAMO_BENCH_BLOCK_ENTITY; //TODO remove
+    public static BlockEntityType<AmmoBenchBlockEntity> AMMO_BENCH_BLOCK_ENTITY;
 
     /*
         ScreenHandler
      */
     public static ScreenHandlerType<CamoBenchScreenHandler> CAMO_BENCH_SCREEN_HANDLER;
+    public static ScreenHandlerType<AmmoBenchScreenHandler> AMMO_BENCH_SCREEN_HANDLER;
 
     @Override
     public void init() {
@@ -64,6 +68,7 @@ public class TGBlocks implements ITGInitializer {
         TGItems.BIOBLOB = registerBlockAndItem("bioblob", BIOBLOB);
 
         TGItems.CAMO_BENCH = registerBlockAndItem("camo_bench", CAMO_BENCH);
+        TGItems.AMMO_BENCH = registerBlockAndItem("ammo_bench", AMMO_BENCH);
 
         registerBlockEntities();
         registerScreenHandlers();
@@ -85,9 +90,11 @@ public class TGBlocks implements ITGInitializer {
 
     public void registerBlockEntities(){
         //CAMO_BENCH_BLOCK_ENTITY = regBlockEnt("camo_bench_block_entity", CAMO_BENCH, CamoBenchBlockEntity::new);
+        AMMO_BENCH_BLOCK_ENTITY = regBlockEnt("ammo_bench_block_entity", AMMO_BENCH, AmmoBenchBlockEntity::new);
     }
 
     public void registerScreenHandlers(){
         CAMO_BENCH_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new TGIdentifier("camo_bench"), CamoBenchScreenHandler::new);
+        AMMO_BENCH_SCREEN_HANDLER = ScreenHandlerRegistry.registerSimple(new TGIdentifier("ammo_bench"), AmmoBenchScreenHandler::new);
     }
 }

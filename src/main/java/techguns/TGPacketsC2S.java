@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.fabric.impl.networking.ServerSidePacketRegistryImpl;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
+import techguns.packets.PacketCraftAmmoBench;
 import techguns.packets.TGBasePacket;
 import techguns.packets.c2s.*;
 
@@ -17,6 +18,7 @@ public class TGPacketsC2S {
 	public static final Identifier KEYBIND_PRESS = new TGIdentifier("keybind_press");
 	public static final Identifier MINING_UPDATE = new TGIdentifier("mining_update");
 	public static final Identifier CLIENT_SWING_RECOIL = new TGIdentifier("client_swing_recoil");
+	public static final Identifier CRAFT_AMMO_BENCH = new TGIdentifier("craft_ammo_bench");
 
 	public static void initialize() {
 		registerPacket(SHOOT_GUN, PacketShootGun::new);
@@ -24,6 +26,7 @@ public class TGPacketsC2S {
 		registerPacket(KEYBIND_PRESS, PacketTGKeybindPress::new);
 		registerPacket(MINING_UPDATE, PacketTGToolMiningUpdate::new);
 		registerPacket(CLIENT_SWING_RECOIL, PacketClientSwingRecoil::new);
+		registerPacket(CRAFT_AMMO_BENCH, PacketCraftAmmoBench::new);
 	}
 	
 	public static void registerPacket(Identifier id, Supplier<TGBasePacket> ctor) {

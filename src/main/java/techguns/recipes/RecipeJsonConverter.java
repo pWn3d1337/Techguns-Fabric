@@ -751,6 +751,42 @@ public class RecipeJsonConverter {
         return ret;
     }
 
+    public static void addAmmoBenchRecipe(ItemStack result)
+    {
+        setupDir();
+
+        Map<String, Object> json = new HashMap<>();
+
+        json.put("type", "techguns:ammobench_crafting");
+        json.put("result", serializeItem(result));
+
+        // names the json the same name as the output's registry name
+        // repeatedly adds _alt if a file already exists
+        // janky I know but it works
+        String suffix = "";
+
+        String name = Registry.ITEM.getId(result.getItem()).getPath();
+
+        if(result.getItem() instanceof BlockItem) {
+            BlockItem bi = (BlockItem) result.getItem();
+
+            Block b = bi.getBlock();
+        }
+
+        File f = new File(RECIPE_DIR, name + suffix + ".json");
+
+        while (f.exists()) {
+            suffix += "_alt";
+            f = new File(RECIPE_DIR, name + suffix + ".json");
+        }
+
+        try (FileWriter w = new FileWriter(f)) {
+            GSON.toJson(json, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
    /* public static void generateConstants() {
         List<Map<String, Object>> json = new ArrayList<>();
         for (String s : USED_OD_NAMES) {
