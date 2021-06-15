@@ -15,7 +15,7 @@ public class AmmoBenchBlockEntity extends TGInventoryBlockEntity {
     public static final int INVENTORY_SIZE = 3;
 
     public AmmoBenchBlockEntity() {
-        super(TGBlocks.AMMO_BENCH_BLOCK_ENTITY, INVENTORY_SIZE, null); //Override CreateMenu directly
+        super(null/*TGBlocks.AMMO_BENCH_BLOCK_ENTITY*/, INVENTORY_SIZE, null); //Override CreateMenu directly
     }
 
     @Override

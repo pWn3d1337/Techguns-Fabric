@@ -9,10 +9,12 @@ public class TGRecipes implements ITGInitializer {
 
     //Recipe Types
     public static RecipeType<AmmoBenchRecipe> AMMOBENCH_RECIPE_TYPE;
+    public static RecipeType<CamoChangeRecipe> CAMO_CHANGE_RECIPE_TYPE;
 
     @Override
     public void init() {
         AMMOBENCH_RECIPE_TYPE = RecipeType.register(Techguns.MODID+":ammobench_crafting");
+        CAMO_CHANGE_RECIPE_TYPE = RecipeType.register(Techguns.MODID+":camo_change");
 
 
         NBTShapedRecipe.SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("crafting_shaped_nbt"), new NBTShapedRecipe.Serializer());
@@ -25,6 +27,7 @@ public class TGRecipes implements ITGInitializer {
 
         AmmoBenchRecipe.SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("ammobench_crafting"), new AmmoBenchRecipe.Serializer());
 
+        CamoChangeRecipe.SERIALIZER = Registry.register(Registry.RECIPE_SERIALIZER, new TGIdentifier("camo_change"), new CamoChangeRecipe.Serializer());
 
 
         if (Recipewriter.WRITE_RECIPES) {

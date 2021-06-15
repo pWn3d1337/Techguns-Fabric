@@ -242,6 +242,13 @@ public class TGItems implements ITGInitializer {
 	public static Item CAMO_BENCH;
 	public static Item AMMO_BENCH;
 
+	public static Item CONCRETE_BROWN;
+	public static Item CONCRETE_BROWN_LIGHT;
+	public static Item CONCRETE_BROWN_LIGHT_SCAFF;
+	public static Item CONCRETE_BROWN_PIPES;
+	public static Item CONCRETE_GREY;
+	public static Item CONCRETE_GREY_DARK;
+
 	public static final ItemGroup ITEM_GROUP_TECHGUNS = FabricItemGroupBuilder.build(
 			new TGIdentifier("techguns"),
 			() -> new ItemStack(TGItems.RIFLE_ROUNDS));

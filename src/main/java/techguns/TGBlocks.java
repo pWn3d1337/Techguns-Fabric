@@ -45,11 +45,14 @@ public class TGBlocks implements ITGInitializer {
     public static Block CAMO_BENCH = new CamoBenchBlock(FabricBlockSettings.of(Material.METAL).breakByTool(FabricToolTags.PICKAXES, 0).strength(5.0F, 5.0F).sounds(BlockSoundGroup.METAL));
     public static Block AMMO_BENCH = new AmmoBenchBlock(FabricBlockSettings.of(Material.WOOD).breakByTool(FabricToolTags.AXES, 0).strength(5.0F, 5.0F).sounds(BlockSoundGroup.WOOD));
 
-    /*
-        Block Entities
-    */
-    public static BlockEntityType<CamoBenchBlockEntity> CAMO_BENCH_BLOCK_ENTITY; //TODO remove
-    public static BlockEntityType<AmmoBenchBlockEntity> AMMO_BENCH_BLOCK_ENTITY;
+    //Building Blocks
+    private static final FabricBlockSettings CONCRETE_SETTINGS = FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES,1).strength(8.0F);
+    public static Block CONCRETE_BROWN = new Block(CONCRETE_SETTINGS);
+    public static Block CONCRETE_BROWN_LIGHT = new Block(CONCRETE_SETTINGS);
+    public static Block CONCRETE_BROWN_LIGHT_SCAFF = new Block(CONCRETE_SETTINGS);
+    public static Block CONCRETE_BROWN_PIPES = new Block(CONCRETE_SETTINGS);
+    public static Block CONCRETE_GREY = new Block(CONCRETE_SETTINGS);
+    public static Block CONCRETE_GREY_DARK = new Block(CONCRETE_SETTINGS);
 
     /*
         ScreenHandler
@@ -70,6 +73,14 @@ public class TGBlocks implements ITGInitializer {
         TGItems.CAMO_BENCH = registerBlockAndItem("camo_bench", CAMO_BENCH);
         TGItems.AMMO_BENCH = registerBlockAndItem("ammo_bench", AMMO_BENCH);
 
+        //Building Blocks
+        TGItems.CONCRETE_BROWN = registerBlockAndItem("concrete_brown", CONCRETE_BROWN);
+        TGItems.CONCRETE_BROWN_LIGHT = registerBlockAndItem("concrete_brown_light", CONCRETE_BROWN_LIGHT);
+        TGItems.CONCRETE_BROWN_LIGHT_SCAFF = registerBlockAndItem("concrete_brown_light_scaff", CONCRETE_BROWN_LIGHT_SCAFF);
+        TGItems.CONCRETE_BROWN_PIPES = registerBlockAndItem("concrete_brown_pipes", CONCRETE_BROWN_PIPES);
+        TGItems.CONCRETE_GREY = registerBlockAndItem("concrete_grey", CONCRETE_GREY);
+        TGItems.CONCRETE_GREY_DARK = registerBlockAndItem("concrete_grey_dark", CONCRETE_GREY_DARK);
+
         registerBlockEntities();
         registerScreenHandlers();
     }
@@ -89,8 +100,7 @@ public class TGBlocks implements ITGInitializer {
     }
 
     public void registerBlockEntities(){
-        //CAMO_BENCH_BLOCK_ENTITY = regBlockEnt("camo_bench_block_entity", CAMO_BENCH, CamoBenchBlockEntity::new);
-        AMMO_BENCH_BLOCK_ENTITY = regBlockEnt("ammo_bench_block_entity", AMMO_BENCH, AmmoBenchBlockEntity::new);
+
     }
 
     public void registerScreenHandlers(){

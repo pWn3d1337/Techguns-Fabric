@@ -5,7 +5,7 @@ import techguns.inventory.ScreenHandlerFactory;
 
 public class CamoBenchBlockEntity extends TGScreenBlockEntity {
     public CamoBenchBlockEntity(ScreenHandlerFactory screenHandler) {
-        super(TGBlocks.CAMO_BENCH_BLOCK_ENTITY, screenHandler);
+        super(null/*TGBlocks.CAMO_BENCH_BLOCK_ENTITY*/, screenHandler);
     }
 
 
