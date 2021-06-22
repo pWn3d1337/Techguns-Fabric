@@ -2,7 +2,7 @@ package techguns.recipes;
 
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.SpecialRecipeSerializer;
@@ -96,7 +96,7 @@ public class AmmoChangeRecipe extends SpecialCraftingRecipe {
             GenericGun guntype = craftingTarget.guntype;
 
             ItemStack newStack = craftingTarget.gun.copy();
-            CompoundTag tag = newStack.getTag();
+            NbtCompound tag = newStack.getTag();
             tag.putString("ammovariant", craftingTarget.ammoVariant.getKey());
 
             int ammocount = guntype.getAmmoCount();
@@ -118,7 +118,7 @@ public class AmmoChangeRecipe extends SpecialCraftingRecipe {
         return SERIALIZER;
     }
 
-    @Override
+    //@Override //FIXME 1.17 check recipe remainder
     public DefaultedList<ItemStack> getRemainingStacks(CraftingInventory inventory) {
         DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(inventory.size(), ItemStack.EMPTY);
 

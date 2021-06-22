@@ -7,6 +7,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import techguns.client.render.math.TGMatrixOps;
@@ -14,8 +15,8 @@ import techguns.entities.projectiles.FlyingGibs;
 
 public class RenderFlyingGibs extends EntityRenderer<FlyingGibs> {
 
-	public RenderFlyingGibs(EntityRenderDispatcher dispatcher) {
-		super(dispatcher);
+	public RenderFlyingGibs(EntityRendererFactory.Context ctx) {
+		super(ctx);
 	}
 
 	

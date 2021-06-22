@@ -40,7 +40,7 @@ public class PacketSpawnParticleOnEntity extends TGBasePacket {
 	public PacketSpawnParticleOnEntity(String name, Entity ent, float offsetX, float offsetY, float offsetZ, boolean attachToHead, EntityCondition condition) {
 		super();
 		this.name=name;
-		this.entityID=ent.getEntityId();
+		this.entityID=ent.getId();
 		this.offsetX = offsetX;
 		this.offsetY = offsetY;
 		this.offsetZ = offsetZ;

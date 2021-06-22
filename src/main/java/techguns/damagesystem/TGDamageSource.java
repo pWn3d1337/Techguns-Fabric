@@ -246,7 +246,7 @@ public class TGDamageSource extends EntityDamageSource {
 			if(dmg.isFire()){
 				this.setFire();
 			}
-			if(dmg.getMagic()){
+			if(dmg.isMagic()){
 				this.setUsesMagic();
 			}
 			if(dmg.isProjectile()){
@@ -263,7 +263,7 @@ public class TGDamageSource extends EntityDamageSource {
 		private void determineTGDamageType(DamageSource dmg){
 			if( dmg.isExplosive()){
 				damageType = DamageType.EXPLOSION;
-			} else if (dmg.getMagic()) {
+			} else if (dmg.isMagic()) {
 				damageType = DamageType.ENERGY;
 			} else if (dmg.isFire() || dmg.name.equals("dragonBreath")) {
 				damageType = DamageType.FIRE;

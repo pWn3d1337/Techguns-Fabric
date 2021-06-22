@@ -22,7 +22,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
@@ -208,7 +208,7 @@ public class GenericProjectile extends ProjectileEntity {
 		this.updatePosition(p.getX(), p.getY()+((ITGLivingEntity)p).getEyeHeight_ServerSide(p.getPose()), p.getZ());
 		
 		this.setRotation(p.headYaw +(float) (spread - (2 * Math.random() * spread)) * 40.0f,
-				p.pitch + (float) (spread - (2 * Math.random() * spread)) * 40.0f);
+				p.getPitch() + (float) (spread - (2 * Math.random() * spread)) * 40.0f);
 		
 		float offsetSide=0.16F;
 		float offsetHeight=0f;
@@ -227,13 +227,13 @@ public class GenericProjectile extends ProjectileEntity {
 		posZ = pos.z;
 		
 		if (firePos==EnumBulletFirePos.RIGHT) {
-			posX -= (double) (MathHelper.cos(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+			posX -= (double) (MathHelper.cos(this.getYaw() / 180.0F * (float) Math.PI) * offsetSide);
 			//this.posY -= 0.10000000149011612D;
-			posZ -= (double) (MathHelper.sin(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+			posZ -= (double) (MathHelper.sin(this.getYaw() / 180.0F * (float) Math.PI) * offsetSide);
 		} else if(firePos==EnumBulletFirePos.LEFT) {
-			posX += (double) (MathHelper.cos(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+			posX += (double) (MathHelper.cos(this.getYaw() / 180.0F * (float) Math.PI) * offsetSide);
 			//this.posY -= 0.10000000149011612D;
-			posZ += (double) (MathHelper.sin(this.yaw / 180.0F * (float) Math.PI) * offsetSide);
+			posZ += (double) (MathHelper.sin(this.getYaw() / 180.0F * (float) Math.PI) * offsetSide);
 		} 
 		posY += (-0.10000000149011612D+offsetHeight);
 		
@@ -248,16 +248,17 @@ public class GenericProjectile extends ProjectileEntity {
 		double motionZ = motion.z;
 		// this.yOffset = 0.0F;
 		float f = 0.4F;
-		motionX = (double) (-MathHelper.sin(this.yaw / 180.0F * (float) Math.PI)
-				* MathHelper.cos(this.pitch / 180.0F * (float) Math.PI) * f);
-		motionZ = (double) (MathHelper.cos(this.yaw / 180.0F * (float) Math.PI)
-				* MathHelper.cos(this.pitch / 180.0F * (float) Math.PI) * f);
-		motionY = (double) (-MathHelper.sin((this.pitch) / 180.0F * (float) Math.PI) * f);
+		motionX = (double) (-MathHelper.sin(this.getYaw() / 180.0F * (float) Math.PI)
+				* MathHelper.cos(this.getPitch() / 180.0F * (float) Math.PI) * f);
+		motionZ = (double) (MathHelper.cos(this.getYaw() / 180.0F * (float) Math.PI)
+				* MathHelper.cos(this.getPitch() / 180.0F * (float) Math.PI) * f);
+		motionY = (double) (-MathHelper.sin((this.getPitch()) / 180.0F * (float) Math.PI) * f);
 		//this.setVelocity(this.motionX, this.motionY, this.motionZ, 1.5f, 0F);
 
 		this.setVelocity(new Vec3d(motionX, motionY, motionZ).normalize().multiply(speed));
 	}
-	
+
+
 	public GenericProjectile(World world, LivingEntity p, float damage, float speed, int TTL, float spread,
 			float dmgDropStart, float dmgDropEnd, float dmgMin, float penetration, boolean blockdamage,
 			EnumBulletFirePos firePos) {
@@ -269,7 +270,6 @@ public class GenericProjectile extends ProjectileEntity {
 	 * Client side constructor from spawn packet
 	 * @param world
 	 * @param shooter
-	 * @param data
 	 */
 	public GenericProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
 		this(T, world, shooter, 0, 0,0,0,0,0,0,0,false, EnumBulletFirePos.CENTER);
@@ -328,11 +328,11 @@ public class GenericProjectile extends ProjectileEntity {
 				
 		Vec3d vec3d = this.getVelocity();
 		if (this.prevPitch == 0.0F && this.prevYaw == 0.0F) {
-			float f = MathHelper.sqrt(squaredHorizontalLength(vec3d));
-			this.yaw = (float) (MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875D);
-			this.pitch = (float) (MathHelper.atan2(vec3d.y, (double) f) * 57.2957763671875D);
-			this.prevYaw = this.yaw;
-			this.prevPitch = this.pitch;
+			float f = MathHelper.sqrt((float) squaredDistanceTo(vec3d));
+			this.setYaw((float) (MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875D));
+			this.setPitch((float) (MathHelper.atan2(vec3d.y, (double) f) * 57.2957763671875D));
+			this.prevYaw = this.getYaw();
+			this.prevPitch = this.getPitch();
 		}
 
 		if (!this.clientSlowDeath) {
@@ -367,7 +367,7 @@ public class GenericProjectile extends ProjectileEntity {
 				vec3d4 = ((HitResult) hitResult).getPos();
 			}
 	
-			while (!this.removed && !this.clientSlowDeath && this.shouldCollide) {
+			while (!this.isRemoved() && !this.clientSlowDeath && this.shouldCollide) {
 				EntityHitResult entityHitResult = this.getEntityCollision(vec3d3, vec3d4);
 				if (entityHitResult != null) {
 					hitResult = entityHitResult;
@@ -403,13 +403,13 @@ public class GenericProjectile extends ProjectileEntity {
 		double h = this.getX() + d;
 		double j = this.getY() + e;
 		double k = this.getZ() + g;
-		float l = MathHelper.sqrt(squaredHorizontalLength(vec3d));
+		float l = MathHelper.sqrt((float) squaredDistanceTo(vec3d));
 
-		this.yaw = (float) (MathHelper.atan2(d, g) * 57.2957763671875D);
+		this.setYaw(((float) (MathHelper.atan2(d, g) * 57.2957763671875D)));
 
-		this.pitch = (float) (MathHelper.atan2(e, (double) l) * 57.2957763671875D);
-		this.pitch = updateRotation(this.prevPitch, this.pitch);
-		this.yaw = updateRotation(this.prevYaw, this.yaw);
+		this.setPitch((float) (MathHelper.atan2(e, (double) l) * 57.2957763671875D));
+		this.setPitch(updateRotation(this.prevPitch, this.getPitch()));
+		this.setYaw(updateRotation(this.prevYaw, this.getYaw()));
 		float m = 0.99F;
 		//float n = 0.05F;
 		if (this.isTouchingWater()) {
@@ -433,7 +433,7 @@ public class GenericProjectile extends ProjectileEntity {
 		if (this.clientSlowDeath) {
 			
 			if (this.age>=this.ticksToLive+2) {
-				this.remove();
+				this.remove(RemovalReason.DISCARDED);
 			}
 			
 		} else {
@@ -453,7 +453,7 @@ public class GenericProjectile extends ProjectileEntity {
 		if (this.world.isClient) {
 			this.clientSlowDeath = true;
 		} else {
-			this.remove();
+			this.remove(RemovalReason.DISCARDED);
 		}
 	}
 
@@ -517,7 +517,7 @@ public class GenericProjectile extends ProjectileEntity {
 				return;
 			}
 
-			this.piercedEntities.add(target.getEntityId());
+			this.piercedEntities.add(target.getId());
 		}
 
 		Entity shooter = this.getOwner();
@@ -648,8 +648,8 @@ public class GenericProjectile extends ProjectileEntity {
     			yaw = rayTraceResult.getSide().asRotation();
     		}
     	}else {
-    		pitch = -this.pitch;
-    		yaw = -this.yaw;
+    		pitch = -this.getPitch();
+    		yaw = -this.getYaw();
     	}
 
 		this.doImpactEffectForType(x,y,z,pitch,yaw,sound);
@@ -663,7 +663,7 @@ public class GenericProjectile extends ProjectileEntity {
 		double d = Double.MAX_VALUE;
 		Entity entity2 = null;
 		Box box = this.getBoundingBox().stretch(this.getVelocity()).expand(1.0D);
-		Iterator<Entity> var9 = world.getOtherEntities(this, box, this::method_26958).iterator();
+		Iterator<Entity> var9 = world.getOtherEntities(this, box, this::canHit).iterator();
 
 		Vec3d hitVec = null;
 		while (var9.hasNext()) {
@@ -714,8 +714,9 @@ public class GenericProjectile extends ProjectileEntity {
 	}
 
 	//Check which entities are valid targets
-	protected boolean method_26958(Entity entity) {
-		return super.method_26958(entity) && (this.piercedEntities == null || !this.piercedEntities.contains(entity.getEntityId()));
+	@Override
+	protected boolean canHit(Entity entity) {
+		return super.canHit(entity) && (this.piercedEntities == null || !this.piercedEntities.contains(entity.getId()));
 	}
 	
 	
@@ -759,8 +760,8 @@ public class GenericProjectile extends ProjectileEntity {
 	}
 	
     @Override
-	protected void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
+	protected void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
 		tag.putDouble("gravity", this.gravity);
 		tag.putInt("lifetime", this.ticksToLive);
 		tag.putFloat("speed", this.speed);
@@ -768,8 +769,8 @@ public class GenericProjectile extends ProjectileEntity {
 	}
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	protected void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.gravity = tag.getDouble("gravity");
 		this.ticksToLive = tag.getInt("lifetime");
 		this.speed = tag.getFloat("speed");
@@ -781,7 +782,7 @@ public class GenericProjectile extends ProjectileEntity {
     	return this;
     }
 
-	public void getAdditionalSpawnData(CompoundTag data) {
+	public void getAdditionalSpawnData(NbtCompound data) {
 		data.putDouble("gravity", this.gravity);
 		data.putInt("lifetime", this.ticksToLive);
 		data.putFloat("speed", this.speed);
@@ -792,7 +793,7 @@ public class GenericProjectile extends ProjectileEntity {
 	 * Parse additional data from packet in construtor, extend in subclasses
 	 * @param data
 	 */
-	public void parseAdditionalData(CompoundTag data) {
+	public void parseAdditionalData(NbtCompound data) {
 		this.gravity = data.getDouble("gravity");
 		this.ticksToLive = data.getInt("lifetime");
 		this.speed = data.getFloat("speed");
@@ -802,14 +803,14 @@ public class GenericProjectile extends ProjectileEntity {
 	/*@Override
 	public Packet<?> createSpawnPacket() {
 		Entity owner = this.getOwner();
-		CompoundTag data = new CompoundTag();
+		NbtCompound data = new NbtCompound();
 		this.getAdditionalSpawnData(data);
 	    return new PacketSpawnEntity(this, owner == null ? 0 : owner.getEntityId(), data);
 	}*/
 	@Override
 	public Packet<?> createSpawnPacket() {
 		Entity entity = this.getOwner();
-		return new EntitySpawnS2CPacket(this, entity == null ? 0 : entity.getEntityId());
+		return new EntitySpawnS2CPacket(this, entity == null ? 0 : entity.getId());
 	}
 
 	/**

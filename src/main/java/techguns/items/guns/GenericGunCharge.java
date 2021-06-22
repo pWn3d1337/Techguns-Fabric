@@ -208,7 +208,7 @@ public class GenericGunCharge extends GenericGun {
 			}
 	
 
-			int	ammoConsumed = this.consumeAmmoCharge(item, f,player.abilities.creativeMode);
+			int	ammoConsumed = this.consumeAmmoCharge(item, f,player.getAbilities().creativeMode);
 			
 			//reduce charge value if ammo is low
 			if (ammoConsumed < (int) Math.ceil(f * this.ammoConsumedOnFullCharge)) {
@@ -311,7 +311,7 @@ public class GenericGunCharge extends GenericGun {
 		
 		if (projectile != null) {
 			projectile.setProjectileType(projectileType);
-			projectile.setProperties(player, player.pitch, player.yaw, 0.0F, modified_speed, 1.0F);
+			projectile.setProperties(player, player.getPitch(), player.getYaw(), 0.0F, modified_speed, 1.0F);
 			
 			if (offset > 0.0f) {
 				projectile.shiftForward(offset/modified_speed);

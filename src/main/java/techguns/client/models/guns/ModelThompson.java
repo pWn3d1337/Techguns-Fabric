@@ -5,7 +5,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.render.VertexConsumer;
 
-import net.minecraft.client.model.ModelPart;
+import techguns.client.models.ModelPart;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.entity.Entity;
 import techguns.client.models.ModelMultipart;

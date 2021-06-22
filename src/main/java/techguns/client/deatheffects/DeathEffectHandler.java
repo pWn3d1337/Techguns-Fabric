@@ -55,7 +55,8 @@ public class DeathEffectHandler {
 		genericGore = (new GoreData(160,21,31)).setTexture(GORE_TEXTURE);
 		genericGore.setRandomScale(0.5f, 0.8f);
 		
-		ZombieEntityModel<ZombieEntity> model = new ZombieEntityModel<>(0, false);
+		//ZombieEntityModel<ZombieEntity> model = new ZombieEntityModel<ZombieEntity>(0, false);
+		ZombieEntityModel<ZombieEntity> model = new ZombieEntityModel<ZombieEntity>(null); //FIXME 1.17 see changes
 		genericGibs = getModelParts(model);
 	}
 	
@@ -335,8 +336,8 @@ public class DeathEffectHandler {
 
 		/**
 		 * Add a random scale to individual gibs.
-		 * @param f
-		 * @param g
+		 * @param min
+		 * @param max
 		 */
 		public void setRandomScale(float min, float max) {
 			minPartScale = min;

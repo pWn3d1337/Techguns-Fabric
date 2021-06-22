@@ -6,7 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
@@ -75,7 +75,8 @@ public class FlyingGibs extends Entity{
         {
             --timeToLive;
         }else {
-        	this.destroy();
+        	//this.destroy(); //FIXME: 1.17 check if correct?
+        	this.remove(RemovalReason.DISCARDED);
         }
 
         this.prevX = this.getX();
@@ -131,14 +132,14 @@ public class FlyingGibs extends Entity{
 
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag tag) {
+	protected void readCustomDataFromNbt(NbtCompound tag) {
 		// TODO Auto-generated method stub
 		
 	}
 
 
 	@Override
-	protected void writeCustomDataToTag(CompoundTag tag) {
+	protected void writeCustomDataToNbt(NbtCompound tag) {
 		// TODO Auto-generated method stub
 		
 	}

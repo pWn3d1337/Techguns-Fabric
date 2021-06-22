@@ -5,6 +5,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
@@ -18,8 +19,8 @@ public class RenderTextureProjectile <T extends Entity> extends EntityRenderer<T
 	protected float baseSize=0.1f;
 	protected float scale=1.0f;
 
-	public RenderTextureProjectile(EntityRenderDispatcher dispatcher) {
-		super(dispatcher);
+	public RenderTextureProjectile(EntityRendererFactory.Context ctx) {
+		super(ctx);
 	}
 
 	@Override

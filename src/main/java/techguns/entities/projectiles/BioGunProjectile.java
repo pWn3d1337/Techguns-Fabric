@@ -10,7 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Hand;
@@ -209,25 +209,25 @@ public class BioGunProjectile extends GenericProjectile{
 
 
 	@Override
-	protected void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
+	protected void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
 		tag.putByte("level", (byte)this.level);
 	}
 
 	@Override
-	public void getAdditionalSpawnData(CompoundTag data) {
+	public void getAdditionalSpawnData(NbtCompound data) {
 		super.getAdditionalSpawnData(data);
 		data.putByte("level", (byte)this.level);
 	}
 	
 	@Override
-	protected void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	protected void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.level = tag.getByte("level");
 	}
 
 	@Override
-	public void parseAdditionalData(CompoundTag data) {
+	public void parseAdditionalData(NbtCompound data) {
 		super.parseAdditionalData(data);
 		this.level = data.getByte("level");
 	}

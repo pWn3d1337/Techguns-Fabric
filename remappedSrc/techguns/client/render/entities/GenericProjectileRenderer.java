@@ -7,7 +7,7 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix3f;
@@ -34,12 +34,12 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 		if (entity.age >= 2 || (entity.age == 1 && tickDelta > 0.25f)) {
 
 			matrixStack.push();
-			matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(
+			matrixStack.multiply(Vector3d.POSITIVE_Y.getDegreesQuaternion(
 					MathHelper.lerp(tickDelta, entity.prevYaw, entity.yaw) - 90.0F));
-			matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(
+			matrixStack.multiply(Vector3d.POSITIVE_Z.getDegreesQuaternion(
 					MathHelper.lerp(tickDelta, entity.prevPitch, entity.pitch)));
 
-			matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(45.0F));
+			matrixStack.multiply(Vector3d.POSITIVE_X.getDegreesQuaternion(45.0F));
 			matrixStack.scale(0.05625F, 0.05625F, 0.05625F);
 			matrixStack.translate(-4.0D, 0.0D, 0.0D);
 			VertexConsumer vertexConsumer = vertexConsumerProvider
@@ -57,7 +57,7 @@ public class GenericProjectileRenderer extends EntityRenderer<GenericProjectile>
 	        float v2 = 1.0f;
 			
 			for (int u = 0; u < 4; ++u) {
-				matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(90.0F));
+				matrixStack.multiply(Vector3d.POSITIVE_X.getDegreesQuaternion(90.0F));
 				this.addVertex(model_mat, normal_mat, vertexConsumer, -length, -width, 0, u1,v1, 0, 1, 0, light);
 				this.addVertex(model_mat, normal_mat, vertexConsumer, length, -width, 0, u2,v1, 0, 1, 0, light);
 				this.addVertex(model_mat, normal_mat, vertexConsumer, length, width, 0, u2,v2, 0, 1, 0, light);

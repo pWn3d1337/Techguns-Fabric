@@ -2,7 +2,7 @@ package techguns.packets;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import techguns.TGPacketsS2C;
@@ -11,11 +11,11 @@ import techguns.entities.projectiles.GenericProjectile;
 public class PacketEntityAdditionalSpawnData extends TGBasePacket {
 
 	private int entityId;
-	private CompoundTag additionalData;
+	private NbtCompound additionalData;
 	
 	public PacketEntityAdditionalSpawnData(GenericProjectile ent) {
-		this.entityId=ent.getEntityId();
-		this.additionalData = new CompoundTag();
+		this.entityId=ent.getId();
+		this.additionalData = new NbtCompound();
 		ent.getAdditionalSpawnData(this.additionalData);
 	}
 	
@@ -26,13 +26,13 @@ public class PacketEntityAdditionalSpawnData extends TGBasePacket {
 	@Override
 	public void pack(PacketByteBuf buf) {
 		buf.writeInt(entityId);
-		buf.writeCompoundTag(additionalData);
+		buf.writeNbt(additionalData);
 	}
 
 	@Override
 	public void unpack(PacketByteBuf buf) {
 		this.entityId = buf.readInt();
-		this.additionalData = buf.readCompoundTag();
+		this.additionalData = buf.readNbt();
 	}
 
 	@Override

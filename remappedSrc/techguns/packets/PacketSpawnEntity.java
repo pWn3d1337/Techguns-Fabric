@@ -48,7 +48,7 @@ import net.minecraft.entity.vehicle.MinecartEntity;
 import net.minecraft.entity.vehicle.SpawnerMinecartEntity;
 import net.minecraft.entity.vehicle.TntMinecartEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
@@ -76,10 +76,10 @@ public class PacketSpawnEntity extends TGBasePacket implements Packet<T>{
 	private int yaw;
 	private EntityType<?> entityTypeId;
 	private int entityData;
-	private CompoundTag additionalData;
+	private NbtCompound additionalData;
 	
 	public PacketSpawnEntity(int id, UUID uuid, double x, double y, double z, float pitch, float yaw,
-			EntityType<?> entityTypeId, int entityData, Vec3d velocity, CompoundTag additionalData) {
+			EntityType<?> entityTypeId, int entityData, Vec3d velocity, NbtCompound additionalData) {
 		this.id = id;
 		this.uuid = uuid;
 		this.x = x;
@@ -95,10 +95,10 @@ public class PacketSpawnEntity extends TGBasePacket implements Packet<T>{
 	}
 
 	public PacketSpawnEntity(Entity entity) {
-		this(entity, 0, new CompoundTag());
+		this(entity, 0, new NbtCompound());
 	}
 
-	public PacketSpawnEntity(Entity entity, int entityData, CompoundTag additionalData) {
+	public PacketSpawnEntity(Entity entity, int entityData, NbtCompound additionalData) {
 		this(entity.getEntityId(), entity.getUuid(), entity.getX(), entity.getY(), entity.getZ(), entity.pitch,
 				entity.yaw, entity.getType(), entityData, entity.getVelocity(), additionalData);
 	}
@@ -127,7 +127,7 @@ public class PacketSpawnEntity extends TGBasePacket implements Packet<T>{
 		buf.writeShort(this.velocityX);
 		buf.writeShort(this.velocityY);
 		buf.writeShort(this.velocityZ);
-		buf.writeCompoundTag(this.additionalData);
+		buf.writeNbtCompound(this.additionalData);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -145,7 +145,7 @@ public class PacketSpawnEntity extends TGBasePacket implements Packet<T>{
 		this.velocityX = buf.readShort();
 		this.velocityY = buf.readShort();
 		this.velocityZ = buf.readShort();
-		this.additionalData = buf.readCompoundTag();
+		this.additionalData = buf.readNbtCompound();
 	}
 
 	@Override

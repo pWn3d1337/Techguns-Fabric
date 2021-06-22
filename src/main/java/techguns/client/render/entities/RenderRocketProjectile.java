@@ -7,6 +7,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import techguns.TGIdentifier;
@@ -16,8 +17,8 @@ import techguns.entities.projectiles.RocketProjectile;
 
 public class RenderRocketProjectile extends EntityRenderer<RocketProjectile>{
 
-	public RenderRocketProjectile(EntityRenderDispatcher dispatcher) {
-		super(dispatcher);
+	public RenderRocketProjectile(EntityRendererFactory.Context ctx) {
+		super(ctx);
 	}
 
 	private float scale;
@@ -37,8 +38,8 @@ public class RenderRocketProjectile extends EntityRenderer<RocketProjectile>{
 		//GlStateManager.translate(par2,par4,par6);
 		//matrices.translate(x, y, z);
 	
-       	TGMatrixOps.rotate(matrices, entity.prevYaw + (entity.yaw-entity.prevYaw)*tickDelta -90.0f, 0F, 1F, 0F);
-       	TGMatrixOps.rotate(matrices, entity.prevPitch + (entity.pitch-entity.prevPitch)*tickDelta, 0F, 0F, 1F);
+       	TGMatrixOps.rotate(matrices, entity.prevYaw + (entity.getYaw()-entity.prevYaw)*tickDelta -90.0f, 0F, 1F, 0F);
+       	TGMatrixOps.rotate(matrices, entity.prevPitch + (entity.getPitch()-entity.prevPitch)*tickDelta, 0F, 0F, 1F);
 
 		matrices.scale(0.9f, 0.9f, 0.9f);
 		//model.render(par1Entity, 0, 0, 0, 0, 0, 0.0625F);

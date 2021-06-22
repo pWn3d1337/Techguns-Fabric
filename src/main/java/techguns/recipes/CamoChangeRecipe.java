@@ -89,7 +89,7 @@ public class CamoChangeRecipe implements Recipe<Inventory> {
                 for (JsonElement entry : entries){
                     if (entry instanceof JsonObject){
                         JsonObject obj = (JsonObject) entry;
-                        list.add(ShapedRecipe.getItemStack(obj));
+                        list.add(ShapedRecipe.outputFromJson(obj));
                     }
                 }
             }

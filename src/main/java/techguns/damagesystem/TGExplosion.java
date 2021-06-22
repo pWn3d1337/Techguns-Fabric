@@ -9,6 +9,7 @@ import com.mojang.datafixers.util.Pair;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -315,8 +316,8 @@ public class TGExplosion {
 						if (block.shouldDropItemsOnExplosion(explosionDummy) && this.world instanceof ServerWorld) {
 							// block.dropBlockAsItemWithChance(this.world, blockpos,
 							// this.world.getBlockState(blockpos), 1.0f, 0);
-
-							BlockEntity blockEntity = block.hasBlockEntity() ? this.world.getBlockEntity(blockpos)
+                            
+							BlockEntity blockEntity = block instanceof BlockEntityProvider ? this.world.getBlockEntity(blockpos)
 									: null;
 							LootContext.Builder builder = (new LootContext.Builder((ServerWorld) this.world))
 									.random(this.world.random)

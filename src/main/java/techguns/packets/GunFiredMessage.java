@@ -20,7 +20,7 @@ public class GunFiredMessage extends TGBasePacket {
 		
 	public GunFiredMessage(LivingEntity shooter, int recoiltime, int muzzleflashtime, byte attackType, boolean checkRecoil,
 			Hand hand) {
-		this.shooterid = shooter.getEntityId();
+		this.shooterid = shooter.getId();
 		this.recoiltime = recoiltime;
 		this.muzzleflashtime = muzzleflashtime;
 		this.attackType = attackType;

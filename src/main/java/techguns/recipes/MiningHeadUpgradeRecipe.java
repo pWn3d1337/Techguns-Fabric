@@ -6,7 +6,7 @@ import com.google.gson.JsonParseException;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.*;
 import net.minecraft.util.Identifier;
@@ -82,7 +82,7 @@ public class MiningHeadUpgradeRecipe extends ShapelessRecipe {
         return super.matches(inv, world) && getTargetLevel(inv).isValid();
     }
 
-    @Override
+    //@Override //FIXME 1.17 check recipe remainder
     public DefaultedList<ItemStack> getRemainingStacks(CraftingInventory inventory) {
         DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(inventory.size(), ItemStack.EMPTY);
 
@@ -110,7 +110,7 @@ public class MiningHeadUpgradeRecipe extends ShapelessRecipe {
 
         RecipeResult res = getTargetLevel(inv);
         if (res.target_level > -1){
-            CompoundTag tag = res.source_gun.getTag().copy();
+            NbtCompound tag = res.source_gun.getTag().copy();
             tag.putByte("mininghead", (byte) res.target_level);
             result.setTag(tag);
             return result;

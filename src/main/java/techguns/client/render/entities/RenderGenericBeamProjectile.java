@@ -1,17 +1,12 @@
 package techguns.client.render.entities;
 
-import java.util.HashMap;
-import java.util.Random;
-
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.Perspective;
+import net.minecraft.client.option.Perspective;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRenderDispatcher;
-import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,10 +14,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.RaycastContext;
 import techguns.TGIdentifier;
 import techguns.client.render.TGRenderHelper;
@@ -30,6 +22,9 @@ import techguns.client.render.math.TGMatrixOps;
 import techguns.entities.projectiles.EnumBulletFirePos;
 import techguns.entities.projectiles.GenericBeamProjectile;
 import techguns.util.MathUtil;
+
+import java.util.HashMap;
+import java.util.Random;
 
 public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<GenericBeamProjectile> {
 
@@ -43,8 +38,8 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_TESLA, new BeamRenderParams(null, "textures/fx/laser_blue.png", null, 1, 1.0f, 2.0f, false));
 	}
 
-	public RenderGenericBeamProjectile(EntityRenderDispatcher dispatcher) {
-		super(dispatcher);
+	public RenderGenericBeamProjectile(EntityRendererFactory.Context ctx) {
+		super(ctx);
 	}
 
 	@Override
@@ -57,7 +52,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 			VertexConsumerProvider vertexConsumerProvider, int light) {
 
 		// Generic stuff for all beam types
-		Random rand = new Random(entity.getEntityId());
+		Random rand = new Random(entity.getId());
 		float prog = ((float) entity.age + tickDelta) / ((float) entity.maxTicks);
 
 		Vec3d pos = entity.getPos();
@@ -72,7 +67,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 //			}
 
 			LivingEntity shooter = (LivingEntity) entity.getOwner();
-			laser_pitch = MathHelper.lerp(tickDelta, shooter.prevPitch, shooter.pitch);
+			laser_pitch = MathHelper.lerp(tickDelta, shooter.prevPitch, shooter.getPitch());
 			laser_yaw = MathHelper.lerp(tickDelta, shooter.prevHeadYaw, shooter.headYaw);
 			// pos = new Vec3d(shooter.getX(),
 			// shooter.getY()+shooter.getEyeHeight(shooter.getPose()), shooter.getZ());		
@@ -184,10 +179,10 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 		// System.out.println("Entity - pitch:"+entity.pitch+" yaw:"+entity.yaw);
 		//System.out.println("BEAM - pitch:" + pitch + " yaw:" + yaw + "distance:" + distance);
 
-		matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(-(yaw - 90.0F)));
-		matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(pitch));
+		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-(yaw - 90.0F)));
+		matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(pitch));
 		if(spinning) {
-			matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(360.0f * prog));
+			matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(360.0f * prog));
 		}
 		
 	}

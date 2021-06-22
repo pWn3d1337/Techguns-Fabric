@@ -6,11 +6,13 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3f;
 import techguns.TGIdentifier;
 import techguns.client.render.TGRenderHelper;
 import techguns.entities.projectiles.GenericProjectile;
@@ -20,8 +22,8 @@ public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericP
 	private static final Identifier blasterTextures = new TGIdentifier("textures/fx/laser3.png");
 	private static final Identifier advancedTextures = new TGIdentifier("textures/entity/bullet_blue.png");
 
-	public GenericProjectileRenderer(EntityRenderDispatcher dispatcher) {
-		super(dispatcher);
+	public GenericProjectileRenderer(EntityRendererFactory.Context ctx) {
+		super(ctx);
 	}
 
 	@Override
@@ -53,20 +55,20 @@ public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericP
 	public void renderLate(GenericProjectile entity, float yaw, float tickDelta, MatrixStack matrixStack,
 			VertexConsumerProvider vertexConsumerProvider, int light) {
 		
-		long seed = entity.getEntityId();
-		Random rand = new Random(seed);		
+		long seed = entity.getId();
+		Random rand = new Random(seed);
 		float angleX = (float)rand.nextGaussian();
 		
 		if (entity.age >= 2 || (entity.age == 1 && tickDelta > 0.35f /*0.25f*/)) {
 
 			matrixStack.push();
-			matrixStack.multiply(Vector3f.POSITIVE_Y.getDegreesQuaternion(
-					MathHelper.lerp(tickDelta, entity.prevYaw, entity.yaw) - 90.0F));
-			matrixStack.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(
-					MathHelper.lerp(tickDelta, entity.prevPitch, entity.pitch)));
+			matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(
+					MathHelper.lerp(tickDelta, entity.prevYaw, entity.getYaw()) - 90.0F));
+			matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(
+					MathHelper.lerp(tickDelta, entity.prevPitch, entity.getPitch())));
 
-	        matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(360.0f * angleX));
-			//matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(45.0F));
+	        matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(360.0f * angleX));
+			//matrixStack.multiply(Vector3d.POSITIVE_X.getDegreesQuaternion(45.0F));
 			matrixStack.scale(0.05625F, 0.05625F, 0.05625F);
 			matrixStack.translate(-4.0D, 0.0D, 0.0D);
 			VertexConsumer vertexConsumer = vertexConsumerProvider
@@ -83,7 +85,7 @@ public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericP
 	        float v2 = 1.0f;
 			
 			for (int u = 0; u < 4; ++u) {
-				matrixStack.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(45.0F));
+				matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(45.0F));
 				this.addVertex(model_mat, vertexConsumer, -length, -width, 0f, u1,v1, light);
 				this.addVertex(model_mat, vertexConsumer, length, -width, 0f, u2,v1, light);
 				this.addVertex(model_mat, vertexConsumer, length, width, 0f, u2,v2, light);

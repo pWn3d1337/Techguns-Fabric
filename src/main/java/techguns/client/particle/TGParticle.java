@@ -155,7 +155,7 @@ public class TGParticle extends Particle implements ITGParticle {
 				if (this.type.particlesMoveWithSystem && this.particleSystem.attachToHead && this.particleSystem.entity instanceof LivingEntity) {
 					LivingEntity ent = (LivingEntity)this.particleSystem.entity;
 					
-					double p = ent.pitch*MathUtil.D2R;
+					double p = ent.getPitch()*MathUtil.D2R;
 					double y = ent.headYaw*MathUtil.D2R;
 					
 					double prevP = ent.prevPitch * MathUtil.D2R;

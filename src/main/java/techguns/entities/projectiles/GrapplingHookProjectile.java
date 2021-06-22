@@ -6,7 +6,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -93,7 +93,7 @@ public class GrapplingHookProjectile extends GenericProjectile{
 			}
 		}
 		else if (this.status == GrapplingStatus.NONE) {
-			this.remove();
+			this.remove(RemovalReason.DISCARDED);
 		}else { // if (!this.world.isClient){
 			if (!isShooterGrappling() || this.maxPullTicks-- <= 0) {
 				stopGrappling();
@@ -213,7 +213,7 @@ public class GrapplingHookProjectile extends GenericProjectile{
 		//Check Grappling status
 		if (this.status == GrapplingStatus.NONE || this.status == GrapplingStatus.LAUNCHING) {
 			//Projectile missed or expired;
-			this.remove();
+			this.remove(RemovalReason.DISCARDED);
 		}
 	}
 	

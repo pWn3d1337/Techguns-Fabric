@@ -57,7 +57,7 @@ public class AmmoBenchScreenHandler extends StoneCutterStyleScreenHandler<AmmoBe
                 return false;
             }
 
-            public ItemStack onTakeItem(PlayerEntity player, ItemStack stack) {
+            public void onTakeItem(PlayerEntity player, ItemStack stack) {
                 stack.onCraft(player.world, player, stack.getCount());
 
                 if (!AmmoBenchScreenHandler.this.inputSlot.getStack().isEmpty() &&
@@ -79,7 +79,7 @@ public class AmmoBenchScreenHandler extends StoneCutterStyleScreenHandler<AmmoBe
                     }
 
                 });
-                return super.onTakeItem(player, stack);
+                super.onTakeItem(player, stack);
             }
         });
 
@@ -139,7 +139,7 @@ public class AmmoBenchScreenHandler extends StoneCutterStyleScreenHandler<AmmoBe
         super.close(player);
         this.output.removeStack(0);
         this.context.run((world, blockPos) -> {
-            this.dropInventory(player, player.world, this.input);
+            this.dropInventory(player, this.input);
         });
     }
 
@@ -170,7 +170,7 @@ public class AmmoBenchScreenHandler extends StoneCutterStyleScreenHandler<AmmoBe
                     return ItemStack.EMPTY;
                 }
 
-                slot.onStackChanged(itemStack2, itemStack);
+                slot.onQuickTransfer(itemStack2, itemStack);
             } else if (index >= 0 && index < OUTPUT_SLOT) {
                 if (!this.insertItem(itemStack2, PLAYER_INV_START, INV_END, false)) {
                     return ItemStack.EMPTY;

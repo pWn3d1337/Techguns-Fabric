@@ -1,6 +1,7 @@
 package techguns.client.render.entities;
 
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
 import techguns.TGIdentifier;
 import techguns.entities.projectiles.BioGunProjectile;
@@ -9,8 +10,8 @@ public class RenderBioGunProjectile extends RenderTextureProjectile<BioGunProjec
 
 	protected static final Identifier textureLoc = new TGIdentifier("textures/entity/bioblob.png");
 	
-	public RenderBioGunProjectile(EntityRenderDispatcher dispatcher) {
-		super(dispatcher);
+	public RenderBioGunProjectile(EntityRendererFactory.Context ctx) {
+		super(ctx);
 	}
 
 	@Override

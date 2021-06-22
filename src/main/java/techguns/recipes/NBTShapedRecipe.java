@@ -3,7 +3,7 @@ package techguns.recipes;
 import com.google.gson.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
@@ -33,7 +33,7 @@ public class NBTShapedRecipe extends ShapedRecipe {
         super(id, group, width, height, ingredients, output);
     }
 
-    public static void parseTagCompound(CompoundTag tags, String key, JsonElement element){
+    public static void parseTagCompound(NbtCompound tags, String key, JsonElement element){
         if (key==null && !element.isJsonObject()) {
             throw new UnsupportedOperationException("Data must be a JsonObject");
         }
@@ -65,7 +65,7 @@ public class NBTShapedRecipe extends ShapedRecipe {
                     parseTagCompound(tags, entry.getKey(), entry.getValue());
                 }
             } else {
-                CompoundTag subtag = new CompoundTag();
+                NbtCompound subtag = new NbtCompound();
                 for (Map.Entry<String, JsonElement> entry : element.getAsJsonObject().entrySet()) {
                     parseTagCompound(subtag, entry.getKey(), entry.getValue());
                 }
@@ -84,9 +84,9 @@ public class NBTShapedRecipe extends ShapedRecipe {
         Item item = (Item) Registry.ITEM.getOrEmpty(new Identifier(string)).orElseThrow(() -> {
             return new JsonSyntaxException("Unknown item '" + string + "'");
         });
-        CompoundTag tags =null;
+        NbtCompound tags =null;
         if (json.has("data")) {
-            tags = new CompoundTag();
+            tags = new NbtCompound();
             JsonObject data = json.getAsJsonObject("data");
             parseTagCompound(tags, null, data);
         }
@@ -104,11 +104,11 @@ public class NBTShapedRecipe extends ShapedRecipe {
         @Override
         public NBTShapedRecipe read(Identifier identifier, JsonObject jsonObject) {
             String string = JsonHelper.getString(jsonObject, "group", "");
-            Map<String, Ingredient> map = ShapedRecipeAccessor.invokeGetComponents(JsonHelper.getObject(jsonObject, "key"));
-            String[] strings = ShapedRecipeAccessor.invokeCombinePattern(ShapedRecipeAccessor.invokeGetPattern(JsonHelper.getArray(jsonObject, "pattern")));
+            Map<String, Ingredient> map = ShapedRecipeAccessor.invokeReadSymbols(JsonHelper.getObject(jsonObject, "key"));
+            String[] strings = ShapedRecipeAccessor.invokeRemovePadding(ShapedRecipeAccessor.invokeGetPattern(JsonHelper.getArray(jsonObject, "pattern")));
             int i = strings[0].length();
             int j = strings.length;
-            DefaultedList<Ingredient> defaultedList = ShapedRecipeAccessor.invokeGetIngredients(strings, map, i, j);
+            DefaultedList<Ingredient> defaultedList = ShapedRecipeAccessor.invokeCreatePatternMatrix(strings, map, i, j);
             ItemStack itemStack = NBTShapedRecipe.getItemStack(JsonHelper.getObject(jsonObject, "result"));
             return new NBTShapedRecipe(identifier, string, i, j, defaultedList, itemStack);
         }
@@ -134,7 +134,7 @@ public class NBTShapedRecipe extends ShapedRecipe {
             packetByteBuf.writeVarInt(shapedRecipe.getWidth());
             packetByteBuf.writeVarInt(shapedRecipe.getHeight());
             packetByteBuf.writeString(shapedRecipe.getGroup());
-            Iterator var3 = shapedRecipe.getInputs().iterator();
+            Iterator var3 = nbtshapedRecipe.getIngredients().iterator();
 
             while(var3.hasNext()) {
                 Ingredient ingredient = (Ingredient)var3.next();

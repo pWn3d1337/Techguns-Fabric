@@ -12,13 +12,15 @@ import techguns.client.modelloader.TGObjLoader;
 @Mixin(ModelLoader.class)
 public abstract class ModelLoaderMixin {
 
+    private static final String MISSING = "missing";
+
     @Shadow
     protected abstract void addModel(ModelIdentifier modelId);
 
     @Inject(at=@At("RETURN"), method="addModel")
     public void addModel(ModelIdentifier modelIdentifier, CallbackInfo info){
         //Only add models at early call of addModel, this is when the missing model is added
-        if (modelIdentifier == ModelLoader.MISSING) {
+        if (modelIdentifier.toString().equals(MISSING)) { //TODO 1.17 check
             TGObjLoader.INSTANCE.getManuallyLoadedModels().forEach(this::addModel);
         }
     }

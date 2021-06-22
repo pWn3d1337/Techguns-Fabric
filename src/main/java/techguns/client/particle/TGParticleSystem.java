@@ -131,27 +131,27 @@ public class TGParticleSystem extends Particle implements ITGParticle {
 			if (this.attachToHead && entity instanceof LivingEntity) {
 				LivingEntity elb = (LivingEntity) entity;
 
-				this.rotationPitch=elb.pitch;
+				this.rotationPitch=elb.getPitch();
 				this.rotationYaw=elb.headYaw;
 							
 				Vec3d offset = type.offset;
 				if (this.entityOffset != null) offset = offset.add(this.entityOffset);
 				
-				offset = offset.rotateX((float) (-elb.pitch*MathUtil.D2R));
+				offset = offset.rotateX((float) (-elb.getPitch()*MathUtil.D2R));
 				offset = offset.rotateY((float) ((-elb.headYaw)*MathUtil.D2R));		
 				
 				this.x = elb.prevX + offset.x;
 				this.y = elb.prevY + elb.getEyeHeight(elb.getPose()) + offset.y;
 				this.z = elb.prevZ + offset.z;
 			}else {
-				this.rotationPitch=entity.pitch;
-				this.rotationYaw=entity.yaw;
+				this.rotationPitch=entity.getPitch();
+				this.rotationYaw=entity.getYaw();
 						
 				Vec3d offset = type.offset;
 				if (this.entityOffset != null) offset = offset.add(this.entityOffset);
 				
-				offset = offset.rotateX((float) (-entity.pitch*MathUtil.D2R));
-				offset = offset.rotateY((float) ((-entity.yaw)*MathUtil.D2R));		
+				offset = offset.rotateX((float) (-entity.getPitch()*MathUtil.D2R));
+				offset = offset.rotateY((float) ((-entity.getYaw())*MathUtil.D2R));
 				
 				this.x = entity.prevX + offset.x;
 				this.y = entity.prevY + offset.y;

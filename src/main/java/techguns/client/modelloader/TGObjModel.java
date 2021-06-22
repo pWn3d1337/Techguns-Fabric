@@ -16,11 +16,12 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.math.Vec3f;
 import org.jetbrains.annotations.Nullable;
 import techguns.client.models.obj.TGObjBakedModel;
 
@@ -33,8 +34,8 @@ public class TGObjModel implements UnbakedModel {
 
     protected static final SpriteIdentifier BLOCK_ATLAS_SPRITE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, null);
 
-    protected ArrayList<Vector3f> vertices;
-    protected ArrayList<Vector3f> normals;
+    protected ArrayList<Vec3f> vertices;
+    protected ArrayList<Vec3f> normals;
     protected ArrayList<Vec2f> uvs;
     protected HashMap<String, TGObjMtl> mtls;
     protected HashMap<String, SubOjbect> object_material_map;
@@ -42,8 +43,8 @@ public class TGObjModel implements UnbakedModel {
     protected boolean flip_v;
 
     public TGObjModel(TGObjLoader.ModelLoadParameters params) {
-        this.vertices = new ArrayList<Vector3f>();
-        this.normals = new ArrayList<Vector3f>();
+        this.vertices = new ArrayList<Vec3f>();
+        this.normals = new ArrayList<Vec3f>();
         this.uvs = new ArrayList<Vec2f>();
         this.mtls = new HashMap<>();
         this.object_material_map = new HashMap<>();
@@ -133,7 +134,7 @@ public class TGObjModel implements UnbakedModel {
                                 float x = Float.parseFloat(tokens[1]);
                                 float y = Float.parseFloat(tokens[2]);
                                 float z = Float.parseFloat(tokens[3]);
-                                model.vertices.add(new Vector3f(x,y,z));
+                                model.vertices.add(new Vec3f(x,y,z));
                                 break;
                             case "vt":
                                 float u = Float.parseFloat(tokens[1]);
@@ -147,7 +148,7 @@ public class TGObjModel implements UnbakedModel {
                                 float nx = Float.parseFloat(tokens[1]);
                                 float ny = Float.parseFloat(tokens[2]);
                                 float nz = Float.parseFloat(tokens[3]);
-                                model.normals.add(new Vector3f(nx,ny,nz));
+                                model.normals.add(new Vec3f(nx,ny,nz));
                                 break;
                             case "g":
                                 //groud -ignored
@@ -240,9 +241,9 @@ public class TGObjModel implements UnbakedModel {
                     if (k>=3){
                         k=2;
                     }
-                    Vector3f v_pos = vertices.get(face.vertices.get(k));
+                    Vec3f v_pos = vertices.get(face.vertices.get(k));
                     quadEmitter.pos(j, v_pos);
-                    Vector3f v_normal = normals.get(face.normals.get(k));
+                    Vec3f v_normal = normals.get(face.normals.get(k));
                     quadEmitter.normal(j, v_normal);
                     Vec2f uv = uvs.get(face.textures.get(k));
                     quadEmitter.sprite(j, 0, uv.x, uv.y);

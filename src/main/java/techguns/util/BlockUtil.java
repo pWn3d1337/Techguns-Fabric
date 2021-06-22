@@ -63,11 +63,12 @@ public class BlockUtil {
         }
 
         //DO a special fix for bugged shovel checks
-        if (ShovelItemAccessor.getEFFECTIVE_BLOCKS().contains(state.getBlock())) {
+        //TODO 1.17 no longer needed?
+        /*if (ShovelItemAccessor.getEFFECTIVE_BLOCKS().contains(state.getBlock())) {
             if (FabricToolTags.SHOVELS.contains(tool) && tool.getMiningLevel(FabricToolTags.SHOVELS, state, stack, ply) > 0) {
                return true;
             }
-        }
+        }*/
 
         return false;
     }

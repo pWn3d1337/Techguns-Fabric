@@ -19,7 +19,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -475,7 +475,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 				mod.getRange(this.damageDropEnd), mod.getDamage(this.damageMin) * damagebonus, this.penetration, getDoBlockDamage(player), firePos, mod.getRadius(radius), gravity);
 
 		projectile.setProjectileType(projectileType);
-		projectile.setProperties(player, projectile.pitch, projectile.yaw, 0.0f, modified_speed, 0.0F);
+		projectile.setProperties(player, projectile.getPitch(), projectile.getYaw(), 0.0f, modified_speed, 0.0F);
 		//projectile.setProperties(player, player.pitch, player.yaw, 0.0F, modified_speed, 1.0F);
 						
 		//float f=1.0f;
@@ -567,8 +567,8 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		    	if (firedelay <=0) {
 		  
 		    		extendedPlayer.setFireDelay(hand,this.minFiretime);
-		    
-		    		if (!player.abilities.creativeMode) {
+
+		    		if (!player.getAbilities().creativeMode) {
 	    				this.useAmmo(stack, 1);
 		   
 		    		}
@@ -791,9 +791,9 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	@Override
 	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
 		super.onCraft(stack, world, player);
-		CompoundTag tags = stack.getTag();
+		NbtCompound tags = stack.getTag();
 		if(tags==null){
-			tags=new CompoundTag();
+			tags=new NbtCompound();
 			stack.setTag(tags);
 
 			tags.putString("camo", "");
@@ -807,12 +807,12 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	 * Add subclass tags here
 	 * @param tags
 	 */
-	protected void addInitialTags(CompoundTag tags) {
+	protected void addInitialTags(NbtCompound tags) {
 		
 	}
 	
 	public int getCurrentAmmo(ItemStack stack){
-		CompoundTag tags = stack.getTag();
+		NbtCompound tags = stack.getTag();
 		if(tags==null){
 			this.onCraft(stack, null, null); //world and player are not needed
 			tags = stack.getTag();
@@ -826,7 +826,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	}
 	
 	public String getCurrentAmmoVariantKey(ItemStack stack){
-		CompoundTag tags = stack.getTag();
+		NbtCompound tags = stack.getTag();
 		if(tags==null){
 			this.onCraft(stack, null, null); //world and player are not needed
 			tags = stack.getTag();
@@ -844,7 +844,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	 */
 	public int useAmmo(ItemStack stack, int amount){
 		int ammo = this.getCurrentAmmo(stack);
-		CompoundTag tags = stack.getTag();
+		NbtCompound tags = stack.getTag();
 		if(ammo-amount>=0){
 			tags.putShort("ammo", (short) (ammo-amount));
 			return amount;
@@ -860,7 +860,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	
 	public void reloadAmmo(ItemStack stack, int amount){
 		int ammo = this.getCurrentAmmo(stack);
-		CompoundTag tags = stack.getTag();
+		NbtCompound tags = stack.getTag();
 		tags.putShort("ammo", (short) (ammo+amount));
 	}
 	

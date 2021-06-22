@@ -20,8 +20,8 @@ public interface ShapedRecipeAccessor {
     public int getWidth();
     @Accessor
     public int getHeight();
-    @Accessor
-    public DefaultedList<Ingredient> getInputs();
+    /*@Accessor
+    public DefaultedList<Ingredient> getInputs();*/
     @Accessor
     public ItemStack getOutput();
     @Accessor
@@ -29,13 +29,13 @@ public interface ShapedRecipeAccessor {
     @Accessor
     public String getGroup();
 
-    @Invoker("getComponents")
-    public static Map<String, Ingredient> invokeGetComponents(JsonObject json){
+    @Invoker("readSymbols")
+    public static Map<String, Ingredient> invokeReadSymbols(JsonObject json){
         throw new AssertionError();
     }
 
-    @Invoker("combinePattern")
-    public static String[] invokeCombinePattern(String... lines) {
+    @Invoker("removePadding")
+    public static String[] invokeRemovePadding(String... lines) {
         throw new AssertionError();
     }
 
@@ -44,8 +44,8 @@ public interface ShapedRecipeAccessor {
         throw new AssertionError();
     }
 
-    @Invoker("getIngredients")
-    public static DefaultedList<Ingredient> invokeGetIngredients(String[] pattern, Map<String, Ingredient> key, int width, int height){
+    @Invoker("createPatternMatrix")
+    public static DefaultedList<Ingredient> invokeCreatePatternMatrix(String[] pattern, Map<String, Ingredient> key, int width, int height){
         throw new AssertionError();
     }
 }

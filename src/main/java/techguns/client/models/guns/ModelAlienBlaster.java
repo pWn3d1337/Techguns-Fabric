@@ -1,12 +1,12 @@
 package techguns.client.models.guns;
 
-import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import techguns.client.models.ModelMultipart;
+import techguns.client.models.ModelPart;
 
 public class ModelAlienBlaster extends ModelMultipart {
 	// fields
@@ -37,8 +37,8 @@ public class ModelAlienBlaster extends ModelMultipart {
 
 	public ModelAlienBlaster() {
 		super(RenderLayer::getEntitySolid);
-		textureWidth = 128;
-		textureHeight = 64;
+		//textureWidth = 128;
+		//textureHeight = 64;
 
 		Grip1 = new ModelPart(this, 68, 0);
 		Grip1.addCuboid(0F, 0F, 0F, 3, 9, 4);

@@ -511,63 +511,63 @@ public class ClientProxy implements ClientModInitializer {
 						{0f,0f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.12f, -0.65f).setRecoilAnim(GunAnimation.genericRecoil, 0.15f, 5.0f).setAdsOffsets(0.001f, -0.036f, 0f).setScopeRecoilAnim(GunAnimation.genericRecoil, 0.05f, 2.0f));
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (dispatcher, context) -> {
-            return new GenericProjectileRenderer(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (context) -> {
+            return new GenericProjectileRenderer(context);
         });
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GUIDED_MISSILE, (dispatcher, context) -> {
-            return new RenderRocketProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.GUIDED_MISSILE, (context) -> {
+            return new RenderRocketProjectile(context);
         });
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.ROCKET_PROJECTILE, (dispatcher, context) -> {
-            return new RenderRocketProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.ROCKET_PROJECTILE, (context) -> {
+            return new RenderRocketProjectile(context);
         });
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.BIOGUN_PROJECTILE,  (dispatcher, context) -> {
-            return new RenderBioGunProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.BIOGUN_PROJECTILE,  (context) -> {
+            return new RenderBioGunProjectile(context);
         });
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.TFG_PROJECTILE,  (dispatcher, context) -> {
-			return new RenderInvisibleProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.TFG_PROJECTILE,  (context) -> {
+			return new RenderInvisibleProjectile(context);
 		});
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.STONEBULLET_PROJECTILE,  (dispatcher, context) -> {
-            return new RenderStoneBulletProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.STONEBULLET_PROJECTILE,  (context) -> {
+            return new RenderStoneBulletProjectile(context);
         });
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.CHAINSAW_PROJECTILE,  (dispatcher, context) -> {
-			return new RenderInvisibleProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.CHAINSAW_PROJECTILE,  (context) -> {
+			return new RenderInvisibleProjectile(context);
 		});
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_BEAM_PROJECTILE,  (dispatcher, context) -> {
-			return new RenderGenericBeamProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_BEAM_PROJECTILE,  (context) -> {
+			return new RenderGenericBeamProjectile(context);
 		});
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GRENADE_PROJECTILE, (dispatcher, context) -> {
-			return new RenderGrenadeProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.GRENADE_PROJECTILE, (context) -> {
+			return new RenderGrenadeProjectile(context);
 		});
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.FLAMETHROWER_PROJECTILE, (dispatcher, context) -> {
-			return new RenderInvisibleProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.FLAMETHROWER_PROJECTILE, (context) -> {
+			return new RenderInvisibleProjectile(context);
 		});
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_FX_PROJECTILE, (dispatcher, context) -> {
-			return new RenderInvisibleProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_FX_PROJECTILE, (context) -> {
+			return new RenderInvisibleProjectile(context);
 		});
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.SONIC_SHOTGUN_PROJECTILE, (dispatcher, context) -> {
-			return new RenderInvisibleProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.SONIC_SHOTGUN_PROJECTILE, (context) -> {
+			return new RenderInvisibleProjectile(context);
 		});
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GRAPPLING_HOOK_PROJECTILE, (dispatcher, context) -> {
-            return new RenderGrapplingHookProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.GRAPPLING_HOOK_PROJECTILE, (context) -> {
+            return new RenderGrapplingHookProjectile(context);
         });
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.TESLA_PROJECTILE, (dispatcher, context) -> {
-			return new RenderGenericBeamProjectile(dispatcher);
+		EntityRendererRegistry.INSTANCE.register(TGEntities.TESLA_PROJECTILE, (context) -> {
+			return new RenderGenericBeamProjectile(context);
 		});
-//		EntityRendererRegistry.INSTANCE.register(TGEntities.FLYING_GIBS, (dispatcher, context) -> {
-//			return new RenderFlyingGibs(dispatcher);
+//		EntityRendererRegistry.INSTANCE.register(TGEntities.FLYING_GIBS, (context -> {
+//			return new RenderFlyingGibs(context.getRenderDispatcher());
 //		});
 
         keybinds = new Keybinds();

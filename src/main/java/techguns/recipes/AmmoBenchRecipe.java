@@ -66,7 +66,7 @@ public class AmmoBenchRecipe implements Recipe<Inventory> {
 
     public static class Serializer implements RecipeSerializer<AmmoBenchRecipe> {
         public AmmoBenchRecipe read(Identifier identifier, JsonObject jsonObject) {
-            ItemStack itemStack = ShapedRecipe.getItemStack(JsonHelper.getObject(jsonObject, "result"));
+            ItemStack itemStack = ShapedRecipe.outputFromJson(JsonHelper.getObject(jsonObject, "result"));
             return new AmmoBenchRecipe(identifier, itemStack);
         }
 

@@ -6,6 +6,7 @@ import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.MathHelper;
@@ -30,7 +31,7 @@ public abstract class RenderLateEntityRenderer<T extends Entity> extends EntityR
             double d2 = MathHelper.lerp((double)tickDelta, entity.lastRenderX, entity.getX());
             double e2 = MathHelper.lerp((double)tickDelta, entity.lastRenderY, entity.getY());
             double f2 = MathHelper.lerp((double)tickDelta, entity.lastRenderZ, entity.getZ());
-            float yaw = MathHelper.lerp(tickDelta, entity.prevYaw, entity.yaw);
+            float yaw = MathHelper.lerp(tickDelta, entity.prevYaw, entity.getYaw());
 
             double x = d2 - camera.getPos().x;
             double y = e2 - camera.getPos().y;
@@ -50,8 +51,8 @@ public abstract class RenderLateEntityRenderer<T extends Entity> extends EntityR
         renderQueue.clear();
     }
 
-    public RenderLateEntityRenderer(EntityRenderDispatcher dispatcher) {
-        super(dispatcher);
+    public RenderLateEntityRenderer(EntityRendererFactory.Context ctx) {
+        super(ctx);
     }
 
     protected abstract RenderLayer getRenderLayer(T entity);

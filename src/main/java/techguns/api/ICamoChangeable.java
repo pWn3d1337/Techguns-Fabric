@@ -3,7 +3,7 @@ package techguns.api;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import techguns.TGCamos;
 import techguns.TGCamos.WeaponCamoEntry;
@@ -15,9 +15,9 @@ public interface ICamoChangeable {
 	public static boolean setCamo(ItemStack stack, Identifier camo){
 		WeaponCamoEntry entry = TGCamos.getCamoEntry(stack.getItem(), camo);
 		if (entry!=null) {
-			CompoundTag tags = stack.getTag();
+			NbtCompound tags = stack.getTag();
 			if (tags == null) {
-				tags = new CompoundTag();
+				tags = new NbtCompound();
 				stack.setTag(tags);
 			}
 			tags.putString("camo", camo.toString());
@@ -31,9 +31,9 @@ public interface ICamoChangeable {
 	}
 	
 	public default int switchCamo(ItemStack item,boolean back){
-		CompoundTag tags = item.getTag();
+		NbtCompound tags = item.getTag();
 		if (tags== null){
-			tags = new CompoundTag();
+			tags = new NbtCompound();
 			item.setTag(tags);
 		}
 		String camoID=null;
@@ -70,7 +70,7 @@ public interface ICamoChangeable {
 	}
 	
 	public default int getCurrentCamoIndex(ItemStack item) {
-		CompoundTag tags = item.getTag();
+		NbtCompound tags = item.getTag();
 		int camoID=0;
 		if (tags!=null && tags.contains("camo")){
 			String id = tags.getString("camo");
@@ -83,7 +83,7 @@ public interface ICamoChangeable {
 	};
 	
 	public default List<Identifier> getCurrentCamoTextures(ItemStack item) {
-		CompoundTag tags = item.getTag();
+		NbtCompound tags = item.getTag();
 		if (tags != null){
 
 			String camo=tags.getString("camo");
@@ -98,7 +98,7 @@ public interface ICamoChangeable {
 	}
 	
 	public default String getCurrentCamoName(ItemStack item) {
-		CompoundTag tags = item.getTag();
+		NbtCompound tags = item.getTag();
 		if (tags != null){
 
 			String camo=tags.getString("camo");

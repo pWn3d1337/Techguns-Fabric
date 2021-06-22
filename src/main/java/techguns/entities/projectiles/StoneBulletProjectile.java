@@ -3,7 +3,7 @@ package techguns.entities.projectiles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import techguns.TGEntities;
 import techguns.api.damagesystem.DamageType;

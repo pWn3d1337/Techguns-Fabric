@@ -3,9 +3,9 @@ package techguns.mixin;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.ShortTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
+import net.minecraft.nbt.NbtShort;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -21,7 +21,7 @@ import techguns.server.ServerProxy;
 public class ItemStackMixin {
 
     /*@Inject(method = "getEnchantments",at = @At("RETURN"), cancellable = true)
-    public void getEnchantments(CallbackInfoReturnable<ListTag> cir) {
+    public void getEnchantments(CallbackInfoReturnable<NbtList> cir) {
         ItemStack stack = (ItemStack) (Object) this;
         if(stack.getItem() instanceof GenericGunMeleeCharge){
             MinecraftServer server = ServerProxy.SERVER_INSTANCE;
@@ -31,20 +31,20 @@ public class ItemStackMixin {
                         System.out.println("Found player!");
                         if(player.isSneaking()){
                             System.out.println("Sneaking!");
-                            ListTag enchantments = cir.getReturnValue().copy();
+                            NbtList enchantments = cir.getReturnValue().copy();
 
                             Identifier identifier = new Identifier("silk_touch");
 
                             boolean has_silk_touch=false;
                             for(int i = 0; i < enchantments.size() && !has_silk_touch; ++i) {
-                                CompoundTag compoundTag = enchantments.getCompound(i);
-                                Identifier identifier2 = Identifier.tryParse(compoundTag.getString("id"));
+                                NbtCompound NbtCompound = enchantments.getCompound(i);
+                                Identifier identifier2 = Identifier.tryParse(NbtCompound.getString("id"));
                                 if (identifier2 != null && identifier2.equals(identifier)) {
                                     has_silk_touch=true;
                                 }
                             }
                             if (!has_silk_touch){
-                                CompoundTag silktouch = new CompoundTag();
+                                NbtCompound silktouch = new NbtCompound();
                                 silktouch.putString("id", identifier.toString());
                                 silktouch.putShort("lvl",(short) 1);
                                 enchantments.add(silktouch);

@@ -8,7 +8,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.hit.BlockHitResult;
@@ -63,7 +63,7 @@ public class SonicShotgunProjectile extends GenericProjectile {
     protected void onEntityHit(EntityHitResult entityHitResult) {
         Entity target = entityHitResult.getEntity();
 
-        int targetid = target.getEntityId();
+        int targetid = target.getId();
         if(this.entitiesHit == null){
             this.entitiesHit = new IntOpenHashSet();
 
@@ -115,31 +115,31 @@ public class SonicShotgunProjectile extends GenericProjectile {
     }
 
     @Override
-    public void getAdditionalSpawnData(CompoundTag data) {
+    public void getAdditionalSpawnData(NbtCompound data) {
         super.getAdditionalSpawnData(data);
         data.putBoolean("mainprojectile", this.mainProjectile);
     }
 
     @Override
-    public void parseAdditionalData(CompoundTag data) {
+    public void parseAdditionalData(NbtCompound data) {
         super.parseAdditionalData(data);
         this.mainProjectile = data.getBoolean("mainprojectile");
     }
 
     @Override
-    protected void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    protected void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
         tag.putBoolean("mainprojectile", this.mainProjectile);
     }
 
     @Override
-    protected boolean method_26958(Entity entity) {
-        return super.method_26958(entity) && (this.entitiesHit==null || !(this.entitiesHit.contains(entity.getEntityId())));
+    protected boolean canHit(Entity entity) {
+        return super.canHit(entity) && (this.entitiesHit==null || !(this.entitiesHit.contains(entity.getId())));
     }
 
     @Override
-    protected void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    protected void readCustomDataFromNbt(NbtCompound tag) {
+        super.readCustomDataFromNbt(tag);
         this.mainProjectile = tag.getBoolean("mainprojectile");
     }
 

@@ -57,7 +57,7 @@ public class PacketCraftAmmoBench extends TGBasePacket {
                 for (int i=0;i<AmmoBenchBlockEntity.INVENTORY_SIZE; i++) {
                     ammoBenchEnt.getInventory().get(i).decrement(1);
                 }
-                player.inventory.setCursorStack(result);
+                //player.getInventory().setCursorStack(result);
             }
 
             if (player.currentScreenHandler != null && player.currentScreenHandler instanceof AmmoBenchScreenHandler){

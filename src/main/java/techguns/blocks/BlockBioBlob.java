@@ -118,9 +118,8 @@ public class BlockBioBlob extends Block {
     }
 
     @Override
-    public void onSteppedOn(World world, BlockPos pos, Entity entity) {
+    public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
 
-        BlockState state = world.getBlockState(pos);
         int explosion_size = state.get(SIZE)+1;
 
         float radius = 1.0F*explosion_size;

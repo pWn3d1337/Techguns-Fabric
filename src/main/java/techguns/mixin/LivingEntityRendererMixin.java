@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -74,8 +75,8 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 	@Shadow
 	protected abstract float getAnimationProgress(T livingEntity, float g);
 
-	protected LivingEntityRendererMixin(EntityRenderDispatcher dispatcher) {
-		super(dispatcher);
+	protected LivingEntityRendererMixin(EntityRendererFactory.Context ctx) {
+		super(ctx);
 	}
 
 	@Inject(at = @At("INVOKE"), method = "render", cancellable = true)
@@ -125,7 +126,7 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 		float k = j - h;
 		float o;
 
-		float m = MathHelper.lerp(tickDelta, livingEntity.prevPitch, livingEntity.pitch);
+		float m = MathHelper.lerp(tickDelta, livingEntity.prevPitch, livingEntity.getPitch());
 		float p;
 
 		o = this.getAnimationProgress(livingEntity, tickDelta);
@@ -184,14 +185,15 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 		float mainAlpha = (float) Math.pow(1.0 - prog, 2.0);
 		float overlayColor = (float) (0.5 + (Math.sin((Math.sqrt(prog) + 0.75) * 2.0 * Math.PI) / 2));
 		
-		RenderLayer renderLayerBase = RenderLayer.getEntityAlpha(this.getTexture(entity), mainAlpha);
+		//TODO 1.17: RenderLayer renderLayerBase = RenderLayer.getEntityAlpha(this.getTexture(entity), mainAlpha);
+		RenderLayer renderLayerBase = RenderLayer.getEntityAlpha(this.getTexture(entity));
 		RenderLayer renderLayerFX = RenderLayer.getItemEntityTranslucentCull(DeathEffectHandler.BIO_DEATH_TEXTURE);
 //		RenderLayer renderLayerFX = TGRenderHelper.get_fx_layerForType(DeathEffectHandler.BIO_DEATH_TEXTURE,
 //				RenderType.ADDITIVE);
 		VertexConsumer vertexConsumerMain = vertexConsumerProvider.getBuffer(renderLayerBase);
 		VertexConsumer vertexConsumerFx = vertexConsumerProvider.getBuffer(renderLayerFX);
 
-		Random rand = new Random(entity.getEntityId());
+		Random rand = new Random(entity.getId());
 
 		if (renderLayerBase != null && renderLayerFX != null) {
 
@@ -247,7 +249,8 @@ public abstract class LivingEntityRendererMixin<T extends LivingEntity, M extend
 		float mainAlpha = (float) Math.pow(1.0 - prog, 2.0);
 		float overlayColor = (float) (0.5 + (Math.sin((Math.sqrt(prog) + 0.75) * 2.0 * Math.PI) / 2));
 		
-		RenderLayer renderLayerBase = RenderLayer.getEntityAlpha(this.getTexture(entity), mainAlpha);
+		//TODO 1.17: RenderLayer renderLayerBase = RenderLayer.getEntityAlpha(this.getTexture(entity), mainAlpha);
+		RenderLayer renderLayerBase = RenderLayer.getEntityAlpha(this.getTexture(entity));
 		RenderLayer renderLayerFX = RenderLayer.getItemEntityTranslucentCull(DeathEffectHandler.LASER_DEATH_TEXTURE);
 //		RenderLayer renderLayerFX = TGRenderHelper.get_fx_layerForType(DeathEffectHandler.BIO_DEATH_TEXTURE,
 //				RenderType.ADDITIVE);

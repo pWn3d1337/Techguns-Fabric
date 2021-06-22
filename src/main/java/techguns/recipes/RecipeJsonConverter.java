@@ -17,7 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import techguns.TGConfig;
@@ -461,7 +461,7 @@ public class RecipeJsonConverter {
         }
         json.put("ingredients", ingredients);
         json.put("type", isOreDict ? "forge:ore_shapeless" : "minecraft:crafting_shapeless");
-        CompoundTag tags = new CompoundTag();
+        NbtCompound tags = new NbtCompound();
         tags.putString("patchouli:book", Techguns.MODID+":techguns_manual");
         json.put("result", serializeItemFromResourceLocation(new Identifier("patchouli", "guide_book"), tags));
 
@@ -714,7 +714,7 @@ public class RecipeJsonConverter {
         return ret;
     }
 
-    private static Map<String, Object> serializeItemFromResourceLocation(Identifier item, CompoundTag tags) {
+    private static Map<String, Object> serializeItemFromResourceLocation(Identifier item, NbtCompound tags) {
 
         Map<String, Object> ret = new HashMap<>();
         ret.put("item", item.toString());

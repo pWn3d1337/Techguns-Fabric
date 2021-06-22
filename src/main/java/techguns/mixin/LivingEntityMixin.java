@@ -238,7 +238,7 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 						h = (Math.random() - Math.random()) * 0.01D;
 					}
 
-					self.knockbackVelocity = (float) (MathHelper.atan2(i, h) * 57.2957763671875D - (double) this.yaw);
+					self.knockbackVelocity = (float) (MathHelper.atan2(i, h) * 57.2957763671875D - (double) this.getYaw());
 					//Edit: Knockback_Stregth from damage_source
 					float knockback_strength = 0.4F*source.knockbackMultiplier;
                     if (knockback_strength>0) {
@@ -287,7 +287,7 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 	
 	@Inject(at = @At("HEAD"), method="onDeath(Lnet/minecraft/entity/damage/DamageSource;)V")
 	public void onDeath(DamageSource source, CallbackInfo info) {
-		if (!this.world.isClient /*&& ((ITGLivingEntity)this).getDeathType() == null*/ && !this.removed && !this.dead) {			
+		if (!this.world.isClient /*&& ((ITGLivingEntity)this).getDeathType() == null*/ && !this.isRemoved() && !this.dead) {
 			if (source instanceof TGDamageSource) {
 				TGDamageSource tgs = (TGDamageSource) source;
 				LivingEntity entity = (LivingEntity)(Object)this;

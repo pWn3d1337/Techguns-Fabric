@@ -7,7 +7,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -104,8 +104,8 @@ public class GenericBeamProjectile extends GenericProjectile{
 	}
 	
 	protected void updateBeamPosition() {
-		this.prevPitch = this.pitch;
-		this.prevYaw = this.yaw;
+		this.prevPitch = this.getPitch();
+		this.prevYaw = this.getYaw();
 		this.prevX = this.getX();
 		this.prevY = this.getY();
 		this.prevZ = this.getZ();
@@ -115,7 +115,7 @@ public class GenericBeamProjectile extends GenericProjectile{
 
 			//Spread for Laser? Perhaps?
 			//float spread = 0f;
-			this.setRotation(p.headYaw, p.pitch);
+			this.setRotation(p.headYaw, p.getPitch());
 //			this.setRotation(p.headYaw +(float) (spread - (2 * Math.random() * spread)) * 40.0f,
 //					p.pitch + (float) (spread - (2 * Math.random() * spread)) * 40.0f);
 			//System.out.println("UPDATE BEAM - pitch:"+pitch+" yaw:"+yaw);
@@ -158,7 +158,7 @@ public class GenericBeamProjectile extends GenericProjectile{
 			offsetZ = -offsetSide;
 		}
 
-		Vec3d offset = MathUtil.rotateVec3dAroundZ(new Vec3d(offsetForward, offsetHeight, offsetZ), (float)(MathUtil.D2R*this.pitch)).rotateY((float) (MathUtil.D2R*-(this.yaw+90f)));
+		Vec3d offset = MathUtil.rotateVec3dAroundZ(new Vec3d(offsetForward, offsetHeight, offsetZ), (float)(MathUtil.D2R*this.getPitch())).rotateY((float) (MathUtil.D2R*-(this.getYaw()+90f)));
 
 		this.updatePosition(posX+offset.x, posY+offset.y, posZ+offset.z);
 		
@@ -168,11 +168,11 @@ public class GenericBeamProjectile extends GenericProjectile{
 		double motionZ = motion.z;
 
 		float f = 0.4F;
-		motionX = (double) (-MathHelper.sin(this.yaw / 180.0F * (float) Math.PI)
-				* MathHelper.cos(this.pitch / 180.0F * (float) Math.PI) * f);
-		motionZ = (double) (MathHelper.cos(this.yaw / 180.0F * (float) Math.PI)
-				* MathHelper.cos(this.pitch / 180.0F * (float) Math.PI) * f);
-		motionY = (double) (-MathHelper.sin((this.pitch) / 180.0F * (float) Math.PI) * f);
+		motionX = (double) (-MathHelper.sin(this.getYaw() / 180.0F * (float) Math.PI)
+				* MathHelper.cos(this.getPitch() / 180.0F * (float) Math.PI) * f);
+		motionZ = (double) (MathHelper.cos(this.getYaw() / 180.0F * (float) Math.PI)
+				* MathHelper.cos(this.getPitch() / 180.0F * (float) Math.PI) * f);
+		motionY = (double) (-MathHelper.sin((this.getPitch()) / 180.0F * (float) Math.PI) * f);
 
 		this.setVelocity(new Vec3d(motionX, motionY, motionZ).normalize().multiply(speed));
 	}
@@ -227,8 +227,8 @@ public class GenericBeamProjectile extends GenericProjectile{
 		}
 		this.traceDone = false;
 		
-		laserPitch = this.pitch;
-		laserYaw = this.yaw;
+		laserPitch = this.getPitch();
+		laserYaw = this.getYaw();
 		if (distance <= 0) {
 			distance = this.speed;
 		}
@@ -282,8 +282,8 @@ public class GenericBeamProjectile extends GenericProjectile{
     }
 	
 	@Override
-	protected void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
+	protected void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
 		tag.putDouble("laserLength",this.distance);
 		tag.putFloat("laserPitch",this.laserPitch);
  		tag.putFloat("laserYaw", this.laserYaw);
@@ -293,8 +293,8 @@ public class GenericBeamProjectile extends GenericProjectile{
 	}
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	protected void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.distance = tag.getDouble("laserLength");
 		this.laserPitch = tag.getFloat("laserPitch");
 		this.laserYaw = tag.getFloat("laserYaw");
@@ -308,7 +308,7 @@ public class GenericBeamProjectile extends GenericProjectile{
 	}
 
 	@Override
-	public void getAdditionalSpawnData(CompoundTag tag) {
+	public void getAdditionalSpawnData(NbtCompound tag) {
 		super.getAdditionalSpawnData(tag);
 		tag.putDouble("laserLength",this.distance);
 		tag.putFloat("laserPitch",this.laserPitch);
@@ -319,7 +319,7 @@ public class GenericBeamProjectile extends GenericProjectile{
 	}
 	
 	@Override
-	public void parseAdditionalData(CompoundTag tag) {
+	public void parseAdditionalData(NbtCompound tag) {
 		super.parseAdditionalData(tag);
 		this.distance = tag.getDouble("laserLength");
 		this.laserPitch = tag.getFloat("laserPitch");

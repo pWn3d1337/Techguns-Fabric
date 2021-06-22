@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.model.ModelPart;
+import techguns.client.models.ModelPart;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;

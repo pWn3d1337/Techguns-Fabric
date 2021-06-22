@@ -9,8 +9,9 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
@@ -28,8 +29,8 @@ import techguns.util.MathUtil;
 
 public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookProjectile>{
 
-	public RenderGrapplingHookProjectile(EntityRenderDispatcher dispatcher) {
-		super(dispatcher);
+	public RenderGrapplingHookProjectile(EntityRendererFactory.Context ctx) {
+		super(ctx);
 	}
 
 	private Identifier texture_projectile = new TGIdentifier("textures/guns/rocket.png");
@@ -47,8 +48,8 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
 		
 		//System.out.println("Render Grappling Hook with TickDelta = "+tickDelta);
 	
-       	TGMatrixOps.rotate(matrices, entity.prevYaw + (entity.yaw-entity.prevYaw)*tickDelta -90.0f, 0F, 1F, 0F);
-       	TGMatrixOps.rotate(matrices, entity.prevPitch + (entity.pitch-entity.prevPitch)*tickDelta, 0F, 0F, 1F);
+       	TGMatrixOps.rotate(matrices, entity.prevYaw + (entity.getYaw()-entity.prevYaw)*tickDelta -90.0f, 0F, 1F, 0F);
+       	TGMatrixOps.rotate(matrices, entity.prevPitch + (entity.getPitch()-entity.prevPitch)*tickDelta, 0F, 0F, 1F);
 
 		matrices.scale(0.5f, 0.5f, 0.5f);
 

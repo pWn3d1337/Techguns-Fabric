@@ -3,7 +3,7 @@ package techguns.entities.projectiles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
@@ -128,25 +128,25 @@ public class GrenadeProjectile extends GenericProjectile {
     }
 
     @Override
-    protected void writeCustomDataToTag(CompoundTag tag) {
-        super.writeCustomDataToTag(tag);
+    protected void writeCustomDataToNbt(NbtCompound tag) {
+        super.writeCustomDataToNbt(tag);
         tag.putByte("bounces", (byte)this.bounces);
     }
 
     @Override
-    protected void readCustomDataFromTag(CompoundTag tag) {
-        super.readCustomDataFromTag(tag);
+    protected void readCustomDataFromNbt(NbtCompound tag) {
+        super.readCustomDataFromNbt(tag);
         this.bounces = tag.getByte("bounces");
     }
 
     @Override
-    public void getAdditionalSpawnData(CompoundTag data) {
+    public void getAdditionalSpawnData(NbtCompound data) {
         super.getAdditionalSpawnData(data);
         data.putByte("bounces", (byte)this.bounces);
     }
 
     @Override
-    public void parseAdditionalData(CompoundTag data) {
+    public void parseAdditionalData(NbtCompound data) {
         super.parseAdditionalData(data);
         this.bounces = data.getByte("bounces");
     }

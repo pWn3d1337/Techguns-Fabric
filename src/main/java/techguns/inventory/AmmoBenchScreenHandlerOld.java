@@ -66,7 +66,7 @@ public class AmmoBenchScreenHandlerOld extends StoneCutterStyleScreenHandler<Amm
             }
 
             @Override
-            public ItemStack onTakeItem(PlayerEntity player, ItemStack stack) {
+            public void onTakeItem(PlayerEntity player, ItemStack stack) {
                 stack.onCraft(player.world, player, stack.getCount());
 
                 System.out.println("Taking From Slot");
@@ -95,7 +95,7 @@ public class AmmoBenchScreenHandlerOld extends StoneCutterStyleScreenHandler<Amm
                         TGPacketsC2S.sendToServer(new PacketCraftAmmoBench(stack, blockPos));
                     }
                 });
-                return super.onTakeItem(player, stack);
+                super.onTakeItem(player, stack);
             }
         });
 

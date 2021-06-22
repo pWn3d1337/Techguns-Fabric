@@ -18,7 +18,7 @@ public class InventoryUtil {
     			return 0;
     		}
     	} else {*/
-    		return addItemToInventory(ply.inventory.main, ammo, 0, ply.inventory.main.size());
+    		return addItemToInventory(ply.getInventory().main, ammo, 0, ply.getInventory().main.size());
     	//}
     }
 	
@@ -113,14 +113,14 @@ public class InventoryUtil {
 	        	//if (consumeAmmo(props.tg_inventory.inventory, ammo,TGPlayerInventory.SLOTS_AMMO_START, TGPlayerInventory.SLOTS_AMMO_END+1)){
 	        	//	return true;
 	        	//} else {
-	        		return consumeAmmo(ply.inventory.main,ammo,0,ply.inventory.main.size());
+	        		return consumeAmmo(ply.getInventory().main,ammo,0,ply.getInventory().main.size());
 	        	//}
         	} else {
         		
         		//Check first if amount can be consumed
         		//int needed = canConsumeItem(props.tg_inventory.inventory, ammo,TGPlayerInventory.SLOTS_AMMO_START, TGPlayerInventory.SLOTS_AMMO_END+1);
         		//System.out.println("needed1:"+needed);
-        		int needed2 = canConsumeItem(ply.inventory.main,ammo,0,ply.inventory.main.size());
+        		int needed2 = canConsumeItem(ply.getInventory().main,ammo,0,ply.getInventory().main.size());
         		//System.out.println("needed2:"+needed);
         		if ( /*needed+*/needed2 <= amount){
         			
@@ -128,7 +128,7 @@ public class InventoryUtil {
         			
         			//if (missing >0){
         				//return consumeItem(ply.inventory.mainInventory,TGItems.newStack(ammo, missing),0,ply.inventory.mainInventory.size()) <= 0;
-        			return consumeItem(ply.inventory.main,ammo,0,ply.inventory.main.size()) <= 0;
+        			return consumeItem(ply.getInventory().main,ammo,0,ply.getInventory().main.size()) <= 0;
         			//} else {
         			//	return true;
         			//}
@@ -154,13 +154,13 @@ public class InventoryUtil {
 	        	//if (canConsumeItem(props.tg_inventory.inventory, ammo,TGPlayerInventory.SLOTS_AMMO_START, TGPlayerInventory.SLOTS_AMMO_END+1)<=0){
 	        	//	return true;
 	        	//} else {
-	        		return canConsumeItem(ply.inventory.main,ammo,0,ply.inventory.main.size())<=0;
+	        		return canConsumeItem(ply.getInventory().main,ammo,0,ply.getInventory().main.size())<=0;
 	        	//}
         	} else {
         		
         		//Check first if amount can be consumed
         		//int needed = canConsumeItem(props.tg_inventory.inventory, ammo,TGPlayerInventory.SLOTS_AMMO_START, TGPlayerInventory.SLOTS_AMMO_END+1);
-        		int needed2 = canConsumeItem(ply.inventory.main,ammo,0,ply.inventory.main.size());
+        		int needed2 = canConsumeItem(ply.getInventory().main,ammo,0,ply.getInventory().main.size());
 
         		if ( /*needed+*/needed2 <= amount){
         			

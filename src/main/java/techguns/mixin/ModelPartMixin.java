@@ -11,7 +11,7 @@ import techguns.api.render.ITGModelPart;
 @Mixin(ModelPart.class)
 public abstract class ModelPartMixin implements ITGModelPart{
 	
-	@Shadow
+	/*@Shadow
 	private ObjectList<ModelPart.Cuboid> cuboids;
 	
 	@Shadow
@@ -25,6 +25,6 @@ public abstract class ModelPartMixin implements ITGModelPart{
 	@Override
 	public ObjectList<ModelPart> getChildren() {
 		return children;
-	}
+	}*/
 
 }

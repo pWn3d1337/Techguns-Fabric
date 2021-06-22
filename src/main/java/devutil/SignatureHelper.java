@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import net.minecraft.client.model.Model;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
@@ -68,9 +69,9 @@ public class SignatureHelper {
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
 		//Class<?> PacketHandlerClass = Class.forName("net.minecraft.network.NetworkState$PacketHandler");
 
-		Class c = MathHelper.class;
+		Class c = RenderLayer.class;
 
-		List<Method> methods = getMethods(c, "clamp");
+		List<Method> methods = getMethods(c, "of");
 
 		System.out.println("L"+c.getCanonicalName().replace(".","/"));
 		System.out.println("");

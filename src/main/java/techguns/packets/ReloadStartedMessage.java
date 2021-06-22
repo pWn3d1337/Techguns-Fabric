@@ -17,7 +17,7 @@ public class ReloadStartedMessage extends TGBasePacket {
 	protected boolean offHand;
 
 	public ReloadStartedMessage(LivingEntity shooter, Hand hand, int firetime, int attackType) {
-		this.entityID = shooter.getEntityId();
+		this.entityID = shooter.getId();
 		this.time = firetime;
 		this.attackType = (byte) attackType;
 		this.offHand = hand == Hand.OFF_HAND;

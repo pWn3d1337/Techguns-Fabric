@@ -1,6 +1,6 @@
 package techguns.client.modelloader;
 
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
@@ -12,7 +12,7 @@ import java.util.HashMap;
 
 public class TGObjMtl {
     public String material;
-    public Vector3f kd = new Vector3f(1f,1f,1f);
+    public Vector3d kd = new Vector3d(1f,1f,1f);
     public Identifier map_kd;
 
     public static HashMap<String, TGObjMtl> loadMtl(Identifier path, String name, ResourceManager rm) throws IOException {
@@ -40,7 +40,7 @@ public class TGObjMtl {
                     mtl.material = tokens[1];
                     break;
                 case "Kd":
-                    mtl.kd = new Vector3f(Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]), Float.parseFloat(tokens[3]));
+                    mtl.kd = new Vector3d(Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]), Float.parseFloat(tokens[3]));
                     break;
                 case "map_Kd":
                     mtl.map_kd = new Identifier(tokens[1]);

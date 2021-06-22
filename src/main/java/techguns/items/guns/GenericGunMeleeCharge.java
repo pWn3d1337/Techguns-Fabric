@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -148,7 +148,7 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 			props.setSwingSoundDelay(this.swingSoundDelay);
 			TGPacketsC2S.sendToServer(new PacketTGToolMiningUpdate(msg_recoiltime, msg_muzzleflashtime, blockHitResult.getPos(), this.miningSound));
 			
-			ClientProxy.get().handleSoundEvent(player, player.getEntityId(), this.miningSound, 1.0f, 1.0f, false, false, true, true, TGSoundCategory.GUN_FIRE,  EntityCondition.NONE);
+			ClientProxy.get().handleSoundEvent(player, player.getId(), this.miningSound, 1.0f, 1.0f, false, false, true, true, TGSoundCategory.GUN_FIRE,  EntityCondition.NONE);
 
 		}
 	}
@@ -222,7 +222,7 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 	}
 
 	@Override
-	protected void addInitialTags(CompoundTag tags) {
+	protected void addInitialTags(NbtCompound tags) {
 		super.addInitialTags(tags);
 		tags.putByte("mininghead", (byte)0);
 	}
@@ -235,7 +235,7 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 	}
 
 	public int getMiningHeadLevel(ItemStack stack){
-		CompoundTag tag = stack.getTag();
+		NbtCompound tag = stack.getTag();
 		if(tag!=null){
 			byte b = tag.getByte("mininghead");
 			if(b >= 0 && b < miningHeads.length){

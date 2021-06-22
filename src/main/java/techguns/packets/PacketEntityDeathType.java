@@ -24,7 +24,7 @@ public class PacketEntityDeathType extends TGBasePacket{
 	}
 	
 	public PacketEntityDeathType(LivingEntity entity, DeathType deathtype) {
-		this(entity.getEntityId(), deathtype, (float)entity.getVelocity().x, (float)entity.getVelocity().y, (float)entity.getVelocity().z);
+		this(entity.getId(), deathtype, (float)entity.getVelocity().x, (float)entity.getVelocity().y, (float)entity.getVelocity().z);
 	}
 
 	public PacketEntityDeathType(int entityId, DeathType deathtype, float motionX, float motionY, float motionZ) {

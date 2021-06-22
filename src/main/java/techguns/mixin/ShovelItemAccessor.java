@@ -10,8 +10,9 @@ import java.util.Set;
 @Mixin(ShovelItem.class)
 public interface ShovelItemAccessor {
 
-    @Accessor(value = "EFFECTIVE_BLOCKS")
+    //TODO 1.17 remove?
+    /*@Accessor(value = "EFFECTIVE_BLOCKS")
     public static Set<Block> getEFFECTIVE_BLOCKS(){
         throw new AssertionError();
-    }
+    }*/
 }

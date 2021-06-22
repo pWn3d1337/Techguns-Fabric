@@ -80,7 +80,7 @@ public class TGSound extends MovingSoundInstance {
     	}
     	
        //TODO: Auto-remove?
-        if (moving && entity != null && !entity.removed) {
+        if (moving && entity != null && !entity.isRemoved()) {
 	        x = (float) entity.getX();
 	        y = (float) entity.getY();
 	        z = (float) entity.getZ();

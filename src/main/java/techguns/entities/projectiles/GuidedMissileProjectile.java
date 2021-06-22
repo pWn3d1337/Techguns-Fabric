@@ -5,7 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import techguns.TGEntities;
@@ -79,17 +79,17 @@ public class GuidedMissileProjectile extends RocketProjectile{
 	}*/
 	
 	@Override
-	protected void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
+	protected void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
 		if (target != null)
-			tag.putInt("techguns_entityid",target.getEntityId());
+			tag.putInt("techguns_entityid",target.getId());
 		else
 			tag.putInt("techguns_entityid",-1);
 	}
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	protected void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		int entityID = tag.getInt("techguns_entityid");
 		if (entityID > -1) {
 			this.target = this.world.getEntityById(entityID); 
@@ -97,15 +97,15 @@ public class GuidedMissileProjectile extends RocketProjectile{
 	}
 		
 	@Override
-	public void getAdditionalSpawnData(CompoundTag data) {
+	public void getAdditionalSpawnData(NbtCompound data) {
 		super.getAdditionalSpawnData(data);
-		data.putInt("techguns_entityid",target!=null ? target.getEntityId() : -1);
+		data.putInt("techguns_entityid",target!=null ? target.getId() : -1);
 	}
 
 	
 	
 	@Override
-	public void parseAdditionalData(CompoundTag data) {
+	public void parseAdditionalData(NbtCompound data) {
 		super.parseAdditionalData(data);
 		this.target = this.world.getEntityById(data.getInt("techguns_entityid"));
 	}

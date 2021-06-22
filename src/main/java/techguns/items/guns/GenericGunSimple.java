@@ -24,7 +24,7 @@ public class GenericGunSimple extends GenericItem implements ITGItemRenderer {
 		if (!world.isClient) {
 			PersistentProjectileEntity persistentProjectileEntity = ((ArrowItem) Items.ARROW).createArrow(world,
 					itemStack, user);
-			persistentProjectileEntity.setProperties(user, user.pitch, user.yaw, 0.0F, 3.0F, 1.0F);
+			persistentProjectileEntity.setProperties(user, user.getPitch(), user.getYaw(), 0.0F, 3.0F, 1.0F);
 			persistentProjectileEntity.setCritical(true);
 			world.spawnEntity(persistentProjectileEntity);
 		}

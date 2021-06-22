@@ -3,7 +3,7 @@ package techguns.entities.projectiles;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
@@ -110,25 +110,25 @@ public class TFGProjectile extends GenericProjectile{
 	
 	
 	@Override
-	protected void writeCustomDataToTag(CompoundTag tag) {
-		super.writeCustomDataToTag(tag);
+	protected void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
 		tag.putFloat("size", this.size);
 	}
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag tag) {
-		super.readCustomDataFromTag(tag);
+	protected void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
 		this.size = tag.getFloat("size");
 	}
 		
 	@Override
-	public void getAdditionalSpawnData(CompoundTag tag) {
+	public void getAdditionalSpawnData(NbtCompound tag) {
 		super.getAdditionalSpawnData(tag);
 		tag.putFloat("size", this.size);
 	}
 	
 	@Override
-	public void parseAdditionalData(CompoundTag tag) {
+	public void parseAdditionalData(NbtCompound tag) {
 		super.parseAdditionalData(tag);
 		System.out.println("Size = "+tag.getFloat("size"));
 		this.size = tag.getFloat("size");

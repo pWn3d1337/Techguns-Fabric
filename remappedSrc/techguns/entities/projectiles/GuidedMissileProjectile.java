@@ -5,7 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import techguns.TGEntities;
@@ -76,7 +76,7 @@ public class GuidedMissileProjectile extends RocketProjectile{
 	}*/
 	
 	@Override
-	protected void writeCustomDataToTag(CompoundTag tag) {
+	protected void writeCustomDataToTag(NbtCompound tag) {
 		super.writeCustomDataToTag(tag);
 		if (target != null)
 			tag.putInt("techguns_entityid",target.getEntityId());
@@ -85,7 +85,7 @@ public class GuidedMissileProjectile extends RocketProjectile{
 	}
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag tag) {
+	protected void readCustomDataFromTag(NbtCompound tag) {
 		super.readCustomDataFromTag(tag);
 		int entityID = tag.getInt("techguns_entityid");
 		if (entityID > -1) {

@@ -46,7 +46,7 @@ public class PacketPlaySound extends TGBasePacket {
 		if (entity == null) {
 			this.entityId = -1;
 		} else {
-			this.entityId = entity.getEntityId();
+			this.entityId = entity.getId();
 		}
 		
 		this.soundname = Registry.SOUND_EVENT.getId(soundname).toString();
@@ -63,7 +63,7 @@ public class PacketPlaySound extends TGBasePacket {
 		if (entity == null) {
 			this.entityId = -1;
 		} else {
-			this.entityId = entity.getEntityId();
+			this.entityId = entity.getId();
 		}
 		this.soundname = Registry.SOUND_EVENT.getId(soundname).toString();
 		this.volume = volume;

@@ -13,7 +13,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.particle.ParticleTypes;
@@ -350,13 +350,13 @@ public class GenericProjectile extends ProjectileEntity {
 	}
 	
     @Override
-	protected void writeCustomDataToTag(CompoundTag tag) {
+	protected void writeCustomDataToTag(NbtCompound tag) {
 		super.writeCustomDataToTag(tag);
 		tag.putInt("lifetime", this.ticksToLive);
 	}
 
 	@Override
-	protected void readCustomDataFromTag(CompoundTag tag) {
+	protected void readCustomDataFromTag(NbtCompound tag) {
 		super.readCustomDataFromTag(tag);
 		this.ticksToLive = tag.getInt("lifetime");
 	}

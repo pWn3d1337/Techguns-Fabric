@@ -79,12 +79,13 @@ public class TGParticle3D extends TGParticle {
 	}
 	
 	protected void calcModelBounds(ModelPart model, float pX, float pY, float pZ) {
-		ObjectList<ModelPart.Cuboid> cuboids = ((ITGModelPart)model).getCuboids();
+		//FIXME 1.17 BROKEN!!!
+/*		ObjectList<ModelPart.Cuboid> cuboids = ((ITGModelPart)model).getCuboids();
 
 		pX+= model.pivotX;
 		pY+= model.pivotY;
 		pZ+= model.pivotZ;
-		
+
 		for (ModelPart.Cuboid cube : cuboids) {
 //			if (cube.minX-model.pivotX < modelMinX) modelMinX = cube.minX-model.pivotX;
 //			if (cube.minY-model.pivotY < modelMinY) modelMinY = cube.minY-model.pivotY;
@@ -102,12 +103,14 @@ public class TGParticle3D extends TGParticle {
 			if (cube.maxY+pY > modelMaxY) modelMaxY = cube.maxY+pY;
 			if (cube.maxZ+pZ > modelMaxZ) modelMaxZ = cube.maxZ+pZ;		
 		}
-		
+
 		ObjectList<ModelPart> children = ((ITGModelPart)model).getChildren();
 		
 		for (ModelPart child : children) {
 			calcModelBounds(child, pZ, pY, pZ);
 		}
+
+ */
 	}
 	
 	

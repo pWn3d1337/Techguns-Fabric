@@ -39,7 +39,7 @@ public class SlotTagItem extends Slot {
 
     @Override
     public boolean canInsert(ItemStack stack) {
-        return !stack.isEmpty() && stack.getItem().isIn(allowed_tag);
+        return !stack.isEmpty() && allowed_tag.contains(stack.getItem());
     }
 
     @Nullable

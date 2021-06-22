@@ -7,7 +7,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.options.GameOptions;
+import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.Tessellator;
@@ -202,7 +202,7 @@ public class TGGuiRender {
 		//Bind back the correct texture for default crosshair rendering
 		mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
 		RenderSystem.enableBlend();
-		RenderSystem.enableAlphaTest();
+		//RenderSystem.enableAlphaTest(); //FIXME 1.17 see changes
 	}
 	
 	private static void drawGunAmmoCount(MatrixStack matrices, MinecraftClient mc,int scaledWidth, int scaledHeight, GenericGun gun, ItemStack item, PlayerEntity ply, ITGExtendedPlayer props, int offsetY) {

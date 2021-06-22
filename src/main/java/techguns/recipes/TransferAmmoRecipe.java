@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
@@ -75,7 +75,7 @@ public class TransferAmmoRecipe extends NBTShapedRecipe {
             if(!out_gun.getAmmoType().hasVariant(ammotype)){
                 ammotype = AmmoTypes.TYPE_DEFAULT;
             }
-            CompoundTag tag = output.getTag();
+            NbtCompound tag = output.getTag();
             if (tag!=null){
                 tag.putShort("ammo", (short) input_ammo);
                 tag.putString("ammovariant", ammotype);
@@ -89,11 +89,11 @@ public class TransferAmmoRecipe extends NBTShapedRecipe {
         @Override
         public TransferAmmoRecipe read(Identifier identifier, JsonObject jsonObject) {
             String string = JsonHelper.getString(jsonObject, "group", "");
-            Map<String, Ingredient> map = ShapedRecipeAccessor.invokeGetComponents(JsonHelper.getObject(jsonObject, "key"));
-            String[] strings = ShapedRecipeAccessor.invokeCombinePattern(ShapedRecipeAccessor.invokeGetPattern(JsonHelper.getArray(jsonObject, "pattern")));
+            Map<String, Ingredient> map = ShapedRecipeAccessor.invokeReadSymbols(JsonHelper.getObject(jsonObject, "key"));
+            String[] strings = ShapedRecipeAccessor.invokeRemovePadding(ShapedRecipeAccessor.invokeGetPattern(JsonHelper.getArray(jsonObject, "pattern")));
             int i = strings[0].length();
             int j = strings.length;
-            DefaultedList<Ingredient> defaultedList = ShapedRecipeAccessor.invokeGetIngredients(strings, map, i, j);
+            DefaultedList<Ingredient> defaultedList = ShapedRecipeAccessor.invokeCreatePatternMatrix(strings, map, i, j);
             ItemStack itemStack = NBTShapedRecipe.getItemStack(JsonHelper.getObject(jsonObject, "result"));
             return new TransferAmmoRecipe(identifier, string, i, j, defaultedList, itemStack);
         }
@@ -119,7 +119,7 @@ public class TransferAmmoRecipe extends NBTShapedRecipe {
             packetByteBuf.writeVarInt(shapedRecipe.getWidth());
             packetByteBuf.writeVarInt(shapedRecipe.getHeight());
             packetByteBuf.writeString(shapedRecipe.getGroup());
-            Iterator var3 = shapedRecipe.getInputs().iterator();
+            Iterator var3 = nbtshapedRecipe.getIngredients().iterator();
 
             while(var3.hasNext()) {
                 Ingredient ingredient = (Ingredient)var3.next();

@@ -1,6 +1,6 @@
 package techguns.client.models.guns;
 
-import net.minecraft.client.model.ModelPart;
+import techguns.client.models.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.model.json.ModelTransformation.Mode;
@@ -48,8 +48,8 @@ public class ModelAK extends ModelMultipart {
 
     public ModelAK() {
 		super(RenderLayer::getEntitySolid);
-		textureWidth = 128;
-		textureHeight = 64;
+		//textureWidth = 128;
+		//textureHeight = 64;
 
 		Magazine05 = new ModelPart(this, 0, 0);
 		Magazine05.addCuboid(0F, 0F, 0F, 2, 8, 2);

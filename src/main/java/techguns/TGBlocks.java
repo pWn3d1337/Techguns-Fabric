@@ -95,9 +95,10 @@ public class TGBlocks implements ITGInitializer {
         Registry.register(Registry.BLOCK, new TGIdentifier(id), b);
     }
 
-    protected static <T extends BlockEntity> BlockEntityType<T> regBlockEnt(String id, Block b, Supplier<T> ctr){
+    //not yet needed for 1.17
+    /*protected static <T extends BlockEntity> BlockEntityType<T> regBlockEnt(String id, Block b, Supplier<T> ctr){
         return Registry.register(Registry.BLOCK_ENTITY_TYPE, new TGIdentifier(id), BlockEntityType.Builder.create(ctr, b).build(null));
-    }
+    }*/
 
     public void registerBlockEntities(){
 

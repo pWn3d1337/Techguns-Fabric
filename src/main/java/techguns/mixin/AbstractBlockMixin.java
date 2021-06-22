@@ -44,7 +44,8 @@ public class AbstractBlockMixin {
                             hardest = h;
                         }
                     }
-                    int i = player.isUsingEffectiveTool(state) ? 30 : 100;
+                    player.getBlockBreakingSpeed(state);
+                    int i = player.canHarvest(state) ? 30 : 100;
                     callback.setReturnValue(player.getBlockBreakingSpeed(state) / hardest / (float)i);
 
                     callback.cancel();

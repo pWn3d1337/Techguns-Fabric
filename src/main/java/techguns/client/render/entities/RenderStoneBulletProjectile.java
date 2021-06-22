@@ -2,6 +2,7 @@ package techguns.client.render.entities;
 
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.util.Identifier;
 import techguns.TGIdentifier;
 import techguns.client.render.TGRenderHelper;
@@ -11,8 +12,8 @@ public class RenderStoneBulletProjectile extends RenderTextureProjectile<StoneBu
 
 	protected static final Identifier texture =  new TGIdentifier("textures/entity/handgunbullet.png");
 	
-	public RenderStoneBulletProjectile(EntityRenderDispatcher dispatcher) {
-		super(dispatcher);
+	public RenderStoneBulletProjectile(EntityRendererFactory.Context ctx) {
+		super(ctx);
     	textureLoc = texture;
     	scale=1.0f;
     	baseSize=0.1f;

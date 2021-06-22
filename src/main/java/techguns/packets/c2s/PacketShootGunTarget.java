@@ -19,7 +19,7 @@ public class PacketShootGunTarget extends TGBasePacket {
 	public PacketShootGunTarget(boolean isZooming, Hand hand, Entity target) {
 		this.isZooming = isZooming;
 		this.offHand = hand==Hand.OFF_HAND;
-		this.entityId = target.getEntityId();
+		this.entityId = target.getId();
 	}
 	
 	public PacketShootGunTarget() {

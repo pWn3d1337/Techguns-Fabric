@@ -13,7 +13,7 @@ public class PacketSwapWeapon extends TGBasePacket {
 	protected int playerid;
 	
 	public PacketSwapWeapon(PlayerEntity player) {
-		this.playerid = player.getEntityId();
+		this.playerid = player.getId();
 	}
 
 	public PacketSwapWeapon() {

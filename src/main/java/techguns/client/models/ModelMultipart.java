@@ -3,6 +3,7 @@ package techguns.client.models;
 import java.util.function.Function;
 
 import net.minecraft.client.model.Model;
+import net.minecraft.client.model.ModelCuboidData;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -15,6 +16,9 @@ import net.minecraft.util.Identifier;
 import techguns.api.guns.IGenericGun;
 
 public abstract class ModelMultipart extends Model {
+
+	protected int textureWidth = 64;
+	protected int textureHeight = 64;
 
 	protected static final double scale = 0.0625;
 	
@@ -54,7 +58,7 @@ public abstract class ModelMultipart extends Model {
 	}
 	
 
-	protected void setRotation(ModelPart model, float x, float y, float z) {
+	protected void setRotation(techguns.client.models.ModelPart model, float x, float y, float z) {
 		model.pitch = x;
 		model.yaw = y;
 		model.roll = z;

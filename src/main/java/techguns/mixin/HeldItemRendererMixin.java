@@ -46,7 +46,7 @@ public abstract class HeldItemRendererMixin {
             this.equipProgressMainHand = this.prevEquipProgressMainHand;
             this.equipProgressOffHand = this.prevEquipProgressOffHand;
 
-            boolean slotchanged = techguns_last_selected_slot != clientPlayerEntity.inventory.selectedSlot;
+            boolean slotchanged = techguns_last_selected_slot != clientPlayerEntity.getInventory().selectedSlot;
             boolean play_requip_mh = slotchanged || !this.mainHand.isItemEqual(itemStack);
 
             this.equipProgressMainHand += MathHelper.clamp((!play_requip_mh ? f * f * f : 0.0F) - this.equipProgressMainHand, -0.4F, 0.4F);
@@ -59,7 +59,7 @@ public abstract class HeldItemRendererMixin {
                 this.offHand = itemStack2;
             }
         }
-        techguns_last_selected_slot = clientPlayerEntity.inventory.selectedSlot;
+        techguns_last_selected_slot = clientPlayerEntity.getInventory().selectedSlot;
     }
 
 }

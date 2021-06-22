@@ -7,6 +7,7 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
+import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.BakedQuad;
 import net.minecraft.client.util.ModelIdentifier;
@@ -22,8 +23,8 @@ public class RenderGrenadeProjectile extends EntityRenderer<GrenadeProjectile> {
 
     private static final ModelIdentifier grenade_40mm = new ModelIdentifier(new TGIdentifier("item/grenade40mm.obj"), null);
 
-    public RenderGrenadeProjectile(EntityRenderDispatcher dispatcher) {
-        super(dispatcher);
+    public RenderGrenadeProjectile(EntityRendererFactory.Context ctx) {
+        super(ctx);
     }
 
     @Override
@@ -39,8 +40,8 @@ public class RenderGrenadeProjectile extends EntityRenderer<GrenadeProjectile> {
     public void render(GrenadeProjectile entity, float yaw, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light) {
         matrices.push();
 
-        TGMatrixOps.rotate(matrices, entity.prevYaw + (entity.yaw-entity.prevYaw)*tickDelta -90.0f, 0F, 1F, 0F);
-        TGMatrixOps.rotate(matrices, entity.prevPitch + (entity.pitch-entity.prevPitch)*tickDelta, 0F, 0F, 1F);
+        TGMatrixOps.rotate(matrices, entity.prevYaw + (entity.getYaw()-entity.prevYaw)*tickDelta -90.0f, 0F, 1F, 0F);
+        TGMatrixOps.rotate(matrices, entity.prevPitch + (entity.getPitch()-entity.prevPitch)*tickDelta, 0F, 0F, 1F);
 
         float rot = ((entity.age % 20) +tickDelta) * -0.025f;
         TGMatrixOps.rotate(matrices, 360.0f*rot, 0F, 0F, 1F);
