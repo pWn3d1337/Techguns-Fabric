@@ -56,8 +56,8 @@ public class DeathEffectHandler {
 		genericGore.setRandomScale(0.5f, 0.8f);
 		
 		//ZombieEntityModel<ZombieEntity> model = new ZombieEntityModel<ZombieEntity>(0, false);
-		ZombieEntityModel<ZombieEntity> model = new ZombieEntityModel<ZombieEntity>(null); //FIXME 1.17 see changes
-		genericGibs = getModelParts(model);
+		ZombieEntityModel<ZombieEntity> model = null; //new ZombieEntityModel<ZombieEntity>(null); //FIXME 1.17 see changes
+		genericGibs = null; //getModelParts(model);
 	}
 	
 	
