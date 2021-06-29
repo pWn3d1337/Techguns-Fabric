@@ -10,7 +10,8 @@ import techguns.api.render.ITGModelPart;
 
 @Mixin(ModelPart.class)
 public abstract class ModelPartMixin implements ITGModelPart{
-	
+
+    //TODO 1.17 remove?
 	/*@Shadow
 	private ObjectList<ModelPart.Cuboid> cuboids;
 	

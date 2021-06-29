@@ -1,6 +1,7 @@
 package techguns.client.render;
 
 import net.minecraft.client.render.*;
+import net.minecraft.util.Util;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.platform.GlStateManager;
@@ -17,6 +18,8 @@ import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 import techguns.client.render.fx.IScreenEffect.RenderType;
 import techguns.mixin.LightmapTextureManagerAccessor;
+
+import java.util.function.Function;
 
 //import net.minecraft.client.render.OpenGlHelper;
 
@@ -93,30 +96,39 @@ public class TGRenderHelper extends RenderPhase {
 	}
 	
     public static RenderLayer getProjectileCutout(Identifier texture) {
-	      RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false))/*todo 1.17: .alpha(HALF_ALPHA).diffuseLighting(ENABLE_DIFFUSE_LIGHTING) */.lightmap(ENABLE_LIGHTMAP).build(true);
+	      RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false))/*todo 1.17: .alpha(HALF_ALPHA).diffuseLighting(ENABLE_DIFFUSE_LIGHTING) */.lightmap(ENABLE_LIGHTMAP).shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).build(true);
 	      return RenderLayer.of("techguns_projectile_cutout", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, VertexFormat.DrawMode.QUADS, 256, true, false, multiPhaseParameters);
 	}
 
 	public static RenderLayer getProjectileAdditive(Identifier texture) {
 		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder()
 				.texture(new RenderPhase.Texture(texture, false, false))/*.diffuseLighting(DISABLE_DIFFUSE_LIGHTING) TODO 1.17 check*/
-				.cull(DISABLE_CULLING).transparency(LIGHTNING_TRANSPARENCY).target(PARTICLES_TARGET).build(true);
+				.cull(DISABLE_CULLING).transparency(LIGHTNING_TRANSPARENCY).target(PARTICLES_TARGET).shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).build(true);
 		return RenderLayer.of("techguns_projectile_additive", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, VertexFormat.DrawMode.QUADS, 256, multiPhaseParameters);
 	}
-	
+
+	private static Function<Identifier, RenderLayer> TG_RENDERLAYER_FX_ALPHA = Util.memoize((texture) -> {
+		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).texture(new RenderPhase.Texture(texture, false, false)).transparency(TRANSLUCENT_TRANSPARENCY).target(WEATHER_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.ALL_MASK).build(true);
+		return RenderLayer.of("techguns_fx_alpha", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, VertexFormat.DrawMode.QUADS, 256, false, true, multiPhaseParameters);
+	});
+
+
 	public static RenderLayer get_fx_layerForType(Identifier texture, RenderType type) {
 		switch (type) {
 		case SCOPE:
 			return get_scope_renderlayer(texture);
 		case ALPHA:
 		case ALPHA_SHADED:
-			return get_fx_renderlayer_alpha(texture);
+			return TG_RENDERLAYER_FX_ALPHA.apply(texture);
+			//return get_fx_renderlayer_alpha(texture);
 		case ADDITIVE:
-			return get_fx_renderlayer_additive(texture);
+			//return get_fx_renderlayer_additive(texture);
+			return TG_RENDERLAYER_FX_ALPHA.apply(texture);
 		case NO_Z_TEST:
 		case SOLID:	
 		default:
-			return get_fx_renderlayer(texture);
+			//return get_fx_renderlayer(texture);
+			return TG_RENDERLAYER_FX_ALPHA.apply(texture);
 		}
 	};
 	

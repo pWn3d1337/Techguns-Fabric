@@ -3,12 +3,20 @@ package techguns.client.models;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.MathHelper;
+import techguns.client.render.math.TGMatrixOps;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModelPart {
-    Model parent;
+    /**
+     * 1.0/16.0
+     */
+    protected static final double SCALE = 0.0625;
+    protected static final float RAD2DEG = 180.0F / (float) Math.PI;
+
+    ModelMultipart parent;
     float x;
     float y;
     float z;
@@ -36,8 +44,10 @@ public class ModelPart {
 
     private List<ModelPart> children = new ArrayList<>();
 
-    public ModelPart(Model parent, int u, int v) {
+    public ModelPart(ModelMultipart parent, int u, int v) {
         this.parent = parent;
+        this.texture_width = parent.textureWidth;
+        this.texture_height = parent.textureHeight;
         this.u = u;
         this.v = v;
     }
@@ -70,10 +80,25 @@ public class ModelPart {
         if (cuboid == null){
             this.cuboid = new net.minecraft.client.model.ModelPart.Cuboid(u, v, x, y, z, width, height, length, 0,0,0, mirror, texture_width, texture_height);
         }
+        matrices.push();
+        matrices.translate(pivotX*SCALE, pivotY*SCALE, pivotZ*SCALE);
+
+        matrices.push();
+        if (this.pitch!=0.0){
+            TGMatrixOps.rotate(matrices, this.pitch * RAD2DEG, 1F,0F, 0F);
+        }
+        if (this.yaw!=0.0){
+            TGMatrixOps.rotate(matrices, this.yaw * RAD2DEG, 0F,1F, 0F);
+        }
+        if (this.roll!=0.0){
+            TGMatrixOps.rotate(matrices, this.roll * RAD2DEG, 0F,0F, 1F);
+        }
         this.cuboid.renderCuboid(matrices.peek(), vertices, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f);
+        matrices.pop();
         for (ModelPart child : this.children){
             child.render(matrices, vertices, light, overlay);
         }
+        matrices.pop();
     }
 
     public void addChild(ModelPart child) {

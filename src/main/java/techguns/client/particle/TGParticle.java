@@ -3,16 +3,14 @@ package techguns.client.particle;
 import java.awt.Color;
 import java.util.stream.Stream;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleTextureSheet;
-import net.minecraft.client.render.Camera;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
@@ -396,9 +394,10 @@ public class TGParticle extends Particle implements ITGParticle {
 		
 		float ua, va, ub, vb, uc, vc, ud, vd;
 		ua=U2; va=V2; ub = U2; vb= V1; uc = U1; vc = V1; ud=U1; vd = V2;
-		
+
 		RenderLayer layer = TGRenderHelper.get_fx_layerForType(this.type.texture, this.type.renderType);
 		VertexConsumer buffer = vertexConsumerProvider.getBuffer(layer);
+
 
         double a = (angle + (partialTickTime * angleRate)) * MathUtil.D2R;
 		Vec3d p1, p2, p3, p4;
