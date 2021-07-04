@@ -165,10 +165,10 @@ public class ScreenEffect implements IScreenEffect {
 			
 			Matrix4f modelMat = matrices.peek().getModel();
 			
-			vertices.vertex(modelMat, offsetX-f, offsetY+f, offsetZ).texture(U1,V2).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
-	        vertices.vertex(modelMat, offsetX-f, offsetY-f, offsetZ).texture(U1,V1).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
-	        vertices.vertex(modelMat, offsetX+f, offsetY-f, offsetZ).texture(U2,V1).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
-	        vertices.vertex(modelMat, offsetX+f, offsetY+f, offsetZ).texture(U2,V2).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
+			vertices.vertex(modelMat, offsetX-f, offsetY+f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U1,V2).light(light_u,light_v).next();
+	        vertices.vertex(modelMat, offsetX-f, offsetY-f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U1,V1).light(light_u,light_v).next();
+	        vertices.vertex(modelMat, offsetX+f, offsetY-f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U2,V1).light(light_u,light_v).next();
+	        vertices.vertex(modelMat, offsetX+f, offsetY+f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U2,V2).light(light_u,light_v).next();
 			
 	        //layer.draw((BufferBuilder) vertices, 0, 0, 0);
 	        
@@ -185,15 +185,15 @@ public class ScreenEffect implements IScreenEffect {
 	        */
 	        if (is3p) {
 	        	
-	        	vertices.vertex(modelMat, offsetX-f, offsetY, offsetZ+f).texture(U1,V2).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX-f, offsetY, offsetZ-f).texture(U1,V1).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX+f, offsetY, offsetZ-f).texture(U2,V1).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX+f, offsetY, offsetZ+f).texture(U2,V2).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
+	        	vertices.vertex(modelMat, offsetX-f, offsetY, offsetZ+f).color(colorR, colorG, colorB, alpha).texture(U1,V2).light(light_u,light_v).next();
+	        	vertices.vertex(modelMat, offsetX-f, offsetY, offsetZ-f).color(colorR, colorG, colorB, alpha).texture(U1,V1).light(light_u,light_v).next();
+	        	vertices.vertex(modelMat, offsetX+f, offsetY, offsetZ-f).color(colorR, colorG, colorB, alpha).texture(U2,V1).light(light_u,light_v).next();
+	        	vertices.vertex(modelMat, offsetX+f, offsetY, offsetZ+f).color(colorR, colorG, colorB, alpha).texture(U2,V2).light(light_u,light_v).next();
 	 	        
-	        	vertices.vertex(modelMat, offsetX, offsetY-f, offsetZ+f).texture(U1,V2).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX, offsetY-f, offsetZ-f).texture(U1,V1).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX, offsetY+f, offsetZ-f).texture(U2,V1).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX, offsetY+f, offsetZ+f).texture(U2,V2).color(colorR, colorG, colorB, alpha).light(light_u,light_v).next();
+	        	vertices.vertex(modelMat, offsetX, offsetY-f, offsetZ+f).color(colorR, colorG, colorB, alpha).texture(U1,V2).light(light_u,light_v).next();
+	        	vertices.vertex(modelMat, offsetX, offsetY-f, offsetZ-f).color(colorR, colorG, colorB, alpha).texture(U1,V1).light(light_u,light_v).next();
+	        	vertices.vertex(modelMat, offsetX, offsetY+f, offsetZ-f).color(colorR, colorG, colorB, alpha).texture(U2,V1).light(light_u,light_v).next();
+	        	vertices.vertex(modelMat, offsetX, offsetY+f, offsetZ+f).color(colorR, colorG, colorB, alpha).texture(U2,V2).light(light_u,light_v).next();
 	        }
 	        
 	        /*

@@ -432,16 +432,16 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 		Matrix4f modelMat = matrixStack.peek().getModel();
 
 		//set alpha1
-		vertexConsumer.vertex(modelMat, x1,  y1- width1,  z1).texture(0,0).color(1f,1f,1f, a1).light(light).next();
-		vertexConsumer.vertex(modelMat, x1,  y1+ width1,  z1).texture(0,1).color(1f,1f,1f, a1).light(light).next();
-		vertexConsumer.vertex(modelMat, x2,  y2+ width2,  z2).texture(1,1).color(1f,1f,1f, a1).light(light).next();
-		vertexConsumer.vertex(modelMat, x2,  y2- width2,  z2).texture(1,0).color(1f,1f,1f, a1).light(light).next();
+		vertexConsumer.vertex(modelMat, x1,  y1- width1,  z1).color(1f,1f,1f, a1).texture(0,0).light(light).next();
+		vertexConsumer.vertex(modelMat, x1,  y1+ width1,  z1).color(1f,1f,1f, a1).texture(0,1).light(light).next();
+		vertexConsumer.vertex(modelMat, x2,  y2+ width2,  z2).color(1f,1f,1f, a1).texture(1,1).light(light).next();
+		vertexConsumer.vertex(modelMat, x2,  y2- width2,  z2).color(1f,1f,1f, a1).texture(1,0).light(light).next();
 
 		//set alpha2
-		vertexConsumer.vertex(modelMat, x1,  y1, z1-width1).texture(0,0).color(1f,1f,1f, a1).light(light).next();
-		vertexConsumer.vertex(modelMat, x1,  y1, z1+width1).texture(0,1).color(1f,1f,1f, a1).light(light).next();
-		vertexConsumer.vertex(modelMat, x2,  y2, z2+width2).texture(1,1).color(1f,1f,1f, a1).light(light).next();
-		vertexConsumer.vertex(modelMat, x2,  y2, z2-width2).texture(1,0).color(1f,1f,1f, a1).light(light).next();
+		vertexConsumer.vertex(modelMat, x1,  y1, z1-width1).color(1f,1f,1f, a1).texture(0,0).light(light).next();
+		vertexConsumer.vertex(modelMat, x1,  y1, z1+width1).color(1f,1f,1f, a1).texture(0,1).light(light).next();
+		vertexConsumer.vertex(modelMat, x2,  y2, z2+width2).color(1f,1f,1f, a1).texture(1,1).light(light).next();
+		vertexConsumer.vertex(modelMat, x2,  y2, z2-width2).color(1f,1f,1f, a1).texture(1,0).light(light).next();
 
 		matrixStack.pop();
 	}

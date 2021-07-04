@@ -209,7 +209,8 @@ public class GenericProjectile extends ProjectileEntity {
 		
 		this.setRotation(p.headYaw +(float) (spread - (2 * Math.random() * spread)) * 40.0f,
 				p.getPitch() + (float) (spread - (2 * Math.random() * spread)) * 40.0f);
-		
+
+
 		float offsetSide=0.16F;
 		float offsetHeight=0f;
 		
@@ -325,12 +326,12 @@ public class GenericProjectile extends ProjectileEntity {
 
 	public void tick() {
 		super.tick();
-				
+
 		Vec3d vec3d = this.getVelocity();
 		if (this.prevPitch == 0.0F && this.prevYaw == 0.0F) {
-			float f = MathHelper.sqrt((float) squaredDistanceTo(vec3d));
-			this.setYaw((float) (MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875D));
-			this.setPitch((float) (MathHelper.atan2(vec3d.y, (double) f) * 57.2957763671875D));
+			double d = vec3d.horizontalLength();
+			this.setYaw((float)(MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875D));
+			this.setPitch((float)(MathHelper.atan2(vec3d.y, d) * 57.2957763671875D));
 			this.prevYaw = this.getYaw();
 			this.prevPitch = this.getPitch();
 		}
@@ -364,7 +365,7 @@ public class GenericProjectile extends ProjectileEntity {
 			HitResult hitResult = this.world.raycast(new RaycastContext(vec3d3, vec3d4,
 					RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, this));
 			if (hitResult.getType() != HitResult.Type.MISS) {
-				vec3d4 = ((HitResult) hitResult).getPos();
+				vec3d4 = (hitResult).getPos();
 			}
 	
 			while (!this.isRemoved() && !this.clientSlowDeath && this.shouldCollide) {
@@ -373,7 +374,7 @@ public class GenericProjectile extends ProjectileEntity {
 					hitResult = entityHitResult;
 				}
 	
-				if (hitResult != null && ((HitResult) hitResult).getType() == HitResult.Type.ENTITY) {
+				if (hitResult != null && hitResult.getType() == HitResult.Type.ENTITY) {
 					Entity entity = ((EntityHitResult) hitResult).getEntity();
 					Entity entity2 = this.getOwner();
 					if (entity instanceof PlayerEntity && entity2 instanceof PlayerEntity
@@ -384,7 +385,7 @@ public class GenericProjectile extends ProjectileEntity {
 				}
 	
 				if (hitResult != null) {
-					this.onCollision((HitResult) hitResult);
+					this.onCollision(hitResult);
 					this.velocityDirty = true;
 				}
 	
@@ -396,18 +397,18 @@ public class GenericProjectile extends ProjectileEntity {
 			}
 		}
 		vec3d = this.getVelocity();
-		double d = vec3d.x;
-		double e = vec3d.y;
+		double e = vec3d.x;
+		double f = vec3d.y;
 		double g = vec3d.z;
 
-		double h = this.getX() + d;
-		double j = this.getY() + e;
+		double h = this.getX() + e;
+		double j = this.getY() + f;
 		double k = this.getZ() + g;
-		float l = MathHelper.sqrt((float) squaredDistanceTo(vec3d));
+		double l = vec3d.horizontalLength();
 
-		this.setYaw(((float) (MathHelper.atan2(d, g) * 57.2957763671875D)));
+		this.setYaw((float)(MathHelper.atan2(e, g) * 57.2957763671875D));
+		this.setPitch((float)(MathHelper.atan2(f, l) * 57.2957763671875D));
 
-		this.setPitch((float) (MathHelper.atan2(e, (double) l) * 57.2957763671875D));
 		this.setPitch(updateRotation(this.prevPitch, this.getPitch()));
 		this.setYaw(updateRotation(this.prevYaw, this.getYaw()));
 		float m = 0.99F;
@@ -415,20 +416,19 @@ public class GenericProjectile extends ProjectileEntity {
 		if (this.isTouchingWater()) {
 			for (int o = 0; o < 4; ++o) {
 				//float p = 0.25F;
-				this.world.addParticle(ParticleTypes.BUBBLE, h - d * 0.25D, j - e * 0.25D, k - g * 0.25D, d, e, g);
+				this.world.addParticle(ParticleTypes.BUBBLE, h - e * 0.25D, j - f * 0.25D, k - g * 0.25D, e, f, g);
 			}
 
 			m = this.getDragInWater();
 			this.inWaterTick();
 		}
 
-		this.setVelocity(vec3d.multiply((double) m));
+		this.setVelocity(vec3d.multiply(m));
 		if (!this.hasNoGravity() && this.gravity>=0.0d) {
 			Vec3d vec3d5 = this.getVelocity();
-			this.setVelocity(vec3d5.x, vec3d5.y - this.gravity, vec3d5.z);
+			this.setVelocity(vec3d5.x, vec3d5.y - 0.05000000074505806D, vec3d5.z);
 		}
-
-		this.updatePosition(h, j, k);
+		this.setPosition(h, j, k);
 		
 		if (this.clientSlowDeath) {
 			

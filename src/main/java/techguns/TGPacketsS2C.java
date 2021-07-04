@@ -66,6 +66,7 @@ public class TGPacketsS2C {
 	}
 
 	public static void sentToAllTrackingPos(TGBasePacket packet, World world, BlockPos pos) {
+		//TODO 1.17 migrate to non-deprecated API
 		Stream<PlayerEntity> watchingPlayers = PlayerStream.watching(world, pos);
 		sendTo(packet, watchingPlayers);
 	}

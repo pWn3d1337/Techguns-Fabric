@@ -8,10 +8,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.BufferRenderer;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -73,7 +70,11 @@ public class TGGuiRender {
 
 	//		mc.getTextureManager().bindTexture(TGPlayerInventoryGui.texture);
 	//		gui.drawTexture(matrices, scaledWidth-10, offsetY, 242+7*(props.hasEnabledSafemode()?1:0), 14, 7,7);
-			mc.getTextureManager().bindTexture(TECHGUNS_PLAYER_INVENTORY_TEXTURE);
+			//mc.getTextureManager().bindTexture(TECHGUNS_PLAYER_INVENTORY_TEXTURE);
+			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+			RenderSystem.setShader(GameRenderer::getPositionTexShader);
+			RenderSystem.setShaderTexture(0, TECHGUNS_PLAYER_INVENTORY_TEXTURE);
+
 			gui.drawTexture(matrices, scaledWidth-10, offsetY, 242+7*(props.hasEnabledSafemode()?1:0), 14, 7,7);
 
 		}
@@ -200,7 +201,9 @@ public class TGGuiRender {
 		}*/
 		
 		//Bind back the correct texture for default crosshair rendering
-		mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderSystem.setShaderTexture(0, DrawableHelper.GUI_ICONS_TEXTURE);
 		RenderSystem.enableBlend();
 		//RenderSystem.enableAlphaTest(); //FIXME 1.17 see changes
 	}
@@ -244,7 +247,9 @@ public class TGGuiRender {
 				float maxTicks = (float) gun.getLockOnTicks(); // TODO: Store in capabilities
 				float progress = (float) epc.getLockOnTicks() / maxTicks;
 
-				mc.getTextureManager().bindTexture(GUIDED_MISSILE_CROSSHAIRS_TEXTURE);
+				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+				RenderSystem.setShader(GameRenderer::getPositionTexShader);
+				RenderSystem.setShaderTexture(0, GUIDED_MISSILE_CROSSHAIRS_TEXTURE);
 
 				// GlStateManager.disableBlend();
 
@@ -293,7 +298,10 @@ public class TGGuiRender {
 				if (gun.getCrossHairStyle() != EnumCrosshairStyle.VANILLA) {
 					showCustomCrosshair = true;
 
-					mc.getTextureManager().bindTexture(TG_CROSSHAIRS_TEXTURE);
+					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+					RenderSystem.setShader(GameRenderer::getPositionTexShader);
+					RenderSystem.setShaderTexture(0, TG_CROSSHAIRS_TEXTURE);
+
 					//same settings as vanilla
 					RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.ONE_MINUS_DST_COLOR, GlStateManager.DstFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SrcFactor.ONE, GlStateManager.DstFactor.ZERO);
 		               					
@@ -405,7 +413,9 @@ public class TGGuiRender {
 					}
 
 					// do same bind as vanilla afterwards
-					mc.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+					RenderSystem.setShader(GameRenderer::getPositionTexShader);
+					RenderSystem.setShaderTexture(0, DrawableHelper.GUI_ICONS_TEXTURE);
 				}
 			}
 		}

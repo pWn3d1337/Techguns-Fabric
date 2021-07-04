@@ -45,9 +45,10 @@ public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericP
 			case BLASTER:
 			case ADVANCED:
 			case DEFAULT:
-				return TGRenderHelper.getProjectileAdditive(this.getTexture(entity));
 			default:
-				return TGRenderHelper.getProjectileCutout(this.getTexture(entity));
+				return TGRenderHelper.getProjectileAdditive(this.getTexture(entity));
+			//default:
+			//	return TGRenderHelper.getProjectileCutout(this.getTexture(entity));
 		}
 	}
 
@@ -98,7 +99,7 @@ public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericP
 
 	public void addVertex(Matrix4f model_mat, VertexConsumer vertexConsumer, float x, float y, float z,
 			float u, float v, int light) {
-		vertexConsumer.vertex(model_mat, x, y,  z).texture(u, v).color(255, 255, 255, 255).light(light).next();
+		vertexConsumer.vertex(model_mat, x, y,  z).color(255, 255, 255, 255).texture(u, v).light(light).next();
 	}
 
 }

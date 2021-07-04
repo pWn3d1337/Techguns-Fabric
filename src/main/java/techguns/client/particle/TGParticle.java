@@ -432,10 +432,10 @@ public class TGParticle extends Particle implements ITGParticle {
 	        }	        		
 		}
 	
-		buffer.vertex(mat, (float)p1.x + fPosX, (float)p1.y + fPosY, (float)p1.z + fPosZ).texture(ua, va).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
-		buffer.vertex(mat, (float)p2.x + fPosX, (float)p2.y + fPosY, (float)p2.z + fPosZ).texture(ub, vb).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
-		buffer.vertex(mat, (float)p3.x + fPosX, (float)p3.y + fPosY, (float)p3.z + fPosZ).texture(uc, vc).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
-		buffer.vertex(mat, (float)p4.x + fPosX, (float)p4.y + fPosY, (float)p4.z + fPosZ).texture(ud, vd).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p1.x + fPosX, (float)p1.y + fPosY, (float)p1.z + fPosZ).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).texture(ua, va).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p2.x + fPosX, (float)p2.y + fPosY, (float)p2.z + fPosZ).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).texture(ub, vb).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p3.x + fPosX, (float)p3.y + fPosY, (float)p3.z + fPosZ).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).texture(uc, vc).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p4.x + fPosX, (float)p4.y + fPosY, (float)p4.z + fPosZ).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).texture(ud, vd).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
 
 		vertexConsumerProvider.draw(layer);
     }
