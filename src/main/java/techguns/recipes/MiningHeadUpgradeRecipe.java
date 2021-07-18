@@ -82,8 +82,8 @@ public class MiningHeadUpgradeRecipe extends ShapelessRecipe {
         return super.matches(inv, world) && getTargetLevel(inv).isValid();
     }
 
-    //@Override //FIXME 1.17 check recipe remainder
-    public DefaultedList<ItemStack> getRemainingStacks(CraftingInventory inventory) {
+    @Override
+    public DefaultedList<ItemStack> getRemainder(CraftingInventory inventory) {
         DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(inventory.size(), ItemStack.EMPTY);
 
         for(int i = 0; i < defaultedList.size(); ++i) {

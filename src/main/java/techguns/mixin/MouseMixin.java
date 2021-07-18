@@ -1,21 +1,60 @@
 package techguns.mixin;
 
+import net.minecraft.client.util.SmoothUtil;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.Mouse;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.GunManager;
 import techguns.api.guns.IGenericGun;
 import techguns.client.ClientProxy;
+import techguns.client.particle.ParticleList;
 import techguns.items.guns.GenericGunCharge;
 import techguns.client.ShooterValues;
 
 @Mixin(Mouse.class)
 public class MouseMixin {
+	@Final
+	@Shadow
+	private MinecraftClient client;
+
+	@Final
+	@Shadow
+	private SmoothUtil cursorXSmoother;
+
+	@Final
+	@Shadow
+	private SmoothUtil cursorYSmoother;
+
+	@Shadow
+	private double cursorDeltaX;
+
+	@Shadow
+	private double cursorDeltaY;
+
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/tutorial/TutorialManager;onUpdateMouse(DD)V"), method = "updateMouse", cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+	public void updateMouse(CallbackInfo ci, double e, double o, double p, int q){
+		if (this.client != null && this.client.options.getPerspective().isFirstPerson() && ClientProxy.get().isZooming()) {
+			float mult = ClientProxy.get().getZoomfactor();
+
+			ci.cancel();
+
+			o *= mult;
+			p *= mult;
+
+			this.client.getTutorialManager().onUpdateMouse(o, p);
+			if (this.client.player != null) {
+				this.client.player.changeLookDirection(o, p * (double)q);
+			}
+		}
+	}
 
 	@Inject(at = @At("INVOKE"), method ="onMouseButton", cancellable=true)
 	public void onMouseButton(long window, int button, int action, int mods, CallbackInfo info) {

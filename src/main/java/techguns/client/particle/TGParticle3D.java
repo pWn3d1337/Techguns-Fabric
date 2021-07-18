@@ -77,10 +77,23 @@ public class TGParticle3D extends TGParticle {
 		this.yaw = (float) (MathUtil.R2D*Math.atan2(dir.x, dir.z));
 		this.pitch = (float) (MathUtil.R2D*Math.asin(dir.y));
 	}
-	
+
 	protected void calcModelBounds(ModelPart model, float pX, float pY, float pZ) {
-		//FIXME 1.17 BROKEN!!!
-/*		ObjectList<ModelPart.Cuboid> cuboids = ((ITGModelPart)model).getCuboids();
+		//FIXME 1.17 check if works
+		MatrixStack identity = new MatrixStack();
+		identity.loadIdentity();
+
+		model.forEachCuboid(identity, (MatrixStack.Entry matrix, String path, int index, ModelPart.Cuboid cube) -> {
+			if (cube.minX+pX < modelMinX) modelMinX = cube.minX+pX;
+			if (cube.minY+pY < modelMinY) modelMinY = cube.minY+pY;
+			if (cube.minZ+pZ < modelMinZ) modelMinZ = cube.minZ+pZ;
+
+			if (cube.maxX+pX > modelMaxX) modelMaxX = cube.maxX+pX;
+			if (cube.maxY+pY > modelMaxY) modelMaxY = cube.maxY+pY;
+			if (cube.maxZ+pZ > modelMaxZ) modelMaxZ = cube.maxZ+pZ;
+		});
+
+		/*ObjectList<ModelPart.Cuboid> cuboids = ((ITGModelPart)model).getCuboids();
 
 		pX+= model.pivotX;
 		pY+= model.pivotY;
@@ -108,9 +121,8 @@ public class TGParticle3D extends TGParticle {
 		
 		for (ModelPart child : children) {
 			calcModelBounds(child, pZ, pY, pZ);
-		}
+		}*/
 
- */
 	}
 	
 	

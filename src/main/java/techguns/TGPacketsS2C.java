@@ -1,33 +1,23 @@
 package techguns;
 
-import java.util.List;
-import java.util.ListIterator;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
-import net.fabricmc.fabric.api.server.PlayerStream;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.impl.networking.ClientSidePacketRegistryImpl;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import techguns.packets.GunFiredMessage;
-import techguns.packets.PacketEntityAdditionalSpawnData;
-import techguns.packets.PacketEntityDeathType;
-import techguns.packets.PacketGunImpactFX;
-import techguns.packets.PacketPlaySound;
-import techguns.packets.PacketShowKeybindConfirmedMessage;
-import techguns.packets.PacketSpawnParticle;
-import techguns.packets.PacketSpawnParticleOnEntity;
-import techguns.packets.PacketSwapWeapon;
-import techguns.packets.ReloadStartedMessage;
-import techguns.packets.TGBasePacket;
+import techguns.packets.*;
+
+import java.util.Collection;
+import java.util.List;
+import java.util.function.Supplier;
 
 public class TGPacketsS2C {
 
@@ -66,55 +56,48 @@ public class TGPacketsS2C {
 	}
 
 	public static void sentToAllTrackingPos(TGBasePacket packet, World world, BlockPos pos) {
-		//TODO 1.17 migrate to non-deprecated API
-		Stream<PlayerEntity> watchingPlayers = PlayerStream.watching(world, pos);
+		if (!world.isClient) {
+			Collection<ServerPlayerEntity> watchingPlayers = PlayerLookup.tracking((ServerWorld) world, pos);
+
+			sendTo(packet, watchingPlayers);
+		}
+	}
+
+	public static void sendToAllTracking(TGBasePacket packet, Entity tracked_ent, boolean sendToTrackedEnt) {
+		Collection<ServerPlayerEntity> watchingPlayers = PlayerLookup.tracking(tracked_ent);
+
+		if (!sendToTrackedEnt && watchingPlayers.contains(tracked_ent)){
+			watchingPlayers.remove(tracked_ent);
+		}
+		if (sendToTrackedEnt && tracked_ent instanceof ServerPlayerEntity ply && !watchingPlayers.contains(tracked_ent)){
+			watchingPlayers.add(ply);
+		}
+
 		sendTo(packet, watchingPlayers);
 	}
-	
-	public static void sendToAllTracking(TGBasePacket packet, Entity tracked_ent, boolean sendToTrackedEnt) {
-		Stream<PlayerEntity> watchingPlayers = PlayerStream.watching(tracked_ent);
 
-		List<PlayerEntity> players = watchingPlayers.collect(Collectors.toList());
-
-		if (tracked_ent instanceof PlayerEntity) {
-			boolean addTracked=sendToTrackedEnt;
-
-			ListIterator<PlayerEntity> iter = players.listIterator();
-			while(iter.hasNext()) {
-				PlayerEntity ply = iter.next();
-				if (ply==tracked_ent) {
-					if (sendToTrackedEnt) {
-						addTracked=false;
-					} else {
-						iter.remove();
-					}
-				}
-			}
-			if (addTracked) {
-				players.add((PlayerEntity) tracked_ent);
-			}
-		}
-		sendTo(packet, players.stream());
-	}
-	
 	public static void sendToAllAroundEntity(TGBasePacket packet, Entity ent, double radius) {
 		sendToAllAround(packet, ent.world, ent.getPos(), radius);
 	}
 	
 	public static void sendToAllAround(TGBasePacket packet, World world, Vec3d pos, double radius) {
-        Stream<PlayerEntity> watchingPlayers = PlayerStream.around(world, pos, radius);
-        sendTo(packet, watchingPlayers);
+		if (!world.isClient) {
+			Collection<ServerPlayerEntity> watchingPlayers = PlayerLookup.around((ServerWorld) world, pos, radius);
+			sendTo(packet, watchingPlayers);
+		}
 	}
 	
 	public static void sendTo(TGBasePacket packet, PlayerEntity player) {
-		sendTo(packet, Stream.of(player));
+		if (player instanceof ServerPlayerEntity serverPlayer) {
+			sendTo(packet, List.of(serverPlayer));
+		}
 	}
 	
-	public static void sendTo(TGBasePacket packet, Stream<PlayerEntity> players) {
+	public static void sendTo(TGBasePacket packet, Collection<ServerPlayerEntity> players) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         packet.pack(buf);
 
         players.forEach(player ->
-                ServerSidePacketRegistry.INSTANCE.sendToPlayer(player,packet.getID(),buf));
+				ServerPlayNetworking.send(player,packet.getID(),buf));
 	}
 }

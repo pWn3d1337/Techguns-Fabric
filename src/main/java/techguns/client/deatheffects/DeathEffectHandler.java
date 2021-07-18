@@ -8,11 +8,7 @@ import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
-import net.minecraft.client.render.entity.model.AnimalModel;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.model.CompositeEntityModel;
-import net.minecraft.client.render.entity.model.EntityModel;
-import net.minecraft.client.render.entity.model.ZombieEntityModel;
+import net.minecraft.client.render.entity.model.*;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.SkeletonEntity;
 import net.minecraft.entity.mob.WitherSkeletonEntity;
@@ -54,10 +50,9 @@ public class DeathEffectHandler {
 		
 		genericGore = (new GoreData(160,21,31)).setTexture(GORE_TEXTURE);
 		genericGore.setRandomScale(0.5f, 0.8f);
-		
-		//ZombieEntityModel<ZombieEntity> model = new ZombieEntityModel<ZombieEntity>(0, false);
-		ZombieEntityModel<ZombieEntity> model = null; //new ZombieEntityModel<ZombieEntity>(null); //FIXME 1.17 see changes
-		genericGibs = null; //getModelParts(model);
+
+		ZombieEntityModel<ZombieEntity> model = new ZombieEntityModel<ZombieEntity>(MinecraftClient.getInstance().getEntityModelLoader().getModelPart(EntityModelLayers.ZOMBIE));
+		genericGibs = getModelParts(model);
 	}
 	
 	

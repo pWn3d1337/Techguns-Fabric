@@ -118,8 +118,7 @@ public class AmmoChangeRecipe extends SpecialCraftingRecipe {
         return SERIALIZER;
     }
 
-    //@Override //FIXME 1.17 check recipe remainder
-    public DefaultedList<ItemStack> getRemainingStacks(CraftingInventory inventory) {
+    public DefaultedList<ItemStack> getRemainder(CraftingInventory inventory) {
         DefaultedList<ItemStack> defaultedList = DefaultedList.ofSize(inventory.size(), ItemStack.EMPTY);
 
         List<ItemStack> itemsBack = new LinkedList<ItemStack>();
