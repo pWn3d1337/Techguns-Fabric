@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "minecraft:red_concrete",
+    "count": 8
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:red_concrete_powder"
+    },
+    {
+      "item": "minecraft:red_concrete_powder"
+    },
+    {
+      "item": "minecraft:red_concrete_powder"
+    },
+    {
+      "item": "minecraft:red_concrete_powder"
+    },
+    {
+      "item": "minecraft:red_concrete_powder"
+    },
+    {
+      "item": "minecraft:red_concrete_powder"
+    },
+    {
+      "item": "minecraft:red_concrete_powder"
+    },
+    {
+      "item": "minecraft:red_concrete_powder"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

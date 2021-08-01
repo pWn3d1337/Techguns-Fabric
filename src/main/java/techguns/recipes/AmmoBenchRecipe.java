@@ -2,20 +2,36 @@ package techguns.recipes;
 
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.*;
+import net.minecraft.tag.ItemTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
+import net.minecraft.util.Util;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import techguns.TGItems;
 import techguns.TGRecipes;
 import techguns.blocks.entity.AmmoBenchBlockEntity;
+
+import java.util.List;
 
 public class AmmoBenchRecipe implements Recipe<Inventory> {
     public static AmmoBenchRecipe.Serializer SERIALIZER;
 
     protected final ItemStack output;
     protected final Identifier id;
+
+    protected static DefaultedList<Ingredient> getInputs()
+    {
+        DefaultedList<Ingredient> list = DefaultedList.ofSize(3, Ingredient.empty());
+        list.set(0, Ingredient.fromTag(TGItems.TAG_BULLET_CASING));
+        list.set(1, Ingredient.fromTag(TGItems.TAG_BULLET_CORE));
+        list.set(2, Ingredient.fromTag(TGItems.TAG_BULLET_POWDER));
+        return list;
+    };
 
     public AmmoBenchRecipe(Identifier id, ItemStack result){
         this.id = id;
@@ -31,6 +47,11 @@ public class AmmoBenchRecipe implements Recipe<Inventory> {
             }
         }
         return true;
+    }
+
+    @Override
+    public DefaultedList<Ingredient> getIngredients() {
+        return getInputs();
     }
 
     @Override

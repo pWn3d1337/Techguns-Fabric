@@ -33,6 +33,10 @@ public class TGConfig implements ConfigData {
 	public boolean addSteelIngots = true;
 	@ConfigEntry.Gui.Excluded
 	public boolean addLeadIngots = true;
+	@ConfigEntry.Gui.Excluded
+	public boolean addTitaniumIngots = true;
+	@ConfigEntry.Gui.Excluded
+	public boolean addObsidianIngots = true;
 
 	@ConfigEntry.Gui.Excluded
 	public boolean addCopperNuggets = true;
@@ -40,4 +44,13 @@ public class TGConfig implements ConfigData {
 	public boolean addSteelNuggets = true;
 	@ConfigEntry.Gui.Excluded
 	public boolean addLeadNuggets = true;
+
+	@ConfigEntry.Gui.Excluded
+	public boolean addTinOre = true;
+	@ConfigEntry.Gui.Excluded
+	public boolean addLeadOre = true;
+	@ConfigEntry.Gui.Excluded
+	public boolean addTitaniumOre = true;
+	@ConfigEntry.Gui.Excluded
+	public boolean addUraniumOre = true;
 }

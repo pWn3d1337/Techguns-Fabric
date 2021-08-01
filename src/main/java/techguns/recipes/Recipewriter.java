@@ -6,11 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Identifier;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
+import net.minecraft.util.Pair;
 import org.apache.commons.lang3.ArrayUtils;
 import techguns.TGIdentifier;
 import techguns.TGItems;
@@ -36,7 +34,7 @@ public class Recipewriter {
     private static final Identifier TAG_COPPER_INGOTS = new Identifier("c:copper_ingots");
     private static final Identifier TAG_COPPER_WIRES = new Identifier("c:copper_wires");
 
-    private static final Identifier TAG_LEAD_NUGGETS = new Identifier("c:lead_nuggets");
+    //private static final Identifier TAG_LEAD_NUGGETS = new Identifier("c:lead_nuggets");
     private static final Identifier TAG_LEAD_INGOTS = new Identifier("c:lead_ingots");
     private static final Identifier TAG_LEAD_PLATES = new Identifier("c:lead_plates");
 
@@ -70,6 +68,12 @@ public class Recipewriter {
 
     private static final Identifier TAG_BRONZE_INGOTS = new Identifier("c:bronze_ingots");
 
+    //private static final Identifier TAG_CONCRETE_POWDER = new Identifier("c:concrete_powder");
+
+    private static final Identifier TAG_CONCRETE = new Identifier("c:concrete");
+
+    private static final Identifier TAG_DYE = new Identifier("c:dyes");
+
     /**
      * Vanilla tag
      */
@@ -81,14 +85,14 @@ public class Recipewriter {
     static {
         TAG_LIST.put(TAG_CARBON_PLATES, Arrays.asList(PLATE_CARBON));
         TAG_LIST.put(TAG_COPPER_NUGGETS, Arrays.asList(NUGGET_COPPER));
-        TAG_LIST.put(TAG_COPPER_INGOTS, Arrays.asList(INGOT_COPPER));
+        TAG_LIST.put(TAG_COPPER_INGOTS, Arrays.asList(Items.COPPER_INGOT));
         TAG_LIST.put(TAG_COPPER_WIRES, Arrays.asList(WIRE_COPPER));
 
-        TAG_LIST.put(TAG_LEAD_INGOTS, Arrays.asList(INGOT_LEAD));
-        TAG_LIST.put(TAG_LEAD_NUGGETS, Arrays.asList(NUGGET_LEAD));
+        TAG_LIST.put(TAG_LEAD_INGOTS, Arrays.asList(LEAD_INGOT));
+        //TAG_LIST.put(TAG_LEAD_NUGGETS, Arrays.asList(NUGGET_LEAD));
         TAG_LIST.put(TAG_LEAD_PLATES, Arrays.asList(PLATE_LEAD));
 
-        TAG_LIST.put(TAG_STEEL_INGOTS, Arrays.asList(INGOT_STEEL));
+        TAG_LIST.put(TAG_STEEL_INGOTS, Arrays.asList(STEEL_INGOT));
         TAG_LIST.put(TAG_STEEL_NUGGETS, Arrays.asList(NUGGET_STEEL));
         TAG_LIST.put(TAG_STEEL_PLATES, Arrays.asList(PLATE_STEEL));
 
@@ -96,7 +100,7 @@ public class Recipewriter {
         TAG_LIST.put(TAG_IRON_NUGGETS, Arrays.asList(Items.IRON_NUGGET));
         TAG_LIST.put(TAG_IRON_PLATES, Arrays.asList(PLATE_IRON));
 
-        TAG_LIST.put(TAG_OBSIDIAN_INGOTS, Arrays.asList(INGOT_OBSIDIAN_STEEL));
+        TAG_LIST.put(TAG_OBSIDIAN_INGOTS, Arrays.asList(OBSIDIAN_STEEL_INGOT));
         TAG_LIST.put(TAG_OBSIDIAN_PLATES, Arrays.asList(PLATE_OBSIDIAN_STEEL));
 
         TAG_LIST.put(TAG_GLASS_BLOCKS, Arrays.asList(Items.GLASS,
@@ -130,11 +134,66 @@ public class Recipewriter {
 
         TAG_LIST.put(TAG_URANIUM_ENRICHED, Arrays.asList(ENRICHED_URANIUM));
 
-        TAG_LIST.put(TAG_TITANIUM_INGOTS, Arrays.asList(INGOT_TITANIUM));
+        TAG_LIST.put(TAG_TITANIUM_INGOTS, Arrays.asList(TITANIUM_INGOT));
 
-        TAG_LIST.put(TAG_TIN_INGOTS, Arrays.asList(INGOT_TIN));
+        TAG_LIST.put(TAG_TIN_INGOTS, Arrays.asList(TIN_INGOT));
 
-        TAG_LIST.put(TAG_BRONZE_INGOTS, Arrays.asList(INGOT_BRONZE));
+        TAG_LIST.put(TAG_BRONZE_INGOTS, Arrays.asList(BRONZE_INGOT));
+
+        /*TAG_LIST.put(TAG_CONCRETE_POWDER, Arrays.asList(
+                Items.WHITE_CONCRETE_POWDER,
+                Items.ORANGE_CONCRETE_POWDER,
+                Items.MAGENTA_CONCRETE_POWDER,
+                Items.LIGHT_BLUE_CONCRETE_POWDER,
+                Items.YELLOW_CONCRETE_POWDER,
+                Items.LIME_CONCRETE_POWDER,
+                Items.PINK_CONCRETE_POWDER,
+                Items.GRAY_CONCRETE_POWDER,
+                Items.LIGHT_GRAY_CONCRETE_POWDER,
+                Items.CYAN_CONCRETE_POWDER,
+                Items.PURPLE_CONCRETE_POWDER,
+                Items.BLUE_CONCRETE_POWDER,
+                Items.BROWN_CONCRETE_POWDER,
+                Items.GREEN_CONCRETE_POWDER,
+                Items.RED_CONCRETE_POWDER,
+                Items.BLACK_CONCRETE_POWDER));*/
+
+        TAG_LIST.put(TAG_CONCRETE, Arrays.asList(
+                Items.WHITE_CONCRETE,
+                Items.ORANGE_CONCRETE,
+                Items.MAGENTA_CONCRETE,
+                Items.LIGHT_BLUE_CONCRETE,
+                Items.YELLOW_CONCRETE,
+                Items.LIME_CONCRETE,
+                Items.PINK_CONCRETE,
+                Items.GRAY_CONCRETE,
+                Items.LIGHT_GRAY_CONCRETE,
+                Items.CYAN_CONCRETE,
+                Items.PURPLE_CONCRETE,
+                Items.BLUE_CONCRETE,
+                Items.BROWN_CONCRETE,
+                Items.GREEN_CONCRETE,
+                Items.RED_CONCRETE,
+                Items.BLACK_CONCRETE));
+
+        TAG_LIST.put(TAG_DYE, Arrays.asList(
+                Items.WHITE_DYE,
+                Items.ORANGE_DYE,
+                Items.MAGENTA_DYE,
+                Items.LIGHT_BLUE_DYE,
+                Items.YELLOW_DYE,
+                Items.LIME_DYE,
+                Items.PINK_DYE,
+                Items.GRAY_DYE,
+                Items.LIGHT_GRAY_DYE,
+                Items.CYAN_DYE,
+                Items.PURPLE_DYE,
+                Items.BLUE_DYE,
+                Items.BROWN_DYE,
+                Items.GREEN_DYE,
+                Items.RED_DYE,
+                Items.BLACK_DYE
+        ));
     }
 
     public static void generateItemRecipes(){
@@ -147,7 +206,7 @@ public class Recipewriter {
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(STOCK_PLASTIC,1),"ppp","  p", 'p', PLASTIC_SHEET);
 
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(BARREL_OBSIDIAN_STEEL, 1), "ooo","   ","ooo", 'o', INGOT_OBSIDIAN_STEEL);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(BARREL_OBSIDIAN_STEEL, 1), "ooo","   ","ooo", 'o', OBSIDIAN_STEEL_INGOT);
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(PUMP_MECHANISM, 1), "nnn", "gpg", "nnn", 'n', Items.IRON_INGOT, 'g', TAG_GLASS_BLOCKS, 'p', Blocks.PISTON);
 
@@ -157,9 +216,9 @@ public class Recipewriter {
 
         RecipeJsonConverter.addShapelessRecipe(new ItemStack(STONE_BULLETS,16), Items.COBBLESTONE, Items.COBBLESTONE, Items.COBBLESTONE, Items.GUNPOWDER);
 
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(PISTOL_ROUNDS,8), "clc","cgc","ccc", 'c', TAG_COPPER_NUGGETS, 'l', TAG_LEAD_INGOTS, 'g', Items.GUNPOWDER);
+        //RecipeJsonConverter.addShapedRecipe(new ItemStack(PISTOL_ROUNDS,8), "clc","cgc","ccc", 'c', TAG_COPPER_NUGGETS, 'l', TAG_LEAD_INGOTS, 'g', Items.GUNPOWDER);
 
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(SHOTGUN_ROUNDS,5), "lll","cgc","ccc", 'c', TAG_COPPER_NUGGETS, 'l', TAG_LEAD_NUGGETS, 'g', Items.GUNPOWDER);
+        //RecipeJsonConverter.addShapedRecipe(new ItemStack(SHOTGUN_ROUNDS,5), "lll","cgc","ccc", 'c', TAG_COPPER_NUGGETS, 'l', TAG_LEAD_NUGGETS, 'g', Items.GUNPOWDER);
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(PISTOL_MAGAZINE_EMPTY,4), "i i","imi","igi", 'i', TAG_IRON_NUGGETS,'g', TAG_IRON_INGOTS, 'm', MECHANICAL_PARTS_IRON);
         RecipeJsonConverter.addShapelessRecipe(new ItemStack(PISTOL_MAGAZINE, 1), PISTOL_MAGAZINE_EMPTY, PISTOL_ROUNDS,PISTOL_ROUNDS,PISTOL_ROUNDS);
@@ -259,12 +318,12 @@ public class Recipewriter {
    //     RecipeJsonConverter.addShapedRecipe(TGItems.new ItemStack(TGItems.RC_HEAT_RAY,1), "cwc","plp","plp", 'c', "circuitElite", 'w', "wireGold", 'p', "plateSteel", 'l', Blocks.REDSTONE_LAMP);
 
         //ingots/nugget
-        RecipeJsonConverter.addShapelessRecipe(TGItems.INGOT_COPPER, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS);
-        RecipeJsonConverter.addShapelessRecipe(TGItems.INGOT_LEAD, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS);
-        RecipeJsonConverter.addShapelessRecipe(TGItems.INGOT_STEEL, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS);
+        RecipeJsonConverter.addShapelessRecipe(Items.COPPER_INGOT, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS, TAG_COPPER_NUGGETS);
+        //RecipeJsonConverter.addShapelessRecipe(TGItems.LEAD_INGOT, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS);
+        RecipeJsonConverter.addShapelessRecipe(TGItems.STEEL_INGOT, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS);
 
         RecipeJsonConverter.addShapelessRecipe(new ItemStack(TGItems.NUGGET_COPPER, 9), TAG_COPPER_INGOTS);
-        RecipeJsonConverter.addShapelessRecipe(new ItemStack(TGItems.NUGGET_LEAD, 9), TAG_LEAD_INGOTS);
+        //RecipeJsonConverter.addShapelessRecipe(new ItemStack(TGItems.NUGGET_LEAD, 9), TAG_LEAD_INGOTS);
         RecipeJsonConverter.addShapelessRecipe(new ItemStack(TGItems.NUGGET_STEEL, 9), TAG_STEEL_INGOTS);
 
        /* ItemStack rc = new ItemStack(TGBlocks.MULTIBLOCK_MACHINE,1, EnumMultiBlockMachineType.REACTIONCHAMBER_HOUSING.getIndex());
@@ -363,6 +422,9 @@ public class Recipewriter {
         RecipeJsonConverter.addMiningheadChangeRecipe((GenericGunMeleeCharge) MININGDRILL, 0, MININGDRILL, MININGDRILLHEAD_OBSIDIAN);
         RecipeJsonConverter.addMiningheadChangeRecipe((GenericGunMeleeCharge) MININGDRILL, 1, MININGDRILL, MININGDRILLHEAD_CARBON);
 
+        RecipeJsonConverter.addShapelessRecipe(AMMO_BENCH, Items.CRAFTING_TABLE, Items.GUNPOWDER, TAG_IRON_INGOTS);
+        RecipeJsonConverter.addShapelessRecipe(CAMO_BENCH, Items.CRAFTING_TABLE, TAG_DYE, TAG_DYE, TAG_DYE);
+
         addGunRecipes();
         addNonMachineRecipes();
 
@@ -371,6 +433,8 @@ public class Recipewriter {
         RecipeJsonConverter.addAmmoBenchRecipe(new ItemStack(RIFLE_ROUNDS, 8));
         RecipeJsonConverter.addAmmoBenchRecipe(new ItemStack(SNIPER_ROUNDS, 4));
         RecipeJsonConverter.addAmmoBenchRecipe(new ItemStack(RIFLE_ROUNDS_STACK, 2));
+
+        addCamoGroupRecipies();
     }
 
     /**
@@ -380,8 +444,8 @@ public class Recipewriter {
         RecipeJsonConverter.addShapedRecipe(new ItemStack(MECHANICAL_PARTS_OBSIDIAN_STEEL,2)," i ", "ifi", " i ", 'f', Items.QUARTZ, 'i', TAG_OBSIDIAN_INGOTS);
         RecipeJsonConverter.addShapedRecipe(new ItemStack(MECHANICAL_PARTS_CARBON,2)," i ", "ifi", " i ", 'f', Items.BLAZE_ROD, 'i', TAG_CARBON_PLATES);
 
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(RIFLE_ROUNDS,8), "clc","clc","igi", 'c', TAG_COPPER_NUGGETS, 'l', TAG_LEAD_INGOTS, 'g', Items.GUNPOWDER, 'i', TAG_COPPER_INGOTS);
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(SNIPER_ROUNDS,4), "clc","ili","igi", 'c', TAG_COPPER_NUGGETS, 'l', TAG_LEAD_INGOTS, 'g', Items.GUNPOWDER, 'i', TAG_COPPER_INGOTS);
+        //RecipeJsonConverter.addShapedRecipe(new ItemStack(RIFLE_ROUNDS,8), "clc","clc","igi", 'c', TAG_COPPER_NUGGETS, 'l', TAG_LEAD_INGOTS, 'g', Items.GUNPOWDER, 'i', TAG_COPPER_INGOTS);
+        //RecipeJsonConverter.addShapedRecipe(new ItemStack(SNIPER_ROUNDS,4), "clc","ili","igi", 'c', TAG_COPPER_NUGGETS, 'l', TAG_LEAD_INGOTS, 'g', Items.GUNPOWDER, 'i', TAG_COPPER_INGOTS);
 
         RecipeJsonConverter.addShapelessRecipe(new ItemStack(PISTOL_ROUNDS_INCENDIARY, 4), PISTOL_ROUNDS, PISTOL_ROUNDS, PISTOL_ROUNDS, PISTOL_ROUNDS, Items.BLAZE_POWDER);
         RecipeJsonConverter.addShapelessRecipe(new ItemStack(RIFLE_ROUNDS_INCENDIARY, 4), RIFLE_ROUNDS, RIFLE_ROUNDS, RIFLE_ROUNDS, RIFLE_ROUNDS, Items.BLAZE_POWDER);
@@ -437,6 +501,90 @@ public class Recipewriter {
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(MININGDRILLHEAD_OBSIDIAN, 1), " ii", "iii", " ii", 'i', TAG_OBSIDIAN_INGOTS);
         RecipeJsonConverter.addShapedRecipe(new ItemStack(MININGDRILLHEAD_CARBON, 1), " ii", "iii", " ii", 'i', TAG_CARBON_PLATES);
+
+        //RecipeJsonConverter.addShapelessRecipe(new ItemStack(Items.GRAY_CONCRETE, 8), TAG_CONCRETE_POWDER, TAG_CONCRETE_POWDER, TAG_CONCRETE_POWDER, TAG_CONCRETE_POWDER, TAG_CONCRETE_POWDER, TAG_CONCRETE_POWDER, TAG_CONCRETE_POWDER, TAG_CONCRETE_POWDER, Items.WATER_BUCKET);
+
+        TAG_LIST.put(TAG_CONCRETE, Arrays.asList(
+                Items.WHITE_CONCRETE,
+                Items.ORANGE_CONCRETE,
+                Items.MAGENTA_CONCRETE,
+                Items.LIGHT_BLUE_CONCRETE,
+                Items.YELLOW_CONCRETE,
+                Items.LIME_CONCRETE,
+                Items.PINK_CONCRETE,
+                Items.GRAY_CONCRETE,
+                Items.LIGHT_GRAY_CONCRETE,
+                Items.CYAN_CONCRETE,
+                Items.PURPLE_CONCRETE,
+                Items.BLUE_CONCRETE,
+                Items.BROWN_CONCRETE,
+                Items.GREEN_CONCRETE,
+                Items.RED_CONCRETE,
+                Items.BLACK_CONCRETE));
+
+        Pair<Item, Item>[] concretes = new Pair[]{
+                new Pair(Items.WHITE_CONCRETE, Items.WHITE_CONCRETE_POWDER),
+                new Pair(Items.ORANGE_CONCRETE, Items.ORANGE_CONCRETE_POWDER),
+                new Pair(Items.MAGENTA_CONCRETE, Items.MAGENTA_CONCRETE_POWDER),
+                new Pair(Items.LIGHT_BLUE_CONCRETE, Items.LIGHT_BLUE_CONCRETE_POWDER),
+                new Pair(Items.YELLOW_CONCRETE, Items.YELLOW_CONCRETE_POWDER),
+                new Pair(Items.LIME_CONCRETE, Items.LIME_CONCRETE_POWDER),
+                new Pair(Items.PINK_CONCRETE, Items.PINK_CONCRETE_POWDER),
+                new Pair(Items.GRAY_CONCRETE, Items.GRAY_CONCRETE_POWDER),
+                new Pair(Items.LIGHT_GRAY_CONCRETE, Items.LIGHT_GRAY_CONCRETE_POWDER),
+                new Pair(Items.CYAN_CONCRETE, Items.CYAN_CONCRETE_POWDER),
+                new Pair(Items.PURPLE_CONCRETE, Items.PURPLE_CONCRETE_POWDER),
+                new Pair(Items.BLUE_CONCRETE, Items.BLUE_CONCRETE_POWDER),
+                new Pair(Items.BROWN_CONCRETE, Items.BROWN_CONCRETE_POWDER),
+                new Pair(Items.GREEN_CONCRETE, Items.GREEN_CONCRETE_POWDER),
+                new Pair(Items.RED_CONCRETE, Items.RED_CONCRETE_POWDER),
+                new Pair(Items.BLACK_CONCRETE, Items.BLACK_CONCRETE_POWDER),
+        };
+        for (var concrete : concretes) {
+            RecipeJsonConverter.addShapelessRecipe(new ItemStack(concrete.getLeft(), 8), concrete.getRight(), concrete.getRight(), concrete.getRight(), concrete.getRight(), concrete.getRight(), concrete.getRight(), concrete.getRight(), concrete.getRight(), Items.WATER_BUCKET);
+        }
+
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(CONCRETE_BROWN, 32), "ccc", "cic", "ccc", 'c', TAG_CONCRETE, 'i', Items.IRON_BARS);
+
+    }
+
+    public static void addCamoGroupRecipies(){
+        RecipeJsonConverter.addCamoGroupRecipe("camo_techguns_concrete", CONCRETE_BROWN, CONCRETE_BROWN_PIPES, CONCRETE_GREY, CONCRETE_GREY_DARK, CONCRETE_BROWN_LIGHT, CONCRETE_BROWN_LIGHT_SCAFF);
+        RecipeJsonConverter.addCamoGroupRecipe("camo_minecraft_concrete",
+                Items.WHITE_CONCRETE,
+                Items.ORANGE_CONCRETE,
+                Items.MAGENTA_CONCRETE,
+                Items.LIGHT_BLUE_CONCRETE,
+                Items.YELLOW_CONCRETE,
+                Items.LIME_CONCRETE,
+                Items.PINK_CONCRETE,
+                Items.GRAY_CONCRETE,
+                Items.LIGHT_GRAY_CONCRETE,
+                Items.CYAN_CONCRETE,
+                Items.PURPLE_CONCRETE,
+                Items.BLUE_CONCRETE,
+                Items.BROWN_CONCRETE,
+                Items.GREEN_CONCRETE,
+                Items.RED_CONCRETE,
+                Items.BLACK_CONCRETE);
+
+        RecipeJsonConverter.addCamoGroupRecipe("camo_minecraft_concrete_powder",
+                Items.WHITE_CONCRETE_POWDER,
+                Items.ORANGE_CONCRETE_POWDER,
+                Items.MAGENTA_CONCRETE_POWDER,
+                Items.LIGHT_BLUE_CONCRETE_POWDER,
+                Items.YELLOW_CONCRETE_POWDER,
+                Items.LIME_CONCRETE_POWDER,
+                Items.PINK_CONCRETE_POWDER,
+                Items.GRAY_CONCRETE_POWDER,
+                Items.LIGHT_GRAY_CONCRETE_POWDER,
+                Items.CYAN_CONCRETE_POWDER,
+                Items.PURPLE_CONCRETE_POWDER,
+                Items.BLUE_CONCRETE_POWDER,
+                Items.BROWN_CONCRETE_POWDER,
+                Items.GREEN_CONCRETE_POWDER,
+                Items.RED_CONCRETE_POWDER,
+                Items.BLACK_CONCRETE_POWDER);
     }
 
     /**

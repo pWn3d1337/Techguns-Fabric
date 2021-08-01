@@ -3,24 +3,5 @@
     "item": "techguns:riflerounds",
     "count": 8
   },
-  "pattern": [
-    "clc",
-    "clc",
-    "igi"
-  ],
-  "type": "minecraft:crafting_shaped",
-  "key": {
-    "c": {
-      "tag": "c:copper_nuggets"
-    },
-    "g": {
-      "item": "minecraft:gunpowder"
-    },
-    "i": {
-      "tag": "c:copper_ingots"
-    },
-    "l": {
-      "tag": "c:lead_ingots"
-    }
-  }
+  "type": "techguns:ammobench_crafting"
 }

@@ -1,5 +1,7 @@
 package techguns.client.gui;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
@@ -18,7 +20,10 @@ public class AmmoBenchScreen extends StoneCutterStyleScreen<AmmoBenchScreenHandl
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         super.drawBackground(matrices, delta, mouseX, mouseY);
 
-        this.client.getTextureManager().bindTexture(this.getTexture());
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, this.getTexture());
+
         //overpaint original slot
         this.drawTexture(matrices, this.x+19, this.y+32, 19, 14, 18, 18);
 

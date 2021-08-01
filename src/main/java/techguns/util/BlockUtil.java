@@ -6,7 +6,10 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
 import techguns.items.guns.GenericGunMeleeCharge;
@@ -73,4 +76,40 @@ public class BlockUtil {
         return false;
     }
 
+    /**
+     * Return VoxelShape, NORTH is assumed original position
+     * @param x0
+     * @param y0
+     * @param z0
+     * @param x1
+     * @param y1
+     * @param z1
+     * @param direction
+     * @return
+     */
+    public static VoxelShape getHorizonzalRotatedVoxelShape(double x0, double y0, double z0, double x1, double y1, double z1, Direction direction)
+    {
+       switch (direction){
+           case SOUTH:
+               return VoxelShapes.cuboid(x0, y0, 1.0-z1, x1, y1, 1.0-z0);
+           case EAST:
+               return VoxelShapes.cuboid(1.0-z1, y0, x0, 1.0-z0, y1, x1);
+           case WEST:
+               return VoxelShapes.cuboid(z0, y0, 1.0-x1, z1, y1, 1.0-x0);
+           case NORTH:
+           default:
+               return VoxelShapes.cuboid(x0, y0, z0, x1, y1, z1);
+       }
+    }
+
+    /**
+     * Return VoxelShape, NORTH is assumed original position
+     * @param b
+     * @param direction
+     * @return
+     */
+    public static VoxelShape getHorizonzalRotatedVoxelShape(Box b, Direction direction)
+    {
+        return getHorizonzalRotatedVoxelShape(b.minX, b.minY, b.minZ, b.maxX, b.maxY, b.maxZ, direction);
+    }
 }

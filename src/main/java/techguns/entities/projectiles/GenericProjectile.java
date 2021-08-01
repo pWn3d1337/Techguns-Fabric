@@ -426,7 +426,7 @@ public class GenericProjectile extends ProjectileEntity {
 		this.setVelocity(vec3d.multiply(m));
 		if (!this.hasNoGravity() && this.gravity>=0.0d) {
 			Vec3d vec3d5 = this.getVelocity();
-			this.setVelocity(vec3d5.x, vec3d5.y - 0.05000000074505806D, vec3d5.z);
+			this.setVelocity(vec3d5.x, vec3d5.y - this.gravity, vec3d5.z);
 		}
 		this.setPosition(h, j, k);
 		

@@ -14,7 +14,9 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import techguns.TGBlocks;
 import techguns.TGCamos;
+import techguns.TGRecipes;
 import techguns.api.ICamoChangeable;
+import techguns.recipes.CamoChangeRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +69,8 @@ public class CamoBenchScreenHandler extends StoneCutterStyleScreenHandler<ItemSt
 
     @Override
     protected void populateResult() {
-        boolean hasCamoChangeableItem = this.inputSlot.hasStack() && this.inputSlot.getStack().getItem() instanceof ICamoChangeable;
-        if (hasCamoChangeableItem && this.selctionWithinBounds(this.selectedRecipe.get())) {
-            this.outputSlot.setStack(this.availableRecipes.get(this.selectedRecipe.get()));
+        if (this.hasCamoRecipe(this.inputStack) && this.selctionWithinBounds(this.selectedRecipe.get())) {
+            this.outputSlot.setStack(this.availableRecipes.get(this.selectedRecipe.get()).copy());
         } else {
             this.outputSlot.setStack(ItemStack.EMPTY);
         }
@@ -80,7 +81,7 @@ public class CamoBenchScreenHandler extends StoneCutterStyleScreenHandler<ItemSt
     @Override
     public void onContentChanged(Inventory inventory) {
         ItemStack itemStack = this.inputSlot.getStack();
-        if (itemStack.getItem() != this.inputStack.getItem()) {
+        if (!itemStack.isOf(this.inputStack.getItem())) {
             this.inputStack = itemStack.copy();
             this.updateInput(inventory, itemStack);
         }
@@ -102,6 +103,17 @@ public class CamoBenchScreenHandler extends StoneCutterStyleScreenHandler<ItemSt
                     }
                 }
             }
+        } else {
+            List<CamoChangeRecipe> recipes = this.world.getRecipeManager().getAllMatches(TGRecipes.CAMO_CHANGE_RECIPE_TYPE, input, this.world);
+            if (!recipes.isEmpty()){
+                for(var recipe : recipes){
+                    for (var item : recipe.getAllItems()){
+                        if (item.getItem() != stack.getItem()){
+                            available_camos.add(item.copy());
+                        }
+                    }
+                }
+            }
         }
         this.availableRecipes = available_camos;
 
@@ -112,10 +124,21 @@ public class CamoBenchScreenHandler extends StoneCutterStyleScreenHandler<ItemSt
         return TGBlocks.CAMO_BENCH_SCREEN_HANDLER;
     }
 
+    protected boolean hasCamoRecipe(ItemStack item){
+
+        if (!item.isEmpty()) {
+            if (item.getItem() instanceof ICamoChangeable) return true;
+
+            Inventory tmp = new SimpleInventory(item);
+            return this.world.getRecipeManager().getFirstMatch(TGRecipes.CAMO_CHANGE_RECIPE_TYPE, tmp, this.world).isPresent();
+        }
+        return false;
+    }
+
     @Override
     public ItemStack transferSlot(PlayerEntity player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
-        Slot slot = (Slot)this.slots.get(index);
+        Slot slot = this.slots.get(index);
         if (slot != null && slot.hasStack()) {
             ItemStack itemStack2 = slot.getStack();
             Item item = itemStack2.getItem();
@@ -131,7 +154,7 @@ public class CamoBenchScreenHandler extends StoneCutterStyleScreenHandler<ItemSt
                 if (!this.insertItem(itemStack2, 2, 38, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (itemStack2.getItem() instanceof ICamoChangeable) {
+            } else if (hasCamoRecipe(itemStack2)) {
                 if (!this.insertItem(itemStack2, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }

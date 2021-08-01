@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "techguns:ammo_bench"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:crafting_table"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "tag": "c:iron_ingots"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

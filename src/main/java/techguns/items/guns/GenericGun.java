@@ -118,9 +118,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	int AI_attackTime = 60;
 	int AI_burstCount = 0;
 	int AI_burstAttackTime = 0;
-	
-	int camoCount=1;
-	
+
 	int lockOnTicks = 0; //MaximumLockOnTime
 	int lockOnPersistTicks = 0;
 	
@@ -150,8 +148,8 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	
 	float radius=1.0f;
 
-	public static final double DEFAULT_GRAVITY = 0.005000000074505806D;
-	double gravity = DEFAULT_GRAVITY;
+	public static final double DEFAULT_GRAVITY = 0.05000000074505806D;
+	double gravity = 0.0D;
 
 	boolean shootWithLeftClick=true;
 	

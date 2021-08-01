@@ -1,0 +1,35 @@
+{
+  "result": {
+    "item": "techguns:steel_ingot"
+  },
+  "ingredients": [
+    {
+      "tag": "c:steel_nuggets"
+    },
+    {
+      "tag": "c:steel_nuggets"
+    },
+    {
+      "tag": "c:steel_nuggets"
+    },
+    {
+      "tag": "c:steel_nuggets"
+    },
+    {
+      "tag": "c:steel_nuggets"
+    },
+    {
+      "tag": "c:steel_nuggets"
+    },
+    {
+      "tag": "c:steel_nuggets"
+    },
+    {
+      "tag": "c:steel_nuggets"
+    },
+    {
+      "tag": "c:steel_nuggets"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

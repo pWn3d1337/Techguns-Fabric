@@ -14,7 +14,7 @@
   },
 
   "license": "Techguns mod license",
-  "icon": "assets/modid/icon.png",
+  "icon": "assets/techguns/textures/items/pistolrounds.png",
 
   "environment": "*",
   "entrypoints": {
@@ -23,6 +23,9 @@
     ],
     "client": [
       "techguns.client.ClientProxy"
+    ],
+    "rei_plugins": [
+      "techguns.plugins.rei.TGREIPlugin"
     ]
   },
   "accessWidener" : "techguns.accesswidener",

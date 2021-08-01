@@ -445,6 +445,32 @@ public class RecipeJsonConverter {
         }
     }
 
+    public static void addCamoGroupRecipe( String name, Object... components) {
+        Map<String, Object> json = new HashMap<>();
+
+        List<Map<String, Object>> ingredients = new ArrayList<>();
+        for (Object o : components) {
+            ingredients.add(serializeItem(o));
+        }
+        json.put("entries", ingredients);
+        json.put("type", "techguns:camo_change");
+
+        String suffix = "";
+
+        File f = new File(RECIPE_DIR, name + suffix + ".json");
+        while (f.exists()) {
+            suffix += "_alt";
+            f = new File(RECIPE_DIR, name + suffix + ".json");
+        }
+
+        try (FileWriter w = new FileWriter(f)) {
+            GSON.toJson(json, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public static void addTGManualRecipe( Object... components) {
         setupDir();
 

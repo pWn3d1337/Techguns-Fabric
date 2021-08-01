@@ -3,9 +3,7 @@ package techguns;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
@@ -32,11 +30,17 @@ public class TGBlocks implements ITGInitializer {
         return true;
     }
 
-    public static Block COPPER_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 1).strength(2.5F, 3.0F));
     public static Block TIN_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 1).strength(3.0F, 3.0F));
+    public static Block DEEPSLATE_TIN_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 1).mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(4.5F, 3.0F));
+
     public static Block LEAD_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 2).strength(4.0F, 4.0F));
+    public static Block DEEPSLATE_LEAD_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 2).mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(6.0F, 4.0F));
+
     public static Block URANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 3).strength(5.0F, 4.0F));
+    public static Block DEEPSLATE_URANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 3).mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(7.5F, 4.0F));
+
     public static Block TITANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 3).strength(5.0F, 4.0F));
+    public static Block DEEPSLATE_TITANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 3).mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(7.5F, 4.0F));
 
     public static Block BIOBLOB = new BlockBioBlob(FabricBlockSettings.of(Material.ORGANIC_PRODUCT).dropsNothing().emissiveLighting(TGBlocks::always).luminance((BlockState state) -> (state.get(BlockBioBlob.SIZE)+1)*2));
 
@@ -62,11 +66,17 @@ public class TGBlocks implements ITGInitializer {
 
     @Override
     public void init() {
-        TGItems.COPPER_ORE = registerBlockAndItem("copper_ore", COPPER_ORE);
         TGItems.TIN_ORE = registerBlockAndItem("tin_ore", TIN_ORE);
+        TGItems.DEEPSLATE_TIN_ORE = registerBlockAndItem("deepslate_tin_ore", DEEPSLATE_TIN_ORE);
+
         TGItems.LEAD_ORE = registerBlockAndItem("lead_ore", LEAD_ORE);
+        TGItems.DEEPSLATE_LEAD_ORE = registerBlockAndItem("deepslate_lead_ore", DEEPSLATE_LEAD_ORE);
+
         TGItems.URANIUM_ORE = registerBlockAndItem("uranium_ore", URANIUM_ORE);
+        TGItems.DEEPSLATE_URANIUM_ORE = registerBlockAndItem("deepslate_uranium_ore",DEEPSLATE_URANIUM_ORE);
+
         TGItems.TITANIUM_ORE = registerBlockAndItem("titanium_ore", TITANIUM_ORE);
+        TGItems.DEEPSLATE_TITANIUM_ORE = registerBlockAndItem("deepslate_titanium_ore",DEEPSLATE_TITANIUM_ORE);
 
         TGItems.BIOBLOB = registerBlockAndItem("bioblob", BIOBLOB);
 

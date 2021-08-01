@@ -1,17 +1,12 @@
 package techguns;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-//import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-//import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.recipe.SpecialRecipeSerializer;
-import net.minecraft.util.registry.Registry;
 import techguns.items.guns.ammo.AmmoTypes;
-import techguns.recipes.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Techguns implements ModInitializer {
 	public static final String MODID = "techguns";

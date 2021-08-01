@@ -32,6 +32,10 @@ public class CamoChangeRecipe implements Recipe<Inventory> {
         this.camogroup = new ArrayList<>(entries);
     }
 
+    public ArrayList<ItemStack> getAllItems() {
+        return camogroup;
+    }
+
     @Override
     public boolean matches(Inventory inv, World world) {
         ItemStack stack = inv.getStack(0);

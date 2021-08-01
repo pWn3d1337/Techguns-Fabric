@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "minecraft:light_blue_concrete",
+    "count": 8
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:light_blue_concrete_powder"
+    },
+    {
+      "item": "minecraft:light_blue_concrete_powder"
+    },
+    {
+      "item": "minecraft:light_blue_concrete_powder"
+    },
+    {
+      "item": "minecraft:light_blue_concrete_powder"
+    },
+    {
+      "item": "minecraft:light_blue_concrete_powder"
+    },
+    {
+      "item": "minecraft:light_blue_concrete_powder"
+    },
+    {
+      "item": "minecraft:light_blue_concrete_powder"
+    },
+    {
+      "item": "minecraft:light_blue_concrete_powder"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -1,23 +1,7 @@
 {
   "result": {
     "item": "techguns:shotgunrounds",
-    "count": 5
+    "count": 16
   },
-  "pattern": [
-    "lll",
-    "cgc",
-    "ccc"
-  ],
-  "type": "minecraft:crafting_shaped",
-  "key": {
-    "c": {
-      "tag": "c:copper_nuggets"
-    },
-    "g": {
-      "item": "minecraft:gunpowder"
-    },
-    "l": {
-      "tag": "c:lead_nuggets"
-    }
-  }
+  "type": "techguns:ammobench_crafting"
 }

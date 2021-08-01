@@ -1,0 +1,23 @@
+{
+  "entries": [
+    {
+      "item": "techguns:concrete_brown"
+    },
+    {
+      "item": "techguns:concrete_brown_pipes"
+    },
+    {
+      "item": "techguns:concrete_grey"
+    },
+    {
+      "item": "techguns:concrete_grey_dark"
+    },
+    {
+      "item": "techguns:concrete_brown_light"
+    },
+    {
+      "item": "techguns:concrete_brown_light_scaff"
+    }
+  ],
+  "type": "techguns:camo_change"
+}

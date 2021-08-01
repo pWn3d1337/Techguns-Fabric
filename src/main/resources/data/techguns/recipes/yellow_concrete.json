@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "minecraft:yellow_concrete",
+    "count": 8
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:yellow_concrete_powder"
+    },
+    {
+      "item": "minecraft:yellow_concrete_powder"
+    },
+    {
+      "item": "minecraft:yellow_concrete_powder"
+    },
+    {
+      "item": "minecraft:yellow_concrete_powder"
+    },
+    {
+      "item": "minecraft:yellow_concrete_powder"
+    },
+    {
+      "item": "minecraft:yellow_concrete_powder"
+    },
+    {
+      "item": "minecraft:yellow_concrete_powder"
+    },
+    {
+      "item": "minecraft:yellow_concrete_powder"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

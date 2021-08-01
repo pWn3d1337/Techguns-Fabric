@@ -16,6 +16,7 @@ import net.minecraft.world.World;
 import techguns.packets.*;
 
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -64,7 +65,8 @@ public class TGPacketsS2C {
 	}
 
 	public static void sendToAllTracking(TGBasePacket packet, Entity tracked_ent, boolean sendToTrackedEnt) {
-		Collection<ServerPlayerEntity> watchingPlayers = PlayerLookup.tracking(tracked_ent);
+		// .tracking returns an unmodifiable collection, so pass it to a list
+		List<ServerPlayerEntity> watchingPlayers = new LinkedList<>(PlayerLookup.tracking(tracked_ent));
 
 		if (!sendToTrackedEnt && watchingPlayers.contains(tracked_ent)){
 			watchingPlayers.remove(tracked_ent);

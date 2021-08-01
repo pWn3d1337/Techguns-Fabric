@@ -10,7 +10,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "o": {
-      "item": "techguns:ingotobsidiansteel"
+      "item": "techguns:obsidian_steel_ingot"
     }
   }
 }

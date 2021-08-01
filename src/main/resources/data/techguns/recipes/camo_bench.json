@@ -1,0 +1,20 @@
+{
+  "result": {
+    "item": "techguns:camo_bench"
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:crafting_table"
+    },
+    {
+      "tag": "c:dyes"
+    },
+    {
+      "tag": "c:dyes"
+    },
+    {
+      "tag": "c:dyes"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

@@ -1,16 +1,10 @@
 package techguns;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.fabricmc.fabric.api.tag.FabricItemTags;
 import net.fabricmc.fabric.api.tag.TagRegistry;
-import net.minecraft.block.Block;
-import net.minecraft.block.Material;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.BlastingRecipe;
-import net.minecraft.recipe.RecipeType;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -18,9 +12,6 @@ import techguns.api.inventory.TGSlotType;
 import techguns.inventory.slots.SlotTagItem;
 import techguns.items.GenericItem;
 import techguns.items.GenericItemRenderHack;
-import techguns.recipes.AmmoBenchRecipe;
-
-import java.util.Locale;
 
 public class TGItems implements ITGInitializer {
 
@@ -145,13 +136,12 @@ public class TGItems implements ITGInitializer {
 	public static Item YELLOWCAKE;
 	public static Item ENRICHED_URANIUM;
 
-	public static Item INGOT_COPPER;
-	public static Item INGOT_TIN;
-	public static Item INGOT_BRONZE;
-	public static Item INGOT_STEEL;
-	public static Item INGOT_OBSIDIAN_STEEL;
-	public static Item INGOT_LEAD;
-	public static Item INGOT_TITANIUM;
+	public static Item TIN_INGOT;
+	public static Item BRONZE_INGOT;
+	public static Item STEEL_INGOT;
+	public static Item OBSIDIAN_STEEL_INGOT;
+	public static Item LEAD_INGOT;
+	public static Item TITANIUM_INGOT;
 
 	public static Item NUGGET_COPPER;
 	public static Item NUGGET_LEAD;
@@ -231,11 +221,19 @@ public class TGItems implements ITGInitializer {
 	/**
 	 * BLOCK ITEMS, initialized in TGBlocks
 	 */
-	public static Item COPPER_ORE;
 	public static Item TIN_ORE;
+	public static Item DEEPSLATE_TIN_ORE;
 	public static Item LEAD_ORE;
+	public static Item DEEPSLATE_LEAD_ORE;
 	public static Item URANIUM_ORE;
 	public static Item TITANIUM_ORE;
+	public static Item DEEPSLATE_URANIUM_ORE;
+	public static Item DEEPSLATE_TITANIUM_ORE;
+
+	public static Item RAW_TIN;
+	public static Item RAW_LEAD;
+	public static Item RAW_TITANIUM;
+	public static Item RAW_URANIUM;
 
 	public static Item BIOBLOB;
 
@@ -251,7 +249,7 @@ public class TGItems implements ITGInitializer {
 
 	public static final ItemGroup ITEM_GROUP_TECHGUNS = FabricItemGroupBuilder.build(
 			new TGIdentifier("techguns"),
-			() -> new ItemStack(TGItems.RIFLE_ROUNDS));
+			() -> new ItemStack(TGItems.PISTOL_ROUNDS));
 
 	public static Tag<Item> TAG_BULLET_CORE;
 	public static Tag<Item> TAG_BULLET_CASING;
@@ -374,17 +372,21 @@ public class TGItems implements ITGInitializer {
 		TREATED_LEATHER = addItem("treatedleather");
 		ORE_TITANIUM = addItem("oretitanium");
 
-		INGOT_COPPER = addItemOptional("ingotcopper",TGConfig.INSTANCE.addCopperIngots);
-		INGOT_TIN = addItemOptional("ingottin",TGConfig.INSTANCE.addTinIngots);
-		INGOT_BRONZE = addItemOptional("ingotbronze",TGConfig.INSTANCE.addBronzeIngots);
-		INGOT_LEAD = addItemOptional("ingotlead",TGConfig.INSTANCE.addLeadIngots);
-		INGOT_STEEL = addItemOptional("ingotsteel",TGConfig.INSTANCE.addSteelIngots);
-		INGOT_OBSIDIAN_STEEL = addItem("ingotobsidiansteel");
-		INGOT_TITANIUM = addItem("ingottitanium");
+		TIN_INGOT = addItemOptional("tin_ingot",TGConfig.INSTANCE.addTinIngots);
+		BRONZE_INGOT = addItemOptional("bronze_ingot",TGConfig.INSTANCE.addBronzeIngots);
+		LEAD_INGOT = addItemOptional("lead_ingot",TGConfig.INSTANCE.addLeadIngots);
+		STEEL_INGOT = addItemOptional("steel_ingot",TGConfig.INSTANCE.addSteelIngots);
+		OBSIDIAN_STEEL_INGOT = addItemOptional("obsidian_steel_ingot", TGConfig.INSTANCE.addObsidianIngots);
+		TITANIUM_INGOT = addItemOptional("titanium_ingot", TGConfig.INSTANCE.addTitaniumIngots);
 
 		NUGGET_COPPER = addItemOptional("nuggetcopper",TGConfig.INSTANCE.addCopperNuggets);
-		NUGGET_LEAD = addItemOptional("nuggetlead", TGConfig.INSTANCE.addLeadNuggets);
+		//NUGGET_LEAD = addItemOptional("nuggetlead", TGConfig.INSTANCE.addLeadNuggets);
 		NUGGET_STEEL = addItemOptional("nuggetsteel", TGConfig.INSTANCE.addSteelNuggets);
+
+		RAW_TIN = addItemOptional("raw_tin", TGConfig.INSTANCE.addTinOre);
+		RAW_LEAD = addItemOptional("raw_lead", TGConfig.INSTANCE.addLeadOre);
+		RAW_TITANIUM = addItemOptional("raw_titanium", TGConfig.INSTANCE.addTitaniumOre);
+		RAW_URANIUM = addItemOptional("raw_uranium", TGConfig.INSTANCE.addUraniumOre);
 
 		GAS_MASK_FILTER = addItem("gasmaskfilter");
 		GLIDER_BACKBACK = addItem("gliderbackpack");

@@ -1,6 +1,6 @@
 {
     "parent": "block/cube_all",
     "textures": {
-        "all": "techguns:blocks/ore_titanium"
+        "all": "techguns:blocks/titanium_ore"
     }
 }

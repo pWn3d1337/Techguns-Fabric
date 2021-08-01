@@ -1,0 +1,36 @@
+{
+  "result": {
+    "item": "minecraft:lime_concrete",
+    "count": 8
+  },
+  "ingredients": [
+    {
+      "item": "minecraft:lime_concrete_powder"
+    },
+    {
+      "item": "minecraft:lime_concrete_powder"
+    },
+    {
+      "item": "minecraft:lime_concrete_powder"
+    },
+    {
+      "item": "minecraft:lime_concrete_powder"
+    },
+    {
+      "item": "minecraft:lime_concrete_powder"
+    },
+    {
+      "item": "minecraft:lime_concrete_powder"
+    },
+    {
+      "item": "minecraft:lime_concrete_powder"
+    },
+    {
+      "item": "minecraft:lime_concrete_powder"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}
