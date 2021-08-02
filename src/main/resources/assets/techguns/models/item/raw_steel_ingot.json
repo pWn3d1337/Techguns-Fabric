@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/nuggetsteel"
+    "layer0": "techguns:items/raw_steel_ingot"
   }
 }

@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:blasting",
+  "group": "obsidian_steel_ingot",
+  "ingredient": {
+    "item": "techguns:raw_obsidian_steel_ingot"
+  },
+  "result": "techguns:obsidian_steel_ingot",
+  "experience": 1.5,
+  "cookingtime": 200
+}

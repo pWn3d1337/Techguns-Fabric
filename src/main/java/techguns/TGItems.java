@@ -93,14 +93,14 @@ public class TGItems implements ITGInitializer {
 	 * Metals
 	 */
 	public static Item STEAMARMOR_PLATE;
-	public static Item PLATE_IRON;
+	/*public static Item PLATE_IRON;
 	public static Item PLATE_COPPER;
 	public static Item PLATE_TIN;
 	public static Item PLATE_BRONZE;
 	public static Item PLATE_STEEL;
 	public static Item PLATE_OBSIDIAN_STEEL;
 	public static Item PLATE_LEAD;
-	public static Item PLATE_TITANIUM;
+	public static Item PLATE_TITANIUM;*/
 	public static Item PLATE_CARBON;
 	
 	public static Item PLASTIC_SHEET;
@@ -129,7 +129,6 @@ public class TGItems implements ITGInitializer {
 
 	public static Item TGX;
 	public static Item TREATED_LEATHER;
-	public static Item ORE_TITANIUM;
 
 	public static Item RAW_PLASTIC;
 	public static Item RAW_RUBBER;
@@ -142,10 +141,12 @@ public class TGItems implements ITGInitializer {
 	public static Item OBSIDIAN_STEEL_INGOT;
 	public static Item LEAD_INGOT;
 	public static Item TITANIUM_INGOT;
+	public static Item RAW_STEEL_INGOT;
+	public static Item RAW_OBSIDIAN_STEEL_INGOT;
 
-	public static Item NUGGET_COPPER;
+	public static Item COPPER_NUGGET;
 	public static Item NUGGET_LEAD;
-	public static Item NUGGET_STEEL;
+	public static Item STEEL_NUGGET;
 
 	//
 	public static Item GAS_MASK_FILTER;
@@ -331,15 +332,15 @@ public class TGItems implements ITGInitializer {
 		STOCK_CARBON = addItem("carbonstock");
 
 		STEAMARMOR_PLATE = addItem("steamarmorplate");
-		PLATE_IRON =  addItem("plateiron");
+		/*PLATE_IRON =  addItem("plateiron");
 		PLATE_COPPER =  addItem("platecopper");
 		PLATE_TIN =  addItem("platetin");
 		PLATE_BRONZE =  addItem("platebronze");
 		PLATE_STEEL =  addItem("platesteel");
 		PLATE_OBSIDIAN_STEEL=  addItem("plateobsidiansteel");
 		PLATE_LEAD =  addItem("platelead");
+		PLATE_TITANIUM =  addItem("platetitanium");*/
 		PLATE_CARBON =  addItem("platecarbon");
-		PLATE_TITANIUM =  addItem("platetitanium");
 
 		PLASTIC_SHEET =  addItem("plasticsheet");
 		RUBBER_BAR =  addItem("rubberbar");
@@ -370,18 +371,19 @@ public class TGItems implements ITGInitializer {
 
 		TGX = addItem("tgx");
 		TREATED_LEATHER = addItem("treatedleather");
-		ORE_TITANIUM = addItem("oretitanium");
 
 		TIN_INGOT = addItemOptional("tin_ingot",TGConfig.INSTANCE.addTinIngots);
 		BRONZE_INGOT = addItemOptional("bronze_ingot",TGConfig.INSTANCE.addBronzeIngots);
 		LEAD_INGOT = addItemOptional("lead_ingot",TGConfig.INSTANCE.addLeadIngots);
+		RAW_STEEL_INGOT = addItemOptional("raw_steel_ingot", TGConfig.INSTANCE.addSteelIngots);
 		STEEL_INGOT = addItemOptional("steel_ingot",TGConfig.INSTANCE.addSteelIngots);
 		OBSIDIAN_STEEL_INGOT = addItemOptional("obsidian_steel_ingot", TGConfig.INSTANCE.addObsidianIngots);
+		RAW_OBSIDIAN_STEEL_INGOT = addItemOptional("raw_obsidian_steel_ingot", TGConfig.INSTANCE.addObsidianIngots);
 		TITANIUM_INGOT = addItemOptional("titanium_ingot", TGConfig.INSTANCE.addTitaniumIngots);
 
-		NUGGET_COPPER = addItemOptional("nuggetcopper",TGConfig.INSTANCE.addCopperNuggets);
+		COPPER_NUGGET = addItemOptional("copper_nugget",TGConfig.INSTANCE.addCopperNuggets);
 		//NUGGET_LEAD = addItemOptional("nuggetlead", TGConfig.INSTANCE.addLeadNuggets);
-		NUGGET_STEEL = addItemOptional("nuggetsteel", TGConfig.INSTANCE.addSteelNuggets);
+		STEEL_NUGGET = addItemOptional("steel_nugget", TGConfig.INSTANCE.addSteelNuggets);
 
 		RAW_TIN = addItemOptional("raw_tin", TGConfig.INSTANCE.addTinOre);
 		RAW_LEAD = addItemOptional("raw_lead", TGConfig.INSTANCE.addLeadOre);

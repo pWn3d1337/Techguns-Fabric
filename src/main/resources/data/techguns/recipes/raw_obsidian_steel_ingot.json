@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "techguns:raw_obsidian_steel_ingot"
+  },
+  "ingredients": [
+    {
+      "tag": "c:steel_ingots"
+    },
+    {
+      "item": "minecraft:obsidian"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

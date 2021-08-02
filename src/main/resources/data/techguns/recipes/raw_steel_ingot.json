@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "techguns:raw_steel_ingot",
+    "count": 2
+  },
+  "ingredients": [
+    {
+      "tag": "c:iron_ingots"
+    },
+    {
+      "tag": "c:iron_ingots"
+    },
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

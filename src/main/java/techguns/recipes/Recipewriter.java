@@ -10,6 +10,7 @@ import java.util.*;
 
 import net.minecraft.util.Pair;
 import org.apache.commons.lang3.ArrayUtils;
+import org.lwjgl.system.CallbackI;
 import techguns.TGIdentifier;
 import techguns.TGItems;
 import techguns.items.guns.GenericGun;
@@ -83,25 +84,25 @@ public class Recipewriter {
 
     public static final Map<Identifier, List<Item>> TAG_LIST = new TreeMap<Identifier, List<Item>>();
     static {
-        TAG_LIST.put(TAG_CARBON_PLATES, Arrays.asList(PLATE_CARBON));
-        TAG_LIST.put(TAG_COPPER_NUGGETS, Arrays.asList(NUGGET_COPPER));
+        //TAG_LIST.put(TAG_CARBON_PLATES, Arrays.asList(PLATE_CARBON));
+        TAG_LIST.put(TAG_COPPER_NUGGETS, Arrays.asList(COPPER_NUGGET));
         TAG_LIST.put(TAG_COPPER_INGOTS, Arrays.asList(Items.COPPER_INGOT));
         TAG_LIST.put(TAG_COPPER_WIRES, Arrays.asList(WIRE_COPPER));
 
         TAG_LIST.put(TAG_LEAD_INGOTS, Arrays.asList(LEAD_INGOT));
         //TAG_LIST.put(TAG_LEAD_NUGGETS, Arrays.asList(NUGGET_LEAD));
-        TAG_LIST.put(TAG_LEAD_PLATES, Arrays.asList(PLATE_LEAD));
+        //TAG_LIST.put(TAG_LEAD_PLATES, Arrays.asList(PLATE_LEAD));
 
         TAG_LIST.put(TAG_STEEL_INGOTS, Arrays.asList(STEEL_INGOT));
-        TAG_LIST.put(TAG_STEEL_NUGGETS, Arrays.asList(NUGGET_STEEL));
-        TAG_LIST.put(TAG_STEEL_PLATES, Arrays.asList(PLATE_STEEL));
+        TAG_LIST.put(TAG_STEEL_NUGGETS, Arrays.asList(STEEL_NUGGET));
+        //TAG_LIST.put(TAG_STEEL_PLATES, Arrays.asList(PLATE_STEEL));
 
         TAG_LIST.put(TAG_IRON_INGOTS, Arrays.asList(Items.IRON_INGOT));
         TAG_LIST.put(TAG_IRON_NUGGETS, Arrays.asList(Items.IRON_NUGGET));
-        TAG_LIST.put(TAG_IRON_PLATES, Arrays.asList(PLATE_IRON));
+        //TAG_LIST.put(TAG_IRON_PLATES, Arrays.asList(PLATE_IRON));
 
         TAG_LIST.put(TAG_OBSIDIAN_INGOTS, Arrays.asList(OBSIDIAN_STEEL_INGOT));
-        TAG_LIST.put(TAG_OBSIDIAN_PLATES, Arrays.asList(PLATE_OBSIDIAN_STEEL));
+        //TAG_LIST.put(TAG_OBSIDIAN_PLATES, Arrays.asList(PLATE_OBSIDIAN_STEEL));
 
         TAG_LIST.put(TAG_GLASS_BLOCKS, Arrays.asList(Items.GLASS,
                                                     Items.WHITE_STAINED_GLASS,
@@ -322,9 +323,14 @@ public class Recipewriter {
         //RecipeJsonConverter.addShapelessRecipe(TGItems.LEAD_INGOT, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS, TAG_LEAD_NUGGETS);
         RecipeJsonConverter.addShapelessRecipe(TGItems.STEEL_INGOT, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS, TAG_STEEL_NUGGETS);
 
-        RecipeJsonConverter.addShapelessRecipe(new ItemStack(TGItems.NUGGET_COPPER, 9), TAG_COPPER_INGOTS);
+        RecipeJsonConverter.addShapelessRecipe(new ItemStack(TGItems.COPPER_NUGGET, 9), TAG_COPPER_INGOTS);
         //RecipeJsonConverter.addShapelessRecipe(new ItemStack(TGItems.NUGGET_LEAD, 9), TAG_LEAD_INGOTS);
-        RecipeJsonConverter.addShapelessRecipe(new ItemStack(TGItems.NUGGET_STEEL, 9), TAG_STEEL_INGOTS);
+        RecipeJsonConverter.addShapelessRecipe(new ItemStack(TGItems.STEEL_NUGGET, 9), TAG_STEEL_INGOTS);
+
+        RecipeJsonConverter.addShapelessRecipe(new ItemStack(RAW_STEEL_INGOT, 2), TAG_IRON_INGOTS, TAG_IRON_INGOTS, Items.COAL);
+        RecipeJsonConverter.addShapelessRecipe(new ItemStack(RAW_STEEL_INGOT, 2), TAG_IRON_INGOTS, TAG_IRON_INGOTS, Items.CHARCOAL);
+
+        RecipeJsonConverter.addShapelessRecipe(new ItemStack(RAW_OBSIDIAN_STEEL_INGOT, 1), TAG_STEEL_INGOTS, Blocks.OBSIDIAN);
 
        /* ItemStack rc = new ItemStack(TGBlocks.MULTIBLOCK_MACHINE,1, EnumMultiBlockMachineType.REACTIONCHAMBER_HOUSING.getIndex());
         RecipeJsonConverter.addShapedRecipe(new ItemStack(TGBlocks.MULTIBLOCK_MACHINE,9,EnumMultiBlockMachineType.REACTIONCHAMBER_HOUSING.getIndex()), "sms","pcp","ses", 's', "plateSteel", 'm', MECHANICAL_PARTS_CARBON, 'p', TGItems.CYBERNETIC_PARTS, 'e', "circuitElite",'c', new ItemStack(TGBlocks.BASIC_MACHINE,1, EnumMachineType.CHEM_LAB.getIndex()));
@@ -425,6 +431,8 @@ public class Recipewriter {
         RecipeJsonConverter.addShapelessRecipe(AMMO_BENCH, Items.CRAFTING_TABLE, Items.GUNPOWDER, TAG_IRON_INGOTS);
         RecipeJsonConverter.addShapelessRecipe(CAMO_BENCH, Items.CRAFTING_TABLE, TAG_DYE, TAG_DYE, TAG_DYE);
 
+        RecipeJsonConverter.addShapelessRecipe(RAW_RUBBER, TAG_LOGS, Items.BOWL);
+
         addGunRecipes();
         addNonMachineRecipes();
 
@@ -435,6 +443,8 @@ public class Recipewriter {
         RecipeJsonConverter.addAmmoBenchRecipe(new ItemStack(RIFLE_ROUNDS_STACK, 2));
 
         addCamoGroupRecipies();
+
+        addSmeltingRecipes();
     }
 
     /**
@@ -546,6 +556,25 @@ public class Recipewriter {
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(CONCRETE_BROWN, 32), "ccc", "cic", "ccc", 'c', TAG_CONCRETE, 'i', Items.IRON_BARS);
 
+    }
+
+    public static void addSmeltingRecipes(){
+        RecipeJsonConverter.addSmeltingAndBlastingRecipe(new ItemStack(TIN_INGOT), TIN_ORE, "tin_ingot", 0.7, 200);
+        RecipeJsonConverter.addSmeltingAndBlastingRecipe(new ItemStack(TIN_INGOT), DEEPSLATE_TIN_ORE, "tin_ingot", 0.7, 200);
+        RecipeJsonConverter.addSmeltingAndBlastingRecipe(new ItemStack(TIN_INGOT), RAW_TIN, "tin_ingot", 0.7, 200);
+
+        RecipeJsonConverter.addSmeltingAndBlastingRecipe(new ItemStack(LEAD_INGOT), LEAD_ORE, "lead_ingot", 0.8, 200);
+        RecipeJsonConverter.addSmeltingAndBlastingRecipe(new ItemStack(LEAD_INGOT), DEEPSLATE_LEAD_ORE, "lead_ingot", 0.8, 200);
+        RecipeJsonConverter.addSmeltingAndBlastingRecipe(new ItemStack(LEAD_INGOT), RAW_LEAD, "lead_ingot", 0.8, 200);
+
+        RecipeJsonConverter.addBlastingRecipe(new ItemStack(TITANIUM_INGOT), TITANIUM_ORE, "titanium_ingot", 1.5, 200);
+        RecipeJsonConverter.addBlastingRecipe(new ItemStack(TITANIUM_INGOT), DEEPSLATE_TITANIUM_ORE, "titanium_ingot", 1.5, 200);
+        RecipeJsonConverter.addBlastingRecipe(new ItemStack(TITANIUM_INGOT), RAW_TITANIUM, "titanium_ingot", 1.5, 200);
+
+        RecipeJsonConverter.addBlastingRecipe(new ItemStack(STEEL_INGOT), RAW_STEEL_INGOT, "steel_ingot", 1.2, 200);
+        RecipeJsonConverter.addBlastingRecipe(new ItemStack(OBSIDIAN_STEEL_INGOT), RAW_OBSIDIAN_STEEL_INGOT, "obsidian_steel_ingot", 1.5, 200);
+
+        RecipeJsonConverter.addSmeltingAndBlastingRecipe(new ItemStack(RUBBER_BAR), RAW_RUBBER, "rubber_bar", 0.5, 200);
     }
 
     public static void addCamoGroupRecipies(){

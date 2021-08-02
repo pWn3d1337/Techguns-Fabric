@@ -413,6 +413,59 @@ public class RecipeJsonConverter {
         }
     }
 
+
+    /**
+     * Add recipe to smelting and blasting, blasting will have 50% cookingtime
+     * @param result
+     * @param input
+     * @param group
+     * @param xp
+     * @param cookingtime
+     */
+    public static void addSmeltingAndBlastingRecipe(ItemStack result, Object input, String group, double xp, int cookingtime) {
+        addSmeltingRecipe(result, input, group, xp, cookingtime);
+        addBlastingRecipe(result, input, group, xp, cookingtime/2);
+    }
+
+    public static void addBlastingRecipe(ItemStack result, Object input, String group, double xp, int cookingtime) {
+        addSmeltingRecipeBase(result, input, group, xp, cookingtime, new Identifier("blasting"));
+    }
+
+    public static void addSmeltingRecipe(ItemStack result, Object input, String group, double xp, int cookingtime) {
+        addSmeltingRecipeBase(result, input, group, xp, cookingtime, new Identifier("smelting"));
+    }
+
+    // smelting and blasting base code
+    private static void addSmeltingRecipeBase(ItemStack result, Object input, String group, double xp, int cookingtime, Identifier type)
+    {
+        Map<String, Object> json = new LinkedHashMap<>();
+
+        json.put("type", type.toString());
+        json.put("group", group);
+        json.put("ingredient", serializeItem(input));
+        json.put("result", Registry.ITEM.getId(result.getItem()).toString());
+        json.put("experience", xp);
+        json.put("cookingtime", cookingtime);
+
+        // names the json the same name as the output's registry name
+        // repeatedly adds _alt if a file already exists
+        // janky I know but it works
+        String suffix = "_" + type.getPath();
+
+        String name = Registry.ITEM.getId(result.getItem()).getPath();
+
+        File f = new File(RECIPE_DIR, name + suffix + ".json");
+        while (f.exists()) {
+            suffix += "_alt";
+            f = new File(RECIPE_DIR, name + suffix + ".json");
+        }
+        try (FileWriter w = new FileWriter(f)) {
+            GSON.toJson(json, w);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void addMiningheadChangeRecipe(GenericGunMeleeCharge gun, int headlevel, Object... components)
     {
         Map<String, Object> json = new HashMap<>();

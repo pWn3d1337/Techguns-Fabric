@@ -1,0 +1,14 @@
+{
+  "result": {
+    "item": "techguns:rawrubber"
+  },
+  "ingredients": [
+    {
+      "tag": "minecraft:logs"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

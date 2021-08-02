@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/nuggetcopper"
+    "layer0": "techguns:items/copper_nugget"
   }
 }
