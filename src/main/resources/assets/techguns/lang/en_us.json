@@ -835,5 +835,7 @@
 "item.techguns.laserpistol": "Laser Pistol",
 "techguns.woodland": "Woodland",
 "techguns.arctic": "Arctic",
-"techguns.desert": "Desert"
+"techguns.desert": "Desert",
+"item.techguns.ammo_box": "Ammo Box (Small)",
+"item.techguns.ammo_box_large": "Ammo Box (Large)"
 }

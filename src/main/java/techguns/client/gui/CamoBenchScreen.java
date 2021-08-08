@@ -24,7 +24,7 @@ public class CamoBenchScreen extends StoneCutterStyleScreen<CamoBenchScreenHandl
 
     @Override
     protected void renderRecipeTooltip(ItemStack item, MatrixStack matrices, int x, int y) {
-        NbtCompound tag = item.getTag();
+        NbtCompound tag = item.getNbt();
         if (tag!=null && tag.contains("camo", NbtElement.STRING_TYPE)) {
             String camoname = tag.getString("camo");
             if (camoname != null) {

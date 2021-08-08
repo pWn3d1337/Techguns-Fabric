@@ -78,7 +78,7 @@ public class TGObjBakedModel implements BakedModel, FabricBakedModel {
     }
 
     @Override
-    public Sprite getSprite() {
+    public Sprite getParticleSprite() {
         return MinecraftClient.getInstance().getSpriteAtlas(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).apply(null);
     }
 

@@ -16,7 +16,7 @@
       "tag": "c:copper_wires"
     },
     "i": {
-      "tag": "c:iron_ingots"
+      "tag": "c:copper_ingots"
     },
     "m": {
       "item": "techguns:mechanicalpartsiron"

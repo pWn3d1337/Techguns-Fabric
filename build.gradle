@@ -36,8 +36,11 @@ dependencies {
 
 	//add REI to DEV env
 	//modImplementation "me.shedaniel:RoughlyEnoughItems:${project.rei_version}"
-	modImplementation "curse.maven:Architectury-419697:3360745" //required for REI
-	modImplementation "curse.maven:RoughlyEnoughItems-310111:3351599"
+	modImplementation "curse.maven:Architectury-419697:3409464" //required for REI
+	modImplementation "curse.maven:RoughlyEnoughItems-310111:3409488"
+
+	//add connected textures mod to dev env
+	modImplementation "curse.maven:ConnectedTexturesModFabric-432493:3376795"
 
 	//config api
 	//modApi("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {

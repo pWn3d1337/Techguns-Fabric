@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import techguns.api.inventory.TGSlotType;
 import techguns.inventory.slots.SlotTagItem;
+import techguns.items.AmmoBagItem;
 import techguns.items.GenericItem;
 import techguns.items.GenericItemRenderHack;
 
@@ -145,7 +146,7 @@ public class TGItems implements ITGInitializer {
 	public static Item RAW_OBSIDIAN_STEEL_INGOT;
 
 	public static Item COPPER_NUGGET;
-	public static Item NUGGET_LEAD;
+	//public static Item NUGGET_LEAD;
 	public static Item STEEL_NUGGET;
 
 	//
@@ -156,7 +157,7 @@ public class TGItems implements ITGInitializer {
 
 	public static Item OXYGEN_MASK;
 
-	public static Item MACHINE_UPGRADE_STACK;
+	//public static Item MACHINE_UPGRADE_STACK;
 
 	public static Item BARREL_GAUSS;
 	
@@ -202,9 +203,9 @@ public class TGItems implements ITGInitializer {
 	public static Item TURRET_ARMOR_OBSIDIAN_STEEL;
 	public static Item TURRET_ARMOR_CARBON;
 	
-	public static Item QUARTZ_ROD;
-	public static Item RC_HEAT_RAY;
-	public static Item RC_UV_EMITTER;
+	//public static Item QUARTZ_ROD;
+	//public static Item RC_HEAT_RAY;
+	//public static Item RC_UV_EMITTER;
 	
 	public static Item MININGDRILLHEAD_OBSIDIAN;
 	public static Item MININGDRILLHEAD_CARBON;
@@ -248,6 +249,10 @@ public class TGItems implements ITGInitializer {
 	public static Item CONCRETE_GREY;
 	public static Item CONCRETE_GREY_DARK;
 
+
+	public static Item AMMO_BOX;
+	public static Item AMMO_BOX_LARGE;
+
 	public static final ItemGroup ITEM_GROUP_TECHGUNS = FabricItemGroupBuilder.build(
 			new TGIdentifier("techguns"),
 			() -> new ItemStack(TGItems.PISTOL_ROUNDS));
@@ -260,6 +265,14 @@ public class TGItems implements ITGInitializer {
 	public static final Identifier TAG_BULLET_CASING_ID = new TGIdentifier("bullet_metal_casing");
 	public static final Identifier TAG_BULLET_POWDER_ID = new TGIdentifier("bullet_powder");
 
+	public static final Identifier TAG_AMMO_ID = new TGIdentifier("ammo");
+	public static Tag<Item> TAG_AMMO;
+
+	public static final Identifier TAG_AMMO_FULL_ID = new TGIdentifier("ammo_full");
+	public static Tag<Item> TAG_AMMO_FULL;
+
+	public static final Identifier TAG_AMMO_EMPTY_ID = new TGIdentifier("ammo_empty");
+	public static Tag<Item> TAG_AMMO_EMPTY;
 
 
 	@Override
@@ -397,7 +410,7 @@ public class TGItems implements ITGInitializer {
 
 		OXYGEN_MASK = addItem("oxygenmask", false, TGSlotType.FACESLOT, 1, true);
 
-		MACHINE_UPGRADE_STACK = addItem("machinestackupgrade", false, TGSlotType.NORMAL, 7, true);
+		//MACHINE_UPGRADE_STACK = addItem("machinestackupgrade", false, TGSlotType.NORMAL, 7, true);
 
 		RAW_RUBBER = addItem("rawrubber");
 		RAW_PLASTIC = addItem("rawplastic");
@@ -409,9 +422,9 @@ public class TGItems implements ITGInitializer {
 		TURRET_ARMOR_OBSIDIAN_STEEL = addItem("turretarmorobsidiansteel",TGSlotType.TURRETARMOR);
 		TURRET_ARMOR_CARBON = addItem("turretarmorcarbon",TGSlotType.TURRETARMOR);
 
-		QUARTZ_ROD = addItem("quartzrod");
-		RC_HEAT_RAY = addItem("rcheatray",false,TGSlotType.REACTION_CHAMBER_FOCUS,1,true);
-		RC_UV_EMITTER = addItem("rcuvemitter",false,TGSlotType.REACTION_CHAMBER_FOCUS,1,true);
+		//QUARTZ_ROD = addItem("quartzrod");
+		//RC_HEAT_RAY = addItem("rcheatray",false,TGSlotType.REACTION_CHAMBER_FOCUS,1,true);
+		//RC_UV_EMITTER = addItem("rcuvemitter",false,TGSlotType.REACTION_CHAMBER_FOCUS,1,true);
 
 		SHOTGUN_ROUNDS_INCENDIARY = addItem("shotgunrounds_incendiary", TGSlotType.AMMOSLOT);
 		AS50_MAGAZINE_INCENDIARY = addItem("as50magazine_incendiary", true, TGSlotType.AMMOSLOT);
@@ -469,6 +482,8 @@ public class TGItems implements ITGInitializer {
 
 		INFUSION_BAG = addItem("infusionbag");
 
+		AMMO_BOX = Registry.register(Registry.ITEM, new TGIdentifier("ammo_box"), new AmmoBagItem(new Item.Settings(), 64*4));
+		AMMO_BOX_LARGE = Registry.register(Registry.ITEM, new TGIdentifier("ammo_box_large"), new AmmoBagItem(new Item.Settings(), 64*8));
 	/*	UPGRADE_PROTECTION_1 = addItem("upgrade_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 		UPGRADE_PROJECTILE_PROTECTION_1 = addItem("upgrade_projectile_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 		UPGRADE_BLAST_PROTECTION_1 = addItem("upgrade_blast_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
@@ -485,6 +500,10 @@ public class TGItems implements ITGInitializer {
 		TAG_BULLET_CORE = TagRegistry.item(TAG_BULLET_CORE_ID);
 		TAG_BULLET_CASING = TagRegistry.item(TAG_BULLET_CASING_ID);
 		TAG_BULLET_POWDER = TagRegistry.item(TAG_BULLET_POWDER_ID);
+
+		TAG_AMMO = TagRegistry.item(TAG_AMMO_ID);
+		TAG_AMMO_EMPTY = TagRegistry.item(TAG_AMMO_EMPTY_ID);
+		TAG_AMMO_FULL = TagRegistry.item(TAG_AMMO_FULL_ID);
 
 		SlotTagItem.initSlotBGMap();
 	}

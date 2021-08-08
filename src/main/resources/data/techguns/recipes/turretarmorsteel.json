@@ -10,7 +10,7 @@
   "type": "minecraft:crafting_shaped",
   "key": {
     "p": {
-      "tag": "c:steel_plates"
+      "tag": "c:steel_ingots"
     }
   }
 }

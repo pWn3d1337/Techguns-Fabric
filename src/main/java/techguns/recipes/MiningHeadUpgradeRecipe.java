@@ -110,9 +110,9 @@ public class MiningHeadUpgradeRecipe extends ShapelessRecipe {
 
         RecipeResult res = getTargetLevel(inv);
         if (res.target_level > -1){
-            NbtCompound tag = res.source_gun.getTag().copy();
+            NbtCompound tag = res.source_gun.getNbt().copy();
             tag.putByte("mininghead", (byte) res.target_level);
-            result.setTag(tag);
+            result.setNbt(tag);
             return result;
         }
         return ItemStack.EMPTY;

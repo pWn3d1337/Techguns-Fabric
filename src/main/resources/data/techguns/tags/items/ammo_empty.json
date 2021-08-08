@@ -1,0 +1,18 @@
+{
+  "replace": false,
+  "values": [
+    "techguns:smgmagazineempty",
+    "techguns:pistolmagazineempty",
+    "techguns:assaultriflemagazineempty",
+    "techguns:lmgmagazineempty",
+    "techguns:minigundrumempty",
+    "techguns:as50magazineempty",
+    "techguns:advancedmagazineempty",
+    "techguns:compressedairtankempty",
+    "techguns:biotankempty",
+    "techguns:fueltankempty",
+    "techguns:energycellempty",
+    "techguns:nuclearpowercelldepleted",
+    "techguns:redstone_battery_empty"
+  ]
+}

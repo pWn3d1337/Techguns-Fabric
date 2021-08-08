@@ -37,18 +37,18 @@ public class Recipewriter {
 
     //private static final Identifier TAG_LEAD_NUGGETS = new Identifier("c:lead_nuggets");
     private static final Identifier TAG_LEAD_INGOTS = new Identifier("c:lead_ingots");
-    private static final Identifier TAG_LEAD_PLATES = new Identifier("c:lead_plates");
+    //private static final Identifier TAG_LEAD_PLATES = new Identifier("c:lead_plates");
 
     private static final Identifier TAG_IRON_NUGGETS = new Identifier("c:iron_nuggets");
     private static final Identifier TAG_IRON_INGOTS = new Identifier("c:iron_ingots");
-    private static final Identifier TAG_IRON_PLATES = new Identifier("c:iron_plates");
+    //private static final Identifier TAG_IRON_PLATES = new Identifier("c:iron_plates");
 
     private static final Identifier TAG_STEEL_NUGGETS = new Identifier("c:steel_nuggets");
     private static final Identifier TAG_STEEL_INGOTS = new Identifier("c:steel_ingots");
-    private static final Identifier TAG_STEEL_PLATES = new Identifier("c:steel_plates");
+    //private static final Identifier TAG_STEEL_PLATES = new Identifier("c:steel_plates");
 
     private static final Identifier TAG_OBSIDIAN_INGOTS = new Identifier("c:obsidian_ingots");
-    private static final Identifier TAG_OBSIDIAN_PLATES = new Identifier("c:obsidian_plates");
+    //private static final Identifier TAG_OBSIDIAN_PLATES = new Identifier("c:obsidian_plates");
 
     private static final Identifier TAG_GLASS_BLOCKS = new Identifier("c:glass_blocks");
     private static final Identifier TAG_SLIME_BALLS = new Identifier("c:slime_balls");
@@ -74,6 +74,7 @@ public class Recipewriter {
     private static final Identifier TAG_CONCRETE = new Identifier("c:concrete");
 
     private static final Identifier TAG_DYE = new Identifier("c:dyes");
+
 
     /**
      * Vanilla tag
@@ -195,6 +196,69 @@ public class Recipewriter {
                 Items.RED_DYE,
                 Items.BLACK_DYE
         ));
+
+
+        /**
+         * AMMO Tags
+         */
+        TAG_LIST.put(TAG_AMMO_FULL_ID, Arrays.asList(
+                STONE_BULLETS,
+                PISTOL_ROUNDS,
+                SHOTGUN_ROUNDS,
+                RIFLE_ROUNDS,
+                SNIPER_ROUNDS,
+                GRENADE_40MM,
+                ADVANCED_ROUNDS,
+                ROCKET,
+                RIFLE_ROUNDS_STACK,
+                SMG_MAGAZINE,
+                PISTOL_MAGAZINE,
+                ASSAULTRIFLE_MAGAZINE,
+                LMG_MAGAZINE,
+                MINIGUN_DRUM,
+                AS50_MAGAZINE,
+                ADVANCED_MAGAZINE,
+                COMPRESSED_AIR_TANK,
+                BIO_TANK,
+                FUEL_TANK,
+                ENERGY_CELL,
+                NUCLEAR_POWERCELL,
+                REDSTONE_BATTERY,
+                GAUSSRIFLE_SLUGS,
+                NETHER_CHARGE,
+                SHOTGUN_ROUNDS_INCENDIARY,
+                AS50_MAGAZINE_INCENDIARY,
+                SNIPER_ROUNDS_INCENDIARY,
+                PISTOL_ROUNDS_INCENDIARY,
+                RIFLE_ROUNDS_INCENDIARY,
+                RIFLE_ROUNDS_STACK_INCENDIARY,
+                SMG_MAGAZINE_INCENDIARY,
+                PISTOL_MAGAZINE_INCENDIARY,
+                MINIGUN_DRUM_INCENDIARY,
+                ASSAULTRIFLE_MAGAZINE_INCENDIARY,
+                LMG_MAGAZINE_INCENDIARY,
+                ROCKET_NUKE,
+                TACTICAL_NUKE_WARHEAD,
+                AS50_MAGAZINE_EXPLOSIVE,
+                SNIPER_ROUNDS_EXPLOSIVE,
+                ROCKET_HIGH_VELOCITY
+        ));
+
+        TAG_LIST.put(TAG_AMMO_EMPTY_ID, Arrays.asList(
+                SMG_MAGAZINE_EMPTY,
+                PISTOL_MAGAZINE_EMPTY,
+                ASSAULTRIFLE_MAGAZINE_EMPTY,
+                LMG_MAGAZINE_EMPTY,
+                MINIGUN_DRUM_EMPTY,
+                AS50_MAGAZINE_EMPTY,
+                ADVANCED_MAGAZINE_EMPTY,
+                COMPRESSED_AIR_TANK_EMPTY,
+                BIO_TANK_EMPTY,
+                FUEL_TANK_EMPTY,
+                ENERGY_CELL_EMPTY,
+                NUCLEAR_POWERCELL_EMPTY,
+                REDSTONE_BATTERY_EMPTY
+        ));
     }
 
     public static void generateItemRecipes(){
@@ -249,7 +313,7 @@ public class Recipewriter {
         RecipeJsonConverter.addShapedRecipe(new ItemStack(RECEIVER_IRON,1), "iii"," mn","  n", 'i', TAG_IRON_INGOTS, 'n', TAG_IRON_NUGGETS,'m', MECHANICAL_PARTS_IRON);
         RecipeJsonConverter.addShapedRecipe(new ItemStack(RECEIVER_STEEL,1), "iii"," mn","  n", 'i', TAG_STEEL_INGOTS, 'n', TAG_STEEL_NUGGETS,'m', MECHANICAL_PARTS_OBSIDIAN_STEEL);
 
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(RECEIVER_OBSIDIAN_STEEL,1), "ppp"," mi","  i", 'i', TAG_OBSIDIAN_INGOTS, 'p', TAG_OBSIDIAN_PLATES,'m', MECHANICAL_PARTS_CARBON);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(RECEIVER_OBSIDIAN_STEEL,1), "iii"," mi","  i", 'i', TAG_OBSIDIAN_INGOTS, 'm', MECHANICAL_PARTS_CARBON);
         RecipeJsonConverter.addShapedRecipe(new ItemStack(RECEIVER_CARBON,1), "ppp"," mi","  i", 'i', TAG_OBSIDIAN_INGOTS, 'p', TAG_CARBON_PLATES,'m', MECHANICAL_PARTS_CARBON);
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(ADVANCED_MAGAZINE_EMPTY,4),"i i","i i","imi",'i', TAG_OBSIDIAN_INGOTS, 'm',MECHANICAL_PARTS_OBSIDIAN_STEEL);
@@ -257,9 +321,9 @@ public class Recipewriter {
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(WIRE_COPPER,1)," cc"," c ","cc ",'c', TAG_COPPER_NUGGETS);
 
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(ELECTRIC_ENGINE,1), "wrw","imi","wrw", 'w', TAG_COPPER_WIRES, 'i', TAG_IRON_INGOTS, 'r', Items.REDSTONE, 'm', MECHANICAL_PARTS_IRON);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(ELECTRIC_ENGINE,1), "wrw","imi","wrw", 'w', TAG_COPPER_WIRES, 'i', TAG_COPPER_INGOTS, 'r', Items.REDSTONE, 'm', MECHANICAL_PARTS_IRON);
 
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(TGItems.CIRCUIT_BOARD_BASIC,4),"cgc","rir","cgc", 'i', TAG_IRON_PLATES, 'c', TAG_COPPER_WIRES, 'g', Items.GREEN_DYE, 'r', Items.REDSTONE);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(TGItems.CIRCUIT_BOARD_BASIC,4),"cgc","rir","cgc", 'i', TAG_IRON_INGOTS, 'c', TAG_COPPER_WIRES, 'g', Items.GREEN_DYE, 'r', Items.REDSTONE);
 
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(BARREL_CARBON,1), "iii","   ","iii", 'i', TAG_CARBON_PLATES);
@@ -278,12 +342,12 @@ public class Recipewriter {
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(COIL,1), " wi","wiw","iw ", 'i', TAG_IRON_INGOTS, 'w', TAG_COPPER_WIRES);
 
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(MACHINE_UPGRADE_STACK,1), "pgp","ncn","pnp", 'p', TAG_IRON_PLATES, 'n', TAG_GOLD_INGOTS,'g', Items.GREEN_DYE, 'c', new ItemStack(Blocks.CHEST,1));
+        //RecipeJsonConverter.addShapedRecipe(new ItemStack(MACHINE_UPGRADE_STACK,1), "pgp","ncn","pnp", 'p', TAG_IRON_INGOTS, 'n', TAG_GOLD_INGOTS,'g', Items.GREEN_DYE, 'c', new ItemStack(Blocks.CHEST,1));
 
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(TURRET_ARMOR_IRON,1),"ppp"," p "," p ", 'p', TAG_IRON_PLATES);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(TURRET_ARMOR_IRON,1),"ppp"," p "," p ", 'p', TAG_IRON_INGOTS);
 
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(TURRET_ARMOR_STEEL,1),"ppp"," p "," p ", 'p', TAG_STEEL_PLATES);
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(TURRET_ARMOR_OBSIDIAN_STEEL,1),"ppp"," p "," p ", 'p', TAG_OBSIDIAN_PLATES);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(TURRET_ARMOR_STEEL,1),"ppp"," p "," p ", 'p', TAG_STEEL_INGOTS);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(TURRET_ARMOR_OBSIDIAN_STEEL,1),"ppp"," p "," p ", 'p', TAG_OBSIDIAN_INGOTS);
         RecipeJsonConverter.addShapedRecipe(new ItemStack(TURRET_ARMOR_CARBON,1),"ppp"," p "," p ", 'p', TAG_CARBON_PLATES);
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(GLIDER_BACKBACK,1), "hhh","shs","hhh", 'h', TGItems.HEAVY_CLOTH, 's', TAG_IRON_INGOTS);
@@ -392,7 +456,7 @@ public class Recipewriter {
 
         RecipeJsonConverter.addShapedRecipe(new ItemStack(TGItems.BUNKER_DOOR,2), "pp","pp","pp", 'p', "plateIron");
 */
-        RecipeJsonConverter.addShapedRecipe(new ItemStack(TGItems.TACTICAL_NUKE_WARHEAD, 2), "pcp","tut","pcp", 'p', TAG_LEAD_PLATES, 't', TGItems.TGX, 'c', TAG_BASIC_CIRCUITS, 'u', TAG_URANIUM_ENRICHED);
+        RecipeJsonConverter.addShapedRecipe(new ItemStack(TGItems.TACTICAL_NUKE_WARHEAD, 2), "pcp","tut","pcp", 'p', TAG_LEAD_INGOTS, 't', TGItems.TGX, 'c', TAG_BASIC_CIRCUITS, 'u', TAG_URANIUM_ENRICHED);
 
         RecipeJsonConverter.addShapelessRecipe(new ItemStack(TGItems.ROCKET_NUKE, 1), new ItemStack(TGItems.ROCKET, 1), new ItemStack(TGItems.TACTICAL_NUKE_WARHEAD, 1));
 

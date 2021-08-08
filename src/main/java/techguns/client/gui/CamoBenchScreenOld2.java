@@ -71,7 +71,7 @@ public class CamoBenchScreenOld2 extends HandledScreen<CamoBenchScreenHandler> {
                 int n = i + m % 4 * 16;
                 int o = j + m / 4 * 18 + 2;
                 if (x >= n && x < n + 16 && y >= o && y < o + 18) {
-                    NbtCompound tag = list.get(l).getTag();
+                    NbtCompound tag = list.get(l).getNbt();
                     if (tag!=null) {
                         String camoname = tag.getString("camo");
                         if (camoname != null) {

@@ -59,7 +59,6 @@ public class RecipeJsonConverter {
 
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
     private static File RECIPE_DIR = null;
-    private static final Set<String> USED_OD_NAMES = new TreeSet<>();
 
     private static File TAG_DIR_TECHGUNS = null;
     private static File TAG_DIR_COMMON = null;

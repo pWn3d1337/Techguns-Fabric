@@ -75,7 +75,7 @@ public class TransferAmmoRecipe extends NBTShapedRecipe {
             if(!out_gun.getAmmoType().hasVariant(ammotype)){
                 ammotype = AmmoTypes.TYPE_DEFAULT;
             }
-            NbtCompound tag = output.getTag();
+            NbtCompound tag = output.getNbt();
             if (tag!=null){
                 tag.putShort("ammo", (short) input_ammo);
                 tag.putString("ammovariant", ammotype);

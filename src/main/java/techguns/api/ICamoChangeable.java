@@ -15,10 +15,10 @@ public interface ICamoChangeable {
 	public static boolean setCamo(ItemStack stack, Identifier camo){
 		WeaponCamoEntry entry = TGCamos.getCamoEntry(stack.getItem(), camo);
 		if (entry!=null) {
-			NbtCompound tags = stack.getTag();
+			NbtCompound tags = stack.getNbt();
 			if (tags == null) {
 				tags = new NbtCompound();
-				stack.setTag(tags);
+				stack.setNbt(tags);
 			}
 			tags.putString("camo", camo.toString());
 			return true;
@@ -31,10 +31,10 @@ public interface ICamoChangeable {
 	}
 	
 	public default int switchCamo(ItemStack item,boolean back){
-		NbtCompound tags = item.getTag();
+		NbtCompound tags = item.getNbt();
 		if (tags== null){
 			tags = new NbtCompound();
-			item.setTag(tags);
+			item.setNbt(tags);
 		}
 		String camoID=null;
 		if (tags.contains("camo")){
@@ -70,7 +70,7 @@ public interface ICamoChangeable {
 	}
 	
 	public default int getCurrentCamoIndex(ItemStack item) {
-		NbtCompound tags = item.getTag();
+		NbtCompound tags = item.getNbt();
 		int camoID=0;
 		if (tags!=null && tags.contains("camo")){
 			String id = tags.getString("camo");
@@ -83,7 +83,7 @@ public interface ICamoChangeable {
 	};
 	
 	public default List<Identifier> getCurrentCamoTextures(ItemStack item) {
-		NbtCompound tags = item.getTag();
+		NbtCompound tags = item.getNbt();
 		if (tags != null){
 
 			String camo=tags.getString("camo");
@@ -98,7 +98,7 @@ public interface ICamoChangeable {
 	}
 	
 	public default String getCurrentCamoName(ItemStack item) {
-		NbtCompound tags = item.getTag();
+		NbtCompound tags = item.getNbt();
 		if (tags != null){
 
 			String camo=tags.getString("camo");

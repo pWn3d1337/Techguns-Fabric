@@ -3,6 +3,11 @@ package techguns.util;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;
+import techguns.TGItems;
+import techguns.items.AmmoBagItem;
+
+import java.util.Iterator;
+import java.util.stream.Stream;
 
 public class InventoryUtil {
 
@@ -18,18 +23,35 @@ public class InventoryUtil {
     			return 0;
     		}
     	} else {*/
-    		return addItemToInventory(ply.getInventory().main, ammo, 0, ply.getInventory().main.size());
+    		//return addItemToInventory(ply.getInventory().main, ammo, 0, ply.getInventory().main.size());
     	//}
+
+		int amount = addAmmoToAmmoBag(ply, ammo);
+		if (amount>0){
+			return addItemToInventory(ply.getInventory().main, ammo, 0, ply.getInventory().main.size());
+		}
+		return 0;
     }
 	
-	public static int addAmmoToAmmoInventory(PlayerEntity ply, ItemStack ammo){
+	public static int addAmmoToAmmoBag(PlayerEntity ply, ItemStack ammo){
     	//TGExtendedPlayer props = TGExtendedPlayer.get(ply);
     	
     	//if (props!=null){
     	//	int amount = addItemToInventory(props.tg_inventory.inventory, ammo, props.tg_inventory.SLOTS_AMMO_START, props.tg_inventory.SLOTS_AMMO_END+1);
     	//	return amount;
     	//}
-    	return ammo.getCount();
+		int toAdd = ammo.getCount();
+		ItemStack stackToConsume = ammo.copy();
+		//look for AmmoBags
+		Stream<ItemStack> ammobags = ply.getInventory().main.stream().filter(itemStack -> (!itemStack.isEmpty() && itemStack.getItem() instanceof AmmoBagItem));
+		for (Iterator<ItemStack> it = ammobags.iterator(); it.hasNext() && toAdd>0; ) {
+			ItemStack ammobag = it.next();
+			AmmoBagItem ammoBagItem = (AmmoBagItem) ammobag.getItem();
+
+			toAdd -= ammoBagItem.addToBag(ammobag, stackToConsume);
+			stackToConsume.setCount(toAdd);
+		}
+		return toAdd;
     }
 	
 	/**
@@ -102,7 +124,33 @@ public class InventoryUtil {
 	    	}
     	}
     }
-    
+
+    public static int canConsumeItemFromAmmoBag(PlayerEntity ply, ItemStack ammo){
+    	int needed = ammo.getCount();
+		ItemStack stackToConsume = ammo.copy();
+    	//look for AmmoBags
+		Stream<ItemStack> ammobags = ply.getInventory().main.stream().filter(itemStack -> (!itemStack.isEmpty() && itemStack.getItem() instanceof AmmoBagItem));
+		for (Iterator<ItemStack> it = ammobags.iterator(); it.hasNext() && needed>0; ) {
+			ItemStack ammobag = it.next();
+			needed = AmmoBagItem.canRemoveAmount(ammobag, stackToConsume);
+			stackToConsume.setCount(needed);
+		}
+		return needed;
+	}
+
+	public static int consumeItemFromAmmoBag(PlayerEntity ply, ItemStack ammo){
+		int needed = ammo.getCount();
+		ItemStack stackToConsume = ammo.copy();
+		//look for AmmoBags
+		Stream<ItemStack> ammobags = ply.getInventory().main.stream().filter(itemStack -> (!itemStack.isEmpty() && itemStack.getItem() instanceof AmmoBagItem));
+		for (Iterator<ItemStack> it = ammobags.iterator(); it.hasNext() && needed>0; ) {
+			ItemStack ammobag = it.next();
+			needed = AmmoBagItem.removeAmount(ammobag, stackToConsume);
+			stackToConsume.setCount(needed);
+		}
+		return needed;
+	}
+
     public static boolean consumeAmmoPlayer(PlayerEntity ply, ItemStack ammo){
     	//TODO Extended Invetory
     	//TGExtendedPlayer props = TGExtendedPlayer.get(ply);
@@ -113,25 +161,31 @@ public class InventoryUtil {
 	        	//if (consumeAmmo(props.tg_inventory.inventory, ammo,TGPlayerInventory.SLOTS_AMMO_START, TGPlayerInventory.SLOTS_AMMO_END+1)){
 	        	//	return true;
 	        	//} else {
-	        		return consumeAmmo(ply.getInventory().main,ammo,0,ply.getInventory().main.size());
+				if (consumeItemFromAmmoBag(ply, ammo) <= 0){
+					return true;
+				} else {
+					return consumeAmmo(ply.getInventory().main, ammo, 0, ply.getInventory().main.size());
+				}
 	        	//}
         	} else {
         		
         		//Check first if amount can be consumed
+				int needed = canConsumeItemFromAmmoBag(ply, ammo);
         		//int needed = canConsumeItem(props.tg_inventory.inventory, ammo,TGPlayerInventory.SLOTS_AMMO_START, TGPlayerInventory.SLOTS_AMMO_END+1);
         		//System.out.println("needed1:"+needed);
         		int needed2 = canConsumeItem(ply.getInventory().main,ammo,0,ply.getInventory().main.size());
         		//System.out.println("needed2:"+needed);
-        		if ( /*needed+*/needed2 <= amount){
+        		if ( needed+needed2 <= amount){
         			
         			//int missing = consumeItem(props.tg_inventory.inventory, ammo,TGPlayerInventory.SLOTS_AMMO_START, TGPlayerInventory.SLOTS_AMMO_END+1);
-        			
-        			//if (missing >0){
+        			int missing = consumeItemFromAmmoBag(ply, ammo);
+
+        			if (missing >0){
         				//return consumeItem(ply.inventory.mainInventory,TGItems.newStack(ammo, missing),0,ply.inventory.mainInventory.size()) <= 0;
-        			return consumeItem(ply.getInventory().main,ammo,0,ply.getInventory().main.size()) <= 0;
-        			//} else {
-        			//	return true;
-        			//}
+        			return consumeItem(ply.getInventory().main, TGItems.newStack(ammo, missing),0,ply.getInventory().main.size()) <= 0;
+        			} else {
+        				return true;
+        			}
         			
         			
         		} else {
@@ -146,35 +200,28 @@ public class InventoryUtil {
     }
     
     public static boolean canConsumeAmmoPlayer(PlayerEntity ply, ItemStack ammo){
-    	//TGExtendedPlayer props = TGExtendedPlayer.get(ply);
-    	
-    	//if ( props!=null ){
-        	int amount = ammo.getCount();
-        	if (amount ==1){     
-	        	//if (canConsumeItem(props.tg_inventory.inventory, ammo,TGPlayerInventory.SLOTS_AMMO_START, TGPlayerInventory.SLOTS_AMMO_END+1)<=0){
-	        	//	return true;
-	        	//} else {
-	        		return canConsumeItem(ply.getInventory().main,ammo,0,ply.getInventory().main.size())<=0;
-	        	//}
-        	} else {
-        		
-        		//Check first if amount can be consumed
-        		//int needed = canConsumeItem(props.tg_inventory.inventory, ammo,TGPlayerInventory.SLOTS_AMMO_START, TGPlayerInventory.SLOTS_AMMO_END+1);
-        		int needed2 = canConsumeItem(ply.getInventory().main,ammo,0,ply.getInventory().main.size());
 
-        		if ( /*needed+*/needed2 <= amount){
-        			
-        			return true;
-        			
-        		} else {
-        			return false;
-        		}
+		int amount = ammo.getCount();
+		if (amount ==1){
+			if (canConsumeItemFromAmmoBag(ply, ammo) <= 0){
+				return true;
+			} else {
+				return canConsumeItem(ply.getInventory().main,ammo,0,ply.getInventory().main.size())<=0;
+			}
+		} else {
 
-        	}
-    	//} else {
-    	//	return false;
-    	//}
-    	
+			//Check first if amount can be consumed
+			//int needed = canConsumeItem(props.tg_inventory.inventory, ammo,TGPlayerInventory.SLOTS_AMMO_START, TGPlayerInventory.SLOTS_AMMO_END+1);
+			int needed = canConsumeItemFromAmmoBag(ply, ammo);
+			int needed2 = canConsumeItem(ply.getInventory().main,ammo,0,ply.getInventory().main.size());
+
+			if ((needed+needed2) <= amount){
+				return true;
+			} else {
+				return false;
+			}
+
+		}
     }
     
     /**
@@ -265,4 +312,25 @@ public class InventoryUtil {
             return true;
         }
     }
+	public static int countItemInInventory(DefaultedList<ItemStack> inventory, ItemStack searchItem, int start_index, int end_index) {
+    	int count =0;
+    	for(int i=start_index; i<end_index; i++){
+    		ItemStack stack = inventory.get(i);
+    		if(!stack.isEmpty() && stack.isItemEqual(searchItem)){
+    			count+= stack.getCount();
+			}
+		}
+    	return count;
+	}
+
+	public static int countItemInAmmoBags(PlayerEntity ply, ItemStack item){
+		int count = 0;
+		//look for AmmoBags
+		Stream<ItemStack> ammobags = ply.getInventory().main.stream().filter(itemStack -> (!itemStack.isEmpty() && itemStack.getItem() instanceof AmmoBagItem));
+		for (Iterator<ItemStack> it = ammobags.iterator(); it.hasNext(); ) {
+			ItemStack ammobag = it.next();
+			count += AmmoBagItem.countItemInBag(ammobag, item);
+		}
+		return count;
+	}
 }

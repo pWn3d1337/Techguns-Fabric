@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "#techguns:ammo_full",
+    "#techguns:ammo_empty"
+  ]
+}

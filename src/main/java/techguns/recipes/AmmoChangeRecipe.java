@@ -96,7 +96,7 @@ public class AmmoChangeRecipe extends SpecialCraftingRecipe {
             GenericGun guntype = craftingTarget.guntype;
 
             ItemStack newStack = craftingTarget.gun.copy();
-            NbtCompound tag = newStack.getTag();
+            NbtCompound tag = newStack.getNbt();
             tag.putString("ammovariant", craftingTarget.ammoVariant.getKey());
 
             int ammocount = guntype.getAmmoCount();

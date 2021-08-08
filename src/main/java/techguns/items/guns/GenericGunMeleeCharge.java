@@ -235,7 +235,7 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 	}
 
 	public int getMiningHeadLevel(ItemStack stack){
-		NbtCompound tag = stack.getTag();
+		NbtCompound tag = stack.getNbt();
 		if(tag!=null){
 			byte b = tag.getByte("mininghead");
 			if(b >= 0 && b < miningHeads.length){

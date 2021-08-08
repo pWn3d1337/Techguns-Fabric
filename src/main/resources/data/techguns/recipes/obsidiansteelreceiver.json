@@ -3,15 +3,12 @@
     "item": "techguns:obsidiansteelreceiver"
   },
   "pattern": [
-    "ppp",
+    "iii",
     " mi",
     "  i"
   ],
   "type": "minecraft:crafting_shaped",
   "key": {
-    "p": {
-      "tag": "c:obsidian_plates"
-    },
     "i": {
       "tag": "c:obsidian_ingots"
     },

@@ -27,8 +27,8 @@ public class AmmoBenchRecipe implements Recipe<Inventory> {
     protected static DefaultedList<Ingredient> getInputs()
     {
         DefaultedList<Ingredient> list = DefaultedList.ofSize(3, Ingredient.empty());
-        list.set(0, Ingredient.fromTag(TGItems.TAG_BULLET_CASING));
-        list.set(1, Ingredient.fromTag(TGItems.TAG_BULLET_CORE));
+        list.set(0, Ingredient.fromTag(TGItems.TAG_BULLET_CORE));
+        list.set(1, Ingredient.fromTag(TGItems.TAG_BULLET_CASING));
         list.set(2, Ingredient.fromTag(TGItems.TAG_BULLET_POWDER));
         return list;
     };

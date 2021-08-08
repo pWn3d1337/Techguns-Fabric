@@ -23,6 +23,7 @@ import techguns.api.render.IItemRenderer;
 import techguns.client.render.item.RenderGunBase;
 import techguns.items.guns.EnumCrosshairStyle;
 import techguns.items.guns.GenericGun;
+import techguns.util.InventoryUtil;
 import techguns.util.MathUtil;
 
 @Environment(EnvType.CLIENT)
@@ -212,7 +213,7 @@ public class TGGuiRender {
 		ItemStack[] ammoitem  = gun.getReloadItem(item);
 		int minCount = 0;
 		for(ItemStack stack: ammoitem) {
-			int c = 0; //getAmmoCountOfStack(stack, gun, ply, props); //TODO TG inventory
+			int c = getAmmoCountOfStack(stack, gun, ply);
 			if (c>minCount) {
 				minCount = c;
 			}
@@ -422,16 +423,15 @@ public class TGGuiRender {
 		return showCustomCrosshair;
 	}
 
-	//TODO techguns inventory
-	/*private int getAmmoCountOfStack(ItemStack ammoitem, GenericGun gun, EntityPlayer ply, TGExtendedPlayer props) {
-		int count = InventoryUtil.countItemInInv(ply.inventory.mainInventory, ammoitem, 0, ply.inventory.mainInventory.size());
-		count += InventoryUtil.countItemInInv(props.tg_inventory.inventory, ammoitem, TGPlayerInventory.SLOTS_AMMO_START, TGPlayerInventory.SLOTS_AMMO_END+1);
+	private static int getAmmoCountOfStack(ItemStack ammoitem, GenericGun gun, PlayerEntity ply) {
+		int count = InventoryUtil.countItemInInventory(ply.getInventory().main, ammoitem, 0, ply.getInventory().main.size());
+		count += InventoryUtil.countItemInAmmoBags(ply, ammoitem);
 		
 		if (gun.getAmmoCount()>1){
 			count = count / gun.getAmmoCount();
 		} 
 		return count;
-	}*/
+	}
 
 	/*public static void drawTextureFloat(MatrixStack matrices, float x, float y, int z, int u, int v, int width, int height) {
 		drawTextureFloat(matrices, x, x + width, y, y + height, z, width, height, (float)u, (float)v, 256, 256);

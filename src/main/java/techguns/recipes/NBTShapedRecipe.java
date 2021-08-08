@@ -94,7 +94,7 @@ public class NBTShapedRecipe extends ShapedRecipe {
         int i = JsonHelper.getInt(json, "count", 1);
         ItemStack stack = new ItemStack(item,i);
         if(tags!=null){
-            stack.setTag(tags);
+            stack.setNbt(tags);
         }
         return stack;
     }

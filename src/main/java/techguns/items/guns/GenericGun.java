@@ -789,10 +789,10 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	@Override
 	public void onCraft(ItemStack stack, World world, PlayerEntity player) {
 		super.onCraft(stack, world, player);
-		NbtCompound tags = stack.getTag();
+		NbtCompound tags = stack.getNbt();
 		if(tags==null){
 			tags=new NbtCompound();
-			stack.setTag(tags);
+			stack.setNbt(tags);
 
 			tags.putString("camo", "");
 			tags.putString("ammovariant", AmmoTypes.TYPE_DEFAULT);
@@ -810,10 +810,10 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	}
 	
 	public int getCurrentAmmo(ItemStack stack){
-		NbtCompound tags = stack.getTag();
+		NbtCompound tags = stack.getNbt();
 		if(tags==null){
 			this.onCraft(stack, null, null); //world and player are not needed
-			tags = stack.getTag();
+			tags = stack.getNbt();
 		}
 		return tags.getShort("ammo");
 	}
@@ -824,10 +824,10 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	}
 	
 	public String getCurrentAmmoVariantKey(ItemStack stack){
-		NbtCompound tags = stack.getTag();
+		NbtCompound tags = stack.getNbt();
 		if(tags==null){
 			this.onCraft(stack, null, null); //world and player are not needed
-			tags = stack.getTag();
+			tags = stack.getNbt();
 		}
 		String var = tags.getString("ammovariant");
 		if(var==null || var.equals("")) return AmmoTypes.TYPE_DEFAULT;
@@ -842,7 +842,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	 */
 	public int useAmmo(ItemStack stack, int amount){
 		int ammo = this.getCurrentAmmo(stack);
-		NbtCompound tags = stack.getTag();
+		NbtCompound tags = stack.getNbt();
 		if(ammo-amount>=0){
 			tags.putShort("ammo", (short) (ammo-amount));
 			return amount;
@@ -858,7 +858,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	
 	public void reloadAmmo(ItemStack stack, int amount){
 		int ammo = this.getCurrentAmmo(stack);
-		NbtCompound tags = stack.getTag();
+		NbtCompound tags = stack.getNbt();
 		tags.putShort("ammo", (short) (ammo+amount));
 	}
 	

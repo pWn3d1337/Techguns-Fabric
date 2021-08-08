@@ -75,7 +75,7 @@ public class TGCamos implements ITGInitializer {
 			WeaponCamoList l = weapon_camos.get(it);
 			for (Identifier entry : l.camos.keySet()) {
 				ItemStack gun_to_add = gun.copy();
-				gun_to_add.getTag().putString("camo", entry.toString());
+				gun_to_add.getNbt().putString("camo", entry.toString());
 				
 				list.add(gun_to_add);
 			}
