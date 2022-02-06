@@ -14,10 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.snooper.SnooperListener;
 import net.minecraft.util.thread.ReentrantThreadExecutor;
 import techguns.TGPacketsC2S;
-import techguns.TGPacketsS2C;
 import techguns.api.client.ClientDisconnectEvent;
 import techguns.client.ShooterValues;
 import techguns.items.guns.GenericGun;
@@ -27,7 +25,7 @@ import techguns.sounds.TGSoundCategory;
 import techguns.util.SoundUtil;
 
 @Mixin(MinecraftClient.class)
-public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runnable> implements SnooperListener, WindowEventHandler{
+public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runnable> implements WindowEventHandler{
 
 	public MinecraftClientMixin(String string) {
 		super(string);

@@ -24,7 +24,7 @@ import java.util.Set;
 
 public class TransferAmmoRecipe extends NBTShapedRecipe {
 
-    public static Serializer SERIALIZER;
+    public static techguns.recipes.TransferAmmoRecipe.Serializer SERIALIZER;
 
     public TransferAmmoRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> ingredients, ItemStack output) {
         super(id, group, width, height, ingredients, output);

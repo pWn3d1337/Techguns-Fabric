@@ -85,7 +85,7 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
 				TGMatrixOps.rotate(matrices, (float)c_yaw -90.0f, 0F, 1F, 0F);
 		       	TGMatrixOps.rotate(matrices, (float)c_pitch, 0F, 0F, 1F);
 		       	TGMatrixOps.rotate(matrices, 45f, 1f, 0f, 0f);
-		       	Matrix4f model_mat = matrices.peek().getModel();
+		       	Matrix4f model_mat = matrices.peek().getPositionMatrix();
 		       	
 		       	float u1 = 0f;
 		       	float v1 = 0f;

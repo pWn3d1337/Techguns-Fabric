@@ -163,7 +163,7 @@ public class ScreenEffect implements IScreenEffect {
 			VertexConsumer vertices = verticesProvider.getBuffer(TGRenderHelper.get_fx_layerForType(fxTexture, this.type));
 			
 			
-			Matrix4f modelMat = matrices.peek().getModel();
+			Matrix4f modelMat = matrices.peek().getPositionMatrix();
 			
 			vertices.vertex(modelMat, offsetX-f, offsetY+f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U1,V2).light(light_u,light_v).next();
 	        vertices.vertex(modelMat, offsetX-f, offsetY-f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U1,V1).light(light_u,light_v).next();

@@ -20,6 +20,7 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.TickPriority;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
@@ -108,7 +109,7 @@ public class BlockBioBlob extends Block {
      * @param rnd
      */
     public void scheduleTick(World world, BlockPos pos, Random rnd){
-        world.getBlockTickScheduler().schedule(new BlockPos.Mutable(pos.getX(), pos.getY(), pos.getZ()), this, MathHelper.nextInt(rnd, 80, 120));
+        world.createAndScheduleBlockTick(pos, this, MathHelper.nextInt(rnd, 80, 120), TickPriority.LOW);
     }
 
     @Override

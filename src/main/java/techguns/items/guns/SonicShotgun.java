@@ -46,7 +46,7 @@ public class SonicShotgun extends GenericGun {
 
         IntOpenHashSet entitiesHit = new IntOpenHashSet();
         projectile.setProjectileType(projectileType);
-        projectile.setProperties(player, projectile.getPitch(), projectile.getYaw(), 0.0f, modified_speed, 0.0F);
+        projectile.setVelocity(player, projectile.getPitch(), projectile.getYaw(), 0.0f, modified_speed, 0.0F);
         projectile.mainProjectile = true;
         projectile.entitiesHit = entitiesHit;
 

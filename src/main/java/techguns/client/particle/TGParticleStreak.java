@@ -37,7 +37,7 @@ public class TGParticleStreak extends TGParticle{
     	preRenderStep(progress, partialTickTime);
     	
     	if (this.next == null) {
-    		this.colorAlpha = 0.0f;
+    		this.alpha = 0.0f;
     	}
     	
 		/*-------------------
@@ -129,10 +129,10 @@ public class TGParticleStreak extends TGParticle{
                 prev.pos2 = p3;
             }
 
-			buffer.vertex(mat, (float)p1.x, (float)p1.y, (float)p1.z).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).texture(ua, va).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
-			buffer.vertex(mat, (float)p2.x, (float)p2.y, (float)p2.z).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).texture(ub, vb).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
-			buffer.vertex(mat, (float)p3.x, (float)p3.y, (float)p3.z).color(prev.colorRed, prev.colorGreen, prev.colorBlue, prev.colorAlpha).texture(uc, vc).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
-			buffer.vertex(mat, (float)p4.x, (float)p4.y, (float)p4.z).color(prev.colorRed, prev.colorGreen, prev.colorBlue, prev.colorAlpha).texture(ud, vd).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
+			buffer.vertex(mat, (float)p1.x, (float)p1.y, (float)p1.z).color(this.red, this.green, this.blue, this.alpha).texture(ua, va).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
+			buffer.vertex(mat, (float)p2.x, (float)p2.y, (float)p2.z).color(this.red, this.green, this.blue, this.alpha).texture(ub, vb).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
+			buffer.vertex(mat, (float)p3.x, (float)p3.y, (float)p3.z).color(prev.red, prev.green, prev.blue, prev.alpha).texture(uc, vc).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
+			buffer.vertex(mat, (float)p4.x, (float)p4.y, (float)p4.z).color(prev.red, prev.green, prev.blue, prev.alpha).texture(ud, vd).light(0, 240).next(); //.normal(0.0f, 1.0f, 0.0f).endVertex();
 	
 			vertexConsumerProvider.draw(layer);
         }    

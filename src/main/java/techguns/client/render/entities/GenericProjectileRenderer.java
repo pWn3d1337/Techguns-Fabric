@@ -75,7 +75,7 @@ public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericP
 			VertexConsumer vertexConsumer = vertexConsumerProvider
 					.getBuffer(this.getRenderLayer(entity));
 			MatrixStack.Entry entry = matrixStack.peek();
-			Matrix4f model_mat = entry.getModel();
+			Matrix4f model_mat = entry.getPositionMatrix();
 
 			float length = 10f; //10f;
 			float width = 1.25f; //1.5f;

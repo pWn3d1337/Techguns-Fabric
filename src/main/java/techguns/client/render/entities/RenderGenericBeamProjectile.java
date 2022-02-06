@@ -258,7 +258,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 
 		VertexConsumer vertexConsumer = vertexConsumerProvider
 				.getBuffer(this.getRenderLayer(entity));
-		Matrix4f model_mat = matrixStack.peek().getModel();
+		Matrix4f model_mat = matrixStack.peek().getPositionMatrix();
 		
 		matrixStack.push();
 		for (int i = 0; i < 4; ++i) {
@@ -306,7 +306,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 		matrixStack.push();
 		
 		matrixStack.translate(-0.30, 0, 0);
-		Matrix4f model_mat = matrixStack.peek().getModel();
+		Matrix4f model_mat = matrixStack.peek().getPositionMatrix();
 		
 		float d = distance / segments;
 		for (int i = 0; i < segments; i++) {
@@ -429,7 +429,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 		matrixStack.push();
 		TGMatrixOps.rotate(matrixStack, 45.0f, 1.0f, 0.0f, 0.0f);
 
-		Matrix4f modelMat = matrixStack.peek().getModel();
+		Matrix4f modelMat = matrixStack.peek().getPositionMatrix();
 
 		//set alpha1
 		vertexConsumer.vertex(modelMat, x1,  y1- width1,  z1).color(1f,1f,1f, a1).texture(0,0).light(light).next();

@@ -311,7 +311,7 @@ public class GenericGunCharge extends GenericGun {
 		
 		if (projectile != null) {
 			projectile.setProjectileType(projectileType);
-			projectile.setProperties(player, player.getPitch(), player.getYaw(), 0.0F, modified_speed, 1.0F);
+			projectile.setVelocity(player, player.getPitch(), player.getYaw(), 0.0F, modified_speed, 1.0F);
 			
 			if (offset > 0.0f) {
 				projectile.shiftForward(offset/modified_speed);

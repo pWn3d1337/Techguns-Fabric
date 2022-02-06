@@ -473,7 +473,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 				mod.getRange(this.damageDropEnd), mod.getDamage(this.damageMin) * damagebonus, this.penetration, getDoBlockDamage(player), firePos, mod.getRadius(radius), gravity);
 
 		projectile.setProjectileType(projectileType);
-		projectile.setProperties(player, projectile.getPitch(), projectile.getYaw(), 0.0f, modified_speed, 0.0F);
+		projectile.setVelocity(player, projectile.getPitch(), projectile.getYaw(), 0.0f, modified_speed, 0.0F);
 		//projectile.setProperties(player, player.pitch, player.yaw, 0.0F, modified_speed, 1.0F);
 						
 		//float f=1.0f;

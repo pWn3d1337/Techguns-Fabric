@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.8-SNAPSHOT'
+	id 'fabric-loom' version '0.10-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -21,8 +21,8 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
-minecraft {
-    accessWidener "src/main/resources/techguns.accesswidener"
+loom {
+    accessWidenerPath = file("src/main/resources/techguns.accesswidener")
 }
 
 dependencies {
@@ -36,17 +36,12 @@ dependencies {
 
 	//add REI to DEV env
 	//modImplementation "me.shedaniel:RoughlyEnoughItems:${project.rei_version}"
-	modImplementation "curse.maven:Architectury-419697:3409464" //required for REI
-	modImplementation "curse.maven:RoughlyEnoughItems-310111:3409488"
+	modImplementation "curse.maven:Architectury-419697:3636539" //required for REI
+	modImplementation "curse.maven:RoughlyEnoughItems-310111:3637406"
 
 	//add connected textures mod to dev env
-	modImplementation "curse.maven:ConnectedTexturesModFabric-432493:3376795"
-
-	//config api
-	//modApi("me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}") {
-    //    exclude(group: "net.fabricmc.fabric-api")
-    //}
-	//include "me.sargunvohra.mcmods:autoconfig1u:${project.auto_config_version}"
+	//not supported for 1.18
+	//modImplementation "curse.maven:ConnectedTexturesModFabric-432493:3376795"
 
 	//config gui api
     modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {

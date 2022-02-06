@@ -108,9 +108,10 @@ public class AmmoBagItemOld extends BundleItem {
     }
 
     public static int getBundleOccupancy(ItemStack stack) {
-        return getBundledStacks(stack).mapToInt((itemStack) -> {
+        /*return getBundledStacks(stack).mapToInt((itemStack) -> {
             return getItemOccupancy(itemStack) * itemStack.getCount();
-        }).sum();
+        }).sum();*/
+        return 0;
     }
 
     public static int getItemOccupancy(ItemStack stack) {
@@ -129,9 +130,9 @@ public class AmmoBagItemOld extends BundleItem {
     @Override
     public Optional<TooltipData> getTooltipData(ItemStack stack) {
         DefaultedList<ItemStack> defaultedList = DefaultedList.of();
-        Stream<ItemStack> var10000 = BundleItem.getBundledStacks(stack);
+        //Stream<ItemStack> var10000 = BundleItem.getBundledStacks(stack);
         Objects.requireNonNull(defaultedList);
-        var10000.forEach(defaultedList::add);
+        //var10000.forEach(defaultedList::add);
         return Optional.of(new BundleTooltipData(defaultedList, getBundleOccupancy(stack)));
     }
 

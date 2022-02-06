@@ -13,7 +13,7 @@ import techguns.items.guns.GenericGun;
 @Mixin(AbstractClientPlayerEntity.class)
 public class AbstractClientPlayerEntityMixin {
 	
-	@Inject(at = @At("RETURN"), method = "getSpeed", cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+	@Inject(at = @At("RETURN"), method = "getFovMultiplier", cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
 	public void getSpeed(CallbackInfoReturnable<Float> info, float f) {
 		AbstractClientPlayerEntity self = (AbstractClientPlayerEntity)(Object)this;
 

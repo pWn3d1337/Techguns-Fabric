@@ -258,7 +258,7 @@ public class TGRenderHelper extends RenderPhase {
 
 		
 		LightmapTextureManagerAccessor lm = (LightmapTextureManagerAccessor)(MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager());
-		int col = lm.getImage().getPixelColor(blockLight, skyLight);
+		int col = lm.getImage().getColor(blockLight, skyLight);
 		int r = NativeImage.getRed(col);
 
 		return Math.max(Math.min(((float)r)/255.0f, 1.0f), 0.0f);
@@ -273,7 +273,7 @@ public class TGRenderHelper extends RenderPhase {
 		int skyLight = MinecraftClient.getInstance().world.getLightLevel(LightType.SKY, blockPos);
 		
 		LightmapTextureManagerAccessor lm = (LightmapTextureManagerAccessor)(MinecraftClient.getInstance().gameRenderer.getLightmapTextureManager());
-		int col = lm.getImage().getPixelColor(blockLight, skyLight);
+		int col = lm.getImage().getColor(blockLight, skyLight);
 
 		double r = Math.max(Math.min(((double)NativeImage.getRed(col))/255.0, 1.0), 0.0);
 		double g = Math.max(Math.min(((double)NativeImage.getGreen(col))/255.0, 1.0), 0.0);

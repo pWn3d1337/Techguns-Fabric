@@ -1,6 +1,8 @@
 package techguns.client.particle;
 
 import java.awt.Color;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Stream;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -15,12 +17,12 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.collection.ReusableStream;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.World;
 import techguns.client.particle.TGParticleSystemType.AlphaEntry;
 import techguns.client.particle.TGParticleSystemType.ColorEntry;
@@ -296,7 +298,7 @@ public class TGParticle extends Particle implements ITGParticle {
     	double dz1 = dz;
     	
          if (this.collidesWithWorld && (dx != 0.0D || dy != 0.0D || dz != 0.0D)) {
-             Vec3d vec3d = Entity.adjustMovementForCollisions((Entity)null, new Vec3d(dx, dy, dz), this.getBoundingBox(), this.world, ShapeContext.absent(), new ReusableStream(Stream.empty()));
+         	Vec3d vec3d = Entity.adjustMovementForCollisions((Entity)null, new Vec3d(dx, dy, dz), this.getBoundingBox(), this.world, new LinkedList<VoxelShape>());
              dx = vec3d.x;
              dy = vec3d.y;
              dz = vec3d.z;
@@ -432,10 +434,10 @@ public class TGParticle extends Particle implements ITGParticle {
 	        }	        		
 		}
 	
-		buffer.vertex(mat, (float)p1.x + fPosX, (float)p1.y + fPosY, (float)p1.z + fPosZ).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).texture(ua, va).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
-		buffer.vertex(mat, (float)p2.x + fPosX, (float)p2.y + fPosY, (float)p2.z + fPosZ).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).texture(ub, vb).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
-		buffer.vertex(mat, (float)p3.x + fPosX, (float)p3.y + fPosY, (float)p3.z + fPosZ).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).texture(uc, vc).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
-		buffer.vertex(mat, (float)p4.x + fPosX, (float)p4.y + fPosY, (float)p4.z + fPosZ).color(this.colorRed, this.colorGreen, this.colorBlue, this.colorAlpha).texture(ud, vd).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p1.x + fPosX, (float)p1.y + fPosY, (float)p1.z + fPosZ).color(this.red, this.green, this.blue, this.alpha).texture(ua, va).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p2.x + fPosX, (float)p2.y + fPosY, (float)p2.z + fPosZ).color(this.red, this.green, this.blue, this.alpha).texture(ub, vb).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p3.x + fPosX, (float)p3.y + fPosY, (float)p3.z + fPosZ).color(this.red, this.green, this.blue, this.alpha).texture(uc, vc).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
+		buffer.vertex(mat, (float)p4.x + fPosX, (float)p4.y + fPosY, (float)p4.z + fPosZ).color(this.red, this.green, this.blue, this.alpha).texture(ud, vd).light(240,255).next();//.normal(0.0f, 1.0f, 0.0f).endVertex();
 
 		vertexConsumerProvider.draw(layer);
     }
@@ -536,18 +538,18 @@ public class TGParticle extends Particle implements ITGParticle {
 			float[] hsb2 = Color.RGBtoHSB((int)(c2.r*255), (int)(c2.g*255), (int)(c2.b*255), null);	
 			//HSB to RGB;
 			Color color = new Color(Color.HSBtoRGB(hsb1[0]*(1f-p) + hsb2[0]*p, hsb1[1]*(1f-p) + hsb2[1]*p, (hsb1[2]*(1f-p) + hsb2[2]*p)));
-			this.colorRed = ((float)color.getRed() / 255.0f) * b_r;
-			this.colorGreen = ((float)color.getGreen() / 255.0f) * b_g;
-			this.colorBlue = ((float)color.getBlue() / 255.0f) * b_b;
+			this.red = ((float)color.getRed() / 255.0f) * b_r;
+			this.green = ((float)color.getGreen() / 255.0f) * b_g;
+			this.blue = ((float)color.getBlue() / 255.0f) * b_b;
 		}else {
 //			float[] hsb = Color.RGBtoHSB((int)(c1.r*255), (int)(c1.g*255), (int)(c1.b*255), null);
 //			Color color = new Color(Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]*brightnessFactor));
 //			this.colorRed = (float)color.getRed() / 255.0f;
 //			this.colorGreen = (float)color.getGreen() / 255.0f;
 //			this.colorBlue = (float)color.getBlue() / 255.0f;
-			this.colorRed = c1.r * b_r;
-			this.colorGreen = c1.g * b_g;
-			this.colorBlue = c1.b * b_b;
+			this.red = c1.r * b_r;
+			this.green = c1.g * b_g;
+			this.blue = c1.b * b_b;
 		}
 				
 		/*-------------------------
@@ -556,10 +558,10 @@ public class TGParticle extends Particle implements ITGParticle {
 		AlphaEntry a1 = null;
 		AlphaEntry a2 = null;
 		if (type.alphaEntries.size() == 0) {
-			this.colorAlpha = 1.0f;
+			this.alpha = 1.0f;
 		}else if (type.alphaEntries.size() == 1) {
 			a1 = type.alphaEntries.get(0);
-			this.colorAlpha = a1.alpha;
+			this.alpha = a1.alpha;
 		}else {
 			a1 = type.alphaEntries.get(0);
     		for (int i = 1; i < type.alphaEntries.size(); i++) {
@@ -573,9 +575,9 @@ public class TGParticle extends Particle implements ITGParticle {
     		if (a1.time != a2.time) {
     			p = (progress-a1.time) / (a2.time-a1.time);		
     			//interpolate
-    			this.colorAlpha = a1.alpha*(1f-p) + a2.alpha * p;
+    			this.alpha = a1.alpha*(1f-p) + a2.alpha * p;
     		}else {
-    			this.colorAlpha = a1.alpha;
+    			this.alpha = a1.alpha;
     		}
 		}
 		
@@ -665,7 +667,7 @@ public class TGParticle extends Particle implements ITGParticle {
 	@Override
 	public void doRender(VertexConsumerProvider.Immediate vertexConsumerProvider, Entity entityIn, float partialTickTime, float rotX, float rotZ,
 			float rotYZ, float rotXY, float rotXZ, MatrixStack matrices, Camera camera) {
-		Matrix4f mat = matrices.peek().getModel().copy();
+		Matrix4f mat = matrices.peek().getPositionMatrix().copy();
 		this.renderParticle(vertexConsumerProvider, entityIn, partialTickTime, rotX, rotZ, rotYZ, rotXY, rotXZ, mat, camera);
 	}
 

@@ -1,6 +1,7 @@
 package techguns.mixin;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +23,7 @@ import techguns.entities.projectiles.GuidedMissileProjectile;
 import techguns.entities.projectiles.RocketProjectile;
 
 @Mixin(ClientPlayNetworkHandler.class)
-public abstract class ClientPlayNetworkHandlerMixin {
+public abstract class ClientPlayNetworkHandlerMixin implements ClientPlayPacketListener {
 	
 	@Shadow
 	private MinecraftClient client;

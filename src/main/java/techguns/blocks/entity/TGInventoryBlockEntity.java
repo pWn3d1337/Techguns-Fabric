@@ -34,9 +34,8 @@ public class TGInventoryBlockEntity extends TGScreenBlockEntity implements BaseI
     }
 
     @Override
-    public NbtCompound writeNbt(NbtCompound tag) {
+    public void writeNbt(NbtCompound tag) {
         Inventories.writeNbt(tag, inventory);
-        return super.writeNbt(tag);
     }
 
     @Override

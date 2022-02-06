@@ -92,7 +92,7 @@ public class ItemRendererMixin {
 	        String string = ""+gun.getAmmoLeft(stack);
 	        matrixStack.translate(0.0D, 0.0D, (double)(this.zOffset + 200.0F));
 	        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-	        renderer.draw((String)string, (float)(x + 19 +9 - 2 - renderer.getWidth(string)/2), (float)(y ), 16777215, true, matrixStack.peek().getModel(), immediate, false, 0, 15728880);
+	        renderer.draw((String)string, (float)(x + 19 +9 - 2 - renderer.getWidth(string)/2), (float)(y ), 16777215, true, matrixStack.peek().getPositionMatrix(), immediate, false, 0, 15728880);
 	        immediate.draw();
 		}
 	}
