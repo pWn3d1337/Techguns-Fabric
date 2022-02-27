@@ -265,14 +265,14 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 			TGMatrixOps.rotate(matrixStack, 90f, 1f, 0f, 0f);
 
 			// POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
-			vertexConsumer.vertex(model_mat, -distance, -width, 0.0f).texture((float) u1, v1)
-					.color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
-			vertexConsumer.vertex(model_mat, 0f, -width, 0.0f).texture((float) u2, v1)
-					.color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
-			vertexConsumer.vertex(model_mat, 0f, width, 0.0f).texture((float) u2, v2)
-					.color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
-			vertexConsumer.vertex(model_mat, -distance, width, 0.0f).texture((float) u1, v2)
-					.color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
+			vertexConsumer.vertex(model_mat, -distance, -width, 0.0f)
+					.color(1.0f, 1.0f, 1.0f, intensity).texture((float) u1, v1).light(light).next();
+			vertexConsumer.vertex(model_mat, 0f, -width, 0.0f)
+					.color(1.0f, 1.0f, 1.0f, intensity).texture((float) u2, v1).light(light).next();
+			vertexConsumer.vertex(model_mat, 0f, width, 0.0f)
+					.color(1.0f, 1.0f, 1.0f, intensity).texture((float) u2, v2).light(light).next();
+			vertexConsumer.vertex(model_mat, -distance, width, 0.0f)
+					.color(1.0f, 1.0f, 1.0f, intensity).texture((float) u1, v2).light(light).next();
 
 		}
 		matrixStack.pop();
@@ -326,10 +326,10 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 
 
 			// POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
-			vertexConsumer.vertex(model_mat, prevX - w, prevY, prevZ).texture(prevu, v2).color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
-			vertexConsumer.vertex(model_mat, x - w, y, z).texture(u, v2).color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
-			vertexConsumer.vertex(model_mat, x + w, y, z).texture(u, v1).color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
-			vertexConsumer.vertex(model_mat, prevX + w, prevY, prevZ).texture(prevu, v1).color(1.0f, 1.0f, 1.0f, intensity).light(light).next();
+			vertexConsumer.vertex(model_mat, prevX - w, prevY, prevZ).color(1.0f, 1.0f, 1.0f, intensity).texture(prevu, v2).light(light).next();
+			vertexConsumer.vertex(model_mat, x - w, y, z).color(1.0f, 1.0f, 1.0f, intensity).texture(u, v2).light(light).next();
+			vertexConsumer.vertex(model_mat, x + w, y, z).color(1.0f, 1.0f, 1.0f, intensity).texture(u, v1).light(light).next();
+			vertexConsumer.vertex(model_mat, prevX + w, prevY, prevZ).color(1.0f, 1.0f, 1.0f, intensity).texture(prevu, v1).light(light).next();
 
 			prevX = x;
 			prevY = y;

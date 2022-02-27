@@ -100,7 +100,7 @@ public class TGRenderHelper extends RenderPhase {
 	
     public static RenderLayer getProjectileCutout(Identifier texture) {
 	      RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false))/*todo 1.17: .alpha(HALF_ALPHA).diffuseLighting(ENABLE_DIFFUSE_LIGHTING) */.lightmap(ENABLE_LIGHTMAP).shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).build(true);
-	      return RenderLayer.of("techguns_projectile_cutout", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, VertexFormat.DrawMode.QUADS, 256, true, false, multiPhaseParameters);
+	      return RenderLayer.of("techguns_projectile_cutout", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, true, false, multiPhaseParameters);
 	}
 
 	public static RenderLayer getProjectileAdditive(Identifier texture) {

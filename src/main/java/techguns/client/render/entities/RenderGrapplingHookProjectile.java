@@ -99,14 +99,14 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
 					TGMatrixOps.rotate(matrices, 90f, 1f, 0f, 0f);
 
 					// POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
-					vertexConsumer.vertex(model_mat, 0, -width, 0.0f).texture(u1, v1)
-							.color(1.0f, 1.0f, 1.0f, 1.0f).light(light).next();
-					vertexConsumer.vertex(model_mat, distance, -width, 0.0f).texture(u2, v1)
-							.color(1.0f, 1.0f, 1.0f, 1.0f).light(light).next();
-					vertexConsumer.vertex(model_mat, distance, width, 0.0f).texture(u2, v2)
-							.color(1.0f, 1.0f, 1.0f, 1.0f).light(light).next();
-					vertexConsumer.vertex(model_mat, 0, width, 0.0f).texture(u1, v2)
-							.color(1.0f, 1.0f, 1.0f, 1.0f).light(light).next();
+					vertexConsumer.vertex(model_mat, 0, -width, 0.0f)
+							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u1, v1).light(light).next();
+					vertexConsumer.vertex(model_mat, distance, -width, 0.0f)
+							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u2, v1).light(light).next();
+					vertexConsumer.vertex(model_mat, distance, width, 0.0f)
+							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u2, v2).light(light).next();
+					vertexConsumer.vertex(model_mat, 0, width, 0.0f)
+							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u1, v2).light(light).next();
 
 				}
 		       	
