@@ -8,8 +8,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import net.minecraft.tag.ItemTags;
 import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import org.jetbrains.annotations.Nullable;
 import techguns.TGIdentifier;
 import techguns.TGItems;
@@ -22,7 +25,7 @@ public class SlotTagItem extends Slot {
     public static final Identifier SLOT_BG_INGOT = new TGIdentifier("gui/emptyslots/emptyslot_ingot");
     public static final Identifier SLOT_BG_POWDER = new TGIdentifier("gui/emptyslots/emptyslot_powder");
 
-    public static final HashMap<Tag<Item>, Identifier> SLOT_BG_MAP = new HashMap<>();
+    public static final HashMap<TagKey<Item>, Identifier> SLOT_BG_MAP = new HashMap<>();
 
     public static void initSlotBGMap() {
         SLOT_BG_MAP.put(TGItems.TAG_BULLET_CORE, SLOT_BG_INGOT_DARK);
@@ -30,16 +33,17 @@ public class SlotTagItem extends Slot {
         SLOT_BG_MAP.put(TGItems.TAG_BULLET_POWDER, SLOT_BG_POWDER);
     }
 
-    protected final Tag<Item> allowed_tag;
+    protected final TagKey<Item> allowed_tag;
 
-    public SlotTagItem(Tag<Item> tag, Inventory inventory, int index, int x, int y) {
+    public SlotTagItem(TagKey<Item> tag, Inventory inventory, int index, int x, int y) {
         super(inventory, index, x, y);
         this.allowed_tag = tag;
     }
 
     @Override
     public boolean canInsert(ItemStack stack) {
-        return !stack.isEmpty() && allowed_tag.contains(stack.getItem());
+        return !stack.isEmpty() &&
+                stack.isIn(allowed_tag);
     }
 
     @Nullable

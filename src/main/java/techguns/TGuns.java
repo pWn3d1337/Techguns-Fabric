@@ -157,7 +157,7 @@ public class TGuns implements ITGInitializer {
 
 		POWERHAMMER_PROJECTILES = new ChargedProjectileSelector<ChainsawProjectile>(AmmoTypes.COMPRESSED_AIR_TANK, new ChainsawProjectile.Factory(ChainsawProjectile.PROJECTILE_TYPE_POWERHAMMER));
 
-		GenericBeamProjectile.Factory LASER_BEAM = new GenericBeamProjectile.Factory(1, true, GenericBeamProjectile.BEAM_TYPE_LASER, "LaserGunImpact");
+		GenericBeamProjectile.Factory LASER_BEAM = new GenericBeamProjectile.Factory(1, false, GenericBeamProjectile.BEAM_TYPE_LASER, "LaserGunImpact");
 		LASERGUN_PROJECTILES = new ProjectileSelector<GenericBeamProjectile>(AmmoTypes.ENERGY_CELL, LASER_BEAM);
 		LASERPISTOL_PROJECTILES = new ProjectileSelector<GenericBeamProjectile>(AmmoTypes.REDSTONE_BATTERY, LASER_BEAM);
 

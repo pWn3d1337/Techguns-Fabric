@@ -188,9 +188,10 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 	}
 
 	protected Vec3d traceBeamHit(GenericBeamProjectile entity, Vec3d pos_src) {
-		//TODO, make sure entity.velocity even makes sense
-		Vec3d pos_dst = new Vec3d(pos_src.x + entity.getVelocity().x, pos_src.y + entity.getVelocity().y,
-				pos_src.z + entity.getVelocity().z);
+		Vec3d scaled_velocity = entity.getRotationVector(entity.laserPitch, entity.laserYaw).normalize().multiply(entity.speed);
+		Vec3d pos_dst = new Vec3d(pos_src.x + scaled_velocity.x, pos_src.y + scaled_velocity.y,
+				pos_src.z + scaled_velocity.z);
+
 		Vec3d pos_dst_final = pos_dst;
 		HitResult hitResult = entity.world.raycast(new RaycastContext(pos_src, pos_dst,
 				RaycastContext.ShapeType.COLLIDER, RaycastContext.FluidHandling.NONE, entity));

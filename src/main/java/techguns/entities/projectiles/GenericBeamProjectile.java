@@ -175,6 +175,8 @@ public class GenericBeamProjectile extends GenericProjectile{
 		motionY = (double) (-MathHelper.sin((this.getPitch()) / 180.0F * (float) Math.PI) * f);
 
 		this.setVelocity(new Vec3d(motionX, motionY, motionZ).normalize().multiply(speed));
+		this.laserPitch = this.getPitch();
+		this.laserYaw = this.getYaw();
 	}
 	
 	

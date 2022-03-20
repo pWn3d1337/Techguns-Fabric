@@ -1,7 +1,7 @@
 package techguns.util;
 
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
-import net.fabricmc.fabric.api.tool.attribute.v1.ToolManager;
+//import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
+//import net.fabricmc.fabric.api.tool.attribute.v1.ToolManager;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -61,9 +61,14 @@ public class BlockUtil {
         if(state.getHardness(world, p) < 0F) {
             return false;
         }
-        if(ToolManager.handleIsEffectiveOn(state, stack, ply)){
+
+        if(stack.isSuitableFor(state)) {
+            //TODO FIXME 1.18.2: dynamic tool stuff
             return true;
         }
+        //if(ToolManager.handleIsEffectiveOn(state, stack, ply)){
+        //    return true;
+        //}
 
         //DO a special fix for bugged shovel checks
         //TODO 1.17 no longer needed?

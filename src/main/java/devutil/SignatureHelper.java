@@ -69,7 +69,7 @@ public class SignatureHelper {
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
 		//Class<?> PacketHandlerClass = Class.forName("net.minecraft.network.NetworkState$PacketHandler");
 
-		Class c = RenderLayer.class;
+		Class c = Entity.class;
 
 		List<Method> methods = getMethods(c, "of");
 

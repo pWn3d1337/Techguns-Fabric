@@ -30,7 +30,7 @@ public class TeslaProjectile extends GenericBeamProjectile {
     }
 
     public TeslaProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity p, float damage, float speed, int TTL, float spread, float dmgDropStart, float dmgDropEnd, float dmgMin, float penetration, boolean blockdamage, EnumBulletFirePos firePos, int chainTargets) {
-        super(T, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos, (short) 1, true, (byte)0, "TeslaFlare");
+        super(T, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos, (short) 1, false, (byte)0, "TeslaFlare");
         this.chainTargets = chainTargets;
     }
 

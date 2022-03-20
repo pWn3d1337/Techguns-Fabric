@@ -1,11 +1,10 @@
 package techguns;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tag.Tag;
+import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import techguns.api.inventory.TGSlotType;
@@ -257,22 +256,22 @@ public class TGItems implements ITGInitializer {
 			new TGIdentifier("techguns"),
 			() -> new ItemStack(TGItems.PISTOL_ROUNDS));
 
-	public static Tag<Item> TAG_BULLET_CORE;
-	public static Tag<Item> TAG_BULLET_CASING;
-	public static Tag<Item> TAG_BULLET_POWDER;
+	public static TagKey<Item> TAG_BULLET_CORE;
+	public static TagKey<Item> TAG_BULLET_CASING;
+	public static TagKey<Item> TAG_BULLET_POWDER;
 
 	public static final Identifier TAG_BULLET_CORE_ID = new TGIdentifier("bullet_metal_core");
 	public static final Identifier TAG_BULLET_CASING_ID = new TGIdentifier("bullet_metal_casing");
 	public static final Identifier TAG_BULLET_POWDER_ID = new TGIdentifier("bullet_powder");
 
 	public static final Identifier TAG_AMMO_ID = new TGIdentifier("ammo");
-	public static Tag<Item> TAG_AMMO;
+	public static TagKey<Item> TAG_AMMO;
 
 	public static final Identifier TAG_AMMO_FULL_ID = new TGIdentifier("ammo_full");
-	public static Tag<Item> TAG_AMMO_FULL;
+	public static TagKey<Item> TAG_AMMO_FULL;
 
 	public static final Identifier TAG_AMMO_EMPTY_ID = new TGIdentifier("ammo_empty");
-	public static Tag<Item> TAG_AMMO_EMPTY;
+	public static TagKey<Item> TAG_AMMO_EMPTY;
 
 
 	@Override
@@ -497,13 +496,22 @@ public class TGItems implements ITGInitializer {
 		UPGRADE_BLAST_PROTECTION_3 = addItem("upgrade_blast_protection_3", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 */
 
-		TAG_BULLET_CORE = TagRegistry.item(TAG_BULLET_CORE_ID);
+		/*TAG_BULLET_CORE = TagRegistry.item(TAG_BULLET_CORE_ID);
 		TAG_BULLET_CASING = TagRegistry.item(TAG_BULLET_CASING_ID);
 		TAG_BULLET_POWDER = TagRegistry.item(TAG_BULLET_POWDER_ID);
 
 		TAG_AMMO = TagRegistry.item(TAG_AMMO_ID);
 		TAG_AMMO_EMPTY = TagRegistry.item(TAG_AMMO_EMPTY_ID);
-		TAG_AMMO_FULL = TagRegistry.item(TAG_AMMO_FULL_ID);
+		TAG_AMMO_FULL = TagRegistry.item(TAG_AMMO_FULL_ID);*/
+
+
+		TAG_BULLET_CORE = TagKey.of(Registry.ITEM_KEY, TAG_BULLET_CORE_ID);
+		TAG_BULLET_CASING = TagKey.of(Registry.ITEM_KEY, TAG_BULLET_CASING_ID);
+		TAG_BULLET_POWDER = TagKey.of(Registry.ITEM_KEY, TAG_BULLET_POWDER_ID);
+
+		TAG_AMMO = TagKey.of(Registry.ITEM_KEY, TAG_AMMO_ID);
+		TAG_AMMO_EMPTY = TagKey.of(Registry.ITEM_KEY, TAG_AMMO_EMPTY_ID);
+		TAG_AMMO_FULL = TagKey.of(Registry.ITEM_KEY, TAG_AMMO_FULL_ID);
 
 		SlotTagItem.initSlotBGMap();
 	}
