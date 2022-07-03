@@ -1,7 +1,7 @@
 package techguns;
 
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.registry.Registry;
 import techguns.api.guns.GunHandType;
@@ -218,7 +218,7 @@ public class TGuns implements ITGInitializer {
 				new GenericGunMeleeCharge.MiningHead(TGItems.CHAINSAWBLADES_OBSIDIAN, 1, 1.0D, 1.0f, Formatting.DARK_PURPLE),
 				new GenericGunMeleeCharge.MiningHead(TGItems.CHAINSAWBLADES_CARBON, 2, 2.0D, 2.0f, Formatting.DARK_GRAY)
 		};
-		CHAINSAW = reg(new Chainsaw("chainsaw", CHAINSAW_PROJECTILES, false, 3, 300, 45, 10.0f, TGSounds.CHAINSAW_LOOP, TGSounds.POWERHAMMER_RELOAD, 2, 0.0f,1f,1, /**/12f, 2f, 0.5f, 14f, CHAINSAW_HEADS).setToolLevel(FabricToolTags.AXES, 2).setRecoiltime(5).setShootWithLeftClick(false).setFiresoundStart(TGSounds.CHAINSAW_LOOP_START).setMaxLoopDelay(10).setPenetration(PENETRATION_MED).setAIStats(RANGE_MELEE, 10, 0, 0).setTurretPosOffset(0, -0.47f, -0.08f).setNoMuzzleLight().setCrossHair(EnumCrosshairStyle.VANILLA));
+		CHAINSAW = reg(new Chainsaw("chainsaw", CHAINSAW_PROJECTILES, false, 3, 300, 45, 10.0f, TGSounds.CHAINSAW_LOOP, TGSounds.POWERHAMMER_RELOAD, 2, 0.0f,1f,1, /**/12f, 2f, 0.5f, 14f, CHAINSAW_HEADS).addToolLevel(BlockTags.AXE_MINEABLE, 2).setRecoiltime(5).setShootWithLeftClick(false).setFiresoundStart(TGSounds.CHAINSAW_LOOP_START).setMaxLoopDelay(10).setPenetration(PENETRATION_MED).setAIStats(RANGE_MELEE, 10, 0, 0).setTurretPosOffset(0, -0.47f, -0.08f).setNoMuzzleLight().setCrossHair(EnumCrosshairStyle.VANILLA));
 		
 		TFG = reg(new GenericGunCharge("tfg", TFG_PROJECTILES, false, 5, 20,45,50.0f, TGSounds.TFG_FIRE, TGSounds.BIOGUN_RELOAD, 100, 0.015f, 60.0f ,10).setChargeSound(TGSounds.TFG_CHARGE).setChargeFX("TFGChargeStart",-0.14f, -0.10f, 0.42f).setBulletSpeed(2.0f).setRangeTooltipType(RangeTooltipType.RADIUS).setPenetration(PENETRATION_MED_HIGH).setAIStats(RANGE_SHORT, 30, 0, 0).setDamageDrop(8, 15, 15.0f).setMuzzleLight(0.2f, 1.0f, 0.2f).setMuzzleFlashTime(10).setRecoiltime(10).setForwardOffset(0.40f));
 	
@@ -251,13 +251,13 @@ public class TGuns implements ITGInitializer {
 			new GenericGunMeleeCharge.MiningHead(TGItems.POWERHAMMERHEAD_OBSIDIAN, 1, 1.0D, 0.5f, Formatting.DARK_PURPLE),
 			new GenericGunMeleeCharge.MiningHead(TGItems.POWERHAMMERHEAD_CARBON, 2, 2.0D, 1.0f, Formatting.DARK_GRAY)
 		};
-		POWERHAMMER = reg(new PowerHammer("powerhammer", POWERHAMMER_PROJECTILES, false, 4, 300, 45, 3.5f, TGSounds.POWERHAMMER_FIRE, TGSounds.POWERHAMMER_RELOAD,3,0.0f,20f,5, 6.0f,2.0f,2f, 12.0f, POWERHAMMER_HEADS).setToolLevel(FabricToolTags.PICKAXES,2).setToolLevel(FabricToolTags.SHOVELS,2).setChargeSound(TGSounds.POWERHAMMER_CHARGE).setBulletSpeed(1.0f).setRecoiltime(12).setShootWithLeftClick(false).setAIStats(RANGE_MELEE, 30, 0, 0).setDamageDrop(3, 3, 2.5f).setNoMuzzleLight().setCrossHair(EnumCrosshairStyle.VANILLA));
+		POWERHAMMER = reg(new PowerHammer("powerhammer", POWERHAMMER_PROJECTILES, false, 4, 300, 45, 3.5f, TGSounds.POWERHAMMER_FIRE, TGSounds.POWERHAMMER_RELOAD,3,0.0f,20f,5, 6.0f,2.0f,2f, 12.0f, POWERHAMMER_HEADS).addToolLevel(BlockTags.PICKAXE_MINEABLE, 2).addToolLevel(BlockTags.SHOVEL_MINEABLE, 2).setChargeSound(TGSounds.POWERHAMMER_CHARGE).setBulletSpeed(1.0f).setRecoiltime(12).setShootWithLeftClick(false).setAIStats(RANGE_MELEE, 30, 0, 0).setDamageDrop(3, 3, 2.5f).setNoMuzzleLight().setCrossHair(EnumCrosshairStyle.VANILLA));
 
 		GenericGunMeleeCharge.MiningHead[] MININGDRILL_HEADS = new GenericGunMeleeCharge.MiningHead[]{
 				new GenericGunMeleeCharge.MiningHead(TGItems.MININGDRILLHEAD_OBSIDIAN, Formatting.DARK_PURPLE),
 				new GenericGunMeleeCharge.MiningHead(TGItems.MININGDRILLHEAD_CARBON, 1, 1.0D, 0.5f, Formatting.DARK_GRAY),
 		};
-		MININGDRILL = reg(new MiningDrill("miningdrill", CHAINSAW_PROJECTILES, false, 3, 300, 45, 10.0f, TGSounds.DRILLER_LOOP, TGSounds.POWERHAMMER_RELOAD, 2, 0.0f,1f,1, 12.0f, 2.0f, 1.5f, 14.0f, MININGDRILL_HEADS).setToolLevel(FabricToolTags.PICKAXES,3).setToolLevel(FabricToolTags.SHOVELS,3).setRecoiltime(5).setShootWithLeftClick(false).setFiresoundStart(TGSounds.DRILLER_SWING).setMaxLoopDelay(10).setPenetration(PENETRATION_MED).setAIStats(RANGE_MELEE, 10, 0, 0).setTurretPosOffset(0, -0.47f, -0.08f).setNoMuzzleLight().setCrossHair(EnumCrosshairStyle.VANILLA));
+		MININGDRILL = reg(new MiningDrill("miningdrill", CHAINSAW_PROJECTILES, false, 3, 300, 45, 10.0f, TGSounds.DRILLER_LOOP, TGSounds.POWERHAMMER_RELOAD, 2, 0.0f,1f,1, 12.0f, 2.0f, 1.5f, 14.0f, MININGDRILL_HEADS).addToolLevel(BlockTags.PICKAXE_MINEABLE, 3).addToolLevel(BlockTags.SHOVEL_MINEABLE, 3).setRecoiltime(5).setShootWithLeftClick(false).setFiresoundStart(TGSounds.DRILLER_SWING).setMaxLoopDelay(10).setPenetration(PENETRATION_MED).setAIStats(RANGE_MELEE, 10, 0, 0).setTurretPosOffset(0, -0.47f, -0.08f).setNoMuzzleLight().setCrossHair(EnumCrosshairStyle.VANILLA));
 
 		LASERGUN = reg(new GenericGun("lasergun", LASERGUN_PROJECTILES, false, 5, 45, 45, 12.0f, TGSounds.LASERGUN_FIRE, TGSounds.LASERGUN_RELOAD, MAX_RANGE_SNIPER, 0.0f).setZoom(0.75f, true,0.75f,false).setBulletSpeed(100.0f).setAIStats(RANGE_MEDIUM, 30, 0, 0).setTurretPosOffset(0, 0.01f, 0.11f).setMuzzleLight(0.9f, 0.3f, 0.1f).setRangeTooltipType(RangeTooltipType.NO_DROP).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART));
 

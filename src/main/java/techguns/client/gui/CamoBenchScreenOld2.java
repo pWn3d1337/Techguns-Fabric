@@ -14,7 +14,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.StonecuttingRecipe;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import techguns.inventory.CamoBenchScreenHandler;
@@ -75,7 +75,7 @@ public class CamoBenchScreenOld2 extends HandledScreen<CamoBenchScreenHandler> {
                     if (tag!=null) {
                         String camoname = tag.getString("camo");
                         if (camoname != null) {
-                            this.renderTooltip(matrices, new TranslatableText(camoname.replace(':', '.')), x, y);
+                            this.renderTooltip(matrices, Text.translatable(camoname.replace(':', '.')), x, y);
                         }
                     }
                 }

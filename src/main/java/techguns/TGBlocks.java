@@ -2,7 +2,6 @@ package techguns;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
-import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
@@ -30,27 +29,27 @@ public class TGBlocks implements ITGInitializer {
         return true;
     }
 
-    public static Block TIN_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 1).strength(3.0F, 3.0F));
-    public static Block DEEPSLATE_TIN_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 1).mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(4.5F, 3.0F));
+    public static Block TIN_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(3.0F, 3.0F));
+    public static Block DEEPSLATE_TIN_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(4.5F, 3.0F));
 
-    public static Block LEAD_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 2).strength(4.0F, 4.0F));
-    public static Block DEEPSLATE_LEAD_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 2).mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(6.0F, 4.0F));
+    public static Block LEAD_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(4.0F, 4.0F));
+    public static Block DEEPSLATE_LEAD_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(6.0F, 4.0F));
 
-    public static Block URANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 3).strength(5.0F, 4.0F));
-    public static Block DEEPSLATE_URANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 3).mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(7.5F, 4.0F));
+    public static Block URANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(5.0F, 4.0F));
+    public static Block DEEPSLATE_URANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(7.5F, 4.0F));
 
-    public static Block TITANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 3).strength(5.0F, 4.0F));
-    public static Block DEEPSLATE_TITANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES, 3).mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(7.5F, 4.0F));
+    public static Block TITANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().strength(5.0F, 4.0F));
+    public static Block DEEPSLATE_TITANIUM_ORE = new Block(FabricBlockSettings.of(Material.STONE).requiresTool().mapColor(MapColor.DEEPSLATE_GRAY).sounds(BlockSoundGroup.DEEPSLATE).strength(7.5F, 4.0F));
 
     public static Block BIOBLOB = new BlockBioBlob(FabricBlockSettings.of(Material.ORGANIC_PRODUCT).dropsNothing().emissiveLighting(TGBlocks::always).luminance((BlockState state) -> (state.get(BlockBioBlob.SIZE)+1)*2));
 
 
     //Machines
-    public static Block CAMO_BENCH = new CamoBenchBlock(FabricBlockSettings.of(Material.METAL).breakByTool(FabricToolTags.PICKAXES, 0).strength(5.0F, 5.0F).sounds(BlockSoundGroup.METAL));
-    public static Block AMMO_BENCH = new AmmoBenchBlock(FabricBlockSettings.of(Material.WOOD).breakByTool(FabricToolTags.AXES, 0).strength(5.0F, 5.0F).sounds(BlockSoundGroup.WOOD));
+    public static Block CAMO_BENCH = new CamoBenchBlock(FabricBlockSettings.of(Material.METAL).strength(5.0F, 5.0F).sounds(BlockSoundGroup.METAL));
+    public static Block AMMO_BENCH = new AmmoBenchBlock(FabricBlockSettings.of(Material.WOOD).strength(5.0F, 5.0F).sounds(BlockSoundGroup.WOOD));
 
     //Building Blocks
-    private static final FabricBlockSettings CONCRETE_SETTINGS = FabricBlockSettings.of(Material.STONE).requiresTool().breakByTool(FabricToolTags.PICKAXES,1).strength(8.0F);
+    private static final FabricBlockSettings CONCRETE_SETTINGS = FabricBlockSettings.of(Material.STONE).requiresTool().strength(8.0F);
     public static Block CONCRETE_BROWN = new Block(CONCRETE_SETTINGS);
     public static Block CONCRETE_BROWN_LIGHT = new Block(CONCRETE_SETTINGS);
     public static Block CONCRETE_BROWN_LIGHT_SCAFF = new Block(CONCRETE_SETTINGS);

@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "techguns:tin_ore",
+    "techguns:deepslate_tin_ore",
+    "techguns:lead_ore",
+    "techguns:deepslate_lead_ore",
+    "techguns:uranium_ore",
+    "techguns:deepslate_uranium_ore",
+    "techguns:titanium_ore",
+    "techguns:deepslate_titanium_ore",
+    "techguns:concrete_brown",
+    "techguns:concrete_brown_light",
+    "techguns:concrete_brown_light_scaff",
+    "techguns:concrete_grey",
+    "techguns:concrete_grey_dark",
+    "techguns:camo_bench"
+  ]
+}

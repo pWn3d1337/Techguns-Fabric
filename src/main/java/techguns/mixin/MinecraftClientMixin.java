@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import net.minecraft.client.MinecraftClient;
@@ -36,8 +37,8 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
 		ClientDisconnectEvent.EVENT.invoker().onDisconnect((MinecraftClient)(Object)this);
 	}
 	
-	@Inject(at = @At(value="INVOKE", target="Lnet/minecraft/client/network/ClientPlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V"), method ="doAttack()V", cancellable=true)
-	private void doAttack(CallbackInfo info) {
+	@Inject(at = @At(value="INVOKE", target="Lnet/minecraft/client/network/ClientPlayerEntity;swingHand(Lnet/minecraft/util/Hand;)V"), method ="doAttack()Z", cancellable=true)
+	private void doAttack(CallbackInfoReturnable<Boolean> info) {
 		PlayerEntity ply = ((MinecraftClient)(Object)this).player;
 		ItemStack stack = ply.getMainHandStack();
 		
@@ -46,6 +47,7 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
 				GenericGunMeleeCharge weapon = (GenericGunMeleeCharge) stack.getItem();
 				
 				if (!weapon.isShootWithLeftClick() && !weapon.shouldSwing(stack)) {
+					info.setReturnValue(false);
 					info.cancel();
 					TGPacketsC2S.sendToServer(new PacketClientSwingRecoil(weapon.getRecoilTime(0f), weapon.getMuzzleFlashTime(0f), Hand.MAIN_HAND, weapon.shouldCheckRecoil(), weapon.getFiresound()));
 

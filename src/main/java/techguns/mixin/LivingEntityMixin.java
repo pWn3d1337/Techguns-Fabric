@@ -296,7 +296,7 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 					//TODO Gore chance
 					//if(Math.random()<tgs.goreChance) {
 						if (EntityDeathUtils.hasSpecialDeathAnim(entity, tgs.deathType)) {
-							System.out.println("Entity "+entity.getName().asString()+" got rekt with DT "+tgs.deathType.toString());
+							System.out.println("Entity "+entity.getName().getContent()+" got rekt with DT "+tgs.deathType.toString());
 							TGPacketsS2C.sendToAllTracking(new PacketEntityDeathType(entity, tgs.deathType), entity, true);
 						}
 					//}

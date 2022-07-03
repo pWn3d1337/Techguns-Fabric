@@ -2,7 +2,8 @@ package techguns.packets;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.LiteralTextContent;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import techguns.TGPacketsS2C;
@@ -58,7 +59,7 @@ public class PacketShowKeybindConfirmedMessage extends TGBasePacket {
 	
 	@Override
 	public void handle(PlayerEntity ply) {
-		ply.sendMessage(new LiteralText(Formatting.YELLOW+
+		ply.sendMessage(Text.of(Formatting.YELLOW+
 				"[Techguns]: "+Formatting.WHITE+
 				TextUtil.trans("techguns.msg.keybindtogglechange")+Formatting.YELLOW+" ["+
 				getLangKeyForID(this.messageID)+"] "+Formatting.WHITE+

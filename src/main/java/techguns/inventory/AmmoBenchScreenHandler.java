@@ -175,15 +175,15 @@ public class AmmoBenchScreenHandler extends StoneCutterStyleScreenHandler<AmmoBe
                 if (!this.insertItem(itemStack2, PLAYER_INV_START, INV_END, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (TGItems.TAG_BULLET_CORE.contains(itemStack2.getItem())){
+            } else if (itemStack2.isIn(TGItems.TAG_BULLET_CORE)){
                 if (!this.insertItem(itemStack2, 0, 1, false)){
                     return ItemStack.EMPTY;
                 }
-            } else if (TGItems.TAG_BULLET_CASING.contains(itemStack2.getItem())){
+            } else if (itemStack2.isIn(TGItems.TAG_BULLET_CASING)){
                 if (!this.insertItem(itemStack2, 1, 2, false)){
                     return ItemStack.EMPTY;
                 }
-            } else if (TGItems.TAG_BULLET_POWDER.contains(itemStack2.getItem())){
+            } else if (itemStack2.isIn(TGItems.TAG_BULLET_POWDER)){
                 if (!this.insertItem(itemStack2, 2, 3, false)){
                     return ItemStack.EMPTY;
                 }

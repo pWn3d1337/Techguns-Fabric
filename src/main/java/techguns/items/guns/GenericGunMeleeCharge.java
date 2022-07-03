@@ -1,14 +1,20 @@
 package techguns.items.guns;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import net.fabricmc.fabric.impl.mininglevel.MiningLevelManagerImpl;
+import net.minecraft.block.Block;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.LiteralText;
+import net.minecraft.tag.BlockTags;
+import net.minecraft.tag.TagKey;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Pair;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.BlockView;
 import org.jetbrains.annotations.Nullable;
@@ -17,7 +23,6 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableMultimap.Builder;
 import com.google.common.collect.Multimap;
 
-import net.fabricmc.fabric.api.tool.attribute.v1.DynamicAttributeTool;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -29,7 +34,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.tag.Tag;
+
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -47,7 +52,7 @@ import techguns.sounds.TGSoundCategory;
 import techguns.util.EntityCondition;
 import techguns.util.TextUtil;
 
-public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAttributeTool {
+public class GenericGunMeleeCharge extends GenericGunCharge {
 
 	protected final Multimap<EntityAttribute, EntityAttributeModifier>[] attributeModifiers;
 	protected final Multimap<EntityAttribute, EntityAttributeModifier> attributeModifiers_unpowered;
@@ -58,8 +63,8 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 	
 	protected SoundEvent miningSound = TGSounds.CHAINSAW_LOOP;
 	protected SoundEvent hitSound = TGSounds.CHAINSAW_SWING;
-		
-	protected HashMap<Tag<Item>, Integer> toollevels = new HashMap<>();
+
+	protected ArrayList<Pair<TagKey<Block>, Integer>> mininglevels = new ArrayList<>();
 
 	protected final MiningHead[] miningHeads;
 
@@ -111,9 +116,9 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 	      builder.put(EntityAttributes.GENERIC_ATTACK_SPEED, new EntityAttributeModifier(ATTACK_SPEED_MODIFIER_ID, "Tool modifier", (double)attackspeed, EntityAttributeModifier.Operation.ADDITION));
 	      this.attributeModifiers_unpowered = builder.build();
 	}
-	
-	public GenericGunMeleeCharge setToolLevel(Tag<Item> tooltag, int mininglevel) {
-		this.toollevels.put(tooltag, mininglevel);
+
+	public GenericGunMeleeCharge addToolLevel(TagKey<Block> tags, Integer mininglevel){
+		this.mininglevels.add(new Pair<>(tags, mininglevel));
 		return this;
 	}
 
@@ -161,10 +166,10 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 			Item head = this.miningHeads[level].item;
 			Text t = head.getName();
 			String itemname = "";
-			if (t instanceof TranslatableText) {
-				itemname = TextUtil.trans(((TranslatableText)t).getKey());
+			if (t instanceof TranslatableTextContent) {
+				itemname = TextUtil.trans(((TranslatableTextContent)t).getKey());
 			}
-			tooltip.add(new LiteralText(this.miningHeads[level].text_color+itemname));
+			tooltip.add(Text.of(this.miningHeads[level].text_color+itemname));
 		}
 	}
 
@@ -172,16 +177,18 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 		return this.getCurrentAmmo(stack) <= 0;
 	}
 
-	@Override
+	/*@Override
 	public int getMiningLevel(Tag<Item> tag, BlockState state, ItemStack stack, @Nullable LivingEntity user) {
 		if (this.toollevels.containsKey(tag) && this.getCurrentAmmo(stack) > 0 ) {
 			int level = this.getMiningHeadLevel(stack);
 			return this.toollevels.get(tag) + this.miningHeads[level].mininglevel_bonus;
 		}
 		return 0;
-	}
+	}*/
 
-	@Override
+
+
+	/*@Override
 	public float getMiningSpeedMultiplier(Tag<Item> tag, BlockState state, ItemStack stack,
 			@Nullable LivingEntity user) {
 		if (this.toollevels.containsKey(tag)) {
@@ -191,7 +198,21 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 			}
 		}
 		return 1.0f;
+	}*/
+
+	protected boolean isEffectiveOn(BlockState state){
+		return this.mininglevels.stream().anyMatch(x -> state.isIn(x.getLeft()));
 	}
+
+	@Override
+	public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
+		if(this.getCurrentAmmo(stack) > 0 && this.isEffectiveOn(state)){
+			int level = this.getMiningHeadLevel(stack);
+			return this.miningSpeed + this.miningHeads[level].mining_speed_bonus;
+		}
+		return 1.0F;
+	}
+
 
 	@Override
 	public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker) {
@@ -246,8 +267,7 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 	}
 
 	@Override
-	public Multimap<EntityAttribute, EntityAttributeModifier> getDynamicModifiers(EquipmentSlot slot, ItemStack stack,
-			@Nullable LivingEntity user) {
+	public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
 		if (slot == EquipmentSlot.MAINHAND) {
 			if (this.getCurrentAmmo(stack) > 0) {
 				int level = this.getMiningHeadLevel(stack);
@@ -256,7 +276,20 @@ public class GenericGunMeleeCharge extends GenericGunCharge implements DynamicAt
 				return attributeModifiers_unpowered;
 			}
 		}
-		return DynamicAttributeTool.super.getDynamicModifiers(slot, stack, user);
+		return super.getAttributeModifiers(stack, slot);
+	}
+
+	@Override
+	public boolean isSuitableFor(ItemStack stack, BlockState state) {
+		if (this.getCurrentAmmo(stack) > 0 && this.isEffectiveOn(state)) {
+			int headlevel = this.getMiningHeadLevel(stack);
+
+			var entry = this.mininglevels.stream().filter(x -> state.isIn(x.getLeft())).findFirst();
+			if (entry.isPresent()) {
+				return (entry.get().getRight() + this.miningHeads[headlevel].mininglevel_bonus) >=  MiningLevelManagerImpl.getRequiredMiningLevel(state);
+			}
+		}
+		return false;
 	}
 
 	/**

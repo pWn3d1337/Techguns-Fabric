@@ -2,10 +2,14 @@ package techguns;
 
 import java.util.function.Supplier;
 
-import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
-import net.fabricmc.fabric.impl.networking.ServerSidePacketRegistryImpl;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayNetworkHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import techguns.packets.PacketCraftAmmoBench;
 import techguns.packets.TGBasePacket;
@@ -30,18 +34,18 @@ public class TGPacketsC2S {
 	}
 	
 	public static void registerPacket(Identifier id, Supplier<TGBasePacket> ctor) {
-		ServerSidePacketRegistryImpl.INSTANCE.register(id, ((context, buf) -> {
+		ServerPlayNetworking.registerGlobalReceiver(id, (MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) -> {
 			TGBasePacket packet = ctor.get();
 			packet.unpack(buf);
-			context.getTaskQueue().execute(() -> {
-				packet.handle(context);
+			server.execute(() ->{
+				packet.handle(player);
 			});
-        }));
+		});
 	}
 	
 	public static void sendToServer(TGBasePacket packet) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+        PacketByteBuf buf = PacketByteBufs.create();
         packet.pack(buf);
-        ClientSidePacketRegistry.INSTANCE.sendToServer(packet.getID(), buf);
+		ClientPlayNetworking.send(packet.getID(), buf);
 	}
 }

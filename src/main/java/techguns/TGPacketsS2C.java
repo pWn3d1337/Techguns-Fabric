@@ -1,9 +1,12 @@
 package techguns;
 
 import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.fabric.impl.networking.ClientSidePacketRegistryImpl;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
@@ -47,13 +50,13 @@ public class TGPacketsS2C {
 	}
 	
 	public static void registerPacket(Identifier id, Supplier<TGBasePacket> ctor) {
-		ClientSidePacketRegistryImpl.INSTANCE.register(id, ((context, buf) -> {
+		ClientPlayNetworking.registerGlobalReceiver(id, (MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) -> {
 			TGBasePacket packet = ctor.get();
 			packet.unpack(buf);
-			context.getTaskQueue().execute(() -> {
-				packet.handle(context);
+			client.execute(() -> {
+				packet.handle(client.player);
 			});
-        }));
+		});
 	}
 
 	public static void sentToAllTrackingPos(TGBasePacket packet, World world, BlockPos pos) {

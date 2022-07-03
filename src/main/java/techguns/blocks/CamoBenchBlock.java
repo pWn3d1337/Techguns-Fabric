@@ -8,7 +8,7 @@ import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.screen.StonecutterScreenHandler;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -19,7 +19,7 @@ import techguns.inventory.CamoBenchScreenHandler;
 
 public class CamoBenchBlock extends TGHorizontalFacingBlock {
 
-    private static final Text TITLE = new TranslatableText("techguns.container.camobench");
+    private static final Text TITLE = Text.translatable("techguns.container.camobench");
 
     public CamoBenchBlock(Settings settings) {
         super(settings);

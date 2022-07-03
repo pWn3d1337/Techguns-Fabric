@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -69,12 +70,14 @@ public class TGObjLoader implements ModelResourceProvider, Function<ResourceMana
 
 			try {
 				Identifier modelId = new Identifier(resourceId.getNamespace(), "models/"+resourceId.getPath());
-				Resource r = resourceManager.getResource(modelId);
-				BufferedReader br = new BufferedReader(new InputStreamReader(r.getInputStream()));
+				Optional<Resource> r = resourceManager.getResource(modelId);
+				if(!r.isEmpty()) {
+					BufferedReader br = new BufferedReader(new InputStreamReader(r.get().getInputStream()));
 
-				ModelLoadParameters params = this.manuallyLoadedModels.getOrDefault(resourceId, DEFAULT_PARAMS);
+					ModelLoadParameters params = this.manuallyLoadedModels.getOrDefault(resourceId, DEFAULT_PARAMS);
 
-				return TGObjModel.parseFromFile(br, modelId, resourceManager, params);
+					return TGObjModel.parseFromFile(br, modelId, resourceManager, params);
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -62,6 +62,7 @@ public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericP
 		
 		if (entity.age >= 2 || (entity.age == 1 && tickDelta > 0.35f /*0.25f*/)) {
 
+			//System.out.println("Yaw: "+ entity.getYaw() + " Pitch: "+ entity.getPitch());
 			matrixStack.push();
 			matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(
 					MathHelper.lerp(tickDelta, entity.prevYaw, entity.getYaw()) - 90.0F));

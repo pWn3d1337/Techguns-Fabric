@@ -3,7 +3,6 @@ package techguns.items.guns;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,9 +22,9 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Arm;
 import net.minecraft.util.Formatting;
@@ -35,6 +34,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import techguns.TGCamos;
 import techguns.TGItems;
@@ -886,7 +886,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		
 		return slotChanged || !oldStack.isItemEqual(newStack); 
 	}*/
-	
+
 	public GenericGun setDamageDrop(float start, float end, float minDamage){
 		this.damageDropStart=start;
 		this.damageDropEnd=end;
@@ -1046,47 +1046,47 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		this.addMiningHeadTooltip(stack, world, tooltip, context);
 		//lshift and rshift
 		if (InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 340) || InputUtil.isKeyPressed(MinecraftClient.getInstance().getWindow().getHandle(), 344)){
-			tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.handtype")+": "+this.getGunHandType().toString()));
+			tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.handtype")+": "+this.getGunHandType().toString()));
 			
 			ItemStack[] ammo = this.ammoType.getAmmo(this.getCurrentAmmoVariant(stack));
 			for(int i=0;i< ammo.length;i++) {
 				Text t = ammo[i].getName();
-				String itemname = "";
-				if (t instanceof TranslatableText) {
-					itemname = TextUtil.trans(((TranslatableText)t).getKey());
-				}
-				tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.ammo")+": "+(this.ammoCount>1 ? this.ammoCount+"x " : "")+Formatting.WHITE+itemname));
+				/*String itemname = "";
+				if ( t.getContent() instanceof TranslatableTextContent) {
+					itemname = Text.translatable(((TranslatableTextContent) t.getContent()).getKey().toString());
+				}*/
+				tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.ammo")+": "+(this.ammoCount>1 ? this.ammoCount+"x " : "")+Formatting.WHITE+TextUtil.trans(t.getString())));
 			}
 			this.addMiningTooltip(stack, world, tooltip, context);
-			tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.damageType")+": "+this.getDamageType(stack).toString()));
-			tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.damage")+(this.shotgun ? ("(x"+ (this.bulletcount+1)+")") : "" )+": "+getTooltipTextDmg(stack,true)));
+			tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.damageType")+": "+this.getDamageType(stack).toString()));
+			tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.damage")+(this.shotgun ? ("(x"+ (this.bulletcount+1)+")") : "" )+": "+getTooltipTextDmg(stack,true)));
 			//list.add(TextUtil.trans("techguns.gun.tooltip.range")+": "+this.damageDropStart+","+this.damageDropEnd+","+this.ticksToLive);
-			tooltip.add(new LiteralText(getTooltipTextRange(stack)));
+			tooltip.add(Text.of(getTooltipTextRange(stack)));
 			//list.add(TextUtil.trans("techguns.gun.tooltip.velocity")+": "+this.speed);
-			tooltip.add(new LiteralText(getTooltipTextVelocity(stack)));
-			tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.spread")+": "+this.accuracy + (this.zoombonus!=1.0 ? (" Z:"+this.zoombonus*this.accuracy) : "")));
-			tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.clipsize")+": "+this.clipsize));
-			tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.reloadTime")+": "+this.reloadtime*0.05f+"s"));
+			tooltip.add(Text.of(getTooltipTextVelocity(stack)));
+			tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.spread")+": "+this.accuracy + (this.zoombonus!=1.0 ? (" Z:"+this.zoombonus*this.accuracy) : "")));
+			tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.clipsize")+": "+this.clipsize));
+			tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.reloadTime")+": "+this.reloadtime*0.05f+"s"));
 			if (this.penetration>0.0f){
-				tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.armorPen")+": "+String.format("%.1f", this.penetration)));
+				tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.armorPen")+": "+String.format("%.1f", this.penetration)));
 			}
 			if (this.canZoom) {
-				tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.zoom")+":"+(this.toggleZoom ? "("+TextUtil.transTG("gun.tooltip.zoom.toogle")+")":"("+TextUtil.transTG("gun.tooltip.zoom.hold")+")")+" "+TextUtil.transTG("gun.tooltip.zoom.multiplier")+":"+this.zoomMult));
+				tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.zoom")+":"+(this.toggleZoom ? "("+TextUtil.transTG("gun.tooltip.zoom.toogle")+")":"("+TextUtil.transTG("gun.tooltip.zoom.hold")+")")+" "+TextUtil.transTG("gun.tooltip.zoom.multiplier")+":"+this.zoomMult));
 			}
 			
 		} else {
 			ItemStack[] ammo = this.ammoType.getAmmo(this.getCurrentAmmoVariant(stack));
 			for(int i=0;i< ammo.length;i++) {
 				Text t = ammo[i].getName();
-				String itemname = "";
-				if (t instanceof TranslatableText) {
-					itemname = TextUtil.trans(((TranslatableText)t).getKey());
-				}
-				tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.ammo")+": "+(this.ammoCount>1 ? this.ammoCount+"x " : "")+Formatting.WHITE+itemname));
+				/*String itemname = "";
+				if (t instanceof TranslatableTextContent) {
+					itemname = TextUtil.trans(((TranslatableTextContent)t).getKey());
+				}*/
+				tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.ammo")+": "+(this.ammoCount>1 ? this.ammoCount+"x " : "")+Formatting.WHITE+TextUtil.trans(t.getString())));
 			}
 			this.addMiningTooltip(stack, world, tooltip, context);
-			tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.damage")+(this.shotgun ? ("(x"+ (this.bulletcount+1)+")") : "" )+": "+getTooltipTextDmg(stack,false)));
-			tooltip.add(new LiteralText(TextUtil.transTG("gun.tooltip.shift1")+" "+Formatting.GREEN+TextUtil.transTG("gun.tooltip.shift2")+" "+Formatting.GRAY+TextUtil.transTG("gun.tooltip.shift3")));
+			tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.damage")+(this.shotgun ? ("(x"+ (this.bulletcount+1)+")") : "" )+": "+getTooltipTextDmg(stack,false)));
+			tooltip.add(Text.of(TextUtil.transTG("gun.tooltip.shift1")+" "+Formatting.GREEN+TextUtil.transTG("gun.tooltip.shift2")+" "+Formatting.GRAY+TextUtil.transTG("gun.tooltip.shift3")));
 		}
 	}
 

@@ -17,6 +17,7 @@ import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -30,8 +31,6 @@ import techguns.damagesystem.TGDamageSource;
 import techguns.damagesystem.TGExplosion;
 import techguns.deatheffects.EntityDeathUtils;
 import techguns.packets.PacketSpawnParticle;
-
-import java.util.Random;
 
 public class BlockBioBlob extends Block {
     public static final IntProperty SIZE = IntProperty.of("size",0,2);
@@ -92,14 +91,15 @@ public class BlockBioBlob extends Block {
 
     @Override
     public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
-       int size = state.get(SIZE);
-       if (size > 0) {
-           BlockState newState = state.with(SIZE, size-1);
-           world.setBlockState(pos, newState);
-           scheduleTick(world, pos, random);
-       } else {
-           world.setBlockState(pos, Blocks.AIR.getDefaultState());
-       }
+        //BlockState state = world.getBlockState(pos);
+        int size = state.get(SIZE);
+        if (size > 0) {
+            BlockState newState = state.with(SIZE, size-1);
+            world.setBlockState(pos, newState);
+            scheduleTick(world, pos, random);
+        } else {
+            world.setBlockState(pos, Blocks.AIR.getDefaultState());
+        }
     }
 
     /**

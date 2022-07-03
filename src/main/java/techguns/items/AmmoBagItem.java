@@ -15,7 +15,7 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.ClickType;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
@@ -344,7 +344,7 @@ public class AmmoBagItem extends GenericItem {
 
     @Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add((new TranslatableText("item.minecraft.bundle.fullness", new Object[]{getOccupancy(stack), this.max_size})).formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("item.minecraft.bundle.fullness", new Object[]{getOccupancy(stack), this.max_size}).formatted(Formatting.GRAY));
     }
 
     @Override

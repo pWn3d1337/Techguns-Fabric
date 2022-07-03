@@ -207,9 +207,8 @@ public class GenericProjectile extends ProjectileEntity {
 
 		this.updatePosition(p.getX(), p.getY()+((ITGLivingEntity)p).getEyeHeight_ServerSide(p.getPose()), p.getZ());
 		
-		this.setRotation(p.headYaw +(float) (spread - (2 * Math.random() * spread)) * 40.0f,
-				p.getPitch() + (float) (spread - (2 * Math.random() * spread)) * 40.0f);
-
+		this.setRotation(-p.headYaw +(float) (spread - (2 * Math.random() * spread)) * 40.0f,
+				-p.getPitch() + (float) (spread - (2 * Math.random() * spread)) * 40.0f);
 
 		float offsetSide=0.16F;
 		float offsetHeight=0f;
@@ -228,13 +227,13 @@ public class GenericProjectile extends ProjectileEntity {
 		posZ = pos.z;
 		
 		if (firePos==EnumBulletFirePos.RIGHT) {
-			posX -= (double) (MathHelper.cos(this.getYaw() / 180.0F * (float) Math.PI) * offsetSide);
+			posX -= (double) (MathHelper.cos(p.headYaw / 180.0F * (float) Math.PI) * offsetSide);
 			//this.posY -= 0.10000000149011612D;
-			posZ -= (double) (MathHelper.sin(this.getYaw() / 180.0F * (float) Math.PI) * offsetSide);
+			posZ -= (double) (MathHelper.sin(p.headYaw / 180.0F * (float) Math.PI) * offsetSide);
 		} else if(firePos==EnumBulletFirePos.LEFT) {
-			posX += (double) (MathHelper.cos(this.getYaw() / 180.0F * (float) Math.PI) * offsetSide);
+			posX += (double) (MathHelper.cos(p.headYaw / 180.0F * (float) Math.PI) * offsetSide);
 			//this.posY -= 0.10000000149011612D;
-			posZ += (double) (MathHelper.sin(this.getYaw() / 180.0F * (float) Math.PI) * offsetSide);
+			posZ += (double) (MathHelper.sin(p.headYaw / 180.0F * (float) Math.PI) * offsetSide);
 		} 
 		posY += (-0.10000000149011612D+offsetHeight);
 		
@@ -242,21 +241,22 @@ public class GenericProjectile extends ProjectileEntity {
 		this.startX = posX;
 		this.startY = posY;
 		this.startZ = posZ;
-		
-		Vec3d motion = this.getVelocity();
-		double motionX = motion.x;
-		double motionY = motion.y;
-		double motionZ = motion.z;
-		// this.yOffset = 0.0F;
-		float f = 0.4F;
-		motionX = (double) (-MathHelper.sin(this.getYaw() / 180.0F * (float) Math.PI)
-				* MathHelper.cos(this.getPitch() / 180.0F * (float) Math.PI) * f);
-		motionZ = (double) (MathHelper.cos(this.getYaw() / 180.0F * (float) Math.PI)
-				* MathHelper.cos(this.getPitch() / 180.0F * (float) Math.PI) * f);
-		motionY = (double) (-MathHelper.sin((this.getPitch()) / 180.0F * (float) Math.PI) * f);
-		//this.setVelocity(this.motionX, this.motionY, this.motionZ, 1.5f, 0F);
 
-		this.setVelocity(new Vec3d(motionX, motionY, motionZ).normalize().multiply(speed));
+		float f = -MathHelper.sin(this.getYaw() * ((float)Math.PI / 180)) * MathHelper.cos(this.getPitch() * ((float)Math.PI / 180));
+		float g = -MathHelper.sin(this.getPitch() * ((float)Math.PI / 180));
+		float h = MathHelper.cos(this.getYaw()  * ((float)Math.PI / 180)) * MathHelper.cos(this.getPitch() * ((float)Math.PI / 180));
+		//this.setVelocity(f, g, h, speed, divergence);
+		Vec3d vec3d = new Vec3d(f, g, h).normalize().multiply(speed);
+
+		this.setVelocity(vec3d);
+		double d = vec3d.horizontalLength();
+		this.setYaw((float)(MathHelper.atan2(vec3d.x, vec3d.z) * 57.2957763671875));
+		this.setPitch((float)(MathHelper.atan2(vec3d.y, d) * 57.2957763671875));
+		this.prevYaw = this.getYaw();
+		this.prevPitch = this.getPitch();
+
+		Vec3d shooterVel = p.getVelocity();
+		this.setVelocity(this.getVelocity().add(shooterVel.x, p.isOnGround() ? 0.0 : shooterVel.y, shooterVel.z));
 	}
 
 

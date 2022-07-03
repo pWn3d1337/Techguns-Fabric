@@ -9,7 +9,7 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.SimpleNamedScreenHandlerFactory;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Util;
@@ -30,7 +30,7 @@ import java.util.function.Function;
 
 public class AmmoBenchBlock extends TGHorizontalFacingBlock {
 
-    private static final Text TITLE = new TranslatableText("techguns.container.ammobench");
+    private static final Text TITLE = Text.translatable("techguns.container.ammobench");
 
     private static final VoxelShape[] BOUNDING_SHAPES = Util.make(() -> {
         final float SCALE = 0.0625F; // 1/16

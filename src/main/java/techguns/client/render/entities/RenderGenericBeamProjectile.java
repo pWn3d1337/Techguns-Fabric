@@ -92,7 +92,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 				posY = camPos.y;
 				posZ = camPos.z;
 				// setupViewBobbing(matrixStack, tickDelta);
-				if (shooter instanceof PlayerEntity && MinecraftClient.getInstance().options.bobView) {
+				if (shooter instanceof PlayerEntity && MinecraftClient.getInstance().options.getBobView().getValue()) {
 					Vec3d vb_offset = getViewBobbingOffset((PlayerEntity)shooter, tickDelta); //.multiply(10);
 					//System.out.println("vb_offset:"+vb_offset);
 					offsetX+=vb_offset.x;

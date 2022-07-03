@@ -13,7 +13,7 @@ import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.ClickType;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
@@ -124,7 +124,7 @@ public class AmmoBagItemOld extends BundleItem {
 
     @Override
     public void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add((new TranslatableText("item.minecraft.bundle.fullness", new Object[]{getBundleOccupancy(stack), MAX_SIZE})).formatted(Formatting.GRAY));
+        tooltip.add(Text.translatable("item.minecraft.bundle.fullness", new Object[]{getBundleOccupancy(stack), MAX_SIZE}).formatted(Formatting.GRAY));
     }
 
     @Override

@@ -40,18 +40,20 @@ public class MouseMixin {
 	private double cursorDeltaY;
 
 	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/tutorial/TutorialManager;onUpdateMouse(DD)V"), method = "updateMouse", cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
-	public void updateMouse(CallbackInfo ci, double e, double o, double p, int q){
+	public void updateMouse(CallbackInfo ci, double d, double e, double k, double l, double f, double g, double h, int m){
 		if (this.client != null && this.client.options.getPerspective().isFirstPerson() && ClientProxy.get().isZooming()) {
 			float mult = ClientProxy.get().getZoomfactor();
 
+			mult *= 0.5F;
+
 			ci.cancel();
 
-			o *= mult;
-			p *= mult;
+			k *= mult;
+			l *= mult;
 
-			this.client.getTutorialManager().onUpdateMouse(o, p);
+			this.client.getTutorialManager().onUpdateMouse(k, l);
 			if (this.client.player != null) {
-				this.client.player.changeLookDirection(o, p * (double)q);
+				this.client.player.changeLookDirection(k, l * (double)m);
 			}
 		}
 	}

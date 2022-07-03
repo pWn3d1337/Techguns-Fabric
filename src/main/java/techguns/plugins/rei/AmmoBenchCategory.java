@@ -10,7 +10,7 @@ import me.shedaniel.rei.api.client.registry.display.DisplayCategory;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import techguns.TGBlocks;
 
 import java.util.List;
@@ -28,7 +28,7 @@ public class AmmoBenchCategory implements DisplayCategory<AmmoBenchDisplay> {
     }
 
     public Text getTitle() {
-        return new TranslatableText("block.techguns.ammo_bench");
+        return Text.translatable("block.techguns.ammo_bench");
     }
 
     @Override

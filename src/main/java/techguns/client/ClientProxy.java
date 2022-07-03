@@ -8,7 +8,7 @@ import com.google.common.collect.Sets;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.TexturedRenderLayers;
@@ -511,62 +511,62 @@ public class ClientProxy implements ClientModInitializer {
 						{0f,0f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.12f, -0.65f).setRecoilAnim(GunAnimation.genericRecoil, 0.15f, 5.0f).setAdsOffsets(0.001f, -0.036f, 0f).setScopeRecoilAnim(GunAnimation.genericRecoil, 0.05f, 2.0f));
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_PROJECTILE, (context) -> {
+		EntityRendererRegistry.register(TGEntities.GENERIC_PROJECTILE, (context) -> {
             return new GenericProjectileRenderer(context);
         });
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GUIDED_MISSILE, (context) -> {
+		EntityRendererRegistry.register(TGEntities.GUIDED_MISSILE, (context) -> {
             return new RenderRocketProjectile(context);
         });
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.ROCKET_PROJECTILE, (context) -> {
+		EntityRendererRegistry.register(TGEntities.ROCKET_PROJECTILE, (context) -> {
             return new RenderRocketProjectile(context);
         });
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.BIOGUN_PROJECTILE,  (context) -> {
+		EntityRendererRegistry.register(TGEntities.BIOGUN_PROJECTILE,  (context) -> {
             return new RenderBioGunProjectile(context);
         });
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.TFG_PROJECTILE,  (context) -> {
+		EntityRendererRegistry.register(TGEntities.TFG_PROJECTILE,  (context) -> {
 			return new RenderInvisibleProjectile(context);
 		});
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.STONEBULLET_PROJECTILE,  (context) -> {
+		EntityRendererRegistry.register(TGEntities.STONEBULLET_PROJECTILE,  (context) -> {
             return new RenderStoneBulletProjectile(context);
         });
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.CHAINSAW_PROJECTILE,  (context) -> {
+		EntityRendererRegistry.register(TGEntities.CHAINSAW_PROJECTILE,  (context) -> {
 			return new RenderInvisibleProjectile(context);
 		});
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_BEAM_PROJECTILE,  (context) -> {
+		EntityRendererRegistry.register(TGEntities.GENERIC_BEAM_PROJECTILE,  (context) -> {
 			return new RenderGenericBeamProjectile(context);
 		});
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GRENADE_PROJECTILE, (context) -> {
+		EntityRendererRegistry.register(TGEntities.GRENADE_PROJECTILE, (context) -> {
 			return new RenderGrenadeProjectile(context);
 		});
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.FLAMETHROWER_PROJECTILE, (context) -> {
+		EntityRendererRegistry.register(TGEntities.FLAMETHROWER_PROJECTILE, (context) -> {
 			return new RenderInvisibleProjectile(context);
 		});
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GENERIC_FX_PROJECTILE, (context) -> {
+		EntityRendererRegistry.register(TGEntities.GENERIC_FX_PROJECTILE, (context) -> {
 			return new RenderInvisibleProjectile(context);
 		});
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.SONIC_SHOTGUN_PROJECTILE, (context) -> {
+		EntityRendererRegistry.register(TGEntities.SONIC_SHOTGUN_PROJECTILE, (context) -> {
 			return new RenderInvisibleProjectile(context);
 		});
 		
-		EntityRendererRegistry.INSTANCE.register(TGEntities.GRAPPLING_HOOK_PROJECTILE, (context) -> {
+		EntityRendererRegistry.register(TGEntities.GRAPPLING_HOOK_PROJECTILE, (context) -> {
             return new RenderGrapplingHookProjectile(context);
         });
 
-		EntityRendererRegistry.INSTANCE.register(TGEntities.TESLA_PROJECTILE, (context) -> {
+		EntityRendererRegistry.register(TGEntities.TESLA_PROJECTILE, (context) -> {
 			return new RenderGenericBeamProjectile(context);
 		});
-//		EntityRendererRegistry.INSTANCE.register(TGEntities.FLYING_GIBS, (context -> {
+//		EntityRendererRegistry.register(TGEntities.FLYING_GIBS, (context -> {
 //			return new RenderFlyingGibs(context.getRenderDispatcher());
 //		});
 

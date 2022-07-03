@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import net.minecraft.util.Identifier;
 import techguns.inventory.CamoBenchScreenHandler;
 
@@ -28,7 +28,7 @@ public class CamoBenchScreen extends StoneCutterStyleScreen<CamoBenchScreenHandl
         if (tag!=null && tag.contains("camo", NbtElement.STRING_TYPE)) {
             String camoname = tag.getString("camo");
             if (camoname != null) {
-                this.renderTooltip(matrices, new TranslatableText(camoname.replace(':', '.')), x, y);
+                this.renderTooltip(matrices, Text.translatable(camoname.replace(':', '.')), x, y);
             }
         } else {
             this.renderTooltip(matrices, item.getName(), x, y);

@@ -10,7 +10,7 @@ import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.damage.ProjectileDamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.TranslatableTextContent;
 import techguns.api.damagesystem.DamageType;
 import techguns.deatheffects.EntityDeathUtils.DeathType;
 
@@ -155,7 +155,7 @@ public class TGDamageSource extends EntityDamageSource {
 			}
 	        String s = "death.attack." + this.getName();
 	        String s1 = s + ".item";
-	        return !itemstack.isEmpty() && itemstack.hasCustomName() && I18n.hasTranslation(s1) ? new TranslatableText(s1, new Object[] {entity.getDisplayName(), itextcomponent, itemstack.getName()}) : new TranslatableText(s, new Object[] {entity.getDisplayName(), itextcomponent});
+	        return !itemstack.isEmpty() && itemstack.hasCustomName() && I18n.hasTranslation(s1) ? Text.translatable(s1, new Object[] {entity.getDisplayName(), itextcomponent, itemstack.getName()}) : Text.translatable(s, new Object[] {entity.getDisplayName(), itextcomponent});
 	 
 		}
 		

@@ -2,12 +2,12 @@ package techguns.client.particle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import techguns.client.render.fx.IScreenEffect.RenderType;
 import techguns.util.MathUtil;
@@ -111,7 +111,8 @@ public class TGParticleSystemType extends TGFXType{
 	String attachedSystem = null;
 	boolean particlesStickToSystem = false;
 
-	
+	protected static Random rand = net.minecraft.util.math.random.Random.create();
+
 	public static class ColorEntry {
 		public float time;
 		public float r;
@@ -156,7 +157,7 @@ public class TGParticleSystemType extends TGFXType{
 	public static IVelocityType VEL_ORTHO = new IVelocityType(){
 		@Override
 		public Vec3d getVelocity(TGParticleSystem sys, float... params) {
-			Random rand = new Random();
+
 			if (sys.type.velocityDataMin.length >= 3) {
 				float x = MathUtil.randomFloat(rand, sys.type.velocityDataMin[0], sys.type.velocityDataMax[0]);
 				float y = MathUtil.randomFloat(rand, sys.type.velocityDataMin[1], sys.type.velocityDataMax[1]);
@@ -171,7 +172,7 @@ public class TGParticleSystemType extends TGFXType{
 	public static IVelocityType VEL_OUTWARD = new IVelocityType(){
 		@Override
 		public Vec3d getVelocity(TGParticleSystem sys, float... params) {
-			Random rand = new Random();
+
 			if (sys.type.velocityDataMin.length >= 2) {
 				float r = MathUtil.randomFloat(rand, sys.type.velocityDataMin[0], sys.type.velocityDataMax[0]);
 				float y = MathUtil.randomFloat(rand, sys.type.velocityDataMin[1], sys.type.velocityDataMax[1]);
@@ -194,7 +195,7 @@ public class TGParticleSystemType extends TGFXType{
 	public static IVelocityType VEL_SPHERICAL = new IVelocityType(){
 		@Override
 		public Vec3d getVelocity(TGParticleSystem sys, float... params) {
-			Random rand = new Random();
+
 			if (sys.type.velocityDataMin.length >= 1) {
 				float r = MathUtil.randomFloat(rand, sys.type.velocityDataMin[0], sys.type.velocityDataMax[0]);
 
@@ -215,7 +216,7 @@ public class TGParticleSystemType extends TGFXType{
 	public static IVelocityType VEL_HEMISPHERICAL = new IVelocityType(){
 		@Override
 		public Vec3d getVelocity(TGParticleSystem sys, float...params) {
-			Random rand = new Random();
+
 			if (sys.type.velocityDataMin.length >= 1) {
 				float r = MathUtil.randomFloat(rand, sys.type.velocityDataMin[0], sys.type.velocityDataMax[0]);
 
@@ -248,7 +249,7 @@ public class TGParticleSystemType extends TGFXType{
 	public static IVolumeType VOL_CYLINDER = new IVolumeType() {
 		@Override
 		public Vec3d getPosition(TGParticleSystem sys, DirResult dir, int i, int count) {
-			Random rand = new Random();
+
 			if (sys.type.volumeData.length >= 2) {
 				float r;
 				float y;
@@ -277,7 +278,7 @@ public class TGParticleSystemType extends TGFXType{
 	public static IVolumeType VOL_CYLINDER2 = new IVolumeType() { //Tilted cylinder
 		@Override
 		public Vec3d getPosition(TGParticleSystem sys, DirResult dir, int i, int count) {
-			Random rand = new Random();
+
 			if (sys.type.volumeData.length >= 2) {
 				float r;
 				float z;
@@ -302,7 +303,7 @@ public class TGParticleSystemType extends TGFXType{
 	public static IVolumeType VOL_SPHERE = new IVolumeType() {
 		@Override
 		public Vec3d getPosition(TGParticleSystem sys, DirResult dir, int i, int count) {
-			Random rand = new Random();
+
 			if (sys.type.volumeData.length >= 1) {
 				float r;
 				double angle = rand.nextDouble()*2.0*Math.PI;
@@ -329,7 +330,7 @@ public class TGParticleSystemType extends TGFXType{
 	public static IVolumeType VOL_HEMISPHERE = new IVolumeType() {
 		@Override
 		public Vec3d getPosition(TGParticleSystem sys, DirResult dir, int i, int count) {
-			Random rand = new Random();
+
 			if (sys.type.volumeData.length >= 1) {
 				float r;
 				double angle = rand.nextDouble()*2.0*Math.PI;

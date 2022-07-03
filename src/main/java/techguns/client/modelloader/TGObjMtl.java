@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Optional;
 
 public class TGObjMtl {
     public String material;
@@ -24,35 +25,37 @@ public class TGObjMtl {
         String dir = p.substring(0,pos);
 
         Identifier mtlid = new Identifier(path.getNamespace(), dir+"/"+name);
-        Resource r = rm.getResource(mtlid);
-        BufferedReader br = new BufferedReader(new InputStreamReader(r.getInputStream()));
+        Optional<Resource> r = rm.getResource(mtlid);
+        if (!r.isEmpty()) {
+            BufferedReader br = new BufferedReader(new InputStreamReader(r.get().getInputStream()));
 
-        while(br.ready()){
-            String line = br.readLine();
-            String[] tokens = line.trim().split(" ");
+            while (br.ready()) {
+                String line = br.readLine();
+                String[] tokens = line.trim().split(" ");
 
-            switch(tokens[0]) {
-                case "newmtl":
-                    if (mtl.material != null) {
-                        mtls.put(mtl.material, mtl);
-                        mtl = new TGObjMtl();
-                    }
-                    mtl.material = tokens[1];
-                    break;
-                case "Kd":
-                    mtl.kd = new Vector3d(Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]), Float.parseFloat(tokens[3]));
-                    break;
-                case "map_Kd":
-                    mtl.map_kd = new Identifier(tokens[1]);
-                    break;
-                default:
-                    //only 1 texture per MTL supported, no other features needed
-                    break;
+                switch (tokens[0]) {
+                    case "newmtl":
+                        if (mtl.material != null) {
+                            mtls.put(mtl.material, mtl);
+                            mtl = new TGObjMtl();
+                        }
+                        mtl.material = tokens[1];
+                        break;
+                    case "Kd":
+                        mtl.kd = new Vector3d(Float.parseFloat(tokens[1]), Float.parseFloat(tokens[2]), Float.parseFloat(tokens[3]));
+                        break;
+                    case "map_Kd":
+                        mtl.map_kd = new Identifier(tokens[1]);
+                        break;
+                    default:
+                        //only 1 texture per MTL supported, no other features needed
+                        break;
+                }
+
             }
-
-        }
-        if(mtl.material !=null) {
-            mtls.put(mtl.material, mtl);
+            if (mtl.material != null) {
+                mtls.put(mtl.material, mtl);
+            }
         }
         return mtls;
     }
