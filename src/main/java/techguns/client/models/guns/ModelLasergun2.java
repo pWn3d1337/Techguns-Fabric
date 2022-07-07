@@ -307,9 +307,9 @@ public ModelLasergun2()
 	      TopRails.setTextureSize(128, 128);
 	      TopRails.mirror = true;
 	      setRotation(TopRails, 0F, 0F, 0F);
-	      HoloPlane = new ModelPart(this, 0, 90);
-	      HoloPlane.addCuboid(0F, 0F, 0F, 3, 3, 0);
-	      HoloPlane.setPivot(-2F, -11.5F, 2.5F);
+	      HoloPlane = new ModelPart(this, 1, 91);
+	      HoloPlane.addCuboid(0F, 0F, 0F, 0.15F, 0.15F, 0F);
+	      HoloPlane.setPivot(-0.60F, -10.5F, 2.5F);
 	      HoloPlane.setTextureSize(128, 128);
 	      HoloPlane.mirror = true;
 	      setRotation(HoloPlane, 0F, 0F, 0F);
@@ -334,49 +334,65 @@ public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertice
 		float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
 	int overlay) {
 
-	    Grip1.render(matrices, vertices, light, overlay);
-	    Trigger03.render(matrices, vertices, light, overlay);
-	    Trigger02.render(matrices, vertices, light, overlay);
-	    Stock01.render(matrices, vertices, light, overlay);
-	    PipeFront01.render(matrices, vertices, light, overlay);
-	    Stock10.render(matrices, vertices, light, overlay);
-	    Stock04.render(matrices, vertices, light, overlay);
-	    Stock05.render(matrices, vertices, light, overlay);
-	    Stock07.render(matrices, vertices, light, overlay);
-	    Stock09.render(matrices, vertices, light, overlay);
-	    Stock10.render(matrices, vertices, light, overlay);
-	    Handguard.render(matrices, vertices, light, overlay);
-	    Stock03.render(matrices, vertices, light, overlay);
-	    Muzzle04.render(matrices, vertices, light, overlay);
-	    Muzzle05.render(matrices, vertices, light, overlay);
-	    Muzzle02.render(matrices, vertices, light, overlay);
-	    Muzzle03.render(matrices, vertices, light, overlay);
-	    FrontBox.render(matrices, vertices, light, overlay);
-	    Pipe.render(matrices, vertices, light, overlay);
-	    Muzzle01.render(matrices, vertices, light, overlay);
-	    pipeFront02.render(matrices, vertices, light, overlay);
-	    LowBox.render(matrices, vertices, light, overlay);
-	    Trigger01.render(matrices, vertices, light, overlay);
-	    Holo02.render(matrices, vertices, light, overlay);
-	    FrontPart01.render(matrices, vertices, light, overlay);
-	    EnergyCell04.render(matrices, vertices, light, overlay);
-	    BackPart01.render(matrices, vertices, light, overlay);
-	    BackPart02.render(matrices, vertices, light, overlay);
-	    BatteryMount01.render(matrices, vertices, light, overlay);
-	    FrontPart03.render(matrices, vertices, light, overlay);
-	    BackPart03.render(matrices, vertices, light, overlay);
-	    Frontpart02.render(matrices, vertices, light, overlay);
-	    MainBox.render(matrices, vertices, light, overlay);
-	    EnergyCell06.render(matrices, vertices, light, overlay);
-	    EnergyCell02.render(matrices, vertices, light, overlay);
-	    EnergyCell03.render(matrices, vertices, light, overlay);
-	    FrontPart04.render(matrices, vertices, light, overlay);
-	    EnergyCell05.render(matrices, vertices, light, overlay);
-	    EnergyCell01.render(matrices, vertices, light, overlay);
-	    TopBox.render(matrices, vertices, light, overlay);
-	    TopRails.render(matrices, vertices, light, overlay);
-	    HoloPlane.render(matrices, vertices, light, overlay);
-	    Holo03.render(matrices, vertices, light, overlay);
-	    Holo01.render(matrices, vertices, light, overlay);
+		if (part==0) {
+			Grip1.render(matrices, vertices, light, overlay);
+			Trigger03.render(matrices, vertices, light, overlay);
+			Trigger02.render(matrices, vertices, light, overlay);
+			Stock01.render(matrices, vertices, light, overlay);
+			PipeFront01.render(matrices, vertices, light, overlay);
+			Stock10.render(matrices, vertices, light, overlay);
+			Stock04.render(matrices, vertices, light, overlay);
+			Stock05.render(matrices, vertices, light, overlay);
+			Stock07.render(matrices, vertices, light, overlay);
+			Stock09.render(matrices, vertices, light, overlay);
+			Stock10.render(matrices, vertices, light, overlay);
+			//Handguard.render(matrices, vertices, light, overlay);
+			Stock03.render(matrices, vertices, light, overlay);
+			Muzzle04.render(matrices, vertices, light, overlay);
+			Muzzle05.render(matrices, vertices, light, overlay);
+			Muzzle02.render(matrices, vertices, light, overlay);
+			Muzzle03.render(matrices, vertices, light, overlay);
+			FrontBox.render(matrices, vertices, light, overlay);
+			Pipe.render(matrices, vertices, light, overlay);
+			Muzzle01.render(matrices, vertices, light, overlay);
+			pipeFront02.render(matrices, vertices, light, overlay);
+			LowBox.render(matrices, vertices, light, overlay);
+			Trigger01.render(matrices, vertices, light, overlay);
+			Holo02.render(matrices, vertices, light, overlay);
+			FrontPart01.render(matrices, vertices, light, overlay);
+			EnergyCell04.render(matrices, vertices, light, overlay);
+			BackPart01.render(matrices, vertices, light, overlay);
+			BackPart02.render(matrices, vertices, light, overlay);
+			BatteryMount01.render(matrices, vertices, light, overlay);
+			FrontPart03.render(matrices, vertices, light, overlay);
+			BackPart03.render(matrices, vertices, light, overlay);
+			Frontpart02.render(matrices, vertices, light, overlay);
+			MainBox.render(matrices, vertices, light, overlay);
+			EnergyCell06.render(matrices, vertices, light, overlay);
+			EnergyCell02.render(matrices, vertices, light, overlay);
+			EnergyCell03.render(matrices, vertices, light, overlay);
+			FrontPart04.render(matrices, vertices, light, overlay);
+			EnergyCell05.render(matrices, vertices, light, overlay);
+			EnergyCell01.render(matrices, vertices, light, overlay);
+			TopBox.render(matrices, vertices, light, overlay);
+			TopRails.render(matrices, vertices, light, overlay);
+			HoloPlane.render(matrices, vertices, bright_light, overlay);
+			Holo03.render(matrices, vertices, light, overlay);
+			Holo01.render(matrices, vertices, light, overlay);
+		} else if (part == 1) {
+			float pumpprogress = 0f;
+			if (fireProgress >= 0.15 && fireProgress <= 0.95f) {
+				pumpprogress = (fireProgress - 0.15f) * 3.333333f;
+			} else if (reloadProgress >= 0.9f) {
+				pumpprogress = (reloadProgress - 0.9f) * 10f;
+			}
+			if (pumpprogress > 0.5f) {
+				pumpprogress = 1f - pumpprogress;
+			}
+			matrices.push();
+			matrices.translate( 0,0,-0.25f * pumpprogress);
+			Handguard.render(matrices, vertices, light, overlay);
+			matrices.pop();
+		}
 	  }
 }

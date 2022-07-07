@@ -411,14 +411,14 @@ public class ClientProxy implements ClientModInitializer {
 				}).setMuzzleFXPos3P(0.09f, -0.57f).setScope(ScreenEffect.sniperScope).setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 1.0f));
 
 
-		TGRenderRegistries.registerItemRenderer(TGuns.BLASTERSHOTGUN,new RenderGunBase(new ModelLasergun2(),1, new TGIdentifier("textures/guns/lasergunnew.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.1f, 0.1f)
+		TGRenderRegistries.registerItemRenderer(TGuns.BLASTERSHOTGUN,new RenderGunBase(new ModelLasergun2(),2, new TGIdentifier("textures/guns/lasergunnew.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.1f, 0.1f)
 				.setGUIScale(0.35f).setMuzzleFx(ScreenEffect.muzzleFlashLaser, 0, 0.22f, -1.09f, 0.75f,0).setRecoilAnim(GunAnimation.genericRecoil, 0.1f, 4.0f).setTransformTranslations(new float[][]{
 						{0f,0.04f,-0.05f}, //First Person
 						{0f,0.01f,-0.1f}, //Third Person
 						{0f,0f,0f}, //GUI
 						{0f,0f,0f}, //Ground
 						{0f,0f,-0.05f} //frame
-				}).setMuzzleFXPos3P(0.14f, -0.82f));
+				}).setMuzzleFXPos3P(0.14f, -0.82f).setAdsOffsets(-0.002F, -0.048F, 0F));
 
 		TGRenderRegistries.registerItemRenderer(TGuns.GAUSS_RIFLE,new RenderGunBase90(new ModelGaussRifle(), 1, new TGIdentifier("textures/guns/gaussrifle.png"))
 				.setBaseTranslation(-0.6f, 0f, RenderItemBase.SCALE*0.5f-0.09f)
