@@ -77,7 +77,7 @@ public class TGRenderHelper extends RenderPhase {
 	
 	public static RenderLayer get_fx_renderlayer(Identifier texture) {
 		//return RenderLayer.of("techguns_fx", VertexFormats.POSITION_TEXTURE_COLOR_LIGHT, VertexFormat.DrawMode.QUADS, 256, false, true, RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false)).writeMaskState(COLOR_MASK).transparency(LIGHTNING_TRANSPARENCY).target(PARTICLES_TARGET).shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).cull(DISABLE_CULLING).build(false));
-		return TG_RENDERLAYER_FX_ALPHA.apply(texture);
+		return TG_RENDERLAYER_FX_ADDITIVE.apply(texture);
 	}
 	
 	//public static RenderLayer get_fx_renderlayer_additive(Identifier texture) {

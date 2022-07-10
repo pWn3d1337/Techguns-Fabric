@@ -33,9 +33,9 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 	
 	static {
 		BeamRenderParamDict = new HashMap<Byte, BeamRenderParams>();
-		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_NDR, new BeamRenderParams(null, "textures/fx/nukebeam.png", null, 17, 0.5f, 2.0f, true));
-		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_LASER, new BeamRenderParams("textures/fx/laser3_start.png", "textures/fx/laser3.png", null, 1, 1.0f, 2.0f, false));
-		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_TESLA, new BeamRenderParams(null, "textures/fx/laser_blue.png", null, 1, 1.0f, 2.0f, false));
+		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_NDR, new BeamRenderParams( "textures/fx/nukebeam.png",  17, 0.5f, 2.0f, true, false));
+		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_LASER, new BeamRenderParams("textures/fx/laser3_combined.png",  1, 1.0f, 2.0f, false, true));
+		BeamRenderParamDict.put(GenericBeamProjectile.BEAM_TYPE_TESLA, new BeamRenderParams("textures/fx/laser_blue.png",  1, 1.0f, 2.0f, false, false));
 	}
 
 	public RenderGenericBeamProjectile(EntityRendererFactory.Context ctx) {
@@ -91,6 +91,12 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 				posX = camPos.x;
 				posY = camPos.y;
 				posZ = camPos.z;
+
+//				posX = MathHelper.lerp(tickDelta, shooter.prevX, shooter.getX());
+//				posY = MathHelper.lerp(tickDelta, shooter.prevY, shooter.getY())
+//						+ shooter.getEyeHeight(shooter.getPose());
+//				posZ = MathHelper.lerp(tickDelta, shooter.prevZ, shooter.getZ());
+
 				// setupViewBobbing(matrixStack, tickDelta);
 				if (shooter instanceof PlayerEntity && MinecraftClient.getInstance().options.getBobView().getValue()) {
 					Vec3d vb_offset = getViewBobbingOffset((PlayerEntity)shooter, tickDelta); //.multiply(10);
@@ -137,7 +143,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 		if (params != null) {
 			Pair<Vec2f, Vec2f> uv = params.getUV(distance, entity.age, tickDelta);
 			u1 = uv.getLeft().x;
-			v1 = uv.getLeft().y;
+			v1= uv.getLeft().y;
 			u2 = uv.getRight().x;
 			v2 = uv.getRight().y;
 		} else {
@@ -161,6 +167,10 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 			default:
 				renderBeam(entity, rand, prog, 0.05f, distance, u1, u2, v1, v2, tickDelta, matrixStack,
 						vertexConsumerProvider, light);
+//				if (params.beamTextureStart != null) {
+//					renderBeamStart(entity, rand, prog, 0.05f, distance, 1f, 0f, 1f, 0f, tickDelta, matrixStack,
+//							vertexConsumerProvider, light);
+//				}
 				break;
 
 		}
@@ -169,11 +179,12 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 	}
 
 	protected void setupBeamTransforms(Entity entity, Vec3d pos, float pitch, float yaw, float prog, MatrixStack matrixStack, float tickDelta, boolean spinning) {
-	
+
+		//TODO: Check this. Seems sus
 		double ex = MathHelper.lerp(tickDelta, entity.prevX, entity.getX());
 		double ey = MathHelper.lerp(tickDelta, entity.prevY, entity.getY());
 		double ez = MathHelper.lerp(tickDelta, entity.prevZ, entity.getZ());
-		
+
 		matrixStack.translate(pos.x-ex, pos.y-ey, pos.z-ez);
 
 		// System.out.println("Entity - pitch:"+entity.pitch+" yaw:"+entity.yaw);
@@ -257,28 +268,52 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 		float intensity = (float) Math.max(0, Math.min(1, ((Math.sin(Math.sqrt(prog) * Math.PI)))));
 		float width = maxWidth * intensity;
 
+		BeamRenderParams params = BeamRenderParamDict.get(entity.getProjectileType());
+
+		float beamStartLength = 0.0f;
+		if (params.beamStart) {
+			beamStartLength = maxWidth * params.uscale * 4.0f; //Not sure if this makes sense
+		}
+        boolean drawBeam = distance > beamStartLength;
+        beamStartLength = Math.min(beamStartLength, distance);
+
 		VertexConsumer vertexConsumer = vertexConsumerProvider
 				.getBuffer(this.getRenderLayer(entity));
-		Matrix4f model_mat = matrixStack.peek().getPositionMatrix();
-		
+
 		matrixStack.push();
-		for (int i = 0; i < 4; ++i) {
-			TGMatrixOps.rotate(matrixStack, 90f, 1f, 0f, 0f);
 
-			// POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
-			vertexConsumer.vertex(model_mat, -distance, -width, 0.0f)
-					.color(1.0f, 1.0f, 1.0f, intensity).texture((float) u1, v1).light(light).next();
-			vertexConsumer.vertex(model_mat, 0f, -width, 0.0f)
-					.color(1.0f, 1.0f, 1.0f, intensity).texture((float) u2, v1).light(light).next();
-			vertexConsumer.vertex(model_mat, 0f, width, 0.0f)
-					.color(1.0f, 1.0f, 1.0f, intensity).texture((float) u2, v2).light(light).next();
-			vertexConsumer.vertex(model_mat, -distance, width, 0.0f)
-					.color(1.0f, 1.0f, 1.0f, intensity).texture((float) u1, v2).light(light).next();
+        for (int i = 0; i < 4; ++i) {
+            TGMatrixOps.rotate(matrixStack, 90f, 1f, 0f, 0f);
 
-		}
+            Matrix4f model_mat = matrixStack.peek().getPositionMatrix();
+
+            if (drawBeam) {
+                // POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
+                vertexConsumer.vertex(model_mat, -beamStartLength, -width, 0.0f)
+                        .color(1.0f, 1.0f, 1.0f, intensity).texture((float) u1, v1).light(light).next();
+                vertexConsumer.vertex(model_mat, -distance, -width, 0.0f)
+                        .color(1.0f, 1.0f, 1.0f, intensity).texture((float) u2, v1).light(light).next();
+                vertexConsumer.vertex(model_mat, -distance, width, 0.0f)
+                        .color(1.0f, 1.0f, 1.0f, intensity).texture((float) u2, v2).light(light).next();
+                vertexConsumer.vertex(model_mat, -beamStartLength, width, 0.0f)
+                        .color(1.0f, 1.0f, 1.0f, intensity).texture((float) u1, v2).light(light).next();
+            }
+
+
+            // POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
+            vertexConsumer.vertex(model_mat, 0.0f, -width, 0.0f)
+                    .color(1.0f, 1.0f, 1.0f, intensity).texture((float) 0f, v1+0.5f).light(light).next();
+            vertexConsumer.vertex(model_mat, -beamStartLength, -width, 0.0f)
+                    .color(1.0f, 1.0f, 1.0f, intensity).texture((float) 1f, v1+0.5f).light(light).next();
+            vertexConsumer.vertex(model_mat, -beamStartLength, width, 0.0f)
+                    .color(1.0f, 1.0f, 1.0f, intensity).texture((float) 1f, v2+0.5f).light(light).next();
+            vertexConsumer.vertex(model_mat, 0.0f, width, 0.0f)
+                    .color(1.0f, 1.0f, 1.0f, intensity).texture((float) 0f, v2+0.5f).light(light).next();
+
+        }
+
 		matrixStack.pop();
 	}
-
 	
 	protected void renderSpiralEffect(GenericBeamProjectile entity, Random rand, float prog, float maxWidth, float distance,
 			float u1, float u2, float v1, float v2, float tickDelta, MatrixStack matrixStack,
@@ -457,35 +492,39 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 	}
 	
 	protected static class BeamRenderParams{
-		Identifier beamTextureStart = null;
 		Identifier beamTexture = null;
-		Identifier beamTextureEnd = null;	
 		int numFrames;
 		float frametime;
 		float uscale;
 		boolean spinning; //rotate around beam axis
+		boolean beamStart;
 		
-		public BeamRenderParams(String beamTextureStart, String beamTexture, String beamTextureEnd,
-				int numFrames, float frametime, float uscale, boolean spinning) {
-			if (beamTextureStart != null) this.beamTextureStart = new TGIdentifier(beamTextureStart);
+		public BeamRenderParams(String beamTexture,
+				int numFrames, float frametime, float uscale, boolean spinning, boolean beamStart) {
 			if (beamTexture != null) this.beamTexture = new TGIdentifier(beamTexture);
-			if (beamTextureEnd != null) this.beamTextureEnd = new TGIdentifier(beamTextureEnd);
 			this.numFrames = numFrames;
 			this.frametime = frametime;
 			this.uscale = uscale;
 			this.spinning = spinning;
+			this.beamStart = beamStart;
 		}
 		
 		
 		protected Pair<Vec2f, Vec2f> getUV(float distance, int entityAge, float tickDelta) {
 	        
 			float u1 = 0;
-			float u2 = distance / uscale;
-	        	
-	        int frame = (int) ((((float)entityAge+tickDelta) * frametime) % numFrames);
-	        float v1 = (1.0f / (float)numFrames) * (float)frame;
-	        float v2 = (1.0f / (float)numFrames) * (float)(frame+1);
-	        return new Pair<Vec2f, Vec2f>(new Vec2f(u1, v1), new Vec2f(u2, v2));
+			float u2 = distance / uscale; //TODO: I think this is dumb
+
+            float v1, v2;
+            if (beamStart) {
+                v1 = 0f;
+                v2 = 0.5f;
+            }else {
+                int frame = (int) ((((float) entityAge + tickDelta) * frametime) % numFrames);
+                v1 = (1.0f / (float) numFrames) * (float) frame;
+                v2 = (1.0f / (float) numFrames) * (float) (frame + 1);
+            }
+            return new Pair<Vec2f, Vec2f>(new Vec2f(u1, v1), new Vec2f(u2, v2));
 		}
 		
 	}
