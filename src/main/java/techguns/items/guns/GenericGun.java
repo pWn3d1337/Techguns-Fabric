@@ -45,6 +45,7 @@ import techguns.api.damagesystem.DamageType;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.GunHandType;
 import techguns.api.guns.IGenericGun;
+import techguns.api.npc.INPCTechgunsShooter;
 import techguns.client.ClientProxy;
 import techguns.client.ShooterValues;
 import techguns.client.render.ITGItemRenderer;
@@ -1020,17 +1021,17 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 			
 			if(mod.getVelocityMul()!=1f) {
 				float f = mod.getVelocityMul()-1f;
-				String x = String.format("%.0f", f*100f);
+				String x = String.format("%.2f", f*100f);
 				suffix += " ("+sgn+x+"%)";
 			}
 			if(mod.getVelocityAdd()!=0f) {
 				float add = mod.getVelocityAdd();
-				suffix += " ("+(add>0?"+":"")+String.format("%.1f", add)+")";
+				suffix += " ("+(add>0?"+":"")+String.format("%.2f", add)+")";
 			}
 	
 		} 
 			
-		String sVelocity = String.format("%.1f", velocity);
+		String sVelocity = String.format("%.2f", velocity);
 		
 		return TextUtil.transTG("gun.tooltip.velocity")+": "+prefix+sVelocity+suffix;
 	
@@ -1182,25 +1183,24 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	/**
      * Weapon is used by NPC
      */
-	//TODO npc shooting
-    /*public void fireWeaponFromNPC(EntityLivingBase shooter, float dmgscale, float accscale) {
+    public <T extends LivingEntity & INPCTechgunsShooter> void fireWeaponFromNPC(T shooter, float dmgscale, float accscale, Hand hand) {
     	
     	SoundUtil.playSoundOnEntityGunPosition(shooter.world, shooter ,firesound, SOUND_DISTANCE, 1.0F, false, false, TGSoundCategory.GUN_FIRE);
-    	
-    	
-    	EnumBulletFirePos firePos = EnumBulletFirePos.RIGHT;
-    	
-    	if (shooter instanceof NPCTurret){
+
+    	EnumBulletFirePos firePos = shooter.getFirePosForHand(hand);
+
+    	//TODO turrets
+    	/*if (shooter instanceof NPCTurret){
     		//dmgscale=1.0f;
     		//accscale=1.0f;
     		firePos=EnumBulletFirePos.CENTER;
-    	}
+    	}*/
     	    	
-    	if (!shooter.world.isRemote){
-    		this.shootGun(shooter.world, shooter, shooter.getHeldItemMainhand(), this.zoombonus*accscale,dmgscale,0, EnumHand.MAIN_HAND, firePos, null);
+    	if (!shooter.world.isClient()){
+    		this.shootGun(shooter.world, shooter, shooter.getStackInHand(hand), this.zoombonus*accscale,dmgscale,0, hand, firePos, null);
     	}
 
-    }*/
+    }
     
     /**
      * Get all ammo and magazines the gun currently holds is retrievable

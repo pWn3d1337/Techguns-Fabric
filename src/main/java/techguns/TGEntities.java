@@ -1,18 +1,17 @@
 package techguns;
 
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import techguns.blocks.entity.CamoBenchBlockEntity;
+import techguns.entities.npcs.ZombieSoldier;
 import techguns.entities.projectiles.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 
 public class TGEntities implements ITGInitializer {
@@ -33,7 +32,11 @@ public class TGEntities implements ITGInitializer {
 	public static EntityType<TeslaProjectile> TESLA_PROJECTILE;
 	//Client Only:
 	//public static EntityType<FlyingGibs> FLYING_GIBS;
-	
+
+
+	//Hostile NPCs
+	public static EntityType<ZombieSoldier> ZOMBIE_SOLDIER;
+
 	public static final int bulletTrackRange = 128;
 	public static final int gibsTrackRange = 64;
 
@@ -147,5 +150,25 @@ public class TGEntities implements ITGInitializer {
 				FabricEntityTypeBuilder.<TeslaProjectile>create(SpawnGroup.MISC, TeslaProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).trackRangeBlocks(bulletTrackRange).build());
 
 		ENTITY_SPAWN_PACKET_MAP.put(TESLA_PROJECTILE, TeslaProjectile::new);
+
+
+
+		//Hostile NPC registration
+		ZOMBIE_SOLDIER = register_creature("zombie_soldier", ZombieSoldier::new, ZombieSoldier.createHostileAttributes(), humanSize());
+
+	}
+
+	public static EntityDimensions humanSize(){
+		return EntityDimensions.changing(0.6f, 1.95f);
+	}
+
+	public static <T extends HostileEntity> EntityType<T> register_creature(String mobid, EntityType.EntityFactory<T> factory, DefaultAttributeContainer.Builder attributeBuilder, EntityDimensions dims){
+		var entityType =  Registry.register(
+				Registry.ENTITY_TYPE,
+				new TGIdentifier(mobid),
+				FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, factory).dimensions(dims).build()
+		);
+		FabricDefaultAttributeRegistry.register(entityType, attributeBuilder);
+		return entityType;
 	}
 }

@@ -1,30 +1,17 @@
 package techguns.client;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
-import com.google.common.collect.Sets;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.TexturedRenderLayers;
-import net.minecraft.client.render.block.entity.BellBlockEntityRenderer;
-import net.minecraft.client.render.block.entity.ConduitBlockEntityRenderer;
-import net.minecraft.client.render.block.entity.EnchantingTableBlockEntityRenderer;
-import net.minecraft.client.texture.SpriteAtlasTexture;
-import net.minecraft.client.util.ModelIdentifier;
-import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import techguns.TGEntities;
@@ -34,11 +21,8 @@ import techguns.TGPacketsS2C;
 import techguns.TGuns;
 import techguns.api.client.ClientDisconnectEvent;
 import techguns.api.client.ClientGameJoinEvent;
-import techguns.api.entity.ITGLivingEntity;
 import techguns.client.audio.TGSound;
 import techguns.client.modelloader.TGObjLoader;
-import techguns.client.modelloader.TGObjModel;
-import techguns.client.models.ModelBaseBaked;
 import techguns.client.models.guns.*;
 import techguns.client.models.items.ModelARMagazine;
 import techguns.client.models.items.ModelAS50Mag;
@@ -51,7 +35,6 @@ import techguns.client.render.TGRenderRegistries;
 import techguns.client.render.entities.*;
 import techguns.client.render.fx.ScreenEffect;
 import techguns.client.render.item.*;
-import techguns.deatheffects.EntityDeathUtils.DeathType;
 import techguns.inventory.slots.SlotTagItem;
 import techguns.sounds.TGSoundCategory;
 import techguns.util.EntityCondition;
@@ -570,9 +553,12 @@ public class ClientProxy implements ClientModInitializer {
 //			return new RenderFlyingGibs(context.getRenderDispatcher());
 //		});
 
+
+
         keybinds = new Keybinds();
         keybinds.init();
-        
+
+        TGClientNPCModels.initialize();
         TGFX.loadFXList();
         
 		TGPacketsS2C.initialize();

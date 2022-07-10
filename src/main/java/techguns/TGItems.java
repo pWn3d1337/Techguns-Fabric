@@ -1,9 +1,11 @@
 package techguns;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -252,6 +254,9 @@ public class TGItems implements ITGInitializer {
 	public static Item AMMO_BOX;
 	public static Item AMMO_BOX_LARGE;
 
+	//spawn eggs
+	public static Item SPAWN_EGG_ZOMBIE_SOLDIER;
+
 	public static final ItemGroup ITEM_GROUP_TECHGUNS = FabricItemGroupBuilder.build(
 			new TGIdentifier("techguns"),
 			() -> new ItemStack(TGItems.PISTOL_ROUNDS));
@@ -483,7 +488,10 @@ public class TGItems implements ITGInitializer {
 
 		AMMO_BOX = Registry.register(Registry.ITEM, new TGIdentifier("ammo_box"), new AmmoBagItem(new Item.Settings(), 64*4));
 		AMMO_BOX_LARGE = Registry.register(Registry.ITEM, new TGIdentifier("ammo_box_large"), new AmmoBagItem(new Item.Settings(), 64*8));
-	/*	UPGRADE_PROTECTION_1 = addItem("upgrade_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
+
+		SPAWN_EGG_ZOMBIE_SOLDIER = Registry.register(Registry.ITEM, new TGIdentifier("zombie_soldier_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_SOLDIER, 0x757468, 0x38B038, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
+
+		/*	UPGRADE_PROTECTION_1 = addItem("upgrade_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 		UPGRADE_PROJECTILE_PROTECTION_1 = addItem("upgrade_projectile_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 		UPGRADE_BLAST_PROTECTION_1 = addItem("upgrade_blast_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 

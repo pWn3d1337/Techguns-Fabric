@@ -22,9 +22,9 @@ public class Techguns implements ModInitializer {
 	public static final TGRecipes recipes = new TGRecipes();
 	protected ArrayList<ITGInitializer> initializers = new ArrayList<>(Arrays.asList(
 	    	sounds,
+			entities,
 	    	items,
 			ammos,
-	    	entities,
 	    	guns,
 	    	blocks,
 	    	camos,

@@ -71,10 +71,10 @@ public class RenderTextureProjectile <T extends Entity> extends EntityRenderer<T
 		Matrix4f model_mat = entry.getPositionMatrix();
 		//Matrix3f normal_mat = entry.getNormal();
               
-		vertexConsumer.vertex(model_mat,(0.0F - f5), (0.0F - f6), 0.0f).texture(f, f3).color(1f, 1f, 1f, 1f).light(light).next();
-		vertexConsumer.vertex(model_mat,(f4 - f5), (0.0F - f6), 0.0f).texture(f1, f3).color(1f, 1f, 1f, 1f).light(light).next();
-		vertexConsumer.vertex(model_mat,(f4 - f5), (f4 - f6), 0.0f).texture(f1, f2).color(1f, 1f, 1f, 1f).light(light).next();
-		vertexConsumer.vertex(model_mat,(0.0f - f5), (f4 - f6), 0.0f).texture(f, f2).color(1f, 1f, 1f, 1f).light(light).next();
+		vertexConsumer.vertex(model_mat,(0.0F - f5), (0.0F - f6), 0.0f).color(1f, 1f, 1f, 1f).texture(f, f3).light(light).next();
+		vertexConsumer.vertex(model_mat,(f4 - f5), (0.0F - f6), 0.0f).color(1f, 1f, 1f, 1f).texture(f1, f3).light(light).next();
+		vertexConsumer.vertex(model_mat,(f4 - f5), (f4 - f6), 0.0f).color(1f, 1f, 1f, 1f).texture(f1, f2).light(light).next();
+		vertexConsumer.vertex(model_mat,(0.0f - f5), (f4 - f6), 0.0f).color(1f, 1f, 1f, 1f).texture(f, f2).light(light).next();
 
     }
 
