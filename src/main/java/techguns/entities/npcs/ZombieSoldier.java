@@ -3,6 +3,7 @@ package techguns.entities.npcs;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.MobEntity;
@@ -14,11 +15,16 @@ import net.minecraft.entity.passive.MerchantEntity;
 import net.minecraft.entity.passive.TurtleEntity;
 import net.minecraft.entity.passive.WolfEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.World;
 import techguns.TGEntities;
+import techguns.TGuns;
 
 public class ZombieSoldier extends GenericNPC {
     public ZombieSoldier(EntityType<ZombieSoldier> entityType, World world) {
@@ -69,5 +75,16 @@ public class ZombieSoldier extends GenericNPC {
     @Override
     public EntityGroup getGroup() {
         return EntityGroup.UNDEAD;
+    }
+
+    @Override
+    protected void initEquipment(Random random, LocalDifficulty localDifficulty) {
+        super.initEquipment(random, localDifficulty);
+        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(TGuns.HANDCANNON));
+
+        this.equipStack(EquipmentSlot.CHEST, new ItemStack(Items.LEATHER_CHESTPLATE));
+        this.equipStack(EquipmentSlot.HEAD, new ItemStack(Items.LEATHER_HELMET));
+        this.equipStack(EquipmentSlot.LEGS, new ItemStack(Items.LEATHER_LEGGINGS));
+        this.equipStack(EquipmentSlot.FEET, new ItemStack(Items.LEATHER_BOOTS));
     }
 }

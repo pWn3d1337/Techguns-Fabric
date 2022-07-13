@@ -1,18 +1,19 @@
 package techguns.entities.npcs;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.RangedAttackMob;
-import net.minecraft.entity.ai.goal.BowAttackGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.mob.AbstractSkeletonEntity;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.projectile.ProjectileUtil;
+import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.Difficulty;
+import net.minecraft.world.LocalDifficulty;
+import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import techguns.api.guns.IGenericGun;
 import techguns.api.npc.INPCTechgunsShooter;
 import techguns.entities.ai.RangedAttackGoal;
@@ -40,17 +41,25 @@ public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTe
     }
 
     @Override
+    public void tickRiding() {
+        super.tickRiding();
+        if (this.getVehicle() instanceof PathAwareEntity) {
+            PathAwareEntity pathAwareEntity = (PathAwareEntity)this.getVehicle();
+            this.bodyYaw = pathAwareEntity.bodyYaw;
+        }
+    }
+
+    @Override
     public void attack(LivingEntity target, float pullProgress) {
         GenericGun gun = null;
         Hand shootingHand = Hand.MAIN_HAND;
-        if (this.getMainHandStack().isEmpty() && this.getMainHandStack().getItem() instanceof GenericGun){
+        if (!this.getMainHandStack().isEmpty() && this.getMainHandStack().getItem() instanceof GenericGun){
             gun = (GenericGun) this.getMainHandStack().getItem();
-        } else if  (this.getOffHandStack().isEmpty() && this.getOffHandStack().getItem() instanceof GenericGun){
+        } else if  (!this.getOffHandStack().isEmpty() && this.getOffHandStack().getItem() instanceof GenericGun){
             gun = (GenericGun) this.getOffHandStack().getItem();
             shootingHand = Hand.OFF_HAND;
         }
         if (gun !=null){
-
             Difficulty difficulty = this.world.getDifficulty();
             float acc=1.0f;
             float dmg=1.0f;
@@ -74,12 +83,27 @@ public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTe
         }
     }
 
+
+
+    @Override
+    @Nullable
+    public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData, @Nullable NbtCompound entityNbt) {
+        entityData = super.initialize(world, difficulty, spawnReason, entityData, entityNbt);
+        Random random = world.getRandom();
+        this.initEquipment(random, difficulty);
+        this.updateEnchantments(random, difficulty);
+        this.updateAttackType();
+
+        return entityData;
+    }
+
     protected void updateAttackType() {
         if (this.world == null || this.world.isClient) {
             return;
         }
         this.goalSelector.remove(this.meleeAttackGoal);
         this.goalSelector.remove(this.rangedAttackGoal);
+
         ItemStack itemStack = this.getStackInHand(RangedAttackGoal.getHandPossiblyUsingGun(this));
         if (!itemStack.isEmpty() && itemStack.getItem() instanceof IGenericGun) {
             int i = 20;
@@ -92,4 +116,19 @@ public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTe
             this.goalSelector.add(4, this.meleeAttackGoal);
         }
     }
+
+    @Override
+    public void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
+        this.updateAttackType();
+    }
+
+    @Override
+    public void equipStack(EquipmentSlot slot, ItemStack stack) {
+        super.equipStack(slot, stack);
+        if (!this.world.isClient) {
+            this.updateAttackType();
+        }
+    }
+
 }

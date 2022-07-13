@@ -1195,7 +1195,9 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
     		//accscale=1.0f;
     		firePos=EnumBulletFirePos.CENTER;
     	}*/
-    	    	
+
+		System.out.println("fireWeaponFromNPC: "+ shooter);
+
     	if (!shooter.world.isClient()){
     		this.shootGun(shooter.world, shooter, shooter.getStackInHand(hand), this.zoombonus*accscale,dmgscale,0, hand, firePos, null);
     	}
