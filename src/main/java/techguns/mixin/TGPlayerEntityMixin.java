@@ -102,17 +102,6 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	}
 
 	@Override
-	public boolean isRecoiling(boolean offHand) {
-		return this.getAttackTime(offHand).isRecoiling();
-	}
-
-	@Override
-	public boolean isReloading(boolean offHand) {
-		return this.getAttackTime(offHand).isReloading();
-	}
-
-
-	@Override
 	public int getFireDelay(Hand hand) {
 		switch(hand) {
 		case OFF_HAND:

@@ -14,12 +14,15 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.Unique;
+import techguns.api.entity.AttackTime;
+import techguns.api.entity.ITGShooterValues;
 import techguns.api.guns.IGenericGun;
 import techguns.api.npc.INPCTechgunsShooter;
 import techguns.entities.ai.RangedAttackGoal;
 import techguns.items.guns.GenericGun;
 
-public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTechgunsShooter {
+public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTechgunsShooter, ITGShooterValues {
     protected final RangedAttackGoal<GenericNPC> rangedAttackGoal = new RangedAttackGoal<>(this, 1.0, 20, 15.0f);
     protected final MeleeAttackGoal meleeAttackGoal = new MeleeAttackGoal(this, 1.2, false){
 
@@ -35,6 +38,8 @@ public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTe
             GenericNPC.this.setAttacking(true);
         }
     };
+    protected AttackTime attackTimes_mh = new AttackTime();
+    protected AttackTime attackTimes_oh = new AttackTime();
 
     protected GenericNPC(EntityType<? extends GenericNPC> entityType, World world) {
         super(entityType, world);
@@ -131,4 +136,8 @@ public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTe
         }
     }
 
+    @Override
+    public AttackTime getAttackTime(boolean offHand) {
+        return offHand ? this.attackTimes_oh : this.attackTimes_mh;
+    }
 }

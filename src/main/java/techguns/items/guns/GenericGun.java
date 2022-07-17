@@ -764,16 +764,16 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		return this;
 	}
 	
-	protected void shootGun(World world, LivingEntity player,ItemStack itemstack,float accuracybonus,float damagebonus, int attackType, Hand hand, EnumBulletFirePos firePos, Entity target){
+	protected void shootGun(World world, LivingEntity shooter,ItemStack itemstack,float accuracybonus,float damagebonus, int attackType, Hand hand, EnumBulletFirePos firePos, Entity target){
 		
 		//send pakets to clients
 		if (!world.isClient){
 	    	int msg_recoiltime = ((int)(((float)recoiltime/20.0f)*1000.0f));
 	    	int msg_muzzleflashtime = ((int)(((float)muzzleFlashtime/20.0f)*1000.0f));
-	    	TGPacketsS2C.sendToAllAroundEntity(new GunFiredMessage(player,msg_recoiltime,msg_muzzleflashtime,(byte)attackType,checkRecoil,hand), player, 100.0);
+	    	TGPacketsS2C.sendToAllAroundEntity(new GunFiredMessage(shooter,msg_recoiltime,msg_muzzleflashtime,(byte)attackType,checkRecoil,hand), shooter, 100.0);
 		}
     	//
-		spawnProjectile(world, player,itemstack, accuracy*accuracybonus, projectileForwardOffset,damagebonus, firePos, target);
+		spawnProjectile(world, shooter,itemstack, accuracy*accuracybonus, projectileForwardOffset,damagebonus, firePos, target);
 		
         if (shotgun){
         	float offset=0;
@@ -782,7 +782,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
         	}
         	
         	for (int i=0; i<bulletcount; i++) {
-        		spawnProjectile(world, player,itemstack, spread*accuracybonus,projectileForwardOffset+offset*(i+1.0f),damagebonus, firePos, target);
+        		spawnProjectile(world, shooter,itemstack, spread*accuracybonus,projectileForwardOffset+offset*(i+1.0f),damagebonus, firePos, target);
         	}
         }		
 	}

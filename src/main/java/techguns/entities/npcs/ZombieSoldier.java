@@ -80,7 +80,7 @@ public class ZombieSoldier extends GenericNPC {
     @Override
     protected void initEquipment(Random random, LocalDifficulty localDifficulty) {
         super.initEquipment(random, localDifficulty);
-        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(TGuns.HANDCANNON));
+        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(TGuns.ROCKET_LAUNCHER));
 
         this.equipStack(EquipmentSlot.CHEST, new ItemStack(Items.LEATHER_CHESTPLATE));
         this.equipStack(EquipmentSlot.HEAD, new ItemStack(Items.LEATHER_HELMET));

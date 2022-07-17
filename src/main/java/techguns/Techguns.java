@@ -20,11 +20,13 @@ public class Techguns implements ModInitializer {
 	public static final TGEvents events = new TGEvents();
 	public static final TGBlocks blocks = new TGBlocks();
 	public static final TGRecipes recipes = new TGRecipes();
+	public static final TGArmors armors = new TGArmors();
 	protected ArrayList<ITGInitializer> initializers = new ArrayList<>(Arrays.asList(
 	    	sounds,
 			entities,
 	    	items,
 			ammos,
+	    	armors,
 	    	guns,
 	    	blocks,
 	    	camos,

@@ -1,8 +1,17 @@
 package techguns.api.entity;
 
-public interface ITGShooterValues {
+import net.minecraft.util.Hand;
 
-	public AttackTime getAttackTime(boolean offHand);
-	public boolean isRecoiling(boolean offHand);
-	public boolean isReloading(boolean offHand);
+public interface ITGShooterValues {
+	AttackTime getAttackTime(boolean offHand);
+
+	default AttackTime getAttackTime(Hand hand){
+		return getAttackTime(hand==Hand.OFF_HAND);
+	}
+	default boolean isRecoiling(boolean offHand){
+		return this.getAttackTime(offHand).isRecoiling();
+	}
+	default boolean isReloading(boolean offHand){
+		return this.getAttackTime(offHand).isReloading();
+	}
 }

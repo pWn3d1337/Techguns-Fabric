@@ -10,10 +10,12 @@ import java.util.List;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
+import net.minecraft.client.render.entity.feature.ArmorFeatureRenderer;
 import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.math.MathHelper;
+import techguns.mixin.ArmorFeatureRendererMixin;
 
 public class SignatureHelper {
 
@@ -69,9 +71,9 @@ public class SignatureHelper {
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, ClassNotFoundException {
 		//Class<?> PacketHandlerClass = Class.forName("net.minecraft.network.NetworkState$PacketHandler");
 
-		Class c = Entity.class;
+		Class c = ArmorFeatureRenderer.class;
 
-		List<Method> methods = getMethods(c, "of");
+		List<Method> methods = getMethods(c, "renderArmor");
 
 		System.out.println("L"+c.getCanonicalName().replace(".","/"));
 		System.out.println("");

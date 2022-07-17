@@ -5,7 +5,7 @@ import net.minecraft.util.math.Vec3d;
 import techguns.entities.projectiles.EnumBulletFirePos;
 
 /**
- *	Must only be implemented by subclasses of EntityLivingBase
+ *	Must only be implemented by subclasses of LivingEntity
  */
 public interface INPCTechgunsShooter {
     default Vec3d getWeaponPos() {
