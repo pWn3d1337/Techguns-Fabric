@@ -51,6 +51,10 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 	public void renderLate(GenericBeamProjectile entity, float yaw, float tickDelta, MatrixStack matrixStack,
 			VertexConsumerProvider vertexConsumerProvider, int light) {
 
+		//tickDelta = 0.0f;
+
+		//System.out.println("tD: "+tickDelta);
+
 		// Generic stuff for all beam types
 		Random rand = new Random(entity.getId());
 		float prog = ((float) entity.age + tickDelta) / ((float) entity.maxTicks);
@@ -69,6 +73,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 			LivingEntity shooter = (LivingEntity) entity.getOwner();
 			laser_pitch = MathHelper.lerp(tickDelta, shooter.prevPitch, shooter.getPitch());
 			laser_yaw = MathHelper.lerp(tickDelta, shooter.prevHeadYaw, shooter.headYaw);
+			System.out.println("pitch: "+laser_pitch+", yaw: " + laser_yaw);
 			// pos = new Vec3d(shooter.getX(),
 			// shooter.getY()+shooter.getEyeHeight(shooter.getPose()), shooter.getZ());		
 			
@@ -98,6 +103,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 //				posZ = MathHelper.lerp(tickDelta, shooter.prevZ, shooter.getZ());
 
 				// setupViewBobbing(matrixStack, tickDelta);
+
 				if (shooter instanceof PlayerEntity && MinecraftClient.getInstance().options.getBobView().getValue()) {
 					Vec3d vb_offset = getViewBobbingOffset((PlayerEntity)shooter, tickDelta); //.multiply(10);
 					//System.out.println("vb_offset:"+vb_offset);
@@ -122,6 +128,9 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 			Vec3d offset_rot = new Vec3d(offsetX, offsetY, offsetZ).rotateZ((float)(MathUtil.D2R*laser_pitch)).rotateY((float) (MathUtil.D2R*-(laser_yaw+90f)));
 			
 			pos = new Vec3d(posX, posY, posZ).add(offset_rot); //.multiply(offsetForward));
+			//pos = new Vec3d(posX, posY, posZ); //.multiply(offsetForward));
+
+			//System.out.println("pos: ("+pos+")");
 		} else {
 			laser_pitch = entity.laserPitch;
 			laser_yaw = entity.laserYaw;
@@ -180,15 +189,16 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 
 	protected void setupBeamTransforms(Entity entity, Vec3d pos, float pitch, float yaw, float prog, MatrixStack matrixStack, float tickDelta, boolean spinning) {
 
-		//TODO: Check this. Seems sus
 		double ex = MathHelper.lerp(tickDelta, entity.prevX, entity.getX());
 		double ey = MathHelper.lerp(tickDelta, entity.prevY, entity.getY());
 		double ez = MathHelper.lerp(tickDelta, entity.prevZ, entity.getZ());
 
 		matrixStack.translate(pos.x-ex, pos.y-ey, pos.z-ez);
 
-		// System.out.println("Entity - pitch:"+entity.pitch+" yaw:"+entity.yaw);
-		//System.out.println("BEAM - pitch:" + pitch + " yaw:" + yaw + "distance:" + distance);
+		//System.out.println("Entity - pitch:"+entity.getPitch()+" yaw:"+entity.getYaw()
+		//System.out.println("BEAM - pitch: " + pitch + " - yaw: " + yaw + " - pos = ("+(pos.x-ex)+", "+(pos.y-ey)+", "+(pos.z-ez)+")");
+
+		// System.out.println("tD: "+tickDelta);
 
 		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-(yaw - 90.0F)));
 		matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(pitch));
