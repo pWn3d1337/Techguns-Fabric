@@ -1,5 +1,7 @@
 package techguns.client;
 
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -8,21 +10,23 @@ import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.model.Dilation;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import techguns.TGEntities;
-import techguns.TGIdentifier;
-import techguns.TGItems;
-import techguns.TGPacketsS2C;
-import techguns.TGuns;
+import techguns.*;
 import techguns.api.client.ClientDisconnectEvent;
 import techguns.api.client.ClientGameJoinEvent;
 import techguns.client.audio.TGSound;
 import techguns.client.modelloader.TGObjLoader;
+import techguns.client.models.armor.ModelMultiPartArmor;
+import techguns.client.models.armor.ModelT3PowerArmor;
 import techguns.client.models.guns.*;
 import techguns.client.models.items.ModelARMagazine;
 import techguns.client.models.items.ModelAS50Mag;
@@ -137,8 +141,8 @@ public class ClientProxy implements ClientModInitializer {
 					{0f,0f,0f}, //Ground
 					{0.02f,-0.09f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.14f, -1.04f).setMuzzleFlashJitter(0.02f, 0.02f, 5.0f, 0.1f).setScope(ScreenEffect.sniperScope).setScopeRecoilAnim(GunAnimation.scopeRecoil, 0.05f, 2.0f));
-		
-		
+
+
 		this.register_ammo_itemrenderers();
 		
 		TGRenderRegistries.registerItemRenderer(TGuns.GUIDED_MISSLE_LAUNCHER,new RenderGunBase90(new ModelGuidedMissileLauncher(),2, new TGIdentifier("textures/guns/guidedmissilelauncher.png")).setBaseTranslation(-0.4f, -0.2f, RenderItemBase.SCALE*0.5f)
@@ -494,6 +498,8 @@ public class ClientProxy implements ClientModInitializer {
 						{0f,0f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.12f, -0.65f).setRecoilAnim(GunAnimation.genericRecoil, 0.15f, 5.0f).setAdsOffsets(0.001f, -0.036f, 0f).setScopeRecoilAnim(GunAnimation.genericRecoil, 0.05f, 2.0f));
 
+		register_armor_itemrenderers();
+
 		EntityRendererRegistry.register(TGEntities.GENERIC_PROJECTILE, (context) -> {
             return new GenericProjectileRenderer(context);
         });
@@ -553,12 +559,22 @@ public class ClientProxy implements ClientModInitializer {
 //			return new RenderFlyingGibs(context.getRenderDispatcher());
 //		});
 
+		ClientTickEvents.END_WORLD_TICK.register((world) -> {
+			ClientProxy.get().particleManager.tickParticles();
+		} );
 
+		ClientDisconnectEvent.EVENT.register((MinecraftClient client) -> {
+			ClientProxy.get().particleManager.clear();
+		});
+
+		ClientGameJoinEvent.EVENT.register((MinecraftClient clinet) -> {
+			ClientProxy.get().particleManager.clear();
+		});
 
         keybinds = new Keybinds();
         keybinds.init();
 
-        TGClientNPCModels.initialize();
+        TGClientEntityModels.initialize();
         TGFX.loadFXList();
         
 		TGPacketsS2C.initialize();
@@ -630,18 +646,15 @@ public class ClientProxy implements ClientModInitializer {
 		TGRenderRegistries.registerItemRenderer(TGItems.ROCKET, new RenderItemBaseRocketItem(new ModelRocket(), new TGIdentifier("textures/guns/rocket.png")).setBaseScale(1.5f).setGUIScale(0.5f).setBaseTranslation(0, 0, 0.1f).setTransformTranslations(rocketTranslations).setFirstPersonScale(0.35f));
 		TGRenderRegistries.registerItemRenderer(TGItems.ROCKET_NUKE, new RenderItemBaseRocketItem(new ModelRocket(), new TGIdentifier("textures/guns/rocket_nuke.png")).setBaseScale(1.5f).setGUIScale(0.5f).setBaseTranslation(0, 0, 0.1f).setTransformTranslations(rocketTranslations).setFirstPersonScale(0.35f));
 		TGRenderRegistries.registerItemRenderer(TGItems.ROCKET_HIGH_VELOCITY, new RenderItemBaseRocketItem(new ModelRocket(), new TGIdentifier("textures/guns/rocket_hv.png")).setBaseScale(1.5f).setGUIScale(0.5f).setBaseTranslation(0, 0, 0.1f).setTransformTranslations(rocketTranslations).setFirstPersonScale(0.35f));
+	}
 
-		ClientTickEvents.END_WORLD_TICK.register((world) -> {
-			ClientProxy.get().particleManager.tickParticles();
-		} );
-		
-		ClientDisconnectEvent.EVENT.register((MinecraftClient client) -> {
-			ClientProxy.get().particleManager.clear();
-		});
-		
-		ClientGameJoinEvent.EVENT.register((MinecraftClient clinet) -> {
-			ClientProxy.get().particleManager.clear();
-		});
+	public void register_armor_itemrenderers() {
+		Identifier powerArmorTexure = new TGIdentifier("textures/armors/powerarmor.png");
+
+		TGRenderRegistries.registerItemRenderer(TGArmors.T3_POWER_HELMET, new RenderArmorItem(new ModelT3PowerArmor(ModelT3PowerArmor.getModelData(Dilation.NONE, 4.5F, 8F, EquipmentSlot.HEAD).getRoot().createPart(128, 64)), powerArmorTexure, EquipmentSlot.HEAD));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T3_POWER_CHESTPLATE, new RenderArmorItem(new ModelT3PowerArmor(ModelT3PowerArmor.getModelData(Dilation.NONE, 2.25F, 0.5F, 2F,  EquipmentSlot.CHEST).getRoot().createPart(128, 64)), powerArmorTexure, EquipmentSlot.CHEST));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T3_POWER_LEGGINGS, new RenderArmorItem(new ModelT3PowerArmor(ModelT3PowerArmor.getModelData(Dilation.NONE, 2.5F, 15F, 0.5F, EquipmentSlot.LEGS).getRoot().createPart(128, 64)), powerArmorTexure, EquipmentSlot.LEGS).setGUIScale(1.75F));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T3_POWER_BOOTS, new RenderArmorItem(new ModelT3PowerArmor(ModelT3PowerArmor.getModelData(Dilation.NONE, 3F, 12F, EquipmentSlot.FEET).getRoot().createPart(128, 64)), powerArmorTexure, EquipmentSlot.FEET).setGUIScale(1.75F));
 	}
 	
 	public PlayerEntity getPlayerClient() {

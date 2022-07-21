@@ -19,6 +19,7 @@ import techguns.api.guns.GunManager;
 import techguns.api.guns.IGenericGun;
 import techguns.client.ShooterValues;
 import techguns.client.models.armor.ModelT3PowerArmor;
+import techguns.client.models.armor.TGArmorModelRegistry;
 import techguns.client.render.entities.npcs.RenderGenericNPC;
 import techguns.client.render.entities.npcs.TGArmorFeatureRenderer;
 
@@ -29,12 +30,12 @@ public abstract class PlayerEntityRendererMixin extends LivingEntityRenderer<Abs
 		super(ctx, model, shadowRadius);
 	}
 
-	@Inject(at = @At("TAIL"), method = "<init>(Lnet/minecraft/client/render/entity/EntityRendererFactory$Context;Z)V")
+	@Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/PlayerEntityRenderer;addFeature(Lnet/minecraft/client/render/entity/feature/FeatureRenderer;)Z", ordinal = 0), method = "<init>(Lnet/minecraft/client/render/entity/EntityRendererFactory$Context;Z)V")
 	private void ctor(EntityRendererFactory.Context ctx, boolean slim, CallbackInfo ci){
-		this.addFeature(new TGArmorFeatureRenderer(this, new ModelT3PowerArmor(ctx.getPart(RenderGenericNPC.tgArmorLayer))));
+		this.addFeature(new TGArmorFeatureRenderer(this, new TGArmorModelRegistry(ctx)));
 	}
 
-	@Inject(at = @At("INVOKE"), method = "getArmPose(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/client/render/entity/model/BipedEntityModel$ArmPose;", cancellable = true)
+	@Inject(at = @At("HEAD"), method = "getArmPose(Lnet/minecraft/client/network/AbstractClientPlayerEntity;Lnet/minecraft/util/Hand;)Lnet/minecraft/client/render/entity/model/BipedEntityModel$ArmPose;", cancellable = true)
 	private static void getArmPose(AbstractClientPlayerEntity abstractClientPlayerEntity, Hand hand, CallbackInfoReturnable<BipedEntityModel.ArmPose> info) {
 		ItemStack itemStack = abstractClientPlayerEntity.getStackInHand(hand);
 		if (!itemStack.isEmpty() && itemStack.getItem() instanceof IGenericGun) {

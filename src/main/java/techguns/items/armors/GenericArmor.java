@@ -20,6 +20,13 @@ public class GenericArmor extends ArmorItem implements FabricItem, ITGItemRender
         super(material, slot, new Item.Settings().group(TGItems.ITEM_GROUP_TECHGUNS));
     }
 
+    public GenericArmor(ArmorMaterial material, EquipmentSlot slot, boolean hasInvRenderhack, boolean hasEntityModelRenderhack, boolean shouldRenderDefaultArmor) {
+        super(material, slot, new Item.Settings().group(TGItems.ITEM_GROUP_TECHGUNS));
+        this.hasInvRenderhack = hasInvRenderhack;
+        this.hasEntityModelRenderhack = hasEntityModelRenderhack;
+        this.shouldRenderDefaultArmor = shouldRenderDefaultArmor;
+    }
+
     @Override
     public boolean hasCustomRenderer() {
         return this.hasEntityModelRenderhack;

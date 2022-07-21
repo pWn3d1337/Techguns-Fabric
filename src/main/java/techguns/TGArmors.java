@@ -24,15 +24,15 @@ public class TGArmors implements ITGInitializer{
         T1_COMBAT = new TGArmorMaterial("t1_combat", 60, new int[]{5,5,5,5}, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,0F, 0F, TGItems.HEAVY_CLOTH, TGItems.STEEL_INGOT);
         T3_POWER = new TGArmorMaterial("t3_power", 80, new int[]{6,6,6,6}, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,1F, 0.25F, TGItems.POWER_ARMOR_PLATING);
 
-        GenericArmor T1_COMBAT_HELMET = registerArmor(T1_COMBAT, EquipmentSlot.HEAD);
-        GenericArmor T1_COMBAT_CHESTPLATE = registerArmor(T1_COMBAT, EquipmentSlot.CHEST);
-        GenericArmor T1_COMBAT_LEGGINGS = registerArmor(T1_COMBAT, EquipmentSlot.LEGS);
-        GenericArmor T1_COMBAT_BOOTS = registerArmor(T1_COMBAT, EquipmentSlot.FEET);
+        T1_COMBAT_HELMET = registerArmor(T1_COMBAT, EquipmentSlot.HEAD);
+        T1_COMBAT_CHESTPLATE = registerArmor(T1_COMBAT, EquipmentSlot.CHEST);
+        T1_COMBAT_LEGGINGS = registerArmor(T1_COMBAT, EquipmentSlot.LEGS);
+        T1_COMBAT_BOOTS = registerArmor(T1_COMBAT, EquipmentSlot.FEET);
 
-        GenericArmor T3_POWER_HELMET = registerArmor(T3_POWER, EquipmentSlot.HEAD);
-        GenericArmor T3_POWER_CHESTPLATE = registerArmor(T3_POWER, EquipmentSlot.CHEST);
-        GenericArmor T3_POWER_LEGGINGS = registerArmor(T3_POWER, EquipmentSlot.LEGS);
-        GenericArmor T3_POWER_BOOTS = registerArmor(T3_POWER, EquipmentSlot.FEET);
+        T3_POWER_HELMET = registerArmor(T3_POWER, EquipmentSlot.HEAD, true, true, false);
+        T3_POWER_CHESTPLATE = registerArmor(T3_POWER, EquipmentSlot.CHEST, true, true, false);
+        T3_POWER_LEGGINGS = registerArmor(T3_POWER, EquipmentSlot.LEGS, true, true, false);
+        T3_POWER_BOOTS = registerArmor(T3_POWER, EquipmentSlot.FEET, true, true, false);
     }
 
     protected static String slotTypeToString(EquipmentSlot slotType){
@@ -59,7 +59,11 @@ public class TGArmors implements ITGInitializer{
     }
 
     protected static GenericArmor registerArmor(TGArmorMaterial mat,  EquipmentSlot slot){
-        GenericArmor armor = new GenericArmor(mat, slot);
+        return registerArmor(mat, slot, false, false, true);
+    }
+
+    protected static GenericArmor registerArmor(TGArmorMaterial mat,  EquipmentSlot slot, boolean hasInvRenderhack, boolean hasEntityModelRenderhack, boolean shouldRenderDefaultArmor){
+        GenericArmor armor = new GenericArmor(mat, slot, hasInvRenderhack, hasEntityModelRenderhack, shouldRenderDefaultArmor);
         Registry.register(Registry.ITEM, new TGIdentifier(getArmorIdentifier(armor)), armor);
         return armor;
     }
