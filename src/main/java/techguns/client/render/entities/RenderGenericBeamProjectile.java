@@ -196,7 +196,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 		matrixStack.translate(pos.x-ex, pos.y-ey, pos.z-ez);
 
 		//System.out.println("Entity - pitch:"+entity.getPitch()+" yaw:"+entity.getYaw()
-		//System.out.println("BEAM - pitch: " + pitch + " - yaw: " + yaw + " - pos = ("+(pos.x-ex)+", "+(pos.y-ey)+", "+(pos.z-ez)+")");
+		System.out.println("BEAM - pitch: " + pitch + " - yaw: " + yaw + " - pos = ("+(pos.x-ex)+", "+(pos.y-ey)+", "+(pos.z-ez)+")");
 
 		// System.out.println("tD: "+tickDelta);
 
