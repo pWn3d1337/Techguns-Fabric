@@ -33,11 +33,11 @@ public class RenderGenericNPC<T extends GenericNPC> extends MobEntityRenderer<T,
         this.texture = texture;
         //this.addFeature(new HeadFeatureRenderer(this, context.getModelLoader(), 1.0F, 1.0F, 1.0F, context.getHeldItemRenderer()));
         //this.addFeature(new ElytraFeatureRenderer(this, context.getModelLoader()));
-        this.addFeature(new HeldItemFeatureRenderer(this, context.getHeldItemRenderer()));
         if(legsArmorLayer!=null && bodyArmorLayer !=null) {
             this.addFeature(new ArmorFeatureRenderer(this, modelConstructor.apply(context.getPart(legsArmorLayer)), modelConstructor.apply(context.getPart(bodyArmorLayer))));
         }
         this.addFeature(new TGArmorFeatureRenderer(this, new TGArmorModelRegistry(context)));
+        this.addFeature(new HeldItemFeatureRenderer(this, context.getHeldItemRenderer()));
     }
 
     @Override

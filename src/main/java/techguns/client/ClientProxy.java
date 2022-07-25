@@ -26,7 +26,9 @@ import techguns.api.client.ClientGameJoinEvent;
 import techguns.client.audio.TGSound;
 import techguns.client.modelloader.TGObjLoader;
 import techguns.client.models.armor.ModelMultiPartArmor;
+import techguns.client.models.armor.ModelSteamArmor;
 import techguns.client.models.armor.ModelT3PowerArmor;
+import techguns.client.models.armor.ModelT4PowerArmorMk2;
 import techguns.client.models.guns.*;
 import techguns.client.models.items.ModelARMagazine;
 import techguns.client.models.items.ModelAS50Mag;
@@ -655,6 +657,20 @@ public class ClientProxy implements ClientModInitializer {
 		TGRenderRegistries.registerItemRenderer(TGArmors.T3_POWER_CHESTPLATE, new RenderArmorItem(new ModelT3PowerArmor(ModelT3PowerArmor.getModelData(Dilation.NONE, 2.25F, 0.5F, 2F,  EquipmentSlot.CHEST).getRoot().createPart(128, 64)), powerArmorTexure, EquipmentSlot.CHEST));
 		TGRenderRegistries.registerItemRenderer(TGArmors.T3_POWER_LEGGINGS, new RenderArmorItem(new ModelT3PowerArmor(ModelT3PowerArmor.getModelData(Dilation.NONE, 2.5F, 15F, 0.5F, EquipmentSlot.LEGS).getRoot().createPart(128, 64)), powerArmorTexure, EquipmentSlot.LEGS).setGUIScale(1.75F));
 		TGRenderRegistries.registerItemRenderer(TGArmors.T3_POWER_BOOTS, new RenderArmorItem(new ModelT3PowerArmor(ModelT3PowerArmor.getModelData(Dilation.NONE, 3F, 12F, EquipmentSlot.FEET).getRoot().createPart(128, 64)), powerArmorTexure, EquipmentSlot.FEET).setGUIScale(1.75F));
+
+		Identifier steamArmorTexure = new TGIdentifier("textures/armors/steam_armor.png");
+		TGRenderRegistries.registerItemRenderer(TGArmors.T1_STEAM_HELMET, new RenderArmorItem(new ModelSteamArmor(ModelSteamArmor.getModelData(Dilation.NONE, 4.5F,8F, EquipmentSlot.HEAD).getRoot().createPart(128, 64)), steamArmorTexure, EquipmentSlot.HEAD));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T1_STEAM_CHESTPLATE, new RenderArmorItem(new ModelSteamArmor(ModelSteamArmor.getModelData(Dilation.NONE, -7F, -3F,-3F,3.5F,3.5F, 3.5F, 3.0F, 3.0F,  EquipmentSlot.CHEST).getRoot().createPart(128, 64)), steamArmorTexure, EquipmentSlot.CHEST));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T1_STEAM_LEGGINGS, new RenderArmorItem(new ModelSteamArmor(ModelSteamArmor.getModelData(Dilation.NONE, 5F,2.125F,-1.25F, -12F,11.5F,12F,4.0F, 1.70F, EquipmentSlot.LEGS).getRoot().createPart(128, 64)), steamArmorTexure, EquipmentSlot.LEGS).setGUIScale(1.75F));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T1_STEAM_BOOTS, new RenderArmorItem(new ModelSteamArmor(ModelSteamArmor.getModelData(Dilation.NONE, -0.5F, 6.5F, -8F,0F, EquipmentSlot.FEET).getRoot().createPart(128, 64)), steamArmorTexure, EquipmentSlot.FEET).setGUIScale(1.75F));
+
+		Identifier powerArmorMk2Texure = new TGIdentifier("textures/armors/powerarmor_mk2.png");
+
+		TGRenderRegistries.registerItemRenderer(TGArmors.T4_POWER_HELMET, new RenderArmorItem(new ModelT4PowerArmorMk2(ModelT4PowerArmorMk2.getModelData(Dilation.NONE, 4.5F, 8F, EquipmentSlot.HEAD).getRoot().createPart(128, 64)), powerArmorMk2Texure, EquipmentSlot.HEAD));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T4_POWER_CHESTPLATE, new RenderArmorItem(new ModelT4PowerArmorMk2(ModelT4PowerArmorMk2.getModelData(Dilation.NONE, 2.25F, 0.5F, 2F,  EquipmentSlot.CHEST).getRoot().createPart(128, 64)), powerArmorMk2Texure, EquipmentSlot.CHEST));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T4_POWER_LEGGINGS, new RenderArmorItem(new ModelT4PowerArmorMk2(ModelT4PowerArmorMk2.getModelData(Dilation.NONE, 2.5F, 15F, 0.5F, EquipmentSlot.LEGS).getRoot().createPart(128, 64)), powerArmorMk2Texure, EquipmentSlot.LEGS).setGUIScale(1.75F));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T4_POWER_BOOTS, new RenderArmorItem(new ModelT4PowerArmorMk2(ModelT4PowerArmorMk2.getModelData(Dilation.NONE, 3F, 12F, EquipmentSlot.FEET).getRoot().createPart(128, 64)), powerArmorMk2Texure, EquipmentSlot.FEET).setGUIScale(1.75F));
+
 	}
 	
 	public PlayerEntity getPlayerClient() {

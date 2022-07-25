@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.World;
+import techguns.TGArmors;
 import techguns.TGEntities;
 import techguns.TGuns;
 
@@ -80,11 +81,11 @@ public class ZombieSoldier extends GenericNPC {
     @Override
     protected void initEquipment(Random random, LocalDifficulty localDifficulty) {
         super.initEquipment(random, localDifficulty);
-        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(TGuns.ROCKET_LAUNCHER));
+        this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(TGuns.THOMPSON));
 
-        this.equipStack(EquipmentSlot.CHEST, new ItemStack(Items.LEATHER_CHESTPLATE));
-        this.equipStack(EquipmentSlot.HEAD, new ItemStack(Items.LEATHER_HELMET));
-        this.equipStack(EquipmentSlot.LEGS, new ItemStack(Items.LEATHER_LEGGINGS));
-        this.equipStack(EquipmentSlot.FEET, new ItemStack(Items.LEATHER_BOOTS));
+        this.equipStack(EquipmentSlot.CHEST, new ItemStack(TGArmors.T3_POWER_CHESTPLATE));
+        this.equipStack(EquipmentSlot.HEAD, new ItemStack(TGArmors.T3_POWER_HELMET));
+        this.equipStack(EquipmentSlot.LEGS, new ItemStack(TGArmors.T3_POWER_LEGGINGS));
+        this.equipStack(EquipmentSlot.FEET, new ItemStack(TGArmors.T3_POWER_BOOTS));
     }
 }

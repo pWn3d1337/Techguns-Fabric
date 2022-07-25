@@ -26,7 +26,7 @@ public class Recipewriter {
     public static final String itemStackHasNBTInt = "itemstackHasNBTInt";
 
     //TODO set this to false for releases
-    public static final boolean WRITE_RECIPES = true;
+    public static final boolean WRITE_RECIPES = false;
 
 
     private static final Identifier TAG_CARBON_PLATES = new Identifier("c:carbon_plates");

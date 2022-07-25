@@ -16,7 +16,6 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
-import techguns.TGArmors;
 import techguns.TGIdentifier;
 import techguns.client.models.armor.TGArmorModelRegistry;
 
@@ -26,6 +25,8 @@ public class TGArmorFeatureRenderer <T extends LivingEntity, M extends BipedEnti
     protected final TGArmorModelRegistry models;
 
     protected static final Identifier armorTexure = new TGIdentifier("textures/armors/powerarmor.png");
+    protected static final Identifier steamArmorTexure = new TGIdentifier("textures/armors/steam_armor.png");
+    protected static final Identifier powerArmorTexureMk2 = new TGIdentifier("textures/armors/powerarmor_mk2.png");
 
     public TGArmorFeatureRenderer(FeatureRendererContext<T, M> context, TGArmorModelRegistry models) {
         super(context);
@@ -49,12 +50,12 @@ public class TGArmorFeatureRenderer <T extends LivingEntity, M extends BipedEnti
             //this cast is save, getModel will return null when not an ArmorItem
             ArmorItem armorItem = (ArmorItem) armor.getItem();
 
-            this.renderArmorParts(matrices, vertexConsumers, light, armorItem, false, model, EquipmentSlot.LEGS==armorSlot, 1.0f, 1.0f, 1.0f, null);
+            this.renderArmorParts(matrices, vertexConsumers, powerArmorTexureMk2, light, armorItem, false, model, EquipmentSlot.LEGS==armorSlot, 1.0f, 1.0f, 1.0f, null);
         }
     }
 
-    protected void renderArmorParts(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, ArmorItem item, boolean usesSecondLayer, BipedEntityModel<T> model, boolean legs, float red, float green, float blue, @Nullable String overlay) {
-        VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(armorTexure), false, usesSecondLayer);
+    protected void renderArmorParts(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Identifier texture, int light, ArmorItem item, boolean usesSecondLayer, BipedEntityModel<T> model, boolean legs, float red, float green, float blue, @Nullable String overlay) {
+        VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(texture), false, usesSecondLayer);
         model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, red, green, blue, 1.0f);
     }
 

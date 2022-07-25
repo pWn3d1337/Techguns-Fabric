@@ -73,7 +73,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 			LivingEntity shooter = (LivingEntity) entity.getOwner();
 			laser_pitch = MathHelper.lerp(tickDelta, shooter.prevPitch, shooter.getPitch());
 			laser_yaw = MathHelper.lerp(tickDelta, shooter.prevHeadYaw, shooter.headYaw);
-			System.out.println("pitch: "+laser_pitch+", yaw: " + laser_yaw);
+
 			// pos = new Vec3d(shooter.getX(),
 			// shooter.getY()+shooter.getEyeHeight(shooter.getPose()), shooter.getZ());		
 			
@@ -106,6 +106,7 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 
 				if (shooter instanceof PlayerEntity && MinecraftClient.getInstance().options.getBobView().getValue()) {
 					Vec3d vb_offset = getViewBobbingOffset((PlayerEntity)shooter, tickDelta); //.multiply(10);
+
 					//System.out.println("vb_offset:"+vb_offset);
 					offsetX+=vb_offset.x;
 					offsetY+=vb_offset.y;
