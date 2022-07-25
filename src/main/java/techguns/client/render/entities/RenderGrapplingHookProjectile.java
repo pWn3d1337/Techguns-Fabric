@@ -13,14 +13,17 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
 import techguns.TGIdentifier;
+import techguns.client.models.projectiles.ModelGrapplingHookProjectile;
 import techguns.client.models.projectiles.ModelRocket;
 import techguns.client.render.TGRenderHelper;
 import techguns.client.render.math.TGMatrixOps;
+import techguns.entities.projectiles.EnumBulletFirePos;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.entities.projectiles.GrapplingHookProjectile;
 import techguns.entities.projectiles.GrapplingHookProjectile.GrapplingStatus;
@@ -33,10 +36,10 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
 		super(ctx);
 	}
 
-	private Identifier texture_projectile = new TGIdentifier("textures/guns/rocket.png");
-	private Identifier texture_chain = new TGIdentifier("textures/entity/chain.png");
+	private Identifier texture_projectile = new TGIdentifier("textures/guns/grappling_hook.png");
+	private Identifier texture_chain = new TGIdentifier("textures/entity/steel_wire.png");
 	
-	private Model model = new ModelRocket();
+	private Model model = new ModelGrapplingHookProjectile();
 
 	
 	@Override
@@ -61,12 +64,30 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
 		
 		//Render Chain
 		if (entity.status != GrapplingStatus.NONE) {
-			Entity shooter = entity.getOwner();
+			LivingEntity shooter = (LivingEntity) entity.getOwner();
 			if (shooter != null) {
 				matrices.push();
 				Vec3d src = shooter.getCameraPosVec(tickDelta);
-				src = src.add(new Vec3d(0, -0.15, 0)); //Offset to avoid stabbing laser into the eye; TODO: Firepos offset
-				
+				//src = src.add(new Vec3d(0, -0.15, 0)); //Offset to avoid stabbing laser into the eye;
+
+				float shooter_pitch = MathHelper.lerp(tickDelta, shooter.prevPitch, shooter.getPitch());
+				float shooter_yaw = MathHelper.lerp(tickDelta, shooter.prevHeadYaw, shooter.headYaw);
+
+				//TODO: finetune this offset
+				float offsetSide = 0.15F;
+
+				float offsetX = 0.25f;
+				float offsetY = -0.12f;
+				float offsetZ = 0.0F;
+				if (entity.firePos == EnumBulletFirePos.RIGHT) {
+					offsetZ = offsetSide;
+				} else if (entity.firePos == EnumBulletFirePos.LEFT) {
+					offsetZ = -offsetSide;
+				}
+				Vec3d offset_rot = new Vec3d(offsetX, offsetY, offsetZ).rotateZ((float)(MathUtil.D2R*shooter_pitch)).rotateY((float) (MathUtil.D2R*-(shooter_yaw+90f)));
+
+				src = src.add(offset_rot);
+
 				double ex = MathHelper.lerp(tickDelta, entity.prevX, entity.getX());
 				double ey = MathHelper.lerp(tickDelta, entity.prevY, entity.getY());
 				double ez = MathHelper.lerp(tickDelta, entity.prevZ, entity.getZ());
@@ -78,7 +99,7 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
 				
 				double c_pitch = MathUtil.R2D*Math.asin(dir.getY());
 				double c_yaw = MathUtil.R2D*Math.atan2(dir.getX(), dir.getZ());
-				float width = 0.035f;
+				float width = 0.005f; //0.035f;
 				
 		       	matrices.translate(src.x-ex, src.y-ey, src.z-ez);
 				

@@ -24,6 +24,10 @@ public class ModelPart {
     float height;
     float length;
 
+    float expansionX = 0.0f;
+    float expansionY = 0.0f;
+    float expansionZ = 0.0f;
+
     public float pivotX;
     public float pivotY;
     public float pivotZ;
@@ -61,6 +65,14 @@ public class ModelPart {
         this.length = l;
     }
 
+    public void addCuboid(float x, float y, float z, float w, float h, float l, float expansionX, float expansionY, float expansionZ) {
+        this.addCuboid(x,y,z, w,h,l);
+        this.expansionX = expansionX;
+        this.expansionY = expansionY;
+        this.expansionZ = expansionZ;
+    }
+
+
     public void addCuboid(float x, float y, float z, float w, float h, float l, float scale) {
         this.addCuboid(x,y,z, w,h,l);
     }
@@ -81,6 +93,7 @@ public class ModelPart {
             this.cuboid = new net.minecraft.client.model.ModelPart.Cuboid(u, v, x, y, z, width, height, length, 0,0,0, mirror, texture_width, texture_height);
         }
         matrices.push();
+
         matrices.translate(pivotX*SCALE, pivotY*SCALE, pivotZ*SCALE);
 
         matrices.push();
@@ -93,6 +106,15 @@ public class ModelPart {
         if (this.roll!=0.0){
             TGMatrixOps.rotate(matrices, this.roll * RAD2DEG, 0F,0F, 1F);
         }
+
+        //Expansion
+        if (this.expansionX != 0 || this.expansionY != 0.0f || this.expansionZ != 0.0f) {
+            float scaleX = (this.width + (this.expansionX * 2.0f)) / this.width;
+            float scaleY = (this.height + (this.expansionY * 2.0f)) / this.height;
+            float scaleZ = (this.length + (this.expansionZ * 2.0f)) / this.length;
+            matrices.scale(scaleX, scaleY, scaleZ);
+        }
+
         this.cuboid.renderCuboid(matrices.peek(), vertices, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f);
         matrices.pop();
         for (ModelPart child : this.children){
