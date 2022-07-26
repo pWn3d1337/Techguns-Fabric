@@ -34,6 +34,8 @@ public class GrapplingHookProjectile extends GenericProjectile{
 	public float pullMaxSpeedDistance = 5.0f; //Use pullSpeed above this distance
 	public float pullTargetDistance = 1.0f; //Pull until there is 1 block distance;
 	public int maxPullTicks = 100;
+
+	public EnumBulletFirePos firePos;
 	
 	public enum GrapplingStatus {
 		NONE, LAUNCHING, GRAPPLING_BLOCK, GRAPPLING_ENTITY, PULL_ENTITY;
@@ -53,6 +55,7 @@ public class GrapplingHookProjectile extends GenericProjectile{
 			EnumBulletFirePos firePos, double gravity) {
 		super(T, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos);
 		this.status = GrapplingStatus.LAUNCHING;
+		this.firePos = firePos;
 	}
 	
 	
@@ -224,7 +227,37 @@ public class GrapplingHookProjectile extends GenericProjectile{
 		}
 		//Keep entity after hit to handle grappling
 	}
-	
+
+
+	@Override
+	protected void writeCustomDataToNbt(NbtCompound tag) {
+		super.writeCustomDataToNbt(tag);
+		tag.putByte("firePos", (byte)this.firePos.ordinal());
+	}
+
+	@Override
+	protected void readCustomDataFromNbt(NbtCompound tag) {
+		super.readCustomDataFromNbt(tag);
+		byte firepos = tag.getByte("firePos");
+		if (firepos >= 0 && firepos < EnumBulletFirePos.values().length) {
+			this.firePos = EnumBulletFirePos.values()[firepos];
+		}
+	}
+
+	@Override
+	public void getAdditionalSpawnData(NbtCompound tag) {
+		super.getAdditionalSpawnData(tag);
+		tag.putByte("firePos", (byte)this.firePos.ordinal());
+	}
+
+	@Override
+	public void parseAdditionalData(NbtCompound tag) {
+		super.parseAdditionalData(tag);
+		byte firepos = tag.getByte("firePos");
+		if (firepos >= 0 && firepos < EnumBulletFirePos.values().length) {
+			this.firePos = EnumBulletFirePos.values()[firepos];
+		}
+	}
 	
 
 	public static class Factory implements IChargedProjectileFactory<GrapplingHookProjectile> {

@@ -482,12 +482,12 @@ public class ClientProxy implements ClientModInitializer {
 						{-0.18f,0f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.11f, -0.81f));
 	
-		TGRenderRegistries.registerItemRenderer(TGuns.GRAPPLING_HOOK,new RenderGunBase(new ModelPistol(),2, new TGIdentifier("textures/guns/pistol3.png")).setBaseTranslation(RenderItemBase.SCALE*0.5f, -0.3f, -0.4f)
+		TGRenderRegistries.registerItemRenderer(TGuns.GRAPPLING_HOOK,new RenderGunBase90(new ModelGrapplingHook(),2, new TGIdentifier("textures/guns/grappling_hook.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE*0.5f-0.10f)
 				.setBaseScale(1.2f).setGUIScale(0.9f)/*.setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0.03f, 0.2f, -0.5f, 0.55f,-0.03f)*/.setTransformTranslations(new float[][]{
-					{0,0.09f,-0.02f}, //First Person
-					{0.0f,-0.03f,0.0f}, //Third Person
-					{0.02f,-0.08f,0}, //GUI
-					{0.02f,-0.08f,0}, //Ground
+					{0,0.00f,0f}, //First Person
+					{0.0f,-0.0f,0.0f}, //Third Person
+					{0.0f,-0.4f,0}, //GUI
+					{0.0f,-0.0f,0}, //Ground
 					{0,0,0f} //frame
 				}).setRecoilAnim(GunAnimation.genericRecoil, 0.025f, 12.0f)); //.setMuzzleFlashJitter(0.01f, 0.01f, 5.0f, 0.05f).setMuzzleFXPos3P(0.07f, -0.26f));
 
