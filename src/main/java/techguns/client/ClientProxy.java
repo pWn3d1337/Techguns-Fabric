@@ -667,9 +667,9 @@ public class ClientProxy implements ClientModInitializer {
 		Identifier powerArmorMk2Texure = new TGIdentifier("textures/armors/powerarmor_mk2.png");
 
 		TGRenderRegistries.registerItemRenderer(TGArmors.T4_POWER_HELMET, new RenderArmorItem(new ModelT4PowerArmorMk2(ModelT4PowerArmorMk2.getModelData(Dilation.NONE, 4.5F, 8F, EquipmentSlot.HEAD).getRoot().createPart(128, 64)), powerArmorMk2Texure, EquipmentSlot.HEAD));
-		TGRenderRegistries.registerItemRenderer(TGArmors.T4_POWER_CHESTPLATE, new RenderArmorItem(new ModelT4PowerArmorMk2(ModelT4PowerArmorMk2.getModelData(Dilation.NONE, 2.25F, 0.5F, 2F,  EquipmentSlot.CHEST).getRoot().createPart(128, 64)), powerArmorMk2Texure, EquipmentSlot.CHEST));
-		TGRenderRegistries.registerItemRenderer(TGArmors.T4_POWER_LEGGINGS, new RenderArmorItem(new ModelT4PowerArmorMk2(ModelT4PowerArmorMk2.getModelData(Dilation.NONE, 2.5F, 15F, 0.5F, EquipmentSlot.LEGS).getRoot().createPart(128, 64)), powerArmorMk2Texure, EquipmentSlot.LEGS).setGUIScale(1.75F));
-		TGRenderRegistries.registerItemRenderer(TGArmors.T4_POWER_BOOTS, new RenderArmorItem(new ModelT4PowerArmorMk2(ModelT4PowerArmorMk2.getModelData(Dilation.NONE, 3F, 12F, EquipmentSlot.FEET).getRoot().createPart(128, 64)), powerArmorMk2Texure, EquipmentSlot.FEET).setGUIScale(1.75F));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T4_POWER_CHESTPLATE, new RenderArmorItem(new ModelT4PowerArmorMk2(ModelT4PowerArmorMk2.getModelData(Dilation.NONE, -0.5F, -7F, -3.0F, 3.0F, 3.0F, 2F, EquipmentSlot.CHEST).getRoot().createPart(128, 64)), powerArmorMk2Texure, EquipmentSlot.CHEST));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T4_POWER_LEGGINGS, new RenderArmorItem(new ModelT4PowerArmorMk2(ModelT4PowerArmorMk2.getModelData(Dilation.NONE, 5F,2.5F,-1.5F, -9F, 15F, -2.5F, EquipmentSlot.LEGS).getRoot().createPart(128, 64)), powerArmorMk2Texure, EquipmentSlot.LEGS).setGUIScale(1.75F));
+		TGRenderRegistries.registerItemRenderer(TGArmors.T4_POWER_BOOTS, new RenderArmorItem(new ModelT4PowerArmorMk2(ModelT4PowerArmorMk2.getModelData(Dilation.NONE, 0F, -7.0F, -2.5F,  4F, 0F, 0F, EquipmentSlot.FEET).getRoot().createPart(128, 64)), powerArmorMk2Texure, EquipmentSlot.FEET).setGUIScale(1.75F));
 
 	}
 	
