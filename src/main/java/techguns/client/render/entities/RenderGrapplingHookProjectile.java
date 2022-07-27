@@ -3,10 +3,7 @@ package techguns.client.render.entities;
 import java.util.Random;
 
 import net.minecraft.client.model.Model;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.VertexConsumerProvider;
+import net.minecraft.client.render.*;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
@@ -15,9 +12,11 @@ import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.LightType;
 import techguns.TGIdentifier;
 import techguns.client.models.projectiles.ModelGrapplingHookProjectile;
 import techguns.client.models.projectiles.ModelRocket;
@@ -54,7 +53,7 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
        	TGMatrixOps.rotate(matrices, entity.prevYaw + (entity.getYaw()-entity.prevYaw)*tickDelta -90.0f, 0F, 1F, 0F);
        	TGMatrixOps.rotate(matrices, entity.prevPitch + (entity.getPitch()-entity.prevPitch)*tickDelta, 0F, 0F, 1F);
 
-		matrices.scale(0.5f, 0.5f, 0.5f);
+		matrices.scale(0.35f, 0.35f, 0.35f);
 
 		VertexConsumer vertexConsumer = vertexConsumers.getBuffer(this.model.getLayer(this.getTexture(entity)));	
 		
@@ -66,6 +65,10 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
 		if (entity.status != GrapplingStatus.NONE) {
 			LivingEntity shooter = (LivingEntity) entity.getOwner();
 			if (shooter != null) {
+
+				BlockPos blockPos = new BlockPos(shooter.getClientCameraPosVec(tickDelta));
+				int light_shooter = LightmapTextureManager.pack(shooter.world.getLightLevel(LightType.BLOCK, blockPos), shooter.world.getLightLevel(LightType.SKY, blockPos));
+
 				matrices.push();
 				Vec3d src = shooter.getCameraPosVec(tickDelta);
 				//src = src.add(new Vec3d(0, -0.15, 0)); //Offset to avoid stabbing laser into the eye;
@@ -114,20 +117,21 @@ public class RenderGrapplingHookProjectile extends EntityRenderer<GrapplingHookP
 		       	float v2 = 1f;
 				
 		       	
-		       	vertexConsumer = vertexConsumers.getBuffer(TGRenderHelper.get_fx_renderlayer_alpha(texture_chain));	
-		       	
-		       	for (int i = 0; i < 2; ++i) {
+		       	//vertexConsumer = vertexConsumers.getBuffer(TGRenderHelper.get_fx_renderlayer_alpha(texture_chain));
+		       	vertexConsumer = vertexConsumers.getBuffer(RenderLayer.getEntitySolid(texture_chain));
+
+		       	for (int i = 0; i < 4; ++i) {
 					TGMatrixOps.rotate(matrices, 90f, 1f, 0f, 0f);
 
 					// POSITION_COLOR_TEXTURE_OVERLAY_LIGHT_NORMAL
 					vertexConsumer.vertex(model_mat, 0, -width, 0.0f)
-							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u1, v1).light(light).next();
+							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u1, v1).overlay(OverlayTexture.DEFAULT_UV).light(light_shooter).normal(0f, 0f, 1f).next();
 					vertexConsumer.vertex(model_mat, distance, -width, 0.0f)
-							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u2, v1).light(light).next();
+							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u2, v1).overlay(OverlayTexture.DEFAULT_UV).light(light_shooter).normal(0f, 0f, 1f).next();
 					vertexConsumer.vertex(model_mat, distance, width, 0.0f)
-							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u2, v2).light(light).next();
+							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u2, v2).overlay(OverlayTexture.DEFAULT_UV).light(light_shooter).normal(0f, 0f, 1f).next();
 					vertexConsumer.vertex(model_mat, 0, width, 0.0f)
-							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u1, v2).light(light).next();
+							.color(1.0f, 1.0f, 1.0f, 1.0f).texture(u1, v2).overlay(OverlayTexture.DEFAULT_UV).light(light_shooter).normal(0f, 0f, 1f).next();
 
 				}
 		       	

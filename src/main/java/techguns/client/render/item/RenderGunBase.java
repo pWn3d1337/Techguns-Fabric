@@ -25,6 +25,7 @@ import techguns.client.models.ModelMultipart;
 import techguns.client.render.fx.IScreenEffect;
 import techguns.client.render.math.TGMatrixOps;
 import techguns.items.guns.GenericGunCharge;
+import techguns.items.guns.GrapplingHook;
 import techguns.util.MathUtil;
 
 public class RenderGunBase extends RenderItemBase {
@@ -366,6 +367,7 @@ public class RenderGunBase extends RenderItemBase {
 						tex = textures.get(MathUtil.clamp(i,0,textures.size()-1));
 					}
 				}
+
 				//this.bindTextureForPart(gun, i, stack);
 				//this.setGLColorForPart(gun, i, stack);
 				//model.render(entityIn, 0, 0, 0, 0, 0, SCALE, gun.getAmmoLeft(stack), reloadProgress, transform, i, fireProgress, chargeProgress);

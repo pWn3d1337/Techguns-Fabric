@@ -1,6 +1,9 @@
 package techguns.client.models.guns;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.entity.player.PlayerEntity;
+import techguns.api.entity.ITGExtendedPlayer;
 import techguns.client.models.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
@@ -9,6 +12,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import techguns.client.models.ModelMultipart;
 import techguns.client.render.math.TGMatrixOps;
+import techguns.entities.projectiles.GrapplingHookProjectile;
+import techguns.util.MathUtil;
 
 
 public class ModelGrapplingHook extends ModelMultipart {
@@ -192,20 +197,26 @@ public class ModelGrapplingHook extends ModelMultipart {
             modelRenderer.render(matrices, vertices, light, overlay);
         });
 
+        GrapplingHookProjectile.GrapplingStatus status = GrapplingHookProjectile.GrapplingStatus.NONE;
+        if (entityIn != null && entityIn instanceof ITGExtendedPlayer) {
+            ITGExtendedPlayer tge = (ITGExtendedPlayer) entityIn;
+            status = tge.getGrapplingStatus();
+        }
+
         //Hook (render when not charging)
-        if (chargeProgress <= 0) {
+        if (status == GrapplingHookProjectile.GrapplingStatus.NONE) {
             ImmutableList.of(this.hook04, this.hook01_1, this.hook03, this.hook01, this.hook05, this.hook06, this.hook02).forEach((modelRenderer) -> {
                 modelRenderer.render(matrices, vertices, light, overlay);
             });
             this.wheel1.render(matrices, vertices, light, overlay);
         }else {
-            //Wheel (spin when charging) TODO: Find better way
-            matrices.push();
-            float spin = 360.0f*chargeProgress*10.0f;
-            TGMatrixOps.rotate(matrices, spin, 0f, 0f, 1f);
-            this.wheel1.render(matrices, vertices, light, overlay);
-
-            matrices.pop();
+            //Wheel (spin when charging)
+            float spin_dir = 0.0f;
+            if (status == GrapplingHookProjectile.GrapplingStatus.LAUNCHING) spin_dir = 1.0f;
+            else spin_dir = -1.0f;
+            float t = ((float)(MinecraftClient.getInstance().world.getTime()) + MinecraftClient.getInstance().getTickDelta());
+            float spin = ((t * 90.0f) % 360.0f) * spin_dir;
+            this.wheel1.render(matrices, vertices, light, overlay, 0f, 0f, spin);
         }
     }
 }

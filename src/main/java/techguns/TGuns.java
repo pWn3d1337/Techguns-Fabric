@@ -1,5 +1,6 @@
 package techguns;
 
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.util.Formatting;
@@ -267,7 +268,7 @@ public class TGuns implements ITGInitializer {
 
 		TESLAGUN = reg(new GenericGun("teslagun", TESLAGUN_PROJECTILES, false, 8, 25, 45, 12.0f, TGSounds.TESLA_FIRE, TGSounds.TESLA_RELOAD, MAX_RANGE_RIFLE/*TODO ?Teslagun.LIFETIME*/, 0.0f).setZoom(0.75f, true,1.0f,false).setBulletSpeed(80.0f/* TODO ??Lasergun.SPEED*/).setMuzzleFlashTime(10).setAIStats(RANGE_MEDIUM, 30, 0, 0).setMuzzleLight(0f, 0.8f, 1.0f).setCrossHair(EnumCrosshairStyle.HORIZONTAL_TWO_PART_E));
 
-		GRAPPLING_HOOK = reg(new GrapplingHook("grapplinghook", GRAPPLING_HOOK_PROJECTILES, true, 6, 100,25,1.0f, SoundEvents.ITEM_CROSSBOW_SHOOT, TGSounds.POWERHAMMER_RELOAD, MAX_RANGE_RIFLE, 0.0f,30.0f,1).setChargeSound(SoundEvents.ITEM_CROSSBOW_QUICK_CHARGE_1).setFireWhileCharging(true).setShootWithLeftClick(false).setHandType(GunHandType.ONE_HANDED).setBulletSpeed(2.5f).setGravity(0.005d).setPenetration(PENETRATION_LOW).setAIStats(RANGE_SHORT, 30, 0, 0).setDamageDrop(8, 15, 0.5f).setForwardOffset(0.40f).setCrossHair(EnumCrosshairStyle.TRI));
+		GRAPPLING_HOOK = reg(new GrapplingHook("grapplinghook", GRAPPLING_HOOK_PROJECTILES, true, 6, 100,25,1.0f, null, TGSounds.POWERHAMMER_RELOAD, MAX_RANGE_RIFLE, 0.0f,30.0f,1).setChargeSound(TGSounds.GRAPPLING_HOOK_FIRE).setFireWhileCharging(true).setShootWithLeftClick(false).setHandType(GunHandType.ONE_HANDED).setBulletSpeed(2.5f).setGravity(0.005d).setPenetration(PENETRATION_LOW).setAIStats(RANGE_SHORT, 30, 0, 0).setDamageDrop(8, 15, 0.5f).setForwardOffset(0.40f).setCrossHair(EnumCrosshairStyle.TRI));
 
 
 	}

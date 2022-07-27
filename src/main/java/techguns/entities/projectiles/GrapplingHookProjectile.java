@@ -1,6 +1,7 @@
 package techguns.entities.projectiles;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -15,10 +16,13 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import techguns.TGEntities;
+import techguns.TGSounds;
 import techguns.api.damagesystem.DamageType;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.IChargedProjectileFactory;
+import techguns.sounds.TGSoundCategory;
+import techguns.util.SoundUtil;
 
 public class GrapplingHookProjectile extends GenericProjectile{
 
@@ -48,6 +52,10 @@ public class GrapplingHookProjectile extends GenericProjectile{
 	public GrapplingHookProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity shooter) {
 		super(T, world, shooter);
 		this.status = GrapplingStatus.LAUNCHING;
+		if (shooter != null && shooter instanceof PlayerEntity) {
+			ITGExtendedPlayer txp = (ITGExtendedPlayer)shooter;
+			txp.setGrapplingStatus(GrapplingStatus.LAUNCHING);
+		}
 	}	
 	
 	public GrapplingHookProjectile(EntityType<? extends GenericProjectile> T, World world, LivingEntity p, float damage, float speed, int TTL, float spread,
@@ -56,6 +64,10 @@ public class GrapplingHookProjectile extends GenericProjectile{
 		super(T, world, p, damage, speed, TTL, spread, dmgDropStart, dmgDropEnd, dmgMin, penetration, blockdamage, firePos);
 		this.status = GrapplingStatus.LAUNCHING;
 		this.firePos = firePos;
+		if (p != null && p instanceof PlayerEntity) {
+			ITGExtendedPlayer txp = (ITGExtendedPlayer)p;
+			txp.setGrapplingStatus(GrapplingStatus.LAUNCHING);
+		}
 	}
 	
 	
@@ -75,6 +87,11 @@ public class GrapplingHookProjectile extends GenericProjectile{
 		this.targetBlock = null;
 		this.targetEntity = null;
 		this.targetPos = null;
+		LivingEntity shooter = (LivingEntity)this.getOwner();
+		if (shooter != null && shooter instanceof PlayerEntity) {
+			ITGExtendedPlayer txp = (ITGExtendedPlayer)shooter;
+			txp.setGrapplingStatus(GrapplingStatus.NONE);
+		}
 	}
 	
 	
@@ -96,6 +113,11 @@ public class GrapplingHookProjectile extends GenericProjectile{
 			}
 		}
 		else if (this.status == GrapplingStatus.NONE) {
+			LivingEntity shooter = (LivingEntity)this.getOwner();
+			if (shooter != null && shooter instanceof PlayerEntity) {
+				ITGExtendedPlayer txp = (ITGExtendedPlayer)shooter;
+				txp.setGrapplingStatus(GrapplingStatus.NONE);
+			}
 			this.remove(RemovalReason.DISCARDED);
 		}else { // if (!this.world.isClient){
 			if (!isShooterGrappling() || this.maxPullTicks-- <= 0) {
@@ -156,7 +178,8 @@ public class GrapplingHookProjectile extends GenericProjectile{
 		if (dist <= this.pullTargetDistance) {
 			entity.setVelocity(0,0,0);
 			entity.velocityModified = true;
-			this.status = GrapplingStatus.NONE;
+			//this.status = GrapplingStatus.NONE;
+			this.stopGrappling();
 		}else {
 			entity.setVelocity(dir.multiply(speed));
 			entity.velocityModified = true;
@@ -173,6 +196,7 @@ public class GrapplingHookProjectile extends GenericProjectile{
 //			this.removed = true;
 //			return;
 //		}
+
 		
 		if(isShooterGrappling() && entity != null && entity.isAlive()) {
 			if (this.getOwner().isSneaking()) {
@@ -184,9 +208,15 @@ public class GrapplingHookProjectile extends GenericProjectile{
 				System.out.println("New GrapplingStatus = "+status);
 			}
 			this.targetEntity = entity;
+			this.playPullSound();
 		}else {
 			this.status = GrapplingStatus.NONE;
 			//this.removed = true;
+		}
+		LivingEntity shooter = (LivingEntity)this.getOwner();
+		if (shooter != null && shooter instanceof PlayerEntity) {
+			ITGExtendedPlayer txp = (ITGExtendedPlayer)shooter;
+			txp.setGrapplingStatus(this.status);
 		}
 	}
 	
@@ -206,9 +236,19 @@ public class GrapplingHookProjectile extends GenericProjectile{
 			}
 			this.status = GrapplingStatus.GRAPPLING_BLOCK;
 			this.shouldCollide = false;
+			this.playPullSound();
 		}else {
 			this.status = GrapplingStatus.NONE;
 		}
+		LivingEntity shooter = (LivingEntity)this.getOwner();
+		if (shooter != null && shooter instanceof PlayerEntity) {
+			ITGExtendedPlayer txp = (ITGExtendedPlayer)shooter;
+			txp.setGrapplingStatus(this.status);
+		}
+	}
+
+	private void playPullSound() {
+		SoundUtil.playSoundOnEntityGunPosition(this.world, this.getOwner(), TGSounds.GRAPPLING_HOOK_PULL, GenericGun.SOUND_DISTANCE, 1.0F, false, false, TGSoundCategory.GUN_FIRE);
 	}
 	
 	@Override
@@ -216,6 +256,12 @@ public class GrapplingHookProjectile extends GenericProjectile{
 		//Check Grappling status
 		if (this.status == GrapplingStatus.NONE || this.status == GrapplingStatus.LAUNCHING) {
 			//Projectile missed or expired;
+			LivingEntity shooter = (LivingEntity)this.getOwner();
+			if (shooter != null && shooter instanceof PlayerEntity) {
+				ITGExtendedPlayer txp = (ITGExtendedPlayer)shooter;
+				txp.setGrapplingStatus(GrapplingStatus.NONE);
+			}
+
 			this.remove(RemovalReason.DISCARDED);
 		}
 	}
@@ -228,6 +274,15 @@ public class GrapplingHookProjectile extends GenericProjectile{
 		//Keep entity after hit to handle grappling
 	}
 
+	@Override
+	public void remove(RemovalReason reason) {
+		LivingEntity shooter = (LivingEntity)this.getOwner();
+		if (shooter != null && shooter instanceof PlayerEntity) {
+			ITGExtendedPlayer txp = (ITGExtendedPlayer)shooter;
+			txp.setGrapplingStatus(GrapplingStatus.NONE);
+		}
+		super.remove(reason);
+	}
 
 	@Override
 	protected void writeCustomDataToNbt(NbtCompound tag) {
@@ -281,6 +336,10 @@ public class GrapplingHookProjectile extends GenericProjectile{
 				int TTL, float spread, float dmgDropStart, float dmgDropEnd, float dmgMin, float penetration,
 				boolean blockdamage, EnumBulletFirePos firePos, float radius, double gravity, float charge,
 				int ammoConsumed) {
+			if (p != null && p instanceof PlayerEntity) {
+				ITGExtendedPlayer txp = (ITGExtendedPlayer)p;
+				txp.setGrapplingStatus(GrapplingStatus.NONE);
+			}
 			return null;
 		}
 

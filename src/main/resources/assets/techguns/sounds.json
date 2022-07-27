@@ -1372,6 +1372,23 @@
         "techguns:guns/shishkebab_reload"
     ]
 },
+"guns.grapplinghookfire": {
+    "category": "player",
+    "sounds": [
+        "techguns:guns/grapplinghook_shot_a",
+        "techguns:guns/grapplinghook_shot_b",
+        "techguns:guns/grapplinghook_shot_c"
+    ]
+},
+"guns.grapplinghookpull": {
+    "category": "player",
+    "sounds": [
+        "techguns:guns/grapplinghook_pull_a",
+        "techguns:guns/grapplinghook_pull_b",
+        "techguns:guns/grapplinghook_pull_c"
+    ]
+},
+
 "blocks.techdoor.open": {
     "category": "block",
     "sounds": [
