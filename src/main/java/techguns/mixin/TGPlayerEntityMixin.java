@@ -34,6 +34,7 @@ import techguns.TGPacketsS2C;
 import techguns.api.entity.AttackTime;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.GunManager;
+import techguns.entities.projectiles.GrapplingHookProjectile;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.GenericGunCharge;
 import techguns.items.guns.GenericGunMeleeCharge;
@@ -72,7 +73,10 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	public Entity techguns_lockOnEntity; //Guided Missile tracking target
 	@Unique
 	public int techguns_lockOnTicks; //number of ticks the tracked target has been locked on.
-	
+
+	@Unique
+	public GrapplingHookProjectile.GrapplingStatus techguns_grapplingStatus = GrapplingHookProjectile.GrapplingStatus.NONE;
+
 	@Unique
 	private static TrackedData<Boolean> TECHGUNS_SAFE_MODE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 		
@@ -208,6 +212,16 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	public void setLockOnEntity(Entity ent) {
 		this.techguns_lockOnEntity=ent;
 	}
+
+	@Override
+	public void setGrapplingStatus(GrapplingHookProjectile.GrapplingStatus status) {
+		this.techguns_grapplingStatus = status;
+	}
+	@Override
+	public GrapplingHookProjectile.GrapplingStatus getGrapplingStatus() {
+		return this.techguns_grapplingStatus;
+	}
+
 
 	public void playerTickEvent(boolean server) {
 		// reduce fire delays on both sides

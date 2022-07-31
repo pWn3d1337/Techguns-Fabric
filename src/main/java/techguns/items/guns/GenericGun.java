@@ -654,9 +654,10 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		        		extendedPlayer.setLoopSoundDelay(hand,this.maxLoopDelay);
 		        		
 		        	}else {
-	
-		        		SoundUtil.playSoundOnEntityGunPosition(world, player, this.firesound, SOUND_DISTANCE, 1.0F, false, false, TGSoundCategory.GUN_FIRE);
-		        		if (this.maxLoopDelay>0){
+						if (this.firesound != null) {
+							SoundUtil.playSoundOnEntityGunPosition(world, player, this.firesound, SOUND_DISTANCE, 1.0F, false, false, TGSoundCategory.GUN_FIRE);
+						}
+						if (this.maxLoopDelay>0){
 		        			extendedPlayer.setLoopSoundDelay(hand,this.maxLoopDelay);
 		        		}
 		        	}

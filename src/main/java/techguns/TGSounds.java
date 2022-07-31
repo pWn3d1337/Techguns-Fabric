@@ -131,7 +131,10 @@ public class TGSounds implements ITGInitializer {
 	
 	public static SoundEvent SHISHKEBAP_SWING = createSoundEvent("guns.shishkebabfire");
 	public static SoundEvent SHISHKEBAP_RELOAD = createSoundEvent("guns.shishkebabreload");
-	
+
+	public static SoundEvent GRAPPLING_HOOK_FIRE = createSoundEvent("guns.grapplinghookfire");
+	public static SoundEvent GRAPPLING_HOOK_PULL = createSoundEvent("guns.grapplinghookpull");
+
 	public static SoundEvent ANTI_GRAV_START = createSoundEvent("items.antigravstart");
 	public static SoundEvent NIGHTVISION_ON = createSoundEvent("nightvision.on");
 	public static SoundEvent NIGHTVISION_OFF = createSoundEvent("nightvision.off");

@@ -2,6 +2,7 @@ package techguns.api.entity;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Hand;
+import techguns.entities.projectiles.GrapplingHookProjectile;
 
 /**
  * Should only be used on EntityPlayer
@@ -36,4 +37,8 @@ public interface ITGExtendedPlayer extends ITGShooterValues {
 	
 	public boolean showTGHudElements();
 	public void setShowTGHudElements(boolean value);
+
+	//Grappling Hook
+	public void setGrapplingStatus(GrapplingHookProjectile.GrapplingStatus status);
+	public GrapplingHookProjectile.GrapplingStatus getGrapplingStatus();
 }

@@ -89,6 +89,10 @@ public class ModelPart {
     }
 
     public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay) {
+        this.render(matrices, vertices, light, overlay, 0f, 0f, 0f);
+    }
+
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float rx, float ry, float rz) {
         if (cuboid == null){
             this.cuboid = new net.minecraft.client.model.ModelPart.Cuboid(u, v, x, y, z, width, height, length, 0,0,0, mirror, texture_width, texture_height);
         }
@@ -97,14 +101,14 @@ public class ModelPart {
         matrices.translate(pivotX*SCALE, pivotY*SCALE, pivotZ*SCALE);
 
         matrices.push();
-        if (this.pitch!=0.0){
-            TGMatrixOps.rotate(matrices, this.pitch * RAD2DEG, 1F,0F, 0F);
+        if (this.pitch!=0.0 || rx != 0.0f){
+            TGMatrixOps.rotate(matrices, this.pitch * RAD2DEG + rx, 1F,0F, 0F);
         }
-        if (this.yaw!=0.0){
-            TGMatrixOps.rotate(matrices, this.yaw * RAD2DEG, 0F,1F, 0F);
+        if (this.yaw!=0.0 || ry != 0.0f){
+            TGMatrixOps.rotate(matrices, this.yaw * RAD2DEG + ry, 0F,1F, 0F);
         }
-        if (this.roll!=0.0){
-            TGMatrixOps.rotate(matrices, this.roll * RAD2DEG, 0F,0F, 1F);
+        if (this.roll!=0.0 || rz != 0.0f){
+            TGMatrixOps.rotate(matrices, this.roll * RAD2DEG + rz, 0F,0F, 1F);
         }
 
         //Expansion
@@ -118,7 +122,7 @@ public class ModelPart {
         this.cuboid.renderCuboid(matrices.peek(), vertices, light, overlay, 1.0f, 1.0f, 1.0f, 1.0f);
         matrices.pop();
         for (ModelPart child : this.children){
-            child.render(matrices, vertices, light, overlay);
+            child.render(matrices, vertices, light, overlay, rx, ry, rz);
         }
         matrices.pop();
     }
