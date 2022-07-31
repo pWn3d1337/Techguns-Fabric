@@ -11,11 +11,17 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
+import techguns.TGCamos;
+import techguns.TGIdentifier;
+import techguns.api.ICamoChangeable;
 import techguns.client.render.math.TGMatrixOps;
+
+import java.util.List;
 
 
 public class RenderArmorItem extends RenderItemBase {
 
+    protected static final Identifier DEFAULT_CAMO = new TGIdentifier("default");
     protected BipedEntityModel modelBiped;
 
     public RenderArmorItem(BipedEntityModel model, Identifier texture, EquipmentSlot armorSlot) {
@@ -71,7 +77,22 @@ public class RenderArmorItem extends RenderItemBase {
     public void renderItem(LivingEntity elb, ModelTransformation.Mode transform, MatrixStack matrices, ItemStack stack, boolean leftHanded, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel bakedModel) {
         matrices.push();
 
-        MinecraftClient.getInstance().getTextureManager().bindTexture(texture);
+        Identifier usedTexture = texture;
+        if (!stack.isEmpty() && stack.getItem() instanceof ICamoChangeable){
+            ICamoChangeable camoItem = (ICamoChangeable) stack.getItem();
+            List<Identifier> camos = camoItem.getCurrentCamoTextures(stack);
+            if (camos !=null && camos.size()>0){
+                usedTexture = camos.get(0);
+            } else {
+                //Try default camo
+                TGCamos.CamoEntry entry = TGCamos.getCamoEntry(stack.getItem(), DEFAULT_CAMO);
+                if (entry!=null && !entry.textures.isEmpty()) {
+                    texture = entry.textures.get(0);
+                }
+            }
+        }
+
+        //MinecraftClient.getInstance().getTextureManager().bindTexture(usedTexture);
 
         this.applyTranslation(matrices, transform);
 
@@ -93,7 +114,7 @@ public class RenderArmorItem extends RenderItemBase {
         this.applyBaseTranslation(matrices);
 
 
-        modelBiped.render(matrices, vertexConsumers.getBuffer(this.modelBiped.getLayer(this.texture)), light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
+        modelBiped.render(matrices, vertexConsumers.getBuffer(this.modelBiped.getLayer(usedTexture)), light, overlay, 1.0F, 1.0F, 1.0F, 1.0F);
 
         matrices.pop();
     }

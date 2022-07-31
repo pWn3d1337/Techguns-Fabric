@@ -1,6 +1,8 @@
 package techguns.mixin;
 
 import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
+import net.minecraft.entity.attribute.EntityAttribute;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,6 +25,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import techguns.TGEntityAttributes;
 import techguns.TGPacketsS2C;
 import techguns.api.entity.ITGLivingEntity;
 import techguns.damagesystem.TGDamageSource;
@@ -97,7 +100,9 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 
 	@Shadow
 	private long lastDamageTime;
-	
+
+	@Shadow public abstract double getAttributeValue(EntityAttribute attribute);
+
 	@Inject(method = "damage", at = @At(value = "HEAD"), cancellable = true)
 	public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
 		boolean ret = false;
@@ -304,6 +309,30 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 			}
 		}
 	}
+
+	/**
+	 * Add a jumpboost for techguns armors
+	 */
+	@Inject(at = @At("RETURN"), method = "getJumpBoostVelocityModifier", cancellable = true)
+	public void onGetJumpBoostVelocityModifier(CallbackInfoReturnable<Double> cir){
+		double original_return = cir.getReturnValue();
+		double jumpboost = this.getAttributeValue(TGEntityAttributes.ARMOR_JUMPBOOST);
+		if(jumpboost != 0.0){
+			cir.setReturnValue(original_return+jumpboost);
+		}
+	}
+
+	/**
+	 * Add new Entity attributes to LivingEntity
+	 */
+	@Inject(at = @At("RETURN"), method = "createLivingAttributes")
+	private static void addTechgunsLivingAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir){
+		cir.getReturnValue()
+		.add(TGEntityAttributes.ARMOR_JUMPBOOST)
+		.add(TGEntityAttributes.ARMOR_MININGSPEED) //only needed by player
+		.add(TGEntityAttributes.ARMOR_WATERMININGSPEED); //only needed by player
+	};
+
 
 	@Override
 	public float getEyeHeight_ServerSide(EntityPose pose) {

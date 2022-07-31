@@ -6,14 +6,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import techguns.TGCamos;
-import techguns.TGCamos.WeaponCamoEntry;
-import techguns.Techguns;
+import techguns.TGCamos.CamoEntry;
 
 public interface ICamoChangeable {
 	public int getCamoCount();
 
 	public static boolean setCamo(ItemStack stack, Identifier camo){
-		WeaponCamoEntry entry = TGCamos.getCamoEntry(stack.getItem(), camo);
+		CamoEntry entry = TGCamos.getCamoEntry(stack.getItem(), camo);
 		if (entry!=null) {
 			NbtCompound tags = stack.getNbt();
 			if (tags == null) {
@@ -41,7 +40,7 @@ public interface ICamoChangeable {
 			camoID=tags.getString("camo");
 		}
 		
-		WeaponCamoEntry entry = TGCamos.getCamoEntry(item.getItem(), new Identifier(camoID));
+		CamoEntry entry = TGCamos.getCamoEntry(item.getItem(), new Identifier(camoID));
 		int id = entry.camoindex;
 		
 		if (entry != null) {
@@ -74,7 +73,7 @@ public interface ICamoChangeable {
 		int camoID=0;
 		if (tags!=null && tags.contains("camo")){
 			String id = tags.getString("camo");
-			WeaponCamoEntry entry = TGCamos.getCamoEntry(item.getItem(), new Identifier(id));
+			CamoEntry entry = TGCamos.getCamoEntry(item.getItem(), new Identifier(id));
 			if (entry!=null) {
 				camoID = entry.camoindex;
 			}
@@ -88,7 +87,7 @@ public interface ICamoChangeable {
 
 			String camo=tags.getString("camo");
 			if (camo != "") {
-				WeaponCamoEntry entry = TGCamos.getCamoEntry(item.getItem(), new Identifier(camo));
+				CamoEntry entry = TGCamos.getCamoEntry(item.getItem(), new Identifier(camo));
 				if (entry!=null) {
 					return entry.textures;
 				}

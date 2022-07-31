@@ -26,8 +26,11 @@ public class ModelT4PowerArmorMk2 extends BipedEntityModel {
     public static ModelData getModelData(Dilation dilation, float offsetX, float offsetY, EquipmentSlot slot) {
         return getModelData(dilation, offsetX, offsetY, 0F, slot);
     }
-
     public static ModelData getModelData(Dilation dilation, float offsetX, float offsetY, float offsetZ, EquipmentSlot slot) {
+        return getModelData(dilation, offsetX, offsetX, offsetX, offsetY, offsetY, offsetZ, slot);
+    }
+
+    public static ModelData getModelData(Dilation dilation, float offsetX, float offsetX_left, float offsetX_right, float offsetY, float offsetY2, float offsetZ, EquipmentSlot slot) {
         ModelData modelData = new ModelData();
         ModelPartData modelPartData = modelData.getRoot();
 
@@ -78,7 +81,7 @@ public class ModelT4PowerArmorMk2 extends BipedEntityModel {
 
 
         ModelPartLegacy RA01 = new ModelPartLegacy(69, 38);
-        RA01.setPivot(-8.5F + ArmOffsetX+offsetX, -0.5F + ArmOffsetY+offsetY, -2.5F);
+        RA01.setPivot(-8.5F + ArmOffsetX+offsetX_right, -0.5F + ArmOffsetY+offsetY, -2.5F+offsetZ);
         RA01.addCuboid(-3.5F, -2F, -2.5F, 5, 13, 5, scale);
         ModelPartLegacy RA03 = new ModelPartLegacy(68, 27);
         RA03.mirror = true;
@@ -99,7 +102,7 @@ public class ModelT4PowerArmorMk2 extends BipedEntityModel {
         LA03.addCuboid(0.0F, 0.0F, 0.0F, 4, 4, 6, scale);
         ModelPartLegacy LA01 = new ModelPartLegacy(69, 38);
         LA01.mirror = true;
-        LA01.setPivot(3.5F - ArmOffsetX+offsetX, -0.5F + ArmOffsetY+offsetY, -2.5F);
+        LA01.setPivot(3.5F - ArmOffsetX-offsetX_left, -0.5F + ArmOffsetY+offsetY, -2.5F + offsetZ);
         LA01.addCuboid(-1.5F, -2F, -2.5F, 5, 13, 5, scale);
         ModelPartLegacy LA06 = new ModelPartLegacy(46, 38);
         LA06.setPivot(6.0F - ArmOffsetX, 5.0F + ArmOffsetY, 2.0F);
@@ -114,7 +117,7 @@ public class ModelT4PowerArmorMk2 extends BipedEntityModel {
 
         ModelPartLegacy B01 = new ModelPartLegacy(41, 19);
         B01.setPivot(-0.5F, -0.5F, -0.5F);
-        B01.addCuboid(-4.0F, 0.0F, -2.0F, 9, 6, 5, scale);
+        B01.addCuboid(-4.0F+offsetX, 0.0F, -2.0F, 9, 6, 5, scale);
         ModelPartLegacy B02 = new ModelPartLegacy(48, 0);
         B02.setPivot(-4.5F, 1.5F, -4.5F);
         B02.addCuboid(0.0F, 0.0F, 0.0F, 9, 4, 2, scale);
@@ -150,8 +153,8 @@ public class ModelT4PowerArmorMk2 extends BipedEntityModel {
         B12.addCuboid(-4.0F, 0.0F, -2.0F, 8, 6, 5, new Dilation(0.1F));
 
         ModelPartLegacy RL01 = new ModelPartLegacy(0, 47);
-        RL01.setPivot(-2.5F + LegOffsetX+offsetX, 11.5F + LegOffsetY +offsetY, -0.5F);
-        RL01.addCuboid(-2.0F, 0.0F, -2.0F, 5, 9, 5, scale);
+        RL01.setPivot(-2.5F + LegOffsetX+offsetX_right, 11.5F + LegOffsetY +offsetY2, -0.5F+offsetZ);
+        RL01.addCuboid(-2.5F, -1.0F, -2.5F, 5, 9, 5, scale);
         ModelPartLegacy RL02 = new ModelPartLegacy(21, 56);
         RL02.setPivot(-2.3F + LegOffsetX, 15.5F + LegOffsetY, -3.0F);
         RL02.addCuboid(0.0F, 0.0F, 0.0F, 3, 3, 1, scale);
@@ -172,20 +175,20 @@ public class ModelT4PowerArmorMk2 extends BipedEntityModel {
         LL03.setRotation(0.7853981633974483F, -0.0F, 0.0F);
         ModelPartLegacy LL01 = new ModelPartLegacy(0, 47);
         LL01.mirror = true;
-        LL01.setPivot(1.5F - LegOffsetX+offsetX, 11.5F + LegOffsetY+offsetY, -0.5F);
-        LL01.addCuboid(-2.0F, 0.0F, -2.0F, 5, 9, 5, scale);
+        LL01.setPivot(1.5F - LegOffsetX+offsetX_left, 11.5F + LegOffsetY+offsetY2, -0.5F+offsetZ);
+        LL01.addCuboid(-2.5F, -1.0F, -2.5F, 5, 9, 5, scale);
 
         ModelPartLegacy LB01 = new ModelPartLegacy(103, 0);
-        LB01.setPivot(-2.5F - LegOffsetX-offsetX, 20.5F + LegOffsetY+offsetY, -0.5F);
-        LB01.addCuboid(2.0F, 0.0F, -2.0F, 5, 4, 5, scale);
+        LB01.setPivot(-2.5F - LegOffsetX-offsetX_left, 20.5F + LegOffsetY+offsetY, -0.5F);
+        LB01.addCuboid(-2.5F, 8F, -2.5F, 5, 4, 5, scale);
         ModelPartLegacy LB02 = new ModelPartLegacy(103, 10);
         LB02.mirror = true;
         LB02.setPivot(2.0F - LegOffsetX, 22.0F + LegOffsetY, -2.0F);
         LB02.addCuboid(-2.0F, 0.0F, -2.0F, 4, 2, 2, scale);
 
         ModelPartLegacy RB01 = new ModelPartLegacy(103, 0);
-        RB01.setPivot(-2.5F + LegOffsetX+offsetX, 20.5F + LegOffsetY+offsetY, -0.5F);
-        RB01.addCuboid(-2.0F, 0.0F, -2.0F, 5, 4, 5, scale);
+        RB01.setPivot(-2.5F + LegOffsetX+offsetX_right, 20.5F + LegOffsetY+offsetY, -0.5F);
+        RB01.addCuboid(-2.5F, 8F, -2.5F, 5, 4, 5, scale);
         ModelPartLegacy RB02 = new ModelPartLegacy(103, 10);
         RB02.setPivot(-2.0F + LegOffsetX, 22.0F + LegOffsetY, -2.0F);
         RB02.addCuboid(-2.0F, 0.0F, -2.0F, 4, 2, 2, scale);
@@ -202,7 +205,7 @@ public class ModelT4PowerArmorMk2 extends BipedEntityModel {
 
         ModelPartLegacy P02 = new ModelPartLegacy(0, 38);
         P02.setPivot(-5.0F+offsetX, 9.9F+offsetY, -3.0F);
-        P02.addCuboid(0.0F, 0.0F, 0.0F, 10, 3, 6, scale);
+        P02.addCuboid(-5F, 9.9F, -3.0F, 10, 3, 6, scale);
 
         if (slot == EquipmentSlot.HEAD){
             var head = H01.addTo(modelPartData, EntityModelPartNames.HEAD);

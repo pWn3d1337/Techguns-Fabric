@@ -1,8 +1,12 @@
 package techguns.mixin;
 
+import net.minecraft.client.color.item.ItemColors;
+import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -24,6 +28,8 @@ import techguns.items.guns.GenericGunMeleeCharge;
 import techguns.packets.c2s.PacketClientSwingRecoil;
 import techguns.sounds.TGSoundCategory;
 import techguns.util.SoundUtil;
+
+import java.util.Map;
 
 @Mixin(MinecraftClient.class)
 public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runnable> implements WindowEventHandler{

@@ -16,17 +16,21 @@ import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import techguns.TGCamos;
 import techguns.TGIdentifier;
+import techguns.api.ICamoChangeable;
 import techguns.client.models.armor.TGArmorModelRegistry;
+
+import java.util.List;
 
 public class TGArmorFeatureRenderer <T extends LivingEntity, M extends BipedEntityModel<T>, A extends Model>
         extends FeatureRenderer<T, M> {
 
     protected final TGArmorModelRegistry models;
 
+    //used as fallback texture
     protected static final Identifier armorTexure = new TGIdentifier("textures/armors/powerarmor.png");
-    protected static final Identifier steamArmorTexure = new TGIdentifier("textures/armors/steam_armor.png");
-    protected static final Identifier powerArmorTexureMk2 = new TGIdentifier("textures/armors/powerarmor_mk2.png");
+    protected static final Identifier DEFAULT_CAMO = new TGIdentifier("default");
 
     public TGArmorFeatureRenderer(FeatureRendererContext<T, M> context, TGArmorModelRegistry models) {
         super(context);
@@ -50,7 +54,21 @@ public class TGArmorFeatureRenderer <T extends LivingEntity, M extends BipedEnti
             //this cast is save, getModel will return null when not an ArmorItem
             ArmorItem armorItem = (ArmorItem) armor.getItem();
 
-            this.renderArmorParts(matrices, vertexConsumers, powerArmorTexureMk2, light, armorItem, false, model, EquipmentSlot.LEGS==armorSlot, 1.0f, 1.0f, 1.0f, null);
+            Identifier texture = armorTexure;
+            if (armorItem instanceof ICamoChangeable) {
+                ICamoChangeable camoItem = (ICamoChangeable) armorItem;
+                List<Identifier> camos = camoItem.getCurrentCamoTextures(armor);
+                if (camos !=null && camos.size()>0){
+                    texture = camos.get(0);
+                } else {
+                    //Try default camo
+                    TGCamos.CamoEntry entry = TGCamos.getCamoEntry(armorItem, DEFAULT_CAMO);
+                    if (entry!=null && !entry.textures.isEmpty()) {
+                        texture = entry.textures.get(0);
+                    }
+                }
+            }
+            this.renderArmorParts(matrices, vertexConsumers, texture, light, armorItem, false, model, EquipmentSlot.LEGS==armorSlot, 1.0f, 1.0f, 1.0f, null);
         }
     }
 
