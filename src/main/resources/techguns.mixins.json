@@ -6,6 +6,7 @@
   "mixins": [
     "AbstractBlockMixin",
     "ArmorFeatureRendererMixin",
+    "ArmorStandEntityRendererMixin",
     "DamageSourceMixin",
     "ItemStackMixin",
     "LivingEntityMixin",
@@ -28,6 +29,7 @@
     "LightmapTextureManagerAccessor",
     "LivingEntityRendererMixin",
     "MinecraftClientMixin",
+    "MinecraftClientAccessor",
     "ModelLoaderMixin",
     "ModelPartMixin",
     "MouseMixin",

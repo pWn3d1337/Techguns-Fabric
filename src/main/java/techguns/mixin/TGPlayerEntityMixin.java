@@ -2,10 +2,13 @@ package techguns.mixin;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.tag.FluidTags;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import org.checkerframework.checker.units.qual.A;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 import org.spongepowered.asm.mixin.Unique;
@@ -26,6 +29,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import techguns.TGEntityAttributes;
 import techguns.TGPacketsS2C;
 import techguns.api.entity.AttackTime;
 import techguns.api.entity.ITGExtendedPlayer;
@@ -92,6 +96,25 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	    this.dataTracker.startTracking(TECHGUNS_DATA_CHARGING_WEAPON, false);
 	    this.dataTracker.startTracking(TECHGUNS_SAFE_MODE, false);
 	}
+
+	/**
+	 * Hook for armor miningspeed bonus
+	 */
+	@Inject(at = @At(value="RETURN"), method = "getBlockBreakingSpeed", cancellable = true)
+	protected void getBlockBreakingSpeed(BlockState block, CallbackInfoReturnable<Float> cir){
+		double speedbonus = this.getAttributeValue(TGEntityAttributes.ARMOR_MININGSPEED);
+		double waterspeedbonus = this.getAttributeValue(TGEntityAttributes.ARMOR_WATERMININGSPEED);
+		if (speedbonus != 0.0 || waterspeedbonus != 0.0){
+			float retval = cir.getReturnValue();
+			retval *= (1.0F+speedbonus);
+
+			if (waterspeedbonus != 0.0 && this.isSubmergedIn(FluidTags.WATER) && !EnchantmentHelper.hasAquaAffinity(this)) {
+				retval *= (1.0F+waterspeedbonus);
+			}
+			cir.setReturnValue(retval);
+		}
+	};
+
 
 	@Override
 	public AttackTime getAttackTime(boolean offHand) {
