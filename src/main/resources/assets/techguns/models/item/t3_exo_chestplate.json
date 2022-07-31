@@ -1,6 +1,9 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/t3_exo_chestplate"
+    "layer0": "techguns:items/t3_exo_chestplate_layer1",
+    "layer1": "techguns:items/t3_combat_chestplate_layer2",
+    "layer2": "techguns:items/t3_combat_chestplate_layer3",
+    "layer3": "techguns:items/t3_exo_chestplate_layer4"
   }
 }
