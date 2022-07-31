@@ -83,6 +83,13 @@ public class ModelPart {
         this.pivotZ = pz;
     }
 
+    //This method is used by some Tabula exports
+    public ModelPart setTextureOffset(float u, float v) {
+        this.u += u;
+        this.v += v;
+        return this;
+    }
+
     public void setTextureSize(int texW, int texH) {
         this.texture_width=texW;
         this.texture_height=texH;
