@@ -34,7 +34,9 @@ public class TGRenderHelper extends RenderPhase {
 	}
 	
 	public static final int BRIGHT_LIGHT = 15728880;
-	
+
+	public static net.minecraft.client.render.Shader PARTICLE_SHADER = null;
+
 	protected static float lastBrightnessX=0;
 	protected static float lastBrightnessY=0;
 	
