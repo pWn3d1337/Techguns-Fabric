@@ -30,6 +30,7 @@ public class TGEntities implements ITGInitializer {
 	public static EntityType<SonicShotgunProjectile> SONIC_SHOTGUN_PROJECTILE;
 	public static EntityType<GrapplingHookProjectile> GRAPPLING_HOOK_PROJECTILE;
 	public static EntityType<TeslaProjectile> TESLA_PROJECTILE;
+	public static EntityType<MagicRifleProjectile> MAGIC_RIFLE_PROJECTILE;
 	//Client Only:
 	//public static EntityType<FlyingGibs> FLYING_GIBS;
 
@@ -151,7 +152,12 @@ public class TGEntities implements ITGInitializer {
 
 		ENTITY_SPAWN_PACKET_MAP.put(TESLA_PROJECTILE, TeslaProjectile::new);
 
+		MAGIC_RIFLE_PROJECTILE = Registry.register(
+				Registry.ENTITY_TYPE,
+				new TGIdentifier("magic_rifle_projectile"),
+				FabricEntityTypeBuilder.<MagicRifleProjectile>create(SpawnGroup.MISC, MagicRifleProjectile::new).dimensions(EntityDimensions.fixed(0.25f, 0.25f)).build());
 
+		ENTITY_SPAWN_PACKET_MAP.put(MAGIC_RIFLE_PROJECTILE, MagicRifleProjectile::new);
 
 		//Hostile NPC registration
 		ZOMBIE_SOLDIER = register_creature("zombie_soldier", ZombieSoldier::new, ZombieSoldier.createHostileAttributes(), humanSize());

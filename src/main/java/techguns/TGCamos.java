@@ -53,6 +53,13 @@ public class TGCamos implements ITGInitializer {
 		registerCamo(TGuns.PDW, new TGIdentifier("silver"), new TGIdentifier("textures/guns/pdw_1.png"));
 		registerCamo(TGuns.PDW, new TGIdentifier("green"), new TGIdentifier("textures/guns/pdw_2.png"));
 
+		registerCamo(TGuns.MAGIC_RIFLE, DEFAULT, new TGIdentifier("textures/guns/magic_rifle.png"));
+		registerCamo(TGuns.MAGIC_RIFLE, new TGIdentifier("basic"), new TGIdentifier("textures/guns/magic_rifle_basic.png"));
+		registerCamo(TGuns.MAGIC_RIFLE, new TGIdentifier("rusty"), new TGIdentifier("textures/guns/magic_rifle_rusty.png"));
+		registerCamo(TGuns.MAGIC_RIFLE, new TGIdentifier("black"), new TGIdentifier("textures/guns/magic_rifle_black.png"));
+		registerCamo(TGuns.MAGIC_RIFLE, new TGIdentifier("silver"), new TGIdentifier("textures/guns/magic_rifle_silver.png"));
+		registerCamo(TGuns.MAGIC_RIFLE, new TGIdentifier("ivory"), new TGIdentifier("textures/guns/magic_rifle_ivory.png"));
+
 		//Armors
 		Identifier powerArmorTexure = new TGIdentifier("textures/armors/powerarmor.png");
 		Identifier powerArmorTexure_dark = new TGIdentifier("textures/armors/powerarmor_dark.png");

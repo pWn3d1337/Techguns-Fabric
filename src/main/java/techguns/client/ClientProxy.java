@@ -509,6 +509,17 @@ public class ClientProxy implements ClientModInitializer {
 						{0f,0f,-0.05f} //frame
 				}).setMuzzleFXPos3P(0.12f, -0.65f).setRecoilAnim(GunAnimation.genericRecoil, 0.15f, 5.0f).setAdsOffsets(0.001f, -0.036f, 0f).setScopeRecoilAnim(GunAnimation.genericRecoil, 0.05f, 2.0f));
 
+		TGRenderRegistries.registerItemRenderer(TGuns.MAGIC_RIFLE,new RenderGunBase90(new ModelMagicRifle(),1, new TGIdentifier("textures/guns/magic_rifle.png")).setBaseTranslation(0, -0.2f, RenderItemBase.SCALE-0.1f)
+				.setGUIScale(0.40f).setMuzzleFx(ScreenEffect.muzzleFlash_gun, 0, 0.16f, -1.5f, 1.1f,0).setReloadAnim(GunAnimation.breechReload, -0.15f, 55.0f).setReloadAnim3p(GunAnimation.breechReload, 0f, 55.0f).setTransformTranslations(new float[][]{
+						{-0.1f, 0.13f,-0.02f}, //First Person
+						{0.0f,-0.05f,-0.09f}, //Third Person
+						{0.05f,0.0f,0}, //GUI
+						{0.0f,0.0f,0}, //Ground
+						{0,0,0f} //frame
+				}).setMuzzleFXPos3P(0.03f, -0.69f).setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 25.0f));
+
+
+
 		register_armor_itemrenderers();
 
 		EntityRendererRegistry.register(TGEntities.GENERIC_PROJECTILE, (context) -> {
@@ -566,6 +577,11 @@ public class ClientProxy implements ClientModInitializer {
 		EntityRendererRegistry.register(TGEntities.TESLA_PROJECTILE, (context) -> {
 			return new RenderGenericBeamProjectile(context);
 		});
+
+		EntityRendererRegistry.register(TGEntities.MAGIC_RIFLE_PROJECTILE, (context) -> {
+			return new GenericProjectileRenderer(context);
+		});
+
 //		EntityRendererRegistry.register(TGEntities.FLYING_GIBS, (context -> {
 //			return new RenderFlyingGibs(context.getRenderDispatcher());
 //		});

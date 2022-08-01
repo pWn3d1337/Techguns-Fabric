@@ -45,7 +45,7 @@ public class Keybinds implements ITGInitializer{
 	public KeyBinding DEBUG_OFFSET_RESET;
 	public KeyBinding DEBUG_OFFSET_PRINT;
 
-	public static double OFFSET_INCREMENT = 0.1D;
+	public static double OFFSET_INCREMENT = 0.05D;
 	public static double OFFSET_X = 0.0D;
 	public static double OFFSET_Y = 0.0D;
 	public static double OFFSET_Z = 0.0D;
