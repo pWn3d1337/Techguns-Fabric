@@ -11,7 +11,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import techguns.TGIdentifier;
 import techguns.Techguns;
 import techguns.client.render.TGRenderHelper;
 
@@ -29,7 +28,7 @@ public abstract class GameRendererMixin implements SynchronousResourceReloader,
     @Inject(at = @At(value="INVOKE", target = "Ljava/util/List;add(Ljava/lang/Object;)Z", ordinal = 0), method = "loadShaders", locals = LocalCapture.CAPTURE_FAILHARD)
     protected void loadShaders(ResourceManager manager, CallbackInfo ci, List list, List list2) throws IOException {
         ((ArrayList<Pair<Shader, Consumer<Shader>>>)list2).add(Pair.of(new Shader(manager, particle_alpha_shader, VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL), (Shader shader) -> {
-            TGRenderHelper.PARTICLE_SHADER = shader;
+            TGRenderHelper.particleShader = shader;
         }));
     }
 }

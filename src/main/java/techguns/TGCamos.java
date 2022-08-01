@@ -294,21 +294,21 @@ public class TGCamos implements ITGInitializer {
 		Identifier t3exoTexture_green = new TGIdentifier("textures/armors/t3_exo_green_layer_1.png");
 		Identifier t3exoTexture_silver = new TGIdentifier("textures/armors/t3_exo_silver_layer_1.png");
 
-		registerCamo(TGArmors.T3_EXO_HELMET, DEFAULT, new int[]{0x384a57, 0xe9feff, 0x5146e3, 0x8e8e8e}, t3exoTexture);
-		registerCamo(TGArmors.T3_EXO_HELMET, t3combatCamo_green, new int[]{0x015409, 0x20231b, 0x585858, 0x20231b}, t3exoTexture_green);
-		registerCamo(TGArmors.T3_EXO_HELMET, t3combatCamo_silver, new int[]{0x4a4a4a, 0xcfdbd9, 0xd1d15d, 0x8e8e8e}, t3exoTexture_silver);
+		registerCamo(TGArmors.T3_EXO_HELMET, DEFAULT, new int[]{0x384a57, 0xe9feff, 0x5146e3, 0xB0B0B0}, t3exoTexture);
+		registerCamo(TGArmors.T3_EXO_HELMET, t3combatCamo_green, new int[]{0x015409, 0x20231b, 0x585858, 0x303030}, t3exoTexture_green);
+		registerCamo(TGArmors.T3_EXO_HELMET, t3combatCamo_silver, new int[]{0x4a4a4a, 0xcfdbd9, 0xd1d15d, 0xB0B0B0}, t3exoTexture_silver);
 
-		registerCamo(TGArmors.T3_EXO_CHESTPLATE, DEFAULT, new int[]{0x384a57, 0xe9feff, 0xFF0000, 0x8e8e8e}, t3exoTexture);
-		registerCamo(TGArmors.T3_EXO_CHESTPLATE, t3combatCamo_green, new int[]{0x015409, 0x20231b, 0xFFFFFF, 0x20231b}, t3exoTexture_green);
-		registerCamo(TGArmors.T3_EXO_CHESTPLATE, t3combatCamo_silver, new int[]{0x4a4a4a, 0xcfdbd9, 0xcfdbd9, 0x8e8e8e}, t3exoTexture_silver);
+		registerCamo(TGArmors.T3_EXO_CHESTPLATE, DEFAULT, new int[]{0x384a57, 0xe9feff, 0xFF0000, 0xB0B0B0}, t3exoTexture);
+		registerCamo(TGArmors.T3_EXO_CHESTPLATE, t3combatCamo_green, new int[]{0x015409, 0x20231b, 0xFFFFFF, 0x303030}, t3exoTexture_green);
+		registerCamo(TGArmors.T3_EXO_CHESTPLATE, t3combatCamo_silver, new int[]{0x4a4a4a, 0xcfdbd9, 0xcfdbd9, 0xB0B0B0}, t3exoTexture_silver);
 
-		registerCamo(TGArmors.T3_EXO_LEGGINGS, DEFAULT, new int[]{0x384a57, 0xe9feff, 0x8e8e8e}, new TGIdentifier("textures/armors/t3_exo_layer_2.png"));
-		registerCamo(TGArmors.T3_EXO_LEGGINGS, t3combatCamo_green, new int[]{0x015409, 0x20231b, 0x20231b}, new TGIdentifier("textures/armors/t3_exo_green_layer_2.png"));
-		registerCamo(TGArmors.T3_EXO_LEGGINGS, t3combatCamo_silver, new int[]{0x4a4a4a, 0xcfdbd9, 0x8e8e8e}, new TGIdentifier("textures/armors/t3_exo_silver_layer_2.png"));
+		registerCamo(TGArmors.T3_EXO_LEGGINGS, DEFAULT, new int[]{0x384a57, 0xe9feff, 0xA5A5A5}, new TGIdentifier("textures/armors/t3_exo_layer_2.png"));
+		registerCamo(TGArmors.T3_EXO_LEGGINGS, t3combatCamo_green, new int[]{0x015409, 0x20231b, 0x303030}, new TGIdentifier("textures/armors/t3_exo_green_layer_2.png"));
+		registerCamo(TGArmors.T3_EXO_LEGGINGS, t3combatCamo_silver, new int[]{0x4a4a4a, 0xcfdbd9, 0xA5A5A5}, new TGIdentifier("textures/armors/t3_exo_silver_layer_2.png"));
 
-		registerCamo(TGArmors.T3_EXO_BOOTS, DEFAULT, new int[]{0x384a57, 0xe9feff}, t3exoTexture);
-		registerCamo(TGArmors.T3_EXO_BOOTS, t3combatCamo_green, new int[]{0x015409, 0x20231b}, t3exoTexture_green);
-		registerCamo(TGArmors.T3_EXO_BOOTS, t3combatCamo_silver, new int[]{0x4a4a4a, 0xcfdbd9}, t3exoTexture_silver);
+		registerCamo(TGArmors.T3_EXO_BOOTS, DEFAULT, new int[]{0x384a57, 0xe9feff, 0xB0B0B0}, t3exoTexture);
+		registerCamo(TGArmors.T3_EXO_BOOTS, t3combatCamo_green, new int[]{0x015409, 0x20231b, 0x303030}, t3exoTexture_green);
+		registerCamo(TGArmors.T3_EXO_BOOTS, t3combatCamo_silver, new int[]{0x4a4a4a, 0xcfdbd9, 0xB0B0B0}, t3exoTexture_silver);
 
 
 		FabricItemGroupBuilder.create(
