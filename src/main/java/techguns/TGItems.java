@@ -64,6 +64,10 @@ public class TGItems implements ITGInitializer {
 	public static Item GAUSSRIFLE_SLUGS;
 
 	public static Item NETHER_CHARGE;
+	public static Item MAGIC_BULLET;
+	public static Item MAGIC_BULLET_LIGHTNING;
+	public static Item MAGIC_BULLET_FIRE;
+
 	/**
 	 * MATERIALS
 	 */
@@ -328,6 +332,10 @@ public class TGItems implements ITGInitializer {
 		GAUSSRIFLE_SLUGS = addItem("gaussrifleslugs", TGSlotType.AMMOSLOT);
 
 		NETHER_CHARGE = addItem("nethercharge", TGSlotType.AMMOSLOT);
+
+		MAGIC_BULLET = addItem("magic_bullet", TGSlotType.AMMOSLOT);
+		MAGIC_BULLET_FIRE = addItem("magic_bullet_fire", TGSlotType.AMMOSLOT);
+		MAGIC_BULLET_LIGHTNING = addItem("magic_bullet_lightning", TGSlotType.AMMOSLOT);
 
 		/**
 		 * GUNPARTS

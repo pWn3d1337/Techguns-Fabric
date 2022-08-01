@@ -29,12 +29,17 @@ public class AmmoTypes implements ITGInitializer{
 	public static AmmoType REDSTONE_BATTERY;
 	
 	public static AmmoType AMMO_GAUSS_RIFLE;
+
+	public static AmmoType MAGIC_BULLETS;
 	
 	public static final String TYPE_INCENDIARY = "incendiary";
 	public static final String TYPE_DEFAULT = "default";
 	public static final String TYPE_NUKE = "nuke";
 	public static final String TYPE_EXPLOSIVE = "explosive";
 	public static final String TYPE_HV = "high_velocity";
+
+	public static final String TYPE_FIRE = "fire";
+	public static final String TYPE_LIGHTNING = "lightning";
 	
 	@Override
 	public void init() {
@@ -85,6 +90,10 @@ public class AmmoTypes implements ITGInitializer{
 		NUCLEAR_POWER_CELL = new AmmoType(TGItems.NUCLEAR_POWERCELL, TGItems.NUCLEAR_POWERCELL_EMPTY, ItemStack.EMPTY,0);
 		
 		AMMO_GAUSS_RIFLE = new AmmoType(new ItemStack[] {new ItemStack(TGItems.GAUSSRIFLE_SLUGS), new ItemStack(TGItems.ENERGY_CELL)}, new ItemStack[] {ItemStack.EMPTY, new ItemStack(TGItems.ENERGY_CELL_EMPTY)}, new ItemStack[] {new ItemStack(TGItems.GAUSSRIFLE_SLUGS), ItemStack.EMPTY},  1);
+
+		MAGIC_BULLETS = new AmmoType(TGItems.MAGIC_BULLET);
+		MAGIC_BULLETS.addVariant(TYPE_FIRE,TGItems.MAGIC_BULLET_FIRE);
+		MAGIC_BULLETS.addVariant(TYPE_LIGHTNING,TGItems.MAGIC_BULLET_LIGHTNING);
 	}
 
 }

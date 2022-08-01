@@ -21,6 +21,7 @@ import techguns.api.entity.ITGShooterValues;
 import techguns.api.guns.GunManager;
 import techguns.api.guns.IGenericGun;
 import techguns.client.ClientProxy;
+import techguns.client.Keybinds;
 import techguns.client.models.ModelMultipart;
 import techguns.client.render.fx.IScreenEffect;
 import techguns.client.render.math.TGMatrixOps;
@@ -511,6 +512,13 @@ public class RenderGunBase extends RenderItemBase {
 			float scale = this.muzzleFX_scale;
 			float offsetX = x;
 			float offsetY = this.muzzleFX_y;
+			float offsetZ = this.muzzleFX_z;
+
+			//DEBUG:
+//			offsetX += (float) Keybinds.OFFSET_X;
+//			offsetY += (float) Keybinds.OFFSET_Y;
+//			offsetZ += (float) Keybinds.OFFSET_Z;
+
 			if (this.mf_jitterScale > 0.0f) scale += mf_jitterScale*cp.muzzleFlashJitterScale;
 			if (this.mf_jitterX > 0.0f) offsetX += mf_jitterX*cp.muzzleFlashJitterX;
 			if (this.mf_jitterY > 0.0f) offsetY += mf_jitterY*cp.muzzleFlashJitterY;
@@ -518,7 +526,7 @@ public class RenderGunBase extends RenderItemBase {
 
 			//this.muzzleFX.doRender(progress, (x+Keybinds.X)/*+leftOffset*/, this.muzzleFX_y+Keybinds.Y, this.muzzleFX_z+Keybinds.Z, this.muzzleFX_scale, false);
 			
-			this.muzzleFX.doRender(matrices, verticesProvider, progress, offsetX, offsetY, this.muzzleFX_z, scale, false);
+			this.muzzleFX.doRender(matrices, verticesProvider, progress, offsetX, offsetY, offsetZ, scale, false);
 			
 		}
 	}

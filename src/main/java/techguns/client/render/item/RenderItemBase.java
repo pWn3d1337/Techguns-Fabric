@@ -9,6 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import techguns.api.render.IItemRenderer;
+import techguns.client.Keybinds;
 import techguns.client.models.ModelMultipart;
 import techguns.client.render.math.TGMatrixOps;
 
@@ -157,7 +158,13 @@ public class RenderItemBase implements IItemRenderer {
 		}
 		if (index >= 0) {
 			float mirror = flip?-1.0f:1.0f;
-			//GlStateManager.translate((translateType[index][0]+Keybinds.X)*mirror, translateType[index][1]+Keybinds.Y, translateType[index][2]+Keybinds.Z);
+
+			//DEBUG
+//			double xoffset = Keybinds.OFFSET_X;
+//			double yoffset = Keybinds.OFFSET_Y;
+//			double zoffset = Keybinds.OFFSET_Z;
+//			matrices.translate((translateType[index][0] + xoffset)*mirror, translateType[index][1] + yoffset, translateType[index][2] + zoffset);
+
 			matrices.translate((translateType[index][0])*mirror, translateType[index][1], translateType[index][2]);
 		}
 	}
