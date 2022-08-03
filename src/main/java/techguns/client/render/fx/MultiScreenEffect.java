@@ -14,12 +14,12 @@ public class MultiScreenEffect implements IScreenEffect {
 	public MultiScreenEffect() {
 	}
 	
-	public void doRender(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, float offsetX, float offsetY, float offsetZ, float scale, float rot_x, float rot_y, float rot_z, boolean is3p) {
+	public void doRender(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, float offsetX, float offsetY, float offsetZ, float scale, float rot_x, float rot_y, float rot_z, boolean is3p, String ammoVariant) {
 		int i = 0;
 		for (EffectEntry entry : effects) {		
 			if (progress > entry.start && progress < entry.end) {
 				float prog = (progress - entry.start) / (entry.end-entry.start); //Math.max(0.0f,Math.min(1.0f, (progress - entry.start) / (entry.end-entry.start)));
-				entry.effect.doRender(matrices, verticesProvider, prog, offsetX, offsetY, offsetZ + z_offset * i, scale * entry.scale, rot_x, rot_y, rot_z, is3p);
+				entry.effect.doRender(matrices, verticesProvider, prog, offsetX, offsetY, offsetZ + z_offset * i, scale * entry.scale, rot_x, rot_y, rot_z, is3p, ammoVariant);
 				i++;
 			}		
 		}

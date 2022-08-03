@@ -277,7 +277,7 @@ public class TGuns implements ITGInitializer {
 
 		GRAPPLING_HOOK = reg(new GrapplingHook("grapplinghook", GRAPPLING_HOOK_PROJECTILES, true, 6, 100,25,1.0f, null, TGSounds.POWERHAMMER_RELOAD, MAX_RANGE_RIFLE, 0.0f,30.0f,1).setChargeSound(TGSounds.GRAPPLING_HOOK_FIRE).setFireWhileCharging(true).setShootWithLeftClick(false).setHandType(GunHandType.ONE_HANDED).setBulletSpeed(2.5f).setGravity(0.005d).setPenetration(PENETRATION_LOW).setAIStats(RANGE_SHORT, 30, 0, 0).setDamageDrop(8, 15, 0.5f).setForwardOffset(0.40f).setCrossHair(EnumCrosshairStyle.TRI));
 
-		MAGIC_RIFLE = reg(new GenericGunCharge("magicrifle", MAGIC_RIFLE_PROJECTILES, true, 6, 1,2,25.0f, TGSounds.HANDGUN_FIRE, TGSounds.HANDGUN_RELOAD, MAX_RANGE_RIFLE, 0.05f,30.0f,1).setChargeSound(TGSounds.TFG_CHARGE).setChargeFX("tfgcharge",-0.12f, -0.07f, 0.27f).setBulletSpeed(2.5f).setDamageDrop(40, 60, 10.0f).setPenetration(PENETRATION_LOW).setAIStats(RANGE_FAR, 60, 0, 0).setTurretPosOffset(0, 0, 0.14f));
+		MAGIC_RIFLE = reg(new GenericGunCharge("magicrifle", MAGIC_RIFLE_PROJECTILES, true, 6, 1,2,25.0f, TGSounds.HANDGUN_FIRE, TGSounds.HANDGUN_RELOAD, MAX_RANGE_RIFLE, 0.05f,60.0f,1).setChargeSound(TGSounds.TFG_CHARGE).setChargeFX("tfgcharge",-0.12f, -0.07f, 0.27f).setBulletSpeed(2.5f).setDamageDrop(40, 60, 10.0f).setPenetration(PENETRATION_LOW).setAIStats(RANGE_FAR, 60, 0, 0).setTurretPosOffset(0, 0, 0.14f));
 
 
 	}

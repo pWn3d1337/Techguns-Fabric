@@ -1,5 +1,7 @@
 package techguns.entities.projectiles;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LightningEntity;
@@ -14,6 +16,8 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import techguns.TGEntities;
@@ -28,6 +32,7 @@ import techguns.items.guns.ammo.AmmoType;
 import techguns.items.guns.ammo.AmmoTypes;
 import techguns.items.guns.ammo.AmmoVariant;
 import techguns.packets.PacketSpawnParticle;
+import techguns.util.MathUtil;
 
 import java.util.HashMap;
 import java.util.function.BiConsumer;
@@ -47,6 +52,7 @@ public class MagicRifleProjectile extends GenericProjectile{
     }
 
     public float chargeAmount = 0.0f;
+    public int postImpactTicks = 0;
 
     public MagicRifleProjectile(EntityType<? extends ProjectileEntity> entityType, World world) {
         super(entityType, world);
@@ -66,6 +72,26 @@ public class MagicRifleProjectile extends GenericProjectile{
     
     protected MagicRifleProjectileType getProjType() {
         return MagicRifleProjectile.ProjectileTypeMap.get(this.getProjectileType());
+    }
+
+    @Override
+    public void tick() {
+        System.out.println("post_impact_ticks: "+this.postImpactTicks);
+        if (this.postImpactTicks-- > 0) {
+            getProjType().handlePostImpactTick(this);
+            if (this.postImpactTicks <= 0) {
+                super.markForRemoval();
+            }
+        }else {
+            super.tick();
+        }
+    }
+
+    @Override
+    protected void markForRemoval() {
+        if (!getProjType().handleRemoval(this)) {
+            super.markForRemoval();
+        }
     }
 
     protected void onBlockHit(BlockHitResult blockHitResult) {
@@ -115,6 +141,14 @@ public class MagicRifleProjectile extends GenericProjectile{
 
     public static class MagicRifleProjectileType {
 
+        public void handlePostImpactTick(MagicRifleProjectile proj) {
+            return;
+        }
+
+        public boolean handleRemoval(MagicRifleProjectile proj) {
+            return false;
+        }
+
         public void handleEntityHit(MagicRifleProjectile proj, LivingEntity livingEntity, EntityHitResult entityHitResult) {
             return;
         }
@@ -155,17 +189,53 @@ public class MagicRifleProjectile extends GenericProjectile{
 
     }
     static class MagicRifleProjectileTypeLightning extends MagicRifleProjectileType {
+        public void handleEntityHit(MagicRifleProjectile proj, LivingEntity livingEntity, EntityHitResult entityHitResult) {
+            //if (proj.chargeAmount > 0.25f) {
+                BlockPos blockPos = getFreeBlockPos(proj.world, (float) livingEntity.getX(), (float) livingEntity.getY(), (float) livingEntity.getZ());
+                if (blockPos != null) {
+                    createLightning(proj, blockPos);
+                }
+            //}
+        }
         public void handleBlockHit(MagicRifleProjectile proj, BlockHitResult blockHitResult) {
-            if (proj.chargeAmount > 0.5f) {
+            //if (proj.chargeAmount > 0.25f) {
                 BlockPos blockPos = blockHitResult.getBlockPos();
-                //if (world.isThundering() && projectile instanceof TridentEntity && ((TridentEntity)projectile).hasChanneling() && world.isSkyVisible(blockPos = hit.getBlockPos())) {
-                LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(proj.world);
-                lightningEntity.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(blockPos.up()));
-                Entity entity = proj.getOwner();
-                lightningEntity.setChanneler(entity instanceof ServerPlayerEntity ? (ServerPlayerEntity) entity : null);
-                proj.world.spawnEntity(lightningEntity);
-                proj.world.playSound(null, blockPos, SoundEvents.ITEM_TRIDENT_THUNDER, SoundCategory.WEATHER, 5.0f, 1.0f);
+                createLightning(proj, blockPos);
+            //}
+        }
+
+        public boolean handleRemoval(MagicRifleProjectile proj) {
+            if (proj.ticksToLive > 0 && proj.chargeAmount > 0.25f) {
+                proj.postImpactTicks = 10 + (int)(proj.chargeAmount* 30);
+                System.out.println("set post_impact_ticks: "+proj.postImpactTicks);
+                return true;
             }
+            return false;
+        }
+        public void handlePostImpactTick(MagicRifleProjectile proj) {
+            if (proj.postImpactTicks % 8 == 0) { //Spawn lightning every 8 ticks
+                BlockPos blockPos = getFreeBlockPos(proj.world, (float) proj.getX(), (float) proj.getY(), (float) proj.getZ());
+                createLightning(proj, blockPos);
+            }
+            if (proj.postImpactTicks % 4 == 0 && proj.chargeAmount*0.5f > proj.world.random.nextFloat()) {
+                Vec2f pos = MathUtil.polarOffsetXZ(proj.getX(), proj.getZ(),
+                        proj.world.random.nextFloat() * proj.chargeAmount*5.0f,
+                        proj.random.nextFloat()*(float)(Math.PI*2.0));
+                BlockPos blockPos = getFreeBlockPos(proj.world, pos.x, (float) proj.getY(), pos.y);
+                if (blockPos != null) {
+                    createLightning(proj, blockPos);
+                }
+            }
+        }
+
+        private void createLightning(MagicRifleProjectile proj, BlockPos blockPos) {
+            //if (world.isThundering() && projectile instanceof TridentEntity && ((TridentEntity)projectile).hasChanneling() && world.isSkyVisible(blockPos = hit.getBlockPos())) {
+            LightningEntity lightningEntity = EntityType.LIGHTNING_BOLT.create(proj.world);
+            lightningEntity.refreshPositionAfterTeleport(Vec3d.ofBottomCenter(blockPos.up()));
+            Entity entity = proj.getOwner();
+            lightningEntity.setChanneler(entity instanceof ServerPlayerEntity ? (ServerPlayerEntity) entity : null);
+            proj.world.spawnEntity(lightningEntity);
+            proj.world.playSound(null, blockPos, SoundEvents.ITEM_TRIDENT_THUNDER, SoundCategory.WEATHER, 5.0f, 1.0f);
         }
 
 //        public void createFXTrail(MagicRifleProjectile proj) {
@@ -174,6 +244,34 @@ public class MagicRifleProjectile extends GenericProjectile{
 
     }
 
+    public static BlockPos getFreeBlockPos(World world, float x, float y, float z) {
+        // Get nearest blockpos that is not Air and has Air above it
+        int a = MathHelper.floor(x);
+        int b = MathHelper.floor(y);
+        int c = MathHelper.floor(z);
+        BlockPos blockPos = new BlockPos(a, b, c);
+
+        if (!world.getBlockState(blockPos).isAir() && (world.getBlockState(blockPos.up()).isAir() || world.getBlockState(blockPos.up()).getBlock() == Blocks.FIRE)) {
+            return blockPos;
+        }
+
+        //check down
+        int checkblocks = 3;
+        for (int i = 0; i < checkblocks; i++) {
+            BlockPos bpos = blockPos.down(i+1);
+            if (!world.getBlockState(bpos).isAir() && (world.getBlockState(bpos.up()).isAir() || world.getBlockState(bpos.up()).getBlock() == Blocks.FIRE)) {
+                return bpos;
+            }
+        }
+        //check up
+        for (int i = 0; i < checkblocks; i++) {
+            BlockPos bpos = blockPos.up(i+1);
+            if (!world.getBlockState(bpos).isAir() && (world.getBlockState(bpos.up()).isAir() || world.getBlockState(bpos.up()).getBlock() == Blocks.FIRE)) {
+                return bpos;
+            }
+        }
+        return null;
+    }
 
 //
 //    public enum MagicProjectileType {

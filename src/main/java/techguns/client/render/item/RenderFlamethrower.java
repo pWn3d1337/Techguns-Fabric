@@ -18,20 +18,20 @@ public class RenderFlamethrower extends RenderGunBase90{
     }
 
     @Override
-    protected void drawIdleFx(LivingEntity entity, MatrixStack matrices, VertexConsumerProvider verticesProvider, boolean leftHand) {
+    protected void drawIdleFx(LivingEntity entity, MatrixStack matrices, VertexConsumerProvider verticesProvider, boolean leftHand, String ammoVariant) {
         if (entity !=null && !entity.isSubmergedInWater()) {
             float p = ((float)(MinecraftClient.getInstance().world.getTime() % 20) / 20.0f);
-            float x= leftHand?this.muzzleFX_x_l:this.muzzleFX_x_r;
-            ScreenEffect.FlamethrowerMuzzleFlame.doRender(matrices, verticesProvider, p, x, this.muzzleFX_y, this.muzzleFX_z, this.muzzleFX_scale*0.5f, false);
+            float x= leftHand?this.muzzleEffect.offsetX_l:this.muzzleEffect.offsetX_r;
+            ScreenEffect.FlamethrowerMuzzleFlame.doRender(matrices, verticesProvider, p, x, this.muzzleEffect.offsetY, this.muzzleEffect.offsetZ, this.muzzleEffect.effectScale*0.5f, false, ammoVariant);
         }
     }
 
     @Override
-    protected void drawIdleFx3P(LivingEntity entity, MatrixStack matrices, VertexConsumerProvider verticesProvider, boolean leftHand) {
+    protected void drawIdleFx3P(LivingEntity entity, MatrixStack matrices, VertexConsumerProvider verticesProvider, boolean leftHand, String ammoVariant) {
         if (entity!=null && !entity.isSubmergedInWater()) {
             float p = ((float)(MinecraftClient.getInstance().world.getTime()  % 20) / 20.0f);
-            float x= leftHand?this.muzzleFX_x_l:this.muzzleFX_x_r;
-            ScreenEffect.FlamethrowerMuzzleFlame.doRender(matrices, verticesProvider, p, 0, this.muzzleFX_3p_y, this.muzzleFX_3p_z, this.muzzleFX_scale*0.5f*this.muzzleFX_3p_scale, true);
+            float x= leftHand?this.muzzleEffect.offsetX_l:this.muzzleEffect.offsetX_r;
+            ScreenEffect.FlamethrowerMuzzleFlame.doRender(matrices, verticesProvider, p, 0, this.muzzleEffect.offsetY_3p, this.muzzleEffect.offsetZ_3p, this.muzzleEffect.effectScale*0.5f*this.muzzleEffect.effectScale_3p, true, ammoVariant);
         }
     }
 }

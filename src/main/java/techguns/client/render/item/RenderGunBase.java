@@ -23,6 +23,7 @@ import techguns.api.guns.IGenericGun;
 import techguns.client.ClientProxy;
 import techguns.client.Keybinds;
 import techguns.client.models.ModelMultipart;
+import techguns.client.render.fx.GunEffect;
 import techguns.client.render.fx.IScreenEffect;
 import techguns.client.render.math.TGMatrixOps;
 import techguns.items.guns.GenericGunCharge;
@@ -31,24 +32,27 @@ import techguns.util.MathUtil;
 
 public class RenderGunBase extends RenderItemBase {
 
-	protected IScreenEffect muzzleFX= null; //ScreenEffect.muzzleFlash2;
-	
+//	protected IScreenEffect muzzleFX= null; //ScreenEffect.muzzleFlash2;
+
+	protected GunEffect muzzleEffect = null;
+	protected GunEffect chargeEffect = null;
+
 	protected IScreenEffect scope=null;
 	
-	protected float muzzleFX_x_l=0f;
-	protected float muzzleFX_x_r=0f;
-	protected float muzzleFX_y=0f;
-	protected float muzzleFX_z=0f;
-	protected float muzzleFX_scale=1.0f;
-
-	protected float muzzleFX_3p_y=0f;
-	protected float muzzleFX_3p_z=0f;
-	protected float muzzleFX_3p_scale=0.5f;
-		
-	protected float mf_jitterX = 0f;
-	protected float mf_jitterY = 0f;
-	protected float mf_jitterAngle = 0f;
-	protected float mf_jitterScale = 0f;
+//	protected float muzzleFX_x_l=0f;
+//	protected float muzzleFX_x_r=0f;
+//	protected float muzzleFX_y=0f;
+//	protected float muzzleFX_z=0f;
+//	protected float muzzleFX_scale=1.0f;
+//
+//	protected float muzzleFX_3p_y=0f;
+//	protected float muzzleFX_3p_z=0f;
+//	protected float muzzleFX_3p_scale=0.5f;
+//
+//	protected float mf_jitterX = 0f;
+//	protected float mf_jitterY = 0f;
+//	protected float mf_jitterAngle = 0f;
+//	protected float mf_jitterScale = 0f;
 	
 	protected GunAnimation recoilAnim = GunAnimation.genericRecoil;
 	protected float[] recoilParams = new float[] {0.15f, 5.0f};
@@ -70,6 +74,7 @@ public class RenderGunBase extends RenderItemBase {
 	protected float chargeTranslation=0.25f;
 	
 	Identifier texture;
+
 	
 	/*public RenderGunBase(ModelMultipart model, int parts) {
 		super(model, null);
@@ -167,17 +172,35 @@ public class RenderGunBase extends RenderItemBase {
 	}
 
 	public RenderGunBase setMuzzleFx(IScreenEffect muzzleFX, float x, float y, float z, float scale, float x_l){
-		this.muzzleFX=muzzleFX;
-		this.muzzleFX_x_r=x;
-		this.muzzleFX_x_l=x_l;
-		this.muzzleFX_y=y;
-		this.muzzleFX_z=z;
-		this.muzzleFX_scale=scale;
+		this.muzzleEffect = new GunEffect(muzzleFX, x, x_l, y, z, scale);
 		return this;
 	}
 	public RenderGunBase setMuzzleFXPos3P(float y, float z) {
-		this.muzzleFX_3p_y=y;
-		this.muzzleFX_3p_z=z;
+		if (this.muzzleEffect != null) {
+			this.muzzleEffect.offsetY_3p = y;
+			this.muzzleEffect.offsetZ_3p = z;
+		}
+		return this;
+	}
+
+	public RenderGunBase setChargeFx(IScreenEffect muzzleFX, float x, float y, float z, float scale, float x_l){
+		this.chargeEffect = new GunEffect(muzzleFX, x, x_l, y, z, scale);
+		return this;
+	}
+	public RenderGunBase setChargeFXPos3P(float y, float z) {
+		if (this.chargeEffect != null) {
+			this.chargeEffect.offsetY_3p = y;
+			this.chargeEffect.offsetZ_3p = z;
+		}
+		return this;
+	}
+
+	public RenderGunBase setChargeFXPos3P(float y, float z, float scale) {
+		if (this.chargeEffect != null) {
+			this.chargeEffect.offsetY_3p = y;
+			this.chargeEffect.offsetZ_3p = z;
+			this.chargeEffect.effectScale_3p = scale;
+		}
 		return this;
 	}
 	
@@ -250,7 +273,9 @@ public class RenderGunBase extends RenderItemBase {
 				int dur = entityIn.getItemUseTime();
 
 				chargeProgress = dur / ((GenericGunCharge)stack.getItem()).fullChargeTime;
-				
+
+				System.out.println("chargeProgess = "+chargeProgress);
+
 				if (chargeProgress < 0.0f) {
 					chargeProgress = 0.0f;
 				} else if (chargeProgress > 1.0f) {
@@ -381,8 +406,12 @@ public class RenderGunBase extends RenderItemBase {
 			//TODO add item particles
 			//this.renderItemParticles(matrices, entityIn, transform, ClientProxy.get().PARTIAL_TICK_TIME);
 			matrices.pop();
+
+			String ammoVariant = gun.getCurrentAmmoVariantKey(stack);
 			
 			//Draw muzzle FX
+			//System.out.println("muzzleFlashProgress = "+muzzleFlashProgress);
+
 			if (muzzleFlashProgress>0){
 				if (Mode.FIRST_PERSON_LEFT_HAND== transform || Mode.FIRST_PERSON_RIGHT_HAND == transform ) {
 
@@ -390,21 +419,33 @@ public class RenderGunBase extends RenderItemBase {
 						this.transformADS(matrices, zoomProgress);
 					}
 
-					this.drawMuzzleFx(matrices, vertexConsumers, muzzleFlashProgress, attackType, leftHand);
+					this.drawMuzzleFx(matrices, vertexConsumers, muzzleFlashProgress, attackType, leftHand, ammoVariant);
 				} else {
 					matrices.push();
 					this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo), leftHand);
-					this.drawMuzzleFx3P(matrices, vertexConsumers, muzzleFlashProgress, attackType, leftHand);
+					this.drawMuzzleFx3P(matrices, vertexConsumers, muzzleFlashProgress, attackType, leftHand, ammoVariant);
 					matrices.pop();
 				}
-			}else if (reloadProgress<=0){
-				if (Mode.FIRST_PERSON_LEFT_HAND== transform || Mode.FIRST_PERSON_RIGHT_HAND == transform ) {
-					this.drawIdleFx(entityIn, matrices, vertexConsumers, leftHand);
-				} else {
-					matrices.push();
-					this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo), leftHand);
-					this.drawIdleFx3P(entityIn, matrices, vertexConsumers, leftHand);
-					matrices.pop();
+			}else {
+				if (reloadProgress<=0){
+					if (Mode.FIRST_PERSON_LEFT_HAND== transform || Mode.FIRST_PERSON_RIGHT_HAND == transform ) {
+						this.drawIdleFx(entityIn, matrices, vertexConsumers, leftHand, ammoVariant);
+					} else {
+						matrices.push();
+						this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo), leftHand);
+						this.drawIdleFx3P(entityIn, matrices, vertexConsumers, leftHand, ammoVariant);
+						matrices.pop();
+					}
+				}if (chargeProgress > 0.0f && this.chargeEffect != null) {
+					//System.out.println("chargeProgess2 = "+chargeProgress);
+					if (Mode.FIRST_PERSON_LEFT_HAND== transform || Mode.FIRST_PERSON_RIGHT_HAND == transform ) {
+						this.drawChargeFx(matrices, vertexConsumers, chargeProgress, attackType, leftHand, ammoVariant);
+					} else {
+						matrices.push();
+						this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo), leftHand);
+						this.drawChargeFx3P(matrices, vertexConsumers, chargeProgress, attackType, leftHand, ammoVariant);
+						matrices.pop();
+					}
 				}
 			}
 			
@@ -419,8 +460,8 @@ public class RenderGunBase extends RenderItemBase {
 
 	}
 
-	protected void drawIdleFx(LivingEntity entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, boolean leftHand) {}
-	protected void drawIdleFx3P(LivingEntity entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, boolean leftHand) {}
+	protected void drawIdleFx(LivingEntity entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, boolean leftHand, String ammoVariant) {}
+	protected void drawIdleFx3P(LivingEntity entity, MatrixStack matrices, VertexConsumerProvider vertexConsumers, boolean leftHand, String ammoVariant) {}
 
 	protected void setGLColorForPart(IGenericGun gun, int part, ItemStack stack) {
 		
@@ -502,47 +543,86 @@ public class RenderGunBase extends RenderItemBase {
 		TGMatrixOps.rotate(matrices, -90.0f, 0, 1.0f, 0);
 	}
 	
-	protected void drawMuzzleFx(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, byte attackType, boolean leftHand){
-		if (this.muzzleFX!=null){
-			float x= leftHand?this.muzzleFX_x_l:this.muzzleFX_x_r;
+	protected void drawMuzzleFx(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, byte attackType, boolean leftHand, String ammoVariant){
+		if (this.muzzleEffect!=null && this.muzzleEffect.screenEffect!=null){
+			float x= leftHand?this.muzzleEffect.offsetX_l:this.muzzleEffect.offsetX_r;
 			//float leftOffset = leftHand?0.05f:0f;
 			
 			//Muzzle flash jitter
 			ClientProxy cp = ClientProxy.get();
-			float scale = this.muzzleFX_scale;
+			float scale = this.muzzleEffect.effectScale;
 			float offsetX = x;
-			float offsetY = this.muzzleFX_y;
-			float offsetZ = this.muzzleFX_z;
+			float offsetY = this.muzzleEffect.offsetY;
+			float offsetZ = this.muzzleEffect.offsetZ;
 
 			//DEBUG:
 //			offsetX += (float) Keybinds.OFFSET_X;
 //			offsetY += (float) Keybinds.OFFSET_Y;
 //			offsetZ += (float) Keybinds.OFFSET_Z;
 
-			if (this.mf_jitterScale > 0.0f) scale += mf_jitterScale*cp.muzzleFlashJitterScale;
-			if (this.mf_jitterX > 0.0f) offsetX += mf_jitterX*cp.muzzleFlashJitterX;
-			if (this.mf_jitterY > 0.0f) offsetY += mf_jitterY*cp.muzzleFlashJitterY;
+			if (this.muzzleEffect.jitterScale > 0.0f) scale += muzzleEffect.jitterScale*cp.muzzleFlashJitterScale;
+			if (this.muzzleEffect.jitterX > 0.0f) offsetX += muzzleEffect.jitterX*cp.muzzleFlashJitterX;
+			if (this.muzzleEffect.jitterY > 0.0f) offsetY += muzzleEffect.jitterY*cp.muzzleFlashJitterY;
 			//if (this.jitterAngle > 0.0f) angle += jitterAngle*cp.muzzleFlashJitterAngle*f;
 
 			//this.muzzleFX.doRender(progress, (x+Keybinds.X)/*+leftOffset*/, this.muzzleFX_y+Keybinds.Y, this.muzzleFX_z+Keybinds.Z, this.muzzleFX_scale, false);
 			
-			this.muzzleFX.doRender(matrices, verticesProvider, progress, offsetX, offsetY, offsetZ, scale, false);
+			this.muzzleEffect.screenEffect.doRender(matrices, verticesProvider, progress, offsetX, offsetY, offsetZ, scale, false, ammoVariant);
 			
 		}
 	}
 
-	protected void drawMuzzleFx3P(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, byte attackType, boolean leftHand) {
-		if (this.muzzleFX!=null) {
+	protected void drawMuzzleFx3P(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, byte attackType, boolean leftHand, String ammoVariant) {
+		if (this.muzzleEffect!=null && this.muzzleEffect.screenEffect!=null) {
 			//float x= leftHand?this.muzzleFX_x_l:this.muzzleFX_x_r;
 			//this.muzzleFX.doRender(progress, 0, this.muzzleFX_3p_y+Keybinds.Y, this.muzzleFX_3p_z+Keybinds.Z, this.muzzleFX_scale*this.muzzleFX_3p_scale, true);
-			this.muzzleFX.doRender(matrices, verticesProvider, progress, 0, this.muzzleFX_3p_y, this.muzzleFX_3p_z, this.muzzleFX_scale*this.muzzleFX_3p_scale, true);
+			this.muzzleEffect.screenEffect.doRender(matrices, verticesProvider, progress, 0, this.muzzleEffect.offsetY_3p, this.muzzleEffect.offsetZ_3p, this.muzzleEffect.effectScale*this.muzzleEffect.effectScale_3p, true, ammoVariant);
 		}
 	}
+
+
+	protected void drawChargeFx(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, byte attackType, boolean leftHand, String ammoVariant){
+		if (this.chargeEffect!=null && this.chargeEffect.screenEffect!=null){
+			float x= leftHand?this.chargeEffect.offsetX_l:this.chargeEffect.offsetX_r;
+			//float leftOffset = leftHand?0.05f:0f;
+
+			//Muzzle flash jitter
+			ClientProxy cp = ClientProxy.get();
+			float scale = this.chargeEffect.effectScale;
+			float offsetX = x;
+			float offsetY = this.chargeEffect.offsetY;
+			float offsetZ = this.chargeEffect.offsetZ;
+
+			//DEBUG:
+//			offsetX += (float) Keybinds.OFFSET_X;
+//			offsetY += (float) Keybinds.OFFSET_Y;
+//			offsetZ += (float) Keybinds.OFFSET_Z;
+
+			if (this.chargeEffect.jitterScale > 0.0f) scale += chargeEffect.jitterScale*cp.muzzleFlashJitterScale;
+			if (this.chargeEffect.jitterX > 0.0f) offsetX += chargeEffect.jitterX*cp.muzzleFlashJitterX;
+			if (this.chargeEffect.jitterY > 0.0f) offsetY += chargeEffect.jitterY*cp.muzzleFlashJitterY;
+			//if (this.jitterAngle > 0.0f) angle += jitterAngle*cp.muzzleFlashJitterAngle*f;
+
+			//this.muzzleFX.doRender(progress, (x+Keybinds.X)/*+leftOffset*/, this.muzzleFX_y+Keybinds.Y, this.muzzleFX_z+Keybinds.Z, this.muzzleFX_scale, false);
+
+			this.chargeEffect.screenEffect.doRender(matrices, verticesProvider, progress, offsetX, offsetY, offsetZ, scale, false, ammoVariant);
+
+		}
+	}
+
+	protected void drawChargeFx3P(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, byte attackType, boolean leftHand, String ammoVariant) {
+		if (this.chargeEffect!=null && this.chargeEffect.screenEffect!=null) {
+			//float x= leftHand?this.muzzleFX_x_l:this.muzzleFX_x_r;
+			//this.muzzleFX.doRender(progress, 0, this.muzzleFX_3p_y+Keybinds.Y, this.muzzleFX_3p_z+Keybinds.Z, this.muzzleFX_scale*this.muzzleFX_3p_scale, true);
+			this.chargeEffect.screenEffect.doRender(matrices, verticesProvider, progress, 0, this.chargeEffect.offsetY_3p, this.chargeEffect.offsetZ_3p, this.chargeEffect.effectScale*this.chargeEffect.effectScale_3p, true, ammoVariant);
+		}
+	}
+
 	
 	protected void renderScope(MatrixStack matrices, VertexConsumerProvider verticesProvider, float fireProgress, boolean leftHand) {
 		if (this.scope!=null) {
 			float x= leftHand?0.56f:-0.56f;
-			this.scope.doRender(matrices, verticesProvider, fireProgress, x, 0.52f, 0f, scopescale, false);
+			this.scope.doRender(matrices, verticesProvider, fireProgress, x, 0.52f, 0f, scopescale, false, null);
 		}
 	}
 	
@@ -556,10 +636,12 @@ public class RenderGunBase extends RenderItemBase {
 	}
 	
 	public RenderGunBase setMuzzleFlashJitter(float jX, float jY, float jAngle, float jScale) {
-		this.mf_jitterX = jX;
-		this.mf_jitterY = jY;
-		this.mf_jitterAngle = jAngle;
-		this.mf_jitterScale = jScale;
+		if (this.muzzleEffect!=null && this.muzzleEffect.screenEffect!=null) {
+			this.muzzleEffect.jitterX = jX;
+			this.muzzleEffect.jitterY = jY;
+			this.muzzleEffect.jitterScale = jScale;
+			this.muzzleEffect.jitterAngle = jAngle;
+		}
 		return this;
 	}
 	

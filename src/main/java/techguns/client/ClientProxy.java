@@ -516,7 +516,8 @@ public class ClientProxy implements ClientModInitializer {
 						{0.05f,0.0f,0}, //GUI
 						{0.0f,0.0f,0}, //Ground
 						{0,0,0f} //frame
-				}).setMuzzleFXPos3P(0.03f, -0.69f).setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 25.0f));
+				}).setMuzzleFXPos3P(0.03f, -0.69f).setRecoilAnim(GunAnimation.genericRecoil, 0.2f, 25.0f)
+				.setChargeFx(ScreenEffect.magicRifleCharge, 0f, 0.16f, -1.5f, 2.5f, 0f).setChargeFXPos3P(0.03f, -3.f, 3.0f));
 
 
 

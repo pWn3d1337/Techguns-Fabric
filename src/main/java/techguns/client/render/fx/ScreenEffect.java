@@ -28,6 +28,12 @@ public class ScreenEffect implements IScreenEffect {
 	
 	protected boolean flipY=false;
 	protected boolean flipX=false;
+
+	protected FadeType dynamicScaleType = null;
+	protected float minScale = 0f;
+	protected float maxScale = 0f;
+
+	protected DrawMode3p drawMode3p = DrawMode3p.CROSS_XYZ;
 	
 	public ScreenEffect() {};
 	
@@ -41,7 +47,7 @@ public class ScreenEffect implements IScreenEffect {
 		this.type = type;
 	}
 	
-	public IScreenEffect setColor(float R, float G, float B, float A) {
+	public ScreenEffect setColor(float R, float G, float B, float A) {
 		this.colorR = R;
 		this.colorG = G;
 		this.colorB = B;
@@ -54,10 +60,26 @@ public class ScreenEffect implements IScreenEffect {
 		return this;
 	}
 	
-	public IScreenEffect setFlipAxis(boolean x, boolean y) {
+	public ScreenEffect setFlipAxis(boolean x, boolean y) {
 		this.flipX=x;
 		this.flipY=y;
 		return this;
+	}
+
+	public ScreenEffect setDynamicScale(FadeType fadeType, float minScale, float maxScale) {
+		this.dynamicScaleType = fadeType;
+		this.minScale = minScale;
+		this.maxScale = maxScale;
+		return this;
+	}
+
+	public ScreenEffect setDrawMode3p(DrawMode3p mode) {
+		this.drawMode3p = mode;
+		return this;
+	}
+
+	enum DrawMode3p {
+		CROSS_XYZ, CROSS_XY, PLANE_Z
 	}
 	
 //	public ScreenEffect setJitter(float jX, float jY, float jAngle, float jScale) {
@@ -80,8 +102,8 @@ public class ScreenEffect implements IScreenEffect {
 	 * @see techguns.client.render.fx.IScreenEffect#doRender(float, float, float, float, float, float, float, float, boolean)
 	 */
 	@Override
-	public void doRender(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, float offsetX, float offsetY, float offsetZ, float scale, float rot_x, float rot_y, float rot_z, boolean is3p) {
-		int currentFrame = (int)((float)numSprites*progress);
+	public void doRender(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, float offsetX, float offsetY, float offsetZ, float scale, float rot_x, float rot_y, float rot_z, boolean is3p, String ammoVariant) {
+		int currentFrame = (int)((float)numSprites*(Math.max(0f, progress-0.00001f))); //Make sure progress never reaches 1.0f
 		if (currentFrame < numSprites) {
 			int col = currentFrame % cols;
 			int row = (currentFrame / cols);
@@ -120,6 +142,11 @@ public class ScreenEffect implements IScreenEffect {
 	        //BufferBuilder buffer = tessellator.getBuffer();
 			
 			float f = scale/2.0f;
+
+			if (this.dynamicScaleType != null) {
+				f *= this.dynamicScaleType.getValueAt(progress);
+			}
+
 			
 //			if (!is3p) { //Local player in 1st person
 //				ClientProxy cp = ClientProxy.get();
@@ -129,83 +156,44 @@ public class ScreenEffect implements IScreenEffect {
 //				//if (this.jitterAngle > 0.0f) angle += jitterAngle*cp.muzzleFlashJitterAngle*f;
 //			}
 //			
-			float alpha = 0.0f;
-			
+
 			int light_u = 240;
 			int light_v = 240;
 			
-			switch (fadeType) {
-	
-			case FAST:
-				double d = (1.0-Math.cos(Math.sqrt(progress)*2.0*Math.PI))*0.5;
-				alpha = (float) d*this.alpha;
-				break;
-			case SMOOTH:
-				double d2 = Math.sin(Math.PI*progress);
-				alpha = (float) (d2*d2)*this.alpha;
-				break;
-			case NONE:
-			default:
-				alpha = this.alpha;
-				break;
-	
-			}
+			float alpha = this.alpha * this.fadeType.getValueAt(progress);
 
-			/*if(is3p) {
-				RenderSystem.depthMask(false);
-				RenderSystem.disableCull();
-			}*/
-			
-			//RenderLayer layer = TGRenderHelper.get_muzzleflash_renderlayer(fxTexture, alpha);
-			//VertexConsumer vertices = verticesProvider.getBuffer(layer);
-
-			//VertexConsumer vertices = verticesProvider.getBuffer(TGRenderHelper.get_fx_renderlayer(fxTexture));
 			VertexConsumer vertices = verticesProvider.getBuffer(TGRenderHelper.get_fx_layerForType(fxTexture, this.type));
 			
 			
 			Matrix4f modelMat = matrices.peek().getPositionMatrix();
-			
-			vertices.vertex(modelMat, offsetX-f, offsetY+f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U1,V2).light(light_u,light_v).next();
-	        vertices.vertex(modelMat, offsetX-f, offsetY-f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U1,V1).light(light_u,light_v).next();
-	        vertices.vertex(modelMat, offsetX+f, offsetY-f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U2,V1).light(light_u,light_v).next();
-	        vertices.vertex(modelMat, offsetX+f, offsetY+f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U2,V2).light(light_u,light_v).next();
-			
-	        //layer.draw((BufferBuilder) vertices, 0, 0, 0);
-	        
-			//Jitter
-			//ClientProxy cp = ClientProxy.
-			//offsetX += jitterX;
 
-	       /*buffer.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
-	        
-	        buffer.vertex(modelMat, offsetX-f, offsetY+f, offsetZ).texture(U1,V2).color(colorR, colorG, colorB, alpha).next();
-	        buffer.vertex(modelMat, offsetX-f, offsetY-f, offsetZ).texture(U1,V1).color(colorR, colorG, colorB, alpha).next();
-	        buffer.vertex(modelMat, offsetX+f, offsetY-f, offsetZ).texture(U2,V1).color(colorR, colorG, colorB, alpha).next();
-	        buffer.vertex(modelMat, offsetX+f, offsetY+f, offsetZ).texture(U2,V2).color(colorR, colorG, colorB, alpha).next();
-	        */
-	        if (is3p) {
-	        	
-	        	vertices.vertex(modelMat, offsetX-f, offsetY, offsetZ+f).color(colorR, colorG, colorB, alpha).texture(U1,V2).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX-f, offsetY, offsetZ-f).color(colorR, colorG, colorB, alpha).texture(U1,V1).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX+f, offsetY, offsetZ-f).color(colorR, colorG, colorB, alpha).texture(U2,V1).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX+f, offsetY, offsetZ+f).color(colorR, colorG, colorB, alpha).texture(U2,V2).light(light_u,light_v).next();
-	 	        
-	        	vertices.vertex(modelMat, offsetX, offsetY-f, offsetZ+f).color(colorR, colorG, colorB, alpha).texture(U1,V2).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX, offsetY-f, offsetZ-f).color(colorR, colorG, colorB, alpha).texture(U1,V1).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX, offsetY+f, offsetZ-f).color(colorR, colorG, colorB, alpha).texture(U2,V1).light(light_u,light_v).next();
-	        	vertices.vertex(modelMat, offsetX, offsetY+f, offsetZ+f).color(colorR, colorG, colorB, alpha).texture(U2,V2).light(light_u,light_v).next();
-	        }
-	        
-	        /*
-	        tessellator.draw();
+			if (!is3p) {
+				vertices.vertex(modelMat, offsetX - f, offsetY + f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U1, V2).light(light_u, light_v).next();
+				vertices.vertex(modelMat, offsetX - f, offsetY - f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U1, V1).light(light_u, light_v).next();
+				vertices.vertex(modelMat, offsetX + f, offsetY - f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U2, V1).light(light_u, light_v).next();
+				vertices.vertex(modelMat, offsetX + f, offsetY + f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U2, V2).light(light_u, light_v).next();
 
-	        if(is3p) {
-	        	RenderSystem.enableCull();
-	        	RenderSystem.depthMask(true);
+			}else {
+	        	if (drawMode3p == DrawMode3p.PLANE_Z ||drawMode3p == DrawMode3p.CROSS_XYZ) {
+					//Z Plane
+					vertices.vertex(modelMat, offsetX-f, offsetY+f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U1,V2).light(light_u,light_v).next();
+					vertices.vertex(modelMat, offsetX-f, offsetY-f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U1,V1).light(light_u,light_v).next();
+					vertices.vertex(modelMat, offsetX+f, offsetY-f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U2,V1).light(light_u,light_v).next();
+					vertices.vertex(modelMat, offsetX+f, offsetY+f, offsetZ).color(colorR, colorG, colorB, alpha).texture(U2,V2).light(light_u,light_v).next();
+				}
+				if (drawMode3p == DrawMode3p.CROSS_XY || drawMode3p == DrawMode3p.CROSS_XYZ) {
+					//Y Plane
+					vertices.vertex(modelMat, offsetX - f, offsetY, offsetZ + f).color(colorR, colorG, colorB, alpha).texture(U1, V2).light(light_u, light_v).next();
+					vertices.vertex(modelMat, offsetX - f, offsetY, offsetZ - f).color(colorR, colorG, colorB, alpha).texture(U1, V1).light(light_u, light_v).next();
+					vertices.vertex(modelMat, offsetX + f, offsetY, offsetZ - f).color(colorR, colorG, colorB, alpha).texture(U2, V1).light(light_u, light_v).next();
+					vertices.vertex(modelMat, offsetX + f, offsetY, offsetZ + f).color(colorR, colorG, colorB, alpha).texture(U2, V2).light(light_u, light_v).next();
+					//X Plane
+					vertices.vertex(modelMat, offsetX, offsetY - f, offsetZ + f).color(colorR, colorG, colorB, alpha).texture(U1, V2).light(light_u, light_v).next();
+					vertices.vertex(modelMat, offsetX, offsetY - f, offsetZ - f).color(colorR, colorG, colorB, alpha).texture(U1, V1).light(light_u, light_v).next();
+					vertices.vertex(modelMat, offsetX, offsetY + f, offsetZ - f).color(colorR, colorG, colorB, alpha).texture(U2, V1).light(light_u, light_v).next();
+					vertices.vertex(modelMat, offsetX, offsetY + f, offsetZ + f).color(colorR, colorG, colorB, alpha).texture(U2, V2).light(light_u, light_v).next();
+				}
 	        }
-           TGRenderHelper.disableFXLighting();
-	       TGRenderHelper.disableBlendMode(type);*/
-	        
 		}
 	}
 	
