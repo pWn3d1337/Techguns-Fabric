@@ -1,5 +1,6 @@
 package techguns.items.armors;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
@@ -10,6 +11,7 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Pair;
 import techguns.TGCamos;
 import techguns.TGEntityAttributes;
 import techguns.TGIdentifier;
@@ -19,6 +21,8 @@ import techguns.api.damagesystem.DamageType;
 import techguns.api.render.ITGArmorSpecialRenderer;
 import techguns.client.render.ITGItemRenderer;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class GenericArmor extends ArmorItem implements FabricItem, ITGItemRenderer, ITGArmorSpecialRenderer, ICamoChangeable {
@@ -182,15 +186,44 @@ public class GenericArmor extends ArmorItem implements FabricItem, ITGItemRender
         return new TGIdentifier(base).toString();//+"_"+slot.getName()).toString();
     }
 
+    protected static final Map<DamageType, Pair<EntityAttribute, String>> DAMAGE_TYPE_ATTRIBUTE_MAPPING = Map.ofEntries(
+            Map.entry(DamageType.PHYSICAL, new Pair<>(EntityAttributes.GENERIC_ARMOR, "Armor Modifier")),
+            Map.entry(DamageType.PROJECTILE, new Pair<>(TGEntityAttributes.ARMOR_PROJECTILE, "Armor Modifier Projectile")),
+            Map.entry(DamageType.FIRE, new Pair<>(TGEntityAttributes.ARMOR_FIRE, "Armor Modifier Fire")),
+            Map.entry(DamageType.EXPLOSION, new Pair<>(TGEntityAttributes.ARMOR_EXPLOSION, "Armor Modifier Explosion")),
+            Map.entry(DamageType.ENERGY, new Pair<>(TGEntityAttributes.ARMOR_ENERGY, "Armor Modifier Energy")),
+            Map.entry(DamageType.POISON, new Pair<>(TGEntityAttributes.ARMOR_POISON, "Armor Modifier Poison")),
+            Map.entry(DamageType.ICE, new Pair<>(TGEntityAttributes.ARMOR_ICE, "Armor Modifier Ice")),
+            Map.entry(DamageType.LIGHTNING, new Pair<>(TGEntityAttributes.ARMOR_LIGHTNING , "Armor Modifier Lightning")),
+            Map.entry(DamageType.RADIATION, new Pair<>(TGEntityAttributes.ARMOR_RADIATION, "Armor Modifier Radiation")),
+            Map.entry(DamageType.DARK, new Pair<>(TGEntityAttributes.ARMOR_DARK, "Armor Modifier Dark"))
+    );
+
+
+    protected void addArmorAttributes(ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> attribues, EquipmentSlot slot){
+        for (var type: DamageType.values()){
+
+            double armorvalue = this.getMaterial().getArmorValue(slot, type);
+            if(armorvalue > 0.0){
+                var entry = DAMAGE_TYPE_ATTRIBUTE_MAPPING.get(type);
+                EntityAttribute attr = entry.getLeft();
+                String name = entry.getRight();
+
+                attribues.put(attr, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], name, armorvalue, EntityAttributeModifier.Operation.ADDITION));
+            }
+        }
+    }
 
     @Override
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {
         var attributes = ImmutableMultimap.<EntityAttribute, EntityAttributeModifier>builder();
 
         if (slot == this.slot) {
-            if(this.getMaterial().armorPhys > 0.0F){
+            /*if(this.getMaterial().armorPhys > 0.0F){
                 attributes.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], "Armor modifier", this.getMaterial().getArmorValue(slot, DamageType.PHYSICAL), EntityAttributeModifier.Operation.ADDITION));
-            }
+            }*/
+            this.addArmorAttributes(attributes, slot);
+
             if(this.getMaterial().getToughness() > 0.0F){
                 attributes.put(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], "Armor toughness", this.getMaterial().getToughness(), EntityAttributeModifier.Operation.ADDITION));
             }

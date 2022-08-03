@@ -32,17 +32,23 @@ public class TGArmors implements ITGInitializer{
     public static GenericArmor T1_STEAM_LEGGINGS;
     public static GenericArmor T1_STEAM_BOOTS;
 
+    public static TGArmorMaterial T2_HAZMAT;
+
     public static TGArmorMaterial T2_COMBAT;
     public static GenericArmor T2_COMBAT_HELMET;
     public static GenericArmor T2_COMBAT_CHESTPLATE;
     public static GenericArmor T2_COMBAT_LEGGINGS;
     public static GenericArmor T2_COMBAT_BOOTS;
 
+    public static TGArmorMaterial T2_COMMANDO;
+
     public static TGArmorMaterial T2_RIOT;
     public static GenericArmor T2_RIOT_HELMET;
     public static GenericArmor T2_RIOT_CHESTPLATE;
     public static GenericArmor T2_RIOT_LEGGINGS;
     public static GenericArmor T2_RIOT_BOOTS;
+
+    public static TGArmorMaterial T2_BERET;
 
     public static TGArmorMaterial T3_COMBAT;
     public static GenericArmor T3_COMBAT_HELMET;
@@ -62,6 +68,10 @@ public class TGArmors implements ITGInitializer{
     public static GenericArmor T3_POWER_LEGGINGS;
     public static GenericArmor T3_POWER_BOOTS;
 
+    public static TGArmorMaterial T3_MINER;
+
+    public static TGArmorMaterial T4_PRAETOR;
+
     public static TGArmorMaterial T4_POWER;
     public static GenericArmor T4_POWER_HELMET;
     public static GenericArmor T4_POWER_CHESTPLATE;
@@ -70,68 +80,76 @@ public class TGArmors implements ITGInitializer{
 
     @Override
     public void init() {
-        T1_COMBAT = new TGArmorMaterial("t1_combat", 60, 15F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,0F, 0.1F, TGItems.HEAVY_CLOTH, Items.IRON_INGOT);
+        T1_COMBAT = new TGArmorMaterial("t1_combat", 60, 15F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,0.5F, 0.1F, TGItems.HEAVY_CLOTH, Items.IRON_INGOT);
         T1_SCOUT = new TGArmorMaterial("t1_scout", 60, 13F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,0F, 0F, TGItems.HEAVY_CLOTH);
         T1_MINER = new TGArmorMaterial("t1_miner", 60, 13F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,0F, 0F, TGItems.HEAVY_CLOTH, Items.IRON_INGOT);
-        T1_STEAM = new TGArmorMaterial("t1_steam", 60, 19F, 0, SoundEvents.ITEM_ARMOR_EQUIP_IRON,1F, 0.15F, TGItems.BRONZE_INGOT, TGItems.STEEL_INGOT);
+        T1_STEAM = new TGArmorMaterial("t1_steam", 200, 19F, 0, SoundEvents.ITEM_ARMOR_EQUIP_IRON,1F, 0.15F, TGItems.BRONZE_INGOT, TGItems.STEEL_INGOT).setArmorElemental(17.0f).setArmorExplosion(18.0f).setArmorPoison(10.0f).setArmorRadiation(6.0f);
 
-        T2_COMBAT = new TGArmorMaterial("t2_combat", 60, 18F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,1F, 0.15F, TGItems.HEAVY_CLOTH, TGItems.STEEL_INGOT);
-        T2_RIOT = new TGArmorMaterial("t2_riot", 70, 18.5F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,0F, 0.15F, TGItems.TREATED_LEATHER);
-        T3_COMBAT = new TGArmorMaterial("t3_combat", 75, 21F, 0, SoundEvents.ITEM_ARMOR_EQUIP_GOLD,1F, 0.2F, TGItems.PLATE_CARBON);
-        T3_EXO = new TGArmorMaterial("t3_exo", 75, 21F, 0, SoundEvents.ITEM_ARMOR_EQUIP_GOLD,1F, 0.2F, TGItems.PLATE_CARBON);
-        T3_POWER = new TGArmorMaterial("t3_power", 80, 22F, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,1F, 0.25F, TGItems.POWER_ARMOR_PLATING);
-        T4_POWER = new TGArmorMaterial("t4_power", 100, 23F, 0, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,1F, 0.25F, TGItems.POWER_ARMOR_PLATING);
+        T2_HAZMAT =  new TGArmorMaterial("t2_hazmat", 80, 10F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,0F, 0.0F, TGItems.RUBBER_BAR).setArmorElemental(16.0f).setArmorExplosion(10.0f).setArmorPoison(20.0f).setArmorRadiation(20.0f);
+        T2_BERET =  new TGArmorMaterial("t2_beret", 60, 8F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,0F, 0.0F, TGItems.HEAVY_CLOTH);
+
+        T2_COMBAT = new TGArmorMaterial("t2_combat", 72, 18F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,1F, 0.15F, TGItems.HEAVY_CLOTH, TGItems.STEEL_INGOT);
+        T2_COMMANDO = new TGArmorMaterial("t2_commando", 72, 18F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,1F, 0.15F, TGItems.HEAVY_CLOTH, TGItems.STEEL_INGOT).setArmorElemental(16.0f).setArmorExplosion(16.0f).setArmorPoison(10.0f).setArmorRadiation(5.0f);;
+        T2_RIOT = new TGArmorMaterial("t2_riot", 96, 18.5F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,1.5F, 0.15F, TGItems.TREATED_LEATHER).setArmorFire(18.0f).setArmorExplosion(18.0f).setArmorEnergy(18.0f).setArmorIce(17.0f).setArmorLightning(17.0f).setArmorPoison(16.0f).setArmorRadiation(16.0f);
+        T3_COMBAT = new TGArmorMaterial("t3_combat", 240, 21F, 0, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN,2F, 0.2F, TGItems.PLATE_CARBON).setArmorFire(18.0f).setArmorExplosion(18.0f).setArmorEnergy(19.0f).setArmorIce(18.0f).setArmorLightning(18.0f).setArmorPoison(10.0f).setArmorRadiation(12.0f);
+        T3_EXO = new TGArmorMaterial("t3_exo", 300, 21F, 0, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN,2F, 0.2F, TGItems.PLATE_CARBON).setArmorFire(18.0f).setArmorExplosion(18.0f).setArmorEnergy(19.0f).setArmorIce(18.0f).setArmorLightning(18.0f).setArmorPoison(10.0f).setArmorRadiation(12.0f);
+        T3_POWER = new TGArmorMaterial("t3_power", 360, 22F, 0, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND,2.5F, 0.25F, TGItems.POWER_ARMOR_PLATING).setArmorFire(19.0f).setArmorExplosion(21.0f).setArmorEnergy(20.0f).setArmorIce(19.0f).setArmorLightning(19.0f).setArmorPoison(15.0f).setArmorRadiation(17.0f);
+        T3_MINER = new TGArmorMaterial("t3_miner", 300, 20F, 0, SoundEvents.ITEM_ARMOR_EQUIP_GOLD,2F, 0.2F, TGItems.PLATE_CARBON).setArmorFire(20.0f).setArmorExplosion(20.0f).setArmorEnergy(20.0f).setArmorIce(20.0f).setArmorLightning(20.0f).setArmorPoison(20.0f).setArmorRadiation(20.0f);
 
 
-        T1_COMBAT_HELMET = registerArmor(T1_COMBAT, EquipmentSlot.HEAD);
-        T1_COMBAT_CHESTPLATE = registerArmor(T1_COMBAT, EquipmentSlot.CHEST).setMiningBoni(2F).setMiningBoniWater(5F);
-        T1_COMBAT_LEGGINGS = registerArmor(T1_COMBAT, EquipmentSlot.LEGS).setSpeedBoni(0.1F,0.5F);
-        T1_COMBAT_BOOTS = registerArmor(T1_COMBAT, EquipmentSlot.FEET).setSpeedBoni(0.1F,0.5F);
+        T4_PRAETOR = new TGArmorMaterial("t4_praetor", 360, 22F, 0, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,3F, 0.25F, TGItems.POWER_ARMOR_PLATING).setArmorFire(21.0f).setArmorExplosion(21.0f).setArmorEnergy(21.0f).setArmorIce(21.0f).setArmorLightning(21.0f).setArmorPoison(21.0f).setArmorRadiation(20.0f);
+        T4_POWER = new TGArmorMaterial("t4_power", 460, 23F, 0, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE,3.5F, 0.25F, TGItems.POWER_ARMOR_PLATING).setArmorFire(21.0f).setArmorExplosion(22.0f).setArmorEnergy(21.0f).setArmorIce(21.0f).setArmorLightning(21.0f).setArmorPoison(19.0f).setArmorRadiation(20.0f);
 
-        T1_SCOUT_HELMET = registerArmor(T1_SCOUT, EquipmentSlot.HEAD, false, true, false);
-        T1_SCOUT_CHESTPLATE = registerArmor(T1_SCOUT, EquipmentSlot.CHEST, false, true, false).setMiningBoni(2F).setMiningBoniWater(5F);
-        T1_SCOUT_LEGGINGS = registerArmor(T1_SCOUT, EquipmentSlot.LEGS, false, true, false).setSpeedBoni(0.1F,0.5F);
-        T1_SCOUT_BOOTS = registerArmor(T1_SCOUT, EquipmentSlot.FEET, false, true, false).setSpeedBoni(0.1F,0.5F);
 
-        T1_MINER_HELMET = registerArmor(T1_MINER, EquipmentSlot.HEAD, false, true, false);
-        T1_MINER_CHESTPLATE = registerArmor(T1_MINER, EquipmentSlot.CHEST, false, true, false).setMiningBoni(2F).setMiningBoniWater(5F);
-        T1_MINER_LEGGINGS = registerArmor(T1_MINER, EquipmentSlot.LEGS, false, true, false).setSpeedBoni(0.1F,0.5F);
-        T1_MINER_BOOTS = registerArmor(T1_MINER, EquipmentSlot.FEET, false, true, false).setSpeedBoni(0.1F,0.5F);
+        T1_COMBAT_HELMET = registerArmor(T1_COMBAT, EquipmentSlot.HEAD).setSpeedBoni(0.125f,0.02f);
+        T1_COMBAT_CHESTPLATE = registerArmor(T1_COMBAT, EquipmentSlot.CHEST).setSpeedBoni(0.125f,0.02f);
+        T1_COMBAT_LEGGINGS = registerArmor(T1_COMBAT, EquipmentSlot.LEGS).setSpeedBoni(0.125f,0.02f);
+        T1_COMBAT_BOOTS = registerArmor(T1_COMBAT, EquipmentSlot.FEET).setSpeedBoni(0.125f,0.1f).setFallProtection(0.2f, 1.0f);
 
-        T1_STEAM_HELMET = registerArmor(T1_STEAM, EquipmentSlot.HEAD, true, true, false);
-        T1_STEAM_CHESTPLATE = registerArmor(T1_STEAM, EquipmentSlot.CHEST, true, true, false);
-        T1_STEAM_LEGGINGS = registerArmor(T1_STEAM, EquipmentSlot.LEGS, true, true, false);
-        T1_STEAM_BOOTS = registerArmor(T1_STEAM, EquipmentSlot.FEET, true, true, false);
+        T1_SCOUT_HELMET = registerArmor2d(T1_SCOUT, EquipmentSlot.HEAD).setSpeedBoni(0.125f,0.02f);
+        T1_SCOUT_CHESTPLATE = registerArmor2d(T1_SCOUT, EquipmentSlot.CHEST).setSpeedBoni(0.125f,0.02f);
+        T1_SCOUT_LEGGINGS = registerArmor2d(T1_SCOUT, EquipmentSlot.LEGS).setSpeedBoni(0.125f,0.02f);
+        T1_SCOUT_BOOTS = registerArmor2d(T1_SCOUT, EquipmentSlot.FEET).setSpeedBoni(0.125f,0.1f).setFallProtection(0.2f, 1.0f);
 
-        T2_COMBAT_HELMET = registerArmor(T2_COMBAT, EquipmentSlot.HEAD, false, true, false);
-        T2_COMBAT_CHESTPLATE = registerArmor(T2_COMBAT, EquipmentSlot.CHEST, false, true, false);
-        T2_COMBAT_LEGGINGS = registerArmor(T2_COMBAT, EquipmentSlot.LEGS, false, true, false);
-        T2_COMBAT_BOOTS = registerArmor(T2_COMBAT, EquipmentSlot.FEET, false, true, false);
+        T1_MINER_HELMET = registerArmor2d(T1_MINER, EquipmentSlot.HEAD).setSpeedBoni(0.08f,0.00f).setMiningBoni(0.05f);
+        T1_MINER_CHESTPLATE = registerArmor2d(T1_MINER, EquipmentSlot.CHEST).setSpeedBoni(0.08f,0.0f).setMiningBoni(0.05f);
+        T1_MINER_LEGGINGS = registerArmor2d(T1_MINER, EquipmentSlot.LEGS).setSpeedBoni(0.08f,0.0f).setMiningBoni(0.05f);
+        T1_MINER_BOOTS = registerArmor2d(T1_MINER, EquipmentSlot.FEET).setSpeedBoni(0.08f,0.1f).setMiningBoni(0.05f).setFallProtection(0.2f, 1.0f);
 
-        T2_RIOT_HELMET = registerArmor(T2_RIOT, EquipmentSlot.HEAD, false, true, false);
-        T2_RIOT_CHESTPLATE = registerArmor(T2_RIOT, EquipmentSlot.CHEST, false, true, false);
-        T2_RIOT_LEGGINGS = registerArmor(T2_RIOT, EquipmentSlot.LEGS, false, true, false);
-        T2_RIOT_BOOTS = registerArmor(T2_RIOT, EquipmentSlot.FEET, false, true, false);
+        T1_STEAM_HELMET = registerArmor3d(T1_STEAM, EquipmentSlot.HEAD);
+        T1_STEAM_CHESTPLATE = registerArmor3d(T1_STEAM, EquipmentSlot.CHEST);
+        T1_STEAM_LEGGINGS = registerArmor3d(T1_STEAM, EquipmentSlot.LEGS);
+        T1_STEAM_BOOTS = registerArmor3d(T1_STEAM, EquipmentSlot.FEET);
 
-        T3_COMBAT_HELMET = registerArmor(T3_COMBAT, EquipmentSlot.HEAD, false, true, false);
-        T3_COMBAT_CHESTPLATE = registerArmor(T3_COMBAT, EquipmentSlot.CHEST, false, true, false);
-        T3_COMBAT_LEGGINGS = registerArmor(T3_COMBAT, EquipmentSlot.LEGS, false, true, false);
-        T3_COMBAT_BOOTS = registerArmor(T3_COMBAT, EquipmentSlot.FEET, false, true, false);
+        T2_COMBAT_HELMET = registerArmor2d(T2_COMBAT, EquipmentSlot.HEAD).setSpeedBoni(0.1f,0.0f);
+        T2_COMBAT_CHESTPLATE = registerArmor2d(T2_COMBAT, EquipmentSlot.CHEST).setSpeedBoni(0.1f,0.0f);
+        T2_COMBAT_LEGGINGS = registerArmor2d(T2_COMBAT, EquipmentSlot.LEGS).setSpeedBoni(0.1f,0.0f);
+        T2_COMBAT_BOOTS = registerArmor2d(T2_COMBAT, EquipmentSlot.FEET).setSpeedBoni(0.1f,0.1f);
 
-        T3_EXO_HELMET = registerArmor(T3_EXO, EquipmentSlot.HEAD, false, true, false);
-        T3_EXO_CHESTPLATE = registerArmor(T3_EXO, EquipmentSlot.CHEST, false, true, false);
-        T3_EXO_LEGGINGS = registerArmor(T3_EXO, EquipmentSlot.LEGS, false, true, false);
-        T3_EXO_BOOTS = registerArmor(T3_EXO, EquipmentSlot.FEET, false, true, false);
+        T2_RIOT_HELMET = registerArmor2d(T2_RIOT, EquipmentSlot.HEAD).setSpeedBoni(0.12f,0.f);
+        T2_RIOT_CHESTPLATE = registerArmor2d(T2_RIOT, EquipmentSlot.CHEST).setSpeedBoni(0.12f, 0.f);
+        T2_RIOT_LEGGINGS = registerArmor2d(T2_RIOT, EquipmentSlot.LEGS).setSpeedBoni(0.13f, 0.f);
+        T2_RIOT_BOOTS = registerArmor2d(T2_RIOT, EquipmentSlot.FEET).setSpeedBoni(0.13f, 0.15f).setFallProtection(0.2f, 0.5f);;
 
-        T3_POWER_HELMET = registerArmor(T3_POWER, EquipmentSlot.HEAD, true, true, false);
-        T3_POWER_CHESTPLATE = registerArmor(T3_POWER, EquipmentSlot.CHEST, true, true, false);
-        T3_POWER_LEGGINGS = registerArmor(T3_POWER, EquipmentSlot.LEGS, true, true, false);
-        T3_POWER_BOOTS = registerArmor(T3_POWER, EquipmentSlot.FEET, true, true, false);
+        T3_COMBAT_HELMET = registerArmor2d(T3_COMBAT, EquipmentSlot.HEAD).setSpeedBoni(0.1f,0.0f);
+        T3_COMBAT_CHESTPLATE = registerArmor2d(T3_COMBAT, EquipmentSlot.CHEST).setSpeedBoni(0.1f,0.0f);
+        T3_COMBAT_LEGGINGS = registerArmor2d(T3_COMBAT, EquipmentSlot.LEGS).setSpeedBoni(0.1f,0.0f);
+        T3_COMBAT_BOOTS = registerArmor2d(T3_COMBAT, EquipmentSlot.FEET).setSpeedBoni(0.1f,0.1f);
 
-        T4_POWER_HELMET = registerArmor(T4_POWER, EquipmentSlot.HEAD, true, true, false);
-        T4_POWER_CHESTPLATE = registerArmor(T4_POWER, EquipmentSlot.CHEST, true, true, false);
-        T4_POWER_LEGGINGS = registerArmor(T4_POWER, EquipmentSlot.LEGS, true, true, false);
-        T4_POWER_BOOTS = registerArmor(T4_POWER, EquipmentSlot.FEET, true, true, false);
+        T3_EXO_HELMET = registerArmor2d(T3_EXO, EquipmentSlot.HEAD);
+        T3_EXO_CHESTPLATE = registerArmor2d(T3_EXO, EquipmentSlot.CHEST);
+        T3_EXO_LEGGINGS = registerArmor2d(T3_EXO, EquipmentSlot.LEGS);
+        T3_EXO_BOOTS = registerArmor2d(T3_EXO, EquipmentSlot.FEET);
+
+        T3_POWER_HELMET = registerArmor3d(T3_POWER, EquipmentSlot.HEAD);
+        T3_POWER_CHESTPLATE = registerArmor3d(T3_POWER, EquipmentSlot.CHEST);
+        T3_POWER_LEGGINGS = registerArmor3d(T3_POWER, EquipmentSlot.LEGS);
+        T3_POWER_BOOTS = registerArmor3d(T3_POWER, EquipmentSlot.FEET);
+
+        T4_POWER_HELMET = registerArmor3d(T4_POWER, EquipmentSlot.HEAD);
+        T4_POWER_CHESTPLATE = registerArmor3d(T4_POWER, EquipmentSlot.CHEST);
+        T4_POWER_LEGGINGS = registerArmor3d(T4_POWER, EquipmentSlot.LEGS);
+        T4_POWER_BOOTS = registerArmor3d(T4_POWER, EquipmentSlot.FEET);
     }
 
     protected static String slotTypeToString(EquipmentSlot slotType){
@@ -157,8 +175,25 @@ public class TGArmors implements ITGInitializer{
         return material_name+"_"+slotTypeToString(armor.getSlotType());
     }
 
+    /**
+     * Vanilla MC armor rendering
+     */
     protected static GenericArmor registerArmor(TGArmorMaterial mat,  EquipmentSlot slot){
         return registerArmor(mat, slot, false, false, true);
+    }
+
+    /**
+     * Armor with custom 3d model & inventory 3d
+     */
+    protected static GenericArmor registerArmor3d(TGArmorMaterial mat,  EquipmentSlot slot) {
+        return registerArmor(mat, slot, true, true, false);
+    }
+
+    /**
+     * 2d inventory icon, custom model
+     */
+    protected static GenericArmor registerArmor2d(TGArmorMaterial mat,  EquipmentSlot slot) {
+        return registerArmor(mat, slot, false, true, false);
     }
 
     protected static GenericArmor registerArmor(TGArmorMaterial mat,  EquipmentSlot slot, boolean hasInvRenderhack, boolean hasEntityModelRenderhack, boolean shouldRenderDefaultArmor){
@@ -166,6 +201,5 @@ public class TGArmors implements ITGInitializer{
         Registry.register(Registry.ITEM, new TGIdentifier(getArmorIdentifier(armor)), armor);
         return armor;
     }
-
 
 }

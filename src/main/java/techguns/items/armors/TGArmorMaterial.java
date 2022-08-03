@@ -103,6 +103,64 @@ public class TGArmorMaterial implements ArmorMaterial {
         return val * slotFactors[slot.getEntitySlotId()];
     }
 
+    /**
+     * Set all 'Elemental' or 'Magic' values: fire, lightning, ice and energy
+     * @param value
+     * @return
+     */
+    public TGArmorMaterial setArmorElemental(float value) {
+        this.armorEnergy=value;
+        this.armorFire=value;
+        this.armorIce=value;
+        this.armorLightning=value;
+        return this;
+    }
+
+    public TGArmorMaterial setArmorProjectile(float armorProjectile) {
+        this.armorProjectile = armorProjectile;
+        return this;
+    }
+
+    public TGArmorMaterial setArmorExplosion(float armorExplosion) {
+        this.armorExplosion = armorExplosion;
+        return this;
+    }
+
+    public TGArmorMaterial setArmorEnergy(float armorEnergy) {
+        this.armorEnergy = armorEnergy;
+        return this;
+    }
+
+    public TGArmorMaterial setArmorFire(float armorFire) {
+        this.armorFire = armorFire;
+        return this;
+    }
+
+    public TGArmorMaterial setArmorLightning(float armorLightning) {
+        this.armorLightning = armorLightning;
+        return this;
+    }
+
+    public TGArmorMaterial setArmorIce(float armorIce) {
+        this.armorIce = armorIce;
+        return this;
+    }
+
+    public TGArmorMaterial setArmorPoison(float armorPoison) {
+        this.armorPoison = armorPoison;
+        return this;
+    }
+
+    public TGArmorMaterial setArmorRadiation(float armorRadiation) {
+        this.armorRadiation = armorRadiation;
+        return this;
+    }
+
+    public TGArmorMaterial setArmorPhys(float armorPhys) {
+        this.armorPhys = armorPhys;
+        return this;
+    }
+
     @Override
     public int getDurability(EquipmentSlot slot) {
         return BASE_DURABILITY[slot.getEntitySlotId()] * this.durabilityMultiplier;
