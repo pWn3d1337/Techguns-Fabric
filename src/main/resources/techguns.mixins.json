@@ -23,6 +23,7 @@
     "CameraAccessor",
     "ClientPlayNetworkHandlerMixin",
     "CrossbowPosingMixin",
+    "GameRendererMixin",
     "HeldItemRendererMixin",
     "InGameHudMixin",
     "ItemRendererMixin",

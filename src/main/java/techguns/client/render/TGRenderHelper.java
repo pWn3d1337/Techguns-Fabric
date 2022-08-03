@@ -15,7 +15,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.LightType;
-import net.minecraft.world.World;
 import techguns.client.render.fx.IScreenEffect.RenderType;
 import techguns.mixin.LightmapTextureManagerAccessor;
 
@@ -34,7 +33,13 @@ public class TGRenderHelper extends RenderPhase {
 	}
 	
 	public static final int BRIGHT_LIGHT = 15728880;
-	
+
+	public static net.minecraft.client.render.Shader particleShader = null;
+	public static net.minecraft.client.render.Shader getParticleShader(){
+		return particleShader;
+	};
+	public static final net.minecraft.client.render.RenderPhase.Shader TG_PARTICLE_SHADER = new Shader(TGRenderHelper::getParticleShader);
+
 	protected static float lastBrightnessX=0;
 	protected static float lastBrightnessY=0;
 	
@@ -113,7 +118,8 @@ public class TGRenderHelper extends RenderPhase {
 
 	public static final Transparency TGFX_ADDITIVE_TRANSPARENCY = new Transparency("tgfx_additive_transparency", () -> {
 		RenderSystem.enableBlend();
-		RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE, GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+		//RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE, GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+		RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
 	}, () -> {
 		RenderSystem.disableBlend();
 		RenderSystem.defaultBlendFunc();
@@ -135,7 +141,7 @@ public class TGRenderHelper extends RenderPhase {
 	});
 
 	public static Function<Identifier, RenderLayer> TG_RENDERLAYER_FX_ADDITIVE = Util.memoize((texture) -> {
-		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).texture(new RenderPhase.Texture(texture, true, true)).transparency(TGFX_ADDITIVE_TRANSPARENCY).target(WEATHER_TARGET).lightmap(ENABLE_LIGHTMAP)/*.writeMaskState(RenderPhase.COLOR_MASK)*/.cull(DISABLE_CULLING).build(false);
+		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().shader(TG_PARTICLE_SHADER).texture(new RenderPhase.Texture(texture, true, true)).transparency(TGFX_ADDITIVE_TRANSPARENCY).target(WEATHER_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.COLOR_MASK).cull(DISABLE_CULLING).build(false);
 		return RenderLayer.of("techguns_fx_additive", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, false, true, multiPhaseParameters);
 	});
 
