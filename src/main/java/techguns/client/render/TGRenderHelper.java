@@ -141,7 +141,7 @@ public class TGRenderHelper extends RenderPhase {
 	});
 
 	public static Function<Identifier, RenderLayer> TG_RENDERLAYER_FX_ADDITIVE = Util.memoize((texture) -> {
-		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().shader(TG_PARTICLE_SHADER).texture(new RenderPhase.Texture(texture, true, true)).transparency(TGFX_ADDITIVE_TRANSPARENCY).target(WEATHER_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.COLOR_MASK).cull(DISABLE_CULLING).build(false);
+		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().shader(TG_PARTICLE_SHADER).texture(new RenderPhase.Texture(texture, true, true)).transparency(TGFX_ADDITIVE_TRANSPARENCY).target(PARTICLES_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.COLOR_MASK).cull(DISABLE_CULLING).build(false);
 		return RenderLayer.of("techguns_fx_additive", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, false, true, multiPhaseParameters);
 	});
 
