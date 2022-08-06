@@ -10,7 +10,9 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
 import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.fabricmc.fabric.mixin.client.rendering.EntityModelLayersAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.item.ItemColorProvider;
 import net.minecraft.client.color.item.ItemColors;
@@ -31,6 +33,8 @@ import techguns.api.ICamoChangeable;
 import techguns.api.client.ClientDisconnectEvent;
 import techguns.api.client.ClientGameJoinEvent;
 import techguns.client.audio.TGSound;
+import techguns.client.item.TGArmorTooltipComponent;
+import techguns.client.item.TGArmorTooltipData;
 import techguns.client.modelloader.TGObjLoader;
 import techguns.client.models.armor.ModelMultiPartArmor;
 import techguns.client.models.armor.ModelSteamArmor;
@@ -595,8 +599,15 @@ public class ClientProxy implements ClientModInitializer {
 			ClientProxy.get().particleManager.clear();
 		});
 
-		ClientGameJoinEvent.EVENT.register((MinecraftClient clinet) -> {
+		ClientGameJoinEvent.EVENT.register((MinecraftClient client) -> {
 			ClientProxy.get().particleManager.clear();
+		});
+
+		TooltipComponentCallback.EVENT.register( data -> {
+			if (data instanceof TGArmorTooltipData){
+				return new TGArmorTooltipComponent((TGArmorTooltipData) data);
+			}
+			return null;
 		});
 
         keybinds = new Keybinds();

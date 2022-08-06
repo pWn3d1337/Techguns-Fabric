@@ -4,6 +4,7 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.entity.EquipmentSlot;
+import techguns.client.TGClientEntityModels;
 
 public class ModelExoSuit extends BipedEntityModel {
     public ModelExoSuit(ModelPart root) {
@@ -40,7 +41,7 @@ public class ModelExoSuit extends BipedEntityModel {
                 .uv(40, 56).mirrored().cuboid(-2.9F, 10.0F, -3.0F, 6.0F, 2.0F, 6.0F, new Dilation(0.0F)).mirrored(false)
                 .uv(56, 51).mirrored().cuboid(-1.4F, 9.5F, -3.5F, 3.0F, 3.0F, 1.0F, new Dilation(0.0F)).mirrored(false), ModelTransform.pivot(1.9F, 12.0F, 0.0F));
 
-        TGArmorModelRegistry.addMissingParts(modelPartData);
+        TGClientEntityModels.addMissingParts(modelPartData);
         return modelData;
     }
 }

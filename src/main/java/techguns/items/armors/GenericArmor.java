@@ -4,6 +4,10 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.fabricmc.fabric.api.item.v1.FabricItem;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.item.TooltipData;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
@@ -11,7 +15,12 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.ScreenTexts;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Pair;
+import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 import techguns.TGCamos;
 import techguns.TGEntityAttributes;
 import techguns.TGIdentifier;
@@ -19,40 +28,14 @@ import techguns.TGItems;
 import techguns.api.ICamoChangeable;
 import techguns.api.damagesystem.DamageType;
 import techguns.api.render.ITGArmorSpecialRenderer;
+import techguns.client.item.TGArmorTooltipData;
 import techguns.client.render.ITGItemRenderer;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class GenericArmor extends ArmorItem implements FabricItem, ITGItemRenderer, ITGArmorSpecialRenderer, ICamoChangeable {
     //Copied from ArmorItem
     private static final UUID[] ARMOR_MODIFIER_UUIDS = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
-
-    /*public static final UUID[] UUIDS_MOVESPEED = {
-            UUID.fromString("6a9a37a6-0e70-11ed-861d-0242ac120002"),
-            UUID.fromString("cf6b9ac0-0e71-11ed-861d-0242ac120002"),
-            UUID.fromString("d333173c-0e71-11ed-861d-0242ac120002"),
-            UUID.fromString("d6df7b28-0e71-11ed-861d-0242ac120002")};
-
-    public static final UUID[] UUIDS_JUMPBOOST = {
-            UUID.fromString("6f041dc8-0f12-11ed-861d-0242ac120002"),
-            UUID.fromString("6f041fb2-0f12-11ed-861d-0242ac120002"),
-            UUID.fromString("6f0420ac-0f12-11ed-861d-0242ac120002"),
-            UUID.fromString("6f042192-0f12-11ed-861d-0242ac120002")};
-
-    public static final UUID[] UUIDS_MININGSPEED = {
-            UUID.fromString("80932e26-0f1c-11ed-861d-0242ac120002"),
-            UUID.fromString("80933358-0f1c-11ed-861d-0242ac120002"),
-            UUID.fromString("80933498-0f1c-11ed-861d-0242ac120002"),
-            UUID.fromString("809335c4-0f1c-11ed-861d-0242ac120002")};
-
-    public static final UUID[] UUIDS_WATERMININGSPEED = {
-            UUID.fromString("f61b2400-0f1c-11ed-861d-0242ac120002"),
-            UUID.fromString("f61b2694-0f1c-11ed-861d-0242ac120002"),
-            UUID.fromString("f61b27ca-0f1c-11ed-861d-0242ac120002"),
-            UUID.fromString("f61b28d8-0f1c-11ed-861d-0242ac120002")};*/
-
 
     protected boolean hasInvRenderhack = false;
     protected boolean hasEntityModelRenderhack = false;
@@ -219,9 +202,6 @@ public class GenericArmor extends ArmorItem implements FabricItem, ITGItemRender
         var attributes = ImmutableMultimap.<EntityAttribute, EntityAttributeModifier>builder();
 
         if (slot == this.slot) {
-            /*if(this.getMaterial().armorPhys > 0.0F){
-                attributes.put(EntityAttributes.GENERIC_ARMOR, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], "Armor modifier", this.getMaterial().getArmorValue(slot, DamageType.PHYSICAL), EntityAttributeModifier.Operation.ADDITION));
-            }*/
             this.addArmorAttributes(attributes, slot);
 
             if(this.getMaterial().getToughness() > 0.0F){
@@ -252,4 +232,57 @@ public class GenericArmor extends ArmorItem implements FabricItem, ITGItemRender
     public int getProtection() {
         return super.getProtection();
     }
+
+    @Override
+    public ItemStack getDefaultStack() {
+        return super.getDefaultStack();
+    }
+
+    private static final EntityAttribute[] HIDE_TOOLTIP_ENIITY_MODIFIERS = {
+            TGEntityAttributes.ARMOR_PROJECTILE, TGEntityAttributes.ARMOR_DARK, TGEntityAttributes.ARMOR_ICE, TGEntityAttributes.ARMOR_FIRE, TGEntityAttributes.ARMOR_POISON,
+            TGEntityAttributes.ARMOR_ENERGY, TGEntityAttributes.ARMOR_EXPLOSION, TGEntityAttributes.ARMOR_LIGHTNING, TGEntityAttributes.ARMOR_RADIATION, EntityAttributes.GENERIC_ARMOR
+    };
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> list, TooltipContext context) {
+        super.appendTooltip(stack, world, list, context);
+
+        for (EquipmentSlot equipmentSlot : EquipmentSlot.values()) {
+            Multimap<EntityAttribute, EntityAttributeModifier> multimap = this.getAttributeModifiers(stack, equipmentSlot);
+            if (multimap.isEmpty()) continue;
+            list.add(ScreenTexts.EMPTY);
+            list.add(Text.translatable("item.modifiers." + equipmentSlot.getName()).formatted(Formatting.GRAY));
+            for (Map.Entry<EntityAttribute, EntityAttributeModifier> entry : multimap.entries()) {
+                //Don't add armor modifiers to tooltip
+                if (Arrays.stream(HIDE_TOOLTIP_ENIITY_MODIFIERS).anyMatch(entityAttribute -> entityAttribute == entry.getKey())) {
+                    continue;
+                }
+
+                EntityAttributeModifier entityAttributeModifier = entry.getValue();
+                double d = entityAttributeModifier.getValue();
+                boolean bl = false;
+
+                double e = entityAttributeModifier.getOperation() == EntityAttributeModifier.Operation.MULTIPLY_BASE || entityAttributeModifier.getOperation() == EntityAttributeModifier.Operation.MULTIPLY_TOTAL ? d * 100.0 : (entry.getKey().equals(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE) ? d * 10.0 : d);
+                if (bl) {
+                    list.add(Text.literal(" ").append(Text.translatable("attribute.modifier.equals." + entityAttributeModifier.getOperation().getId(), ItemStack.MODIFIER_FORMAT.format(e), Text.translatable(entry.getKey().getTranslationKey()))).formatted(Formatting.DARK_GREEN));
+                    continue;
+                }
+                if (d > 0.0) {
+                    list.add(Text.translatable("attribute.modifier.plus." + entityAttributeModifier.getOperation().getId(), ItemStack.MODIFIER_FORMAT.format(e), Text.translatable(entry.getKey().getTranslationKey())).formatted(Formatting.BLUE));
+                    continue;
+                }
+                if (!(d < 0.0)) continue;
+                list.add(Text.translatable("attribute.modifier.take." + entityAttributeModifier.getOperation().getId(), ItemStack.MODIFIER_FORMAT.format(e *= -1.0), Text.translatable(entry.getKey().getTranslationKey())).formatted(Formatting.RED));
+            }
+        }
+    }
+
+    @Override
+    public Optional<TooltipData> getTooltipData(ItemStack stack) {
+        //We don't want to display a huge list of modifiers
+        stack.addHideFlag(ItemStack.TooltipSection.MODIFIERS);
+        return Optional.of(new TGArmorTooltipData(this, stack));
+    }
+
+
 }

@@ -5,8 +5,6 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "AbstractBlockMixin",
-    "ArmorFeatureRendererMixin",
-    "ArmorStandEntityRendererMixin",
     "DamageSourceMixin",
     "ItemStackMixin",
     "LivingEntityMixin",

@@ -1,13 +1,16 @@
 package techguns.client.render.entities.npcs;
 
-import net.minecraft.client.model.Model;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.rendering.v1.ArmorRenderer;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.feature.FeatureRenderer;
-import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
@@ -19,37 +22,42 @@ import org.jetbrains.annotations.Nullable;
 import techguns.TGCamos;
 import techguns.TGIdentifier;
 import techguns.api.ICamoChangeable;
-import techguns.client.models.armor.TGArmorModelRegistry;
+import techguns.items.armors.GenericArmor;
 
 import java.util.List;
+import java.util.function.Function;
 
-public class TGArmorFeatureRenderer <T extends LivingEntity, M extends BipedEntityModel<T>, A extends Model>
-        extends FeatureRenderer<T, M> {
-
-    protected final TGArmorModelRegistry models;
+@Environment(value= EnvType.CLIENT)
+public class TGArmorRenderer implements ArmorRenderer {
+    protected final Function<ModelPart, BipedEntityModel<LivingEntity>> modelConstructor;
+    protected final EntityModelLayer layer;
 
     //used as fallback texture
     protected static final Identifier armorTexure = new TGIdentifier("textures/armors/powerarmor.png");
     protected static final Identifier DEFAULT_CAMO = new TGIdentifier("default");
 
-    public TGArmorFeatureRenderer(FeatureRendererContext<T, M> context, TGArmorModelRegistry models) {
-        super(context);
-        this.models = models;
+    protected final EquipmentSlot slot;
+
+    protected BipedEntityModel<LivingEntity> cached_model = null;
+
+    public TGArmorRenderer(Function<ModelPart, BipedEntityModel<LivingEntity>> modelConstructor, EntityModelLayer layer, GenericArmor armor){
+        this.modelConstructor = modelConstructor;
+        this.layer = layer;
+        this.slot = armor.getSlotType();
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, T entity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch) {
-        this.renderArmor(matrices, vertexConsumers, entity, EquipmentSlot.CHEST, light);
-        this.renderArmor(matrices, vertexConsumers, entity, EquipmentSlot.LEGS, light);
-        this.renderArmor(matrices, vertexConsumers, entity, EquipmentSlot.FEET, light);
-        this.renderArmor(matrices, vertexConsumers, entity, EquipmentSlot.HEAD, light);
+    public void render(MatrixStack matrices, VertexConsumerProvider vertexConsumers, ItemStack stack, LivingEntity entity, EquipmentSlot slot, int light, BipedEntityModel<LivingEntity> contextModel) {
+        if (cached_model == null) {
+            cached_model = this.modelConstructor.apply(MinecraftClient.getInstance().getEntityModelLoader().getModelPart(this.layer));
+        }
+        renderArmor(matrices, vertexConsumers, entity, this.slot, light, cached_model, contextModel);
     }
 
-    private void renderArmor(MatrixStack matrices, VertexConsumerProvider vertexConsumers, T entity, EquipmentSlot armorSlot, int light) {
+    private void renderArmor(MatrixStack matrices, VertexConsumerProvider vertexConsumers, LivingEntity entity, EquipmentSlot armorSlot, int light, BipedEntityModel<LivingEntity> model, BipedEntityModel<LivingEntity> contextModel) {
         ItemStack armor = entity.getEquippedStack(armorSlot);
-        BipedEntityModel<T> model = models.getModel(armor);
         if(model != null) {
-            this.getContextModel().setAttributes(model);
+            contextModel.setAttributes(model);
             this.setVisible(model, armorSlot);
             //this cast is save, getModel will return null when not an ArmorItem
             ArmorItem armorItem = (ArmorItem) armor.getItem();
@@ -68,16 +76,16 @@ public class TGArmorFeatureRenderer <T extends LivingEntity, M extends BipedEnti
                     }
                 }
             }
-            this.renderArmorParts(matrices, vertexConsumers, texture, light, armorItem, false, model, EquipmentSlot.LEGS==armorSlot, 1.0f, 1.0f, 1.0f, null);
+            this.renderArmorParts(matrices, vertexConsumers, texture, light, armorItem, false, model,  1.0f, 1.0f, 1.0f, null);
         }
     }
 
-    protected void renderArmorParts(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Identifier texture, int light, ArmorItem item, boolean usesSecondLayer, BipedEntityModel<T> model, boolean legs, float red, float green, float blue, @Nullable String overlay) {
+    protected void renderArmorParts(MatrixStack matrices, VertexConsumerProvider vertexConsumers, Identifier texture, int light, ArmorItem item, boolean usesSecondLayer, BipedEntityModel<LivingEntity> model,  float red, float green, float blue, @Nullable String overlay) {
         VertexConsumer vertexConsumer = ItemRenderer.getArmorGlintConsumer(vertexConsumers, RenderLayer.getArmorCutoutNoCull(texture), false, usesSecondLayer);
         model.render(matrices, vertexConsumer, light, OverlayTexture.DEFAULT_UV, red, green, blue, 1.0f);
     }
 
-    protected void setVisible(BipedEntityModel<T> bipedModel, EquipmentSlot slot) {
+    protected void setVisible(BipedEntityModel<LivingEntity> bipedModel, EquipmentSlot slot) {
         bipedModel.setVisible(false);
         switch (slot) {
             case HEAD: {

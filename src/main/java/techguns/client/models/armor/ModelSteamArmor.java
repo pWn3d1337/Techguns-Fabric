@@ -4,6 +4,7 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.entity.EquipmentSlot;
+import techguns.client.TGClientEntityModels;
 
 import java.util.function.Function;
 
@@ -465,7 +466,7 @@ public class ModelSteamArmor extends BipedEntityModel {
 
         }
 
-        TGArmorModelRegistry.addMissingParts(modelPartData);
+        TGClientEntityModels.addMissingParts(modelPartData);
 
         return modelData;
     }

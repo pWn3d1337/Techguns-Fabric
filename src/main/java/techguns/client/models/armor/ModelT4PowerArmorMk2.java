@@ -7,6 +7,7 @@ import net.minecraft.client.model.ModelPartData;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.EntityModelPartNames;
 import net.minecraft.entity.EquipmentSlot;
+import techguns.client.TGClientEntityModels;
 
 import java.util.function.Function;
 
@@ -277,7 +278,7 @@ public class ModelT4PowerArmorMk2 extends BipedEntityModel {
             LB02.addTo(left_leg, EntityModelPartNames.LEFT_LEG + "_LB02");
         }
 
-        TGArmorModelRegistry.addMissingParts(modelPartData);
+        TGClientEntityModels.addMissingParts(modelPartData);
         return modelData;
     }
 }

@@ -15,7 +15,6 @@ import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.math.MathHelper;
-import techguns.mixin.ArmorFeatureRendererMixin;
 
 public class SignatureHelper {
 
