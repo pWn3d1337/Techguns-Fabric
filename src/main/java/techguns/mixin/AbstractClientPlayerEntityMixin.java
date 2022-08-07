@@ -1,5 +1,6 @@
 package techguns.mixin;
 
+import net.minecraft.entity.attribute.EntityAttributes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,13 +18,27 @@ public class AbstractClientPlayerEntityMixin {
 	public void getSpeed(CallbackInfoReturnable<Float> info, float f) {
 		AbstractClientPlayerEntity self = (AbstractClientPlayerEntity)(Object)this;
 
-		//TODO cancel speedfov
-		//float speed_fov = (float)((double)1.0 * ((self.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) / (double)self.abilities.getWalkSpeed() + 1.0D) / 2.0D));
-		
-		if(!self.getMainHandStack().isEmpty() && self.getMainHandStack().getItem() instanceof GenericGun) {
-			info.setReturnValue(f* ClientProxy.get().getZoomfactor());
+		//TODO CONFIG OPTION
+
+		//Calculate FOV Multiplier
+		float f2 = 1.0f;
+		if (self.getAbilities().flying) {
+			f2 *= 1.1f;
 		}
-		
+		if (self.getAbilities().getWalkSpeed() == 0.0f || Float.isNaN(f2 *= ((float)self.getAttributeValue(EntityAttributes.GENERIC_MOVEMENT_SPEED) / self.getAbilities().getWalkSpeed() + 1.0f) / 2.0f) || Float.isInfinite(f)) {
+			f2 = 1.0f;
+		}
+
+		//Counter speed dependant fov change
+		f /= f2;
+		if (self.isSprinting()){ //15% fov increase for sprinting
+			f*=1.15f;
+		}
+
+		if(!self.getMainHandStack().isEmpty() && self.getMainHandStack().getItem() instanceof GenericGun) {
+			f*=ClientProxy.get().getZoomfactor();
+		}
+		info.setReturnValue(f);
 	}
 
 }

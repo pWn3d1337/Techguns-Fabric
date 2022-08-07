@@ -313,7 +313,7 @@ public class TGCamos implements ITGInitializer {
 
 		FabricItemGroupBuilder.create(
 				new TGIdentifier("techguns_camos"))
-				.icon(() -> new ItemStack(TGuns.M4))
+				.icon(() -> new ItemStack(TGBlocks.CAMO_BENCH))
 				.appendItems(stacks -> {
 					addAllCamoItems(stacks);
 				})

@@ -4,7 +4,9 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.registry.Registry;
+import techguns.items.armors.ArmorPowerType;
 import techguns.items.armors.GenericArmor;
+import techguns.items.armors.PoweredArmor;
 import techguns.items.armors.TGArmorMaterial;
 
 public class TGArmors implements ITGInitializer{
@@ -141,10 +143,32 @@ public class TGArmors implements ITGInitializer{
         T3_EXO_LEGGINGS = registerArmor2d(T3_EXO, EquipmentSlot.LEGS);
         T3_EXO_BOOTS = registerArmor2d(T3_EXO, EquipmentSlot.FEET);
 
-        T3_POWER_HELMET = registerArmor3d(T3_POWER, EquipmentSlot.HEAD);
-        T3_POWER_CHESTPLATE = registerArmor3d(T3_POWER, EquipmentSlot.CHEST);
-        T3_POWER_LEGGINGS = registerArmor3d(T3_POWER, EquipmentSlot.LEGS);
-        T3_POWER_BOOTS = registerArmor3d(T3_POWER, EquipmentSlot.FEET);
+        T3_POWER_HELMET = registerArmorPowered3d(T3_POWER, EquipmentSlot.HEAD, ArmorPowerType.RF, 10)
+                .setSpeedBoni(0.05f,0.03f,0.0f,0.0f)
+                .setMiningBoni(0.05f,0.0f)
+                .setHealthBonus(1,0)
+                .setRADResistance(0.75f);
+
+        T3_POWER_CHESTPLATE = registerArmorPowered3d(T3_POWER, EquipmentSlot.CHEST, ArmorPowerType.RF, 3600)
+                .setSpeedBoni(0.05f,0.03f,0.0f,0.0f)
+                .setMiningBoni(0.05f,0.0f)
+                .setHealthBonus(2,0)
+                .setBattery(TGItems.ENERGY_CELL).setEmptyBattery(TGItems.ENERGY_CELL_EMPTY)
+                .setRADResistance(0.75f);
+
+        T3_POWER_LEGGINGS = registerArmorPowered3d(T3_POWER, EquipmentSlot.LEGS, ArmorPowerType.RF, 10)
+                .setSpeedBoni(0.05f,0.03f,0f,0f)
+                .setMiningBoni(0.05f,0f)
+                .setHealthBonus(1,0)
+                .setRADResistance(0.75f);
+
+        T3_POWER_BOOTS = registerArmorPowered3d(T3_POWER, EquipmentSlot.FEET, ArmorPowerType.RF, 10)
+                .setSpeedBoni(0.05f,0.15f,0,0)
+                .setMiningBoni(0.05f,0)
+                .setFallProtection(0.2f, 1.0f,0,0)
+                .setHealthBonus(1,0)
+                .setStepAssist(1.0f,0)
+                .setRADResistance(0.75f);
 
         T4_POWER_HELMET = registerArmor3d(T4_POWER, EquipmentSlot.HEAD);
         T4_POWER_CHESTPLATE = registerArmor3d(T4_POWER, EquipmentSlot.CHEST);
@@ -188,6 +212,12 @@ public class TGArmors implements ITGInitializer{
     protected static GenericArmor registerArmor3d(TGArmorMaterial mat,  EquipmentSlot slot) {
         return registerArmor(mat, slot, true, true, false);
     }
+    /**
+     * Armor with custom 3d model & inventory 3d
+     */
+    protected static PoweredArmor registerArmorPowered3d(TGArmorMaterial mat,  EquipmentSlot slot, ArmorPowerType powerType, int maxpower) {
+        return registerArmorPowered(mat, slot, true, true, false, powerType, maxpower);
+    }
 
     /**
      * 2d inventory icon, custom model
@@ -195,9 +225,21 @@ public class TGArmors implements ITGInitializer{
     protected static GenericArmor registerArmor2d(TGArmorMaterial mat,  EquipmentSlot slot) {
         return registerArmor(mat, slot, false, true, false);
     }
+    /**
+     * 2d inventory icon, custom model
+     */
+    protected static PoweredArmor registerArmorPowered2d(TGArmorMaterial mat,  EquipmentSlot slot, ArmorPowerType powerType, int maxpower) {
+        return registerArmorPowered(mat, slot, false, true, false, powerType, maxpower);
+    }
 
     protected static GenericArmor registerArmor(TGArmorMaterial mat,  EquipmentSlot slot, boolean hasInvRenderhack, boolean hasEntityModelRenderhack, boolean shouldRenderDefaultArmor){
         GenericArmor armor = new GenericArmor(mat, slot, hasInvRenderhack, hasEntityModelRenderhack, shouldRenderDefaultArmor);
+        Registry.register(Registry.ITEM, new TGIdentifier(getArmorIdentifier(armor)), armor);
+        return armor;
+    }
+
+    protected static PoweredArmor registerArmorPowered(TGArmorMaterial mat, EquipmentSlot slot, boolean hasInvRenderhack, boolean hasEntityModelRenderhack, boolean shouldRenderDefaultArmor, ArmorPowerType powerType, int maxpower){
+        PoweredArmor armor = new PoweredArmor(mat, slot, hasInvRenderhack, hasEntityModelRenderhack, shouldRenderDefaultArmor, powerType, maxpower);
         Registry.register(Registry.ITEM, new TGIdentifier(getArmorIdentifier(armor)), armor);
         return armor;
     }

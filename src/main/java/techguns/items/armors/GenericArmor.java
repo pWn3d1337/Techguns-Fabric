@@ -35,7 +35,7 @@ import java.util.*;
 
 public class GenericArmor extends ArmorItem implements FabricItem, ITGItemRenderer, ITGArmorSpecialRenderer, ICamoChangeable {
     //Copied from ArmorItem
-    private static final UUID[] ARMOR_MODIFIER_UUIDS = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
+    protected static final UUID[] ARMOR_MODIFIER_UUIDS = new UUID[]{UUID.fromString("845DB27C-C624-495F-8C9F-6020A9A58B6B"), UUID.fromString("D8499B04-0E66-4726-AB29-64469D734E0D"), UUID.fromString("9F3D476D-C118-4544-8365-64846904B48E"), UUID.fromString("2AD3F246-FEE1-4E67-B886-69FD380BB150")};
 
     protected boolean hasInvRenderhack = false;
     protected boolean hasEntityModelRenderhack = false;
@@ -226,16 +226,6 @@ public class GenericArmor extends ArmorItem implements FabricItem, ITGItemRender
 
         }
         return attributes.build();
-    }
-
-    @Override
-    public int getProtection() {
-        return super.getProtection();
-    }
-
-    @Override
-    public ItemStack getDefaultStack() {
-        return super.getDefaultStack();
     }
 
     private static final EntityAttribute[] HIDE_TOOLTIP_ENIITY_MODIFIERS = {

@@ -3,6 +3,8 @@ package techguns.mixin;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -11,6 +13,7 @@ import net.minecraft.util.math.Direction;
 import org.checkerframework.checker.units.qual.A;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.MixinEnvironment;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -35,6 +38,9 @@ import techguns.api.entity.AttackTime;
 import techguns.api.entity.ITGExtendedPlayer;
 import techguns.api.guns.GunManager;
 import techguns.entities.projectiles.GrapplingHookProjectile;
+import techguns.items.armors.GenericArmor;
+import techguns.items.armors.PoweredArmor;
+import techguns.items.armors.TGArmorBonus;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.GenericGunCharge;
 import techguns.items.guns.GenericGunMeleeCharge;
@@ -45,6 +51,10 @@ import java.util.List;
 
 @Mixin(PlayerEntity.class)
 public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExtendedPlayer {
+
+	@Shadow public abstract ItemStack getEquippedStack(EquipmentSlot slot);
+
+	@Shadow public abstract PlayerInventory getInventory();
 
 	@Unique
 	public AttackTime techguns_attackTimes_mh = new AttackTime();
@@ -285,6 +295,22 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 				}
 			}
 		}
+
+		/**
+		 * handle armor stuff
+		 */
+		PlayerEntity player = (PlayerEntity) (Object) this;
+		PoweredArmor.calculateConsumptionTick(player);
+
+		if (player.isOnFire()) {
+			double cooling = 0D; //TODO Cooling system entityAttribute
+			//float cooling = GenericArmor.getArmorBonusForPlayer(player, TGArmorBonus.COOLING_SYSTEM, false);
+			if (cooling >=1.0){
+				player.extinguish();
+			}
+		}
+
+
 	}
 
 	@Override

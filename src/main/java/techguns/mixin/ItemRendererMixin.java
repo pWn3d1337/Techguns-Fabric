@@ -1,5 +1,8 @@
 package techguns.mixin;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,20 +25,24 @@ import techguns.api.guns.GunManager;
 import techguns.api.render.IItemRenderer;
 import techguns.client.render.ITGItemRenderer;
 import techguns.client.render.TGRenderRegistries;
+import techguns.items.armors.PoweredArmor;
 import techguns.items.guns.GenericGun;
 
 @Mixin(ItemRenderer.class)
-public class ItemRendererMixin {
+public abstract class ItemRendererMixin {
 
 	@Shadow
 	public float zOffset;
 
-	@Inject(at = @At("INVOKE"), method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V", cancellable = true)
+	@Shadow
+	protected abstract void renderGuiQuad(BufferBuilder buffer, int x, int y, int width, int height, int red, int green, int blue, int alpha);
+
+	@Inject(at = @At("HEAD"), method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V", cancellable = true)
 	public void renderItem(ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel model, CallbackInfo info) {
 		this.renderHack((LivingEntity)null, stack, renderMode, leftHanded, matrices, vertexConsumers, light, overlay, info);
 	}
 
-	@Inject(at = @At("INVOKE"), method = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;III)V", cancellable = true)
+	@Inject(at = @At("HEAD"), method = "renderItem(Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;Lnet/minecraft/world/World;III)V", cancellable = true)
 	public void renderItem(LivingEntity entity, ItemStack stack, ModelTransformation.Mode renderMode, boolean leftHanded, MatrixStack matrices, VertexConsumerProvider vertexConsumers, World world, int light, int overlay, int seed, CallbackInfo info) {
 		this.renderHack(entity, stack, renderMode, leftHanded, matrices, vertexConsumers, light, overlay, info);
 	}
@@ -76,7 +83,7 @@ public class ItemRendererMixin {
 		}
 	}
 	
-	@Inject(at = @At("INVOKE"), method = "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", cancellable = true)
+	@Inject(at = @At("HEAD"), method = "renderGuiItemOverlay(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V", cancellable = true)
 	public void renderGuiItemOverlay(TextRenderer renderer, ItemStack stack, int x, int y, String countLabel, CallbackInfo info) {
 		if (!stack.isEmpty() && stack.getItem() instanceof GenericGun) {
 			info.cancel();
@@ -94,6 +101,33 @@ public class ItemRendererMixin {
 	        VertexConsumerProvider.Immediate immediate = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
 	        renderer.draw((String)string, (float)(x + 19 +9 - 2 - renderer.getWidth(string)/2), (float)(y ), 16777215, true, matrixStack.peek().getPositionMatrix(), immediate, false, 0, 15728880);
 	        immediate.draw();
+		} else if (!stack.isEmpty() && stack.getItem() instanceof PoweredArmor){
+			PoweredArmor armor = (PoweredArmor) stack.getItem();
+
+			info.cancel();
+
+			//draw second bar
+			RenderSystem.disableDepthTest();
+			RenderSystem.disableTexture();
+			RenderSystem.disableBlend();
+			Tessellator tessellator = Tessellator.getInstance();
+			BufferBuilder bufferBuilder = tessellator.getBuffer();
+			float f = Math.max(0.0f, (float)PoweredArmor.getPower(stack) / (float)armor.maxpower);
+			if (stack.isDamaged()) {
+				int i = stack.getItemBarStep();
+				int j = stack.getItemBarColor();
+				this.renderGuiQuad(bufferBuilder, x + 2, y + 13, 13, 2, 0, 0, 0, 255);
+				this.renderGuiQuad(bufferBuilder, x + 2, y + 13, i, 1, j >> 16 & 0xFF, j >> 8 & 0xFF, j & 0xFF, 255);
+			}
+			if (!armor.isFullyPowered(stack)) {
+				int k = Math.round(f * 13.0F);
+				int l = MathHelper.hsvToRgb(f * 2F / 3F, 1.0f, 1.0f);
+				this.renderGuiQuad(bufferBuilder, x + 2, y + 14, 13, 2, 0, 0, 0, 255);
+				this.renderGuiQuad(bufferBuilder, x + 2, y + 14, k, 1, l >> 16 & 0xFF, l >> 8 & 0xFF, l & 0xFF, 255);
+			}
+			RenderSystem.enableBlend();
+			RenderSystem.enableTexture();
+			RenderSystem.enableDepthTest();
 		}
 	}
 	
