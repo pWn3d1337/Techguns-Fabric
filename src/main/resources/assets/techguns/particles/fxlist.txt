@@ -3537,3 +3537,92 @@ FXLIST MiningChargeBlockExplosion {
 MiningChargeExplosionFire
 MediumExplosionSmoke
 }
+
+
+FXLIST MagicRifleProjectileTrail_Arcane {
+MR_TrailBlue
+}
+
+MR_TrailBlue {
+Texture = techguns:textures/fx/laser_blue.png
+RenderType = ADDITIVE
+Streak = true
+Lifetime = 19 19
+SpawnDelay = 0 0
+SystemLifetime = 0 0
+Size = 3 3
+SizeRate = -0.35 -0.35
+SizeRateDamping = 0.9 0.9
+//Alpha = 1 0
+//Alpha = 0 1
+Color = 255 255 255 0
+Color = 135 135 135 0.25
+Color = 0 0 0 1
+ParticleCount = 1 1
+Gravity = 0.0
+VolumeType = POINT
+VelocityType = NONE
+VelocityDamping = 1 1
+InitialDelay = 0 0
+offset = 0 0 0
+}
+
+FXLIST MagicRifleProjectileTrail_Fire {
+MR_TrailRed
+}
+
+MR_TrailRed {
+Texture = techguns:textures/fx/laser2.png
+RenderType = ADDITIVE
+Streak = true
+Lifetime = 19 19
+SpawnDelay = 0 0
+SystemLifetime = 0 0
+Size = 3 3
+SizeRate = -0.35 -0.35
+SizeRateDamping = 0.9 0.9
+//Alpha = 1 0
+//Alpha = 0 1
+Color = 255 255 255 0
+Color = 135 135 135 0.25
+Color = 0 0 0 1
+ParticleCount = 1 1
+Gravity = 0.0
+VolumeType = POINT
+VelocityType = NONE
+VelocityDamping = 1 1
+InitialDelay = 0 0
+offset = 0 0 0
+}
+
+FXLIST MagicRifleProjectileTrail_Lightning {
+MR_TrailLightning
+}
+
+MR_TrailLightning {
+Texture = techguns:textures/fx/laser_blue.png
+RenderType = ADDITIVE
+Streak = true
+Lifetime = 100 100
+SpawnDelay = 0 0
+SystemLifetime = 0 0
+Size = 1 1.2
+SizeRate = -0.35 -0.35
+SizeRateDamping = 0.9 0.9
+//Alpha = 1 0
+//Alpha = 0 1
+Color = 255 255 255 0
+Color = 135 135 135 0.25
+Color = 0 0 0 1
+ParticleCount = 3 3
+Gravity = 0.0
+VolumeType = TRAIL
+Volume1 = 1.0
+Volume2 = -1.0
+VelocityType = SPHERICAL
+Velocity1 = 2.5 4.5
+VelocityDamping = 0.91 0.93
+InitialDelay = 0 0
+offset = 0 0 0
+}
+

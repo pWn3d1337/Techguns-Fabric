@@ -256,7 +256,8 @@ public class RenderGunBase extends RenderItemBase {
 		float fireProgress = 0.0f;
 		float reloadProgress = 0.0f;
 		float muzzleFlashProgress = 0.0f;
-		float chargeProgress = 0.0f;
+		float chargeProgress = 0.0f;  //clipped to [0, 1.0]
+		float chargeProgressFull = 0.0f;  //continues to go over 1.0
 		float zoomProgress = 1.0f;
 
 		byte attackType=0;
@@ -275,6 +276,8 @@ public class RenderGunBase extends RenderItemBase {
 				chargeProgress = dur / ((GenericGunCharge)stack.getItem()).fullChargeTime;
 
 				System.out.println("chargeProgess = "+chargeProgress);
+
+				chargeProgressFull = chargeProgress;
 
 				if (chargeProgress < 0.0f) {
 					chargeProgress = 0.0f;
@@ -439,11 +442,11 @@ public class RenderGunBase extends RenderItemBase {
 				}if (chargeProgress > 0.0f && this.chargeEffect != null) {
 					//System.out.println("chargeProgess2 = "+chargeProgress);
 					if (Mode.FIRST_PERSON_LEFT_HAND== transform || Mode.FIRST_PERSON_RIGHT_HAND == transform ) {
-						this.drawChargeFx(matrices, vertexConsumers, chargeProgress, attackType, leftHand, ammoVariant);
+						this.drawChargeFx(matrices, vertexConsumers, chargeProgressFull, attackType, leftHand, ammoVariant);
 					} else {
 						matrices.push();
 						this.transformThirdPersonArmPose(matrices, entityIn, reloadProgress, gun.getArmPose(akimbo), leftHand);
-						this.drawChargeFx3P(matrices, vertexConsumers, chargeProgress, attackType, leftHand, ammoVariant);
+						this.drawChargeFx3P(matrices, vertexConsumers, chargeProgressFull, attackType, leftHand, ammoVariant);
 						matrices.pop();
 					}
 				}

@@ -30,6 +30,7 @@ public class ScreenEffect implements IScreenEffect {
 	protected boolean flipX=false;
 
 	protected FadeType dynamicScaleType = null;
+
 	protected float minScale = 0f;
 	protected float maxScale = 0f;
 
@@ -103,7 +104,13 @@ public class ScreenEffect implements IScreenEffect {
 	 */
 	@Override
 	public void doRender(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, float offsetX, float offsetY, float offsetZ, float scale, float rot_x, float rot_y, float rot_z, boolean is3p, String ammoVariant) {
-		int currentFrame = (int)((float)numSprites*(Math.max(0f, progress-0.00001f))); //Make sure progress never reaches 1.0f
+		//int currentFrame = (int)((float)numSprites*(Math.max(0f, progress-0.00001f))); //Make sure progress never reaches 1.0f
+
+		if (progress > 1.0f) {
+			System.out.println("test");
+		}
+
+		int currentFrame = (int)((float)numSprites*progress) % numSprites;
 		if (currentFrame < numSprites) {
 			int col = currentFrame % cols;
 			int row = (currentFrame / cols);

@@ -159,11 +159,11 @@ public class MagicRifleProjectile extends GenericProjectile{
             GenericProjectile.handleBulletImpact(proj.world, x, y, z, pitch, yaw, blockSoundGroup,false);
         }
         public void createFXTrail(MagicRifleProjectile proj) {
-            this.createScaledProjectileTrail(proj,"GaussProjectileTrail");
+            this.createScaledProjectileTrail(proj,"MagicRifleProjectileTrail_Arcane");
         }
 
         protected void createScaledProjectileTrail(MagicRifleProjectile proj, String fxlist) {
-            float scale = 0.5f + proj.chargeAmount * 0.5f;
+            float scale = 0.5f + proj.chargeAmount * 4.5f;
             ClientProxy.get().createFXOnEntity(fxlist, proj, scale);
         }
     }
@@ -184,7 +184,7 @@ public class MagicRifleProjectile extends GenericProjectile{
             GenericProjectile.handleBulletImpact(proj.world, x, y, z, pitch, yaw, blockSoundGroup,true);
         }
         public void createFXTrail(MagicRifleProjectile proj) {
-            this.createScaledProjectileTrail(proj,"FlamethrowerTrail");
+            this.createScaledProjectileTrail(proj,"MagicRifleProjectileTrail_Fire");
         }
 
     }
@@ -215,7 +215,9 @@ public class MagicRifleProjectile extends GenericProjectile{
         public void handlePostImpactTick(MagicRifleProjectile proj) {
             if (proj.postImpactTicks % 8 == 0) { //Spawn lightning every 8 ticks
                 BlockPos blockPos = getFreeBlockPos(proj.world, (float) proj.getX(), (float) proj.getY(), (float) proj.getZ());
-                createLightning(proj, blockPos);
+                if (blockPos != null) {
+                    createLightning(proj, blockPos);
+                }
             }
             if (proj.postImpactTicks % 4 == 0 && proj.chargeAmount*0.5f > proj.world.random.nextFloat()) {
                 Vec2f pos = MathUtil.polarOffsetXZ(proj.getX(), proj.getZ(),
@@ -238,9 +240,9 @@ public class MagicRifleProjectile extends GenericProjectile{
             proj.world.playSound(null, blockPos, SoundEvents.ITEM_TRIDENT_THUNDER, SoundCategory.WEATHER, 5.0f, 1.0f);
         }
 
-//        public void createFXTrail(MagicRifleProjectile proj) {
-//            this.createScaledProjectileTrail(proj,"FlamethrowerTrail");
-//        }
+        public void createFXTrail(MagicRifleProjectile proj) {
+            this.createScaledProjectileTrail(proj,"MagicRifleProjectileTrail_Lightning");
+        }
 
     }
 
