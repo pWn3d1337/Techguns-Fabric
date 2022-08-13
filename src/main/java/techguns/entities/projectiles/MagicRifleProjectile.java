@@ -163,7 +163,7 @@ public class MagicRifleProjectile extends GenericProjectile{
         }
 
         protected void createScaledProjectileTrail(MagicRifleProjectile proj, String fxlist) {
-            float scale = 0.5f + proj.chargeAmount * 4.5f;
+            float scale = 0.5f + proj.chargeAmount * 2.5f;
             ClientProxy.get().createFXOnEntity(fxlist, proj, scale);
         }
     }
