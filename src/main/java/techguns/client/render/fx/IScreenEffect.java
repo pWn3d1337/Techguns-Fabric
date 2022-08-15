@@ -2,9 +2,7 @@ package techguns.client.render.fx;
 
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.util.math.MatrixStack;
-import techguns.items.guns.ammo.AmmoType;
 import techguns.items.guns.ammo.AmmoTypes;
-import techguns.items.guns.ammo.AmmoVariant;
 
 import java.util.AbstractMap;
 
@@ -44,10 +42,10 @@ public interface IScreenEffect {
 	public static IScreenEffect techScope = new ScreenEffect("textures/fx/techscope.png",1,1,1, RenderType.SCOPE).setFlipAxis(false, true);
 
 	public static IScreenEffect magicRifleCharge = new VariableScreenEffect(
-			new AbstractMap.SimpleEntry<String, IScreenEffect>(AmmoTypes.TYPE_DEFAULT, new ScreenEffect("textures/fx/magic_circle_arcane.png", 1, 1, 1,RenderType.ADDITIVE).setFade(FadeType.RISE_SMOOTH).setColor(0.75f, 0.75f, 0.75f, 1.0f).setDynamicScale(FadeType.RISE_SMOOTH, 5.0f, 10.0f).setDrawMode3p(ScreenEffect.DrawMode3p.PLANE_Z)),
-			new AbstractMap.SimpleEntry<String, IScreenEffect>(AmmoTypes.TYPE_FIRE, new ScreenEffect("textures/fx/magic_circle_fire.png", 1, 1, 1, RenderType.ADDITIVE).setFade(FadeType.RISE_SMOOTH).setColor(0.75f, 0.75f, 0.75f, 1.0f).setDynamicScale(FadeType.RISE_SMOOTH, 5.0f, 10.0f).setDrawMode3p(ScreenEffect.DrawMode3p.PLANE_Z)),
-			new AbstractMap.SimpleEntry<String, IScreenEffect>(AmmoTypes.TYPE_LIGHTNING, new ScreenEffect("textures/fx/magic_circle_01.png", 1, 1, 1, RenderType.ADDITIVE).setFade(FadeType.RISE_SMOOTH).setColor(0.55f, 0.75f, 1.0f, 1.0f).setDynamicScale(FadeType.RISE_SMOOTH, 5.0f, 10.0f).setDrawMode3p(ScreenEffect.DrawMode3p.PLANE_Z))
-	).setDefaultEffect(new ScreenEffect("textures/fx/magic_circle_01.png", 1, 1, 1, RenderType.ADDITIVE).setFade(FadeType.RISE_SMOOTH).setColor(1.0f, 1.0f, 1.0f, 1.0f).setDynamicScale(FadeType.RISE_SMOOTH, 5.0f, 10.0f).setDrawMode3p(ScreenEffect.DrawMode3p.PLANE_Z));
+			new AbstractMap.SimpleEntry<String, IScreenEffect>(AmmoTypes.TYPE_DEFAULT, new ScreenEffect("textures/fx/magic_circle_arcane.png", 1, 1, 1,RenderType.ADDITIVE).setFade(FadeType.RISE_SMOOTH_AND_PULSE_FAST).setColor(0.75f, 0.75f, 0.75f, 1.0f).setDynamicScale(FadeType.RISE_SMOOTH, 5.0f, 10.0f).setDrawMode3p(ScreenEffect.DrawMode3p.PLANE_Z)),
+			new AbstractMap.SimpleEntry<String, IScreenEffect>(AmmoTypes.TYPE_FIRE, new ScreenEffect("textures/fx/magic_circle_fire.png", 1, 1, 1, RenderType.ADDITIVE).setFade(FadeType.RISE_SMOOTH_AND_PULSE_FAST).setColor(0.75f, 0.75f, 0.75f, 1.0f).setDynamicScale(FadeType.RISE_SMOOTH, 5.0f, 10.0f).setDrawMode3p(ScreenEffect.DrawMode3p.PLANE_Z)),
+			new AbstractMap.SimpleEntry<String, IScreenEffect>(AmmoTypes.TYPE_LIGHTNING, new ScreenEffect("textures/fx/magic_circle_01.png", 1, 1, 1, RenderType.ADDITIVE).setFade(FadeType.RISE_SMOOTH_AND_PULSE_FAST).setColor(0.55f, 0.75f, 1.0f, 1.0f).setDynamicScale(FadeType.RISE_SMOOTH, 5.0f, 10.0f).setDrawMode3p(ScreenEffect.DrawMode3p.PLANE_Z))
+	).setDefaultEffect(new ScreenEffect("textures/fx/magic_circle_01.png", 1, 1, 1, RenderType.ADDITIVE).setFade(FadeType.RISE_SMOOTH_AND_PULSE_FAST).setColor(1.0f, 1.0f, 1.0f, 1.0f).setDynamicScale(FadeType.RISE_SMOOTH, 5.0f, 10.0f).setDrawMode3p(ScreenEffect.DrawMode3p.PLANE_Z));
 
 	public default void doRender(MatrixStack matrices, VertexConsumerProvider verticesProvider, float progress, float offsetX, float offsetY, float offsetZ, float scale, boolean is3p, String ammoVariant) {
 		doRender(matrices, verticesProvider, progress, offsetX, offsetY,offsetZ,scale,0,0,0,is3p, ammoVariant);
@@ -57,14 +55,16 @@ public interface IScreenEffect {
 			float rot_z, boolean is3p, String ammoVariant);
 
 	enum FadeType {
-		SMOOTH, FAST, NONE, RISE_SMOOTH;
+		SMOOTH, FAST, NONE, RISE_SMOOTH, RISE_SMOOTH_AND_PULSE_FAST;
 
 		public float getValueAt(float progress) {
 			switch (this) {
 				case FAST: {
+					progress = Math.max(0.0f, Math.min(1.0f, progress));
 					return (float) ((1.0 - Math.cos(Math.sqrt(progress) * 2.0 * Math.PI)) * 0.5);
 				}
 				case SMOOTH: {
+					progress = Math.max(0.0f, Math.min(1.0f, progress));
 					double d2 = Math.sin(Math.PI * progress);
 					return (float) (d2 * d2);
 				}
@@ -74,6 +74,15 @@ public interface IScreenEffect {
 						return (float) (d2 * d2);
 					} else {
 						return 1.0f;
+					}
+				}
+				case RISE_SMOOTH_AND_PULSE_FAST: {
+					if (progress <= 1.0f) {
+						double d2 = Math.sin(Math.PI * 0.5 * progress);
+						return (float) (d2 * d2);
+					} else {
+						progress = progress - (int) progress;
+						return (float) (1.0f - (0.5f * Math.pow(Math.sin(progress*Math.PI*2), 2)));
 					}
 				}
 				case NONE:
