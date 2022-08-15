@@ -84,6 +84,13 @@ public class TGClientEntityModels {
         );
 
         addArmorRenderingBiped(
+                TGArmors.T1_COMBAT_HELMET,
+                TGArmors.T1_COMBAT_CHESTPLATE,
+                TGArmors.T1_COMBAT_LEGGINGS,
+                TGArmors.T1_COMBAT_BOOTS
+        );
+
+        addArmorRenderingBiped(
                 TGArmors.T2_COMBAT_HELMET,
                 TGArmors.T2_COMBAT_CHESTPLATE,
                 TGArmors.T2_COMBAT_LEGGINGS,
@@ -97,6 +104,33 @@ public class TGClientEntityModels {
                 TGArmors.T3_COMBAT_BOOTS
         );
 
+        addArmorRenderingBiped(
+                TGArmors.T2_HAZMAT_HELMET,
+                TGArmors.T2_HAZMAT_CHESTPLATE,
+                TGArmors.T2_HAZMAT_LEGGINGS,
+                TGArmors.T2_HAZMAT_BOOTS
+        );
+
+        addArmorRenderingBiped(
+                TGArmors.T2_COMMANDO_HELMET,
+                TGArmors.T2_COMMANDO_CHESTPLATE,
+                TGArmors.T2_COMMANDO_LEGGINGS,
+                TGArmors.T2_COMMANDO_BOOTS
+        );
+
+        addArmorRenderingBiped(
+                TGArmors.T3_MINER_HELMET,
+                TGArmors.T3_MINER_CHESTPLATE,
+                TGArmors.T3_MINER_LEGGINGS,
+                TGArmors.T3_MINER_BOOTS
+        );
+
+        addArmorRenderingBiped(
+                TGArmors.T4_PRAETOR_HELMET,
+                TGArmors.T4_PRAETOR_CHESTPLATE,
+                TGArmors.T4_PRAETOR_LEGGINGS,
+                TGArmors.T4_PRAETOR_BOOTS
+        );
 
     }
 

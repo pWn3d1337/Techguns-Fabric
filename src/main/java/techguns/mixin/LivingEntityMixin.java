@@ -3,6 +3,7 @@ package techguns.mixin;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -25,6 +26,7 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import techguns.TGEntityAttributes;
 import techguns.TGPacketsS2C;
 import techguns.api.entity.ITGLivingEntity;
@@ -103,6 +105,8 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 
 	@Shadow public abstract double getAttributeValue(EntityAttribute attribute);
 
+	@Shadow public abstract boolean damage(DamageSource source, float amount);
+
 	@Inject(method = "damage", at = @At(value = "HEAD"), cancellable = true)
 	public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
 		boolean ret = false;
@@ -112,6 +116,35 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 			info.cancel();
 		}
 	}
+
+	@Inject(method = "computeFallDamage", at= @At(value="RETURN"), cancellable = true, locals = LocalCapture.CAPTURE_FAILHARD)
+	protected void computeFallDamage(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir, StatusEffectInstance statusEffectInstance, float f)
+	{
+		//try to write this in a way it's compatible with multiple mixins on the same method.
+		LivingEntity self = (LivingEntity) (Object) this;
+		int original_return = cir.getReturnValue();
+		if (original_return > 0 &&
+				self.getAttributes().hasAttribute(TGEntityAttributes.ARMOR_JUMPBOOST) &&
+				self.getAttributes().hasAttribute(TGEntityAttributes.ARMOR_FALLFREEHEIGHT) &&
+				self.getAttributes().hasAttribute(TGEntityAttributes.ARMOR_FALLDAMAGEREDUCTION)){
+
+			double jumpboost = self.getAttributeValue(TGEntityAttributes.ARMOR_JUMPBOOST)*5D; // jumpvelocity boost != height, we need to add more free-height
+			double reduction = self.getAttributeValue(TGEntityAttributes.ARMOR_FALLDAMAGEREDUCTION);
+			double freeheight = self.getAttributeValue(TGEntityAttributes.ARMOR_FALLFREEHEIGHT);
+
+			//System.out.println("JumpBoost: "+ jumpboost + " Reduction " + reduction + " FreeHeight: " + freeheight + " DamageMult: "+ damageMultiplier);
+
+			if (jumpboost > 0){
+				//System.out.println("OrgRet: "+ original_return);
+
+				double val = Math.floor(original_return / damageMultiplier);
+
+				int ret = MathHelper.ceil((val - jumpboost - freeheight) * damageMultiplier * MathHelper.clamp(1D-reduction, 0D, 1D));
+				//System.out.println("Val: " + val +"NewRet: "+ ret);
+				cir.setReturnValue(ret);
+			}
+		}
+	};
 
 	/**
 	 * A customized copy of the regular damage function to use with Techguns
@@ -327,10 +360,10 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 	 */
 	@Inject(at = @At("RETURN"), method = "createLivingAttributes")
 	private static void addTechgunsLivingAttributes(CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir){
-		cir.getReturnValue()
-		.add(TGEntityAttributes.ARMOR_JUMPBOOST)
-		.add(TGEntityAttributes.ARMOR_MININGSPEED) //only needed by player
-		.add(TGEntityAttributes.ARMOR_WATERMININGSPEED); //only needed by player
+		var attributes = cir.getReturnValue();
+		for (var att : TGEntityAttributes.TG_LIVINGENTITY_ATTRIBUTES){
+			attributes.add(att);
+		}
 	};
 
 

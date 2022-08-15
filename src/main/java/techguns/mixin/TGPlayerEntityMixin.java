@@ -56,6 +56,8 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 
 	@Shadow public abstract PlayerInventory getInventory();
 
+	@Shadow protected abstract void initDataTracker();
+
 	@Unique
 	public AttackTime techguns_attackTimes_mh = new AttackTime();
 	@Unique
@@ -89,7 +91,9 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 
 	@Unique
 	private static TrackedData<Boolean> TECHGUNS_SAFE_MODE = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-		
+
+	@Unique
+	private static TrackedData<Boolean> TECHGUNS_STEP_ASSIST = DataTracker.registerData(PlayerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
 	/**
 	 * used by client only, but saved serverside
 	 */
@@ -109,6 +113,7 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	protected void initDataTracker(CallbackInfo info) {
 	    this.dataTracker.startTracking(TECHGUNS_DATA_CHARGING_WEAPON, false);
 	    this.dataTracker.startTracking(TECHGUNS_SAFE_MODE, false);
+	    this.dataTracker.startTracking(TECHGUNS_STEP_ASSIST, false);
 	}
 
 	/**
@@ -299,8 +304,15 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 		/**
 		 * handle armor stuff
 		 */
-		PlayerEntity player = (PlayerEntity) (Object) this;
+		var player = (PlayerEntity & ITGExtendedPlayer) (Object) this;
 		PoweredArmor.calculateConsumptionTick(player);
+
+		/**
+		 * Check if maxHealth dropped and Health is now too high, caused by armor provided entity Attributes
+		 */
+		if (player.getHealth() > player.getMaxHealth()){
+			player.setHealth(player.getMaxHealth());
+		}
 
 		if (player.isOnFire()) {
 			double cooling = 0D; //TODO Cooling system entityAttribute
@@ -309,7 +321,6 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 				player.extinguish();
 			}
 		}
-
 
 	}
 
@@ -326,6 +337,15 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	@Override
 	public void setSafeMode(boolean value) {
 		this.dataTracker.set(TECHGUNS_SAFE_MODE, value);
-	}	
-	
+	}
+
+	@Override
+	public void setStepAssist(boolean value) {
+		this.dataTracker.set(TECHGUNS_STEP_ASSIST, value);
+	}
+
+	@Override
+	public boolean hasEnabledStepAssist(){
+		return this.dataTracker.get(TECHGUNS_STEP_ASSIST);
+	}
 }

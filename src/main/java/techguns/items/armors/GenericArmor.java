@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.item.v1.FabricItem;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.item.TooltipData;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -211,7 +212,7 @@ public class GenericArmor extends ArmorItem implements FabricItem, ITGItemRender
                 attributes.put(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], "Armor knockback resistance", this.getMaterial().getKnockbackResistance(), EntityAttributeModifier.Operation.ADDITION));
             }
 
-            if (this.speedBonus != 0.0F) {
+           /* if (this.speedBonus != 0.0F) {
                 attributes.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName("armor_movespeed", slot), this.speedBonus, EntityAttributeModifier.Operation.ADDITION));
             }
             if (this.jumpBonus != 0.0F) {
@@ -223,9 +224,34 @@ public class GenericArmor extends ArmorItem implements FabricItem, ITGItemRender
             if (this.waterMiningBonus != 0.0F) {
                 attributes.put(TGEntityAttributes.ARMOR_WATERMININGSPEED, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName("armor_waterminingspeed", slot), this.waterMiningBonus, EntityAttributeModifier.Operation.ADDITION));
             }
+            if(this.fallDMG != 0.0F){
+                attributes.put(TGEntityAttributes.ARMOR_FALLDAMAGEREDUCTION, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName("armor_falldamagereduction", slot), this.fallDMG, EntityAttributeModifier.Operation.ADDITION));
+            }
+            if(this.fallFreeHeight != 0.0F){
+                attributes.put(TGEntityAttributes.ARMOR_FALLFREEHEIGHT, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName("armor_fallfreeheight", slot), this.fallFreeHeight, EntityAttributeModifier.Operation.ADDITION));
+            }*/
+            handle_attribute(attributes, slot, EntityAttributes.GENERIC_MOVEMENT_SPEED, this.speedBonus);
+            handle_attribute(attributes, slot, TGEntityAttributes.ARMOR_JUMPBOOST, this.jumpBonus);
+            handle_attribute(attributes, slot, TGEntityAttributes.ARMOR_MININGSPEED, this.miningSpeedBonus);
+            handle_attribute(attributes, slot, TGEntityAttributes.ARMOR_WATERMININGSPEED, this.waterMiningBonus);
+            handle_attribute(attributes, slot, TGEntityAttributes.ARMOR_FALLDAMAGEREDUCTION, this.fallDMG);
+            handle_attribute(attributes, slot, TGEntityAttributes.ARMOR_FALLFREEHEIGHT, this.fallFreeHeight);
+            handle_attribute(attributes, slot, TGEntityAttributes.ARMOR_GUNACCURACY, this.gunAccuracy);
+            handle_attribute(attributes, slot, EntityAttributes.GENERIC_MAX_HEALTH, this.extraHearts);
+            handle_attribute(attributes, slot, TGEntityAttributes.ARMOR_NIGHTVISION, this.nightvision);
+            handle_attribute(attributes, slot, TGEntityAttributes.ARMOR_STEPASSIST, this.stepassist);
+            handle_attribute(attributes, slot, TGEntityAttributes.ARMOR_OXYGENGEAR, this.oxygengear);
+            handle_attribute(attributes, slot, TGEntityAttributes.ARMOR_WATERELECTROLYZER, this.waterelectrolyzer);
+            handle_attribute(attributes, slot, TGEntityAttributes.ARMOR_COOLINGSYSTEM, this.coolingsystem);
 
         }
         return attributes.build();
+    }
+
+    private void handle_attribute(ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder, EquipmentSlot slot, EntityAttribute attribute, double attributeValue){
+        if(attributeValue != 0D){
+            builder.put(attribute, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName(attribute.getTranslationKey(), slot), attributeValue, EntityAttributeModifier.Operation.ADDITION));
+        }
     }
 
     private static final EntityAttribute[] HIDE_TOOLTIP_ENIITY_MODIFIERS = {

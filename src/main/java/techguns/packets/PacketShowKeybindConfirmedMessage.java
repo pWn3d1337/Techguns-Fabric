@@ -48,8 +48,8 @@ public class PacketShowKeybindConfirmedMessage extends TGBasePacket {
 					return TextUtil.trans("techguns.msg.enablejetpack");*/
 				case TOGGLE_SAFEMODE:
 					return TextUtil.transTG("msg.safemode");
-				/*case TOGGLE_STEP_ASSIST:
-					return TextUtil.trans("techguns.armorTooltip.stepassist");*/
+				case TOGGLE_STEPASSIST:
+					return TextUtil.transTG("msg.stepassist");
 				default:
 					break;
 			}

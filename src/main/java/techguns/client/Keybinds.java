@@ -32,9 +32,9 @@ public class Keybinds implements ITGInitializer{
 	public KeyBinding KEY_FORECERELOAD;
 		
 	public KeyBinding KEY_TOGGLE_SAFEMODE;
-	
-	public KeyBinding DEBUG_KEY_RELOAD_FX;
+	public KeyBinding KEY_TOGGLE_STEPASSIST;
 
+	public KeyBinding DEBUG_KEY_RELOAD_FX;
 
 	public KeyBinding DEBUG_OFFSET_X_INC;
 	public KeyBinding DEBUG_OFFSET_X_DEC;
@@ -54,9 +54,11 @@ public class Keybinds implements ITGInitializer{
 	public void init() {
 		KEY_FORECERELOAD = addKeybind("techguns.key.forcereload", GLFW.GLFW_KEY_R);
 		KEY_TOGGLE_SAFEMODE = addKeybind("techguns.key.togglesafemode", GLFW.GLFW_KEY_B);
-		DEBUG_KEY_RELOAD_FX = addKeybind("techings.key.debug.reloadfx", GLFW.GLFW_KEY_KP_0);
+		KEY_TOGGLE_STEPASSIST = addKeybind("techguns.key.togglestepassist", GLFW.GLFW_KEY_V);
 
 		//TODO debug only option
+		DEBUG_KEY_RELOAD_FX = addKeybind("techings.key.debug.reloadfx", GLFW.GLFW_KEY_KP_0);
+
 		DEBUG_OFFSET_X_INC = addKeybind("techguns.key.debug_x_inc", GLFW.GLFW_KEY_KP_8);
 		DEBUG_OFFSET_X_DEC = addKeybind("techguns.key.debug_x_dec", GLFW.GLFW_KEY_KP_9);
 
@@ -77,6 +79,9 @@ public class Keybinds implements ITGInitializer{
 		    while (KEY_TOGGLE_SAFEMODE.wasPressed()) {
 		    	TGPacketsC2S.sendToServer(new PacketTGKeybindPress(TGKeybindID.TOGGLE_SAFEMODE, true));
 		    };
+			while (KEY_TOGGLE_STEPASSIST.wasPressed()) {
+				TGPacketsC2S.sendToServer(new PacketTGKeybindPress(TGKeybindID.TOGGLE_STEPASSIST, true));
+			};
 		    while (DEBUG_KEY_RELOAD_FX.wasPressed()) {
 		    	System.out.println("Reloading FXLIST...");
 		    	TGFX.FXList = new HashMap<String, TGFXType>();
@@ -134,7 +139,7 @@ public class Keybinds implements ITGInitializer{
 		KeyBindingHelper.registerKeyBinding(k);
 		return k;
 	}
-	
+
 	protected void handleKeybind_Reload() {
 		MinecraftClient mc = MinecraftClient.getInstance(); 
 		PlayerEntity ply = mc.player;

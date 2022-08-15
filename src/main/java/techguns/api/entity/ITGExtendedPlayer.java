@@ -21,6 +21,9 @@ public interface ITGExtendedPlayer extends ITGShooterValues {
 	
 	public boolean hasEnabledSafemode();
 	public void setSafeMode(boolean value);
+
+	public boolean hasEnabledStepAssist();
+	public void setStepAssist(boolean value);
 	
 	public int getLoopSoundDelay(Hand hand);
 	public void setLoopSoundDelay(Hand hand, int value);

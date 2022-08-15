@@ -35,6 +35,10 @@ public class TGArmors implements ITGInitializer{
     public static GenericArmor T1_STEAM_BOOTS;
 
     public static TGArmorMaterial T2_HAZMAT;
+    public static GenericArmor T2_HAZMAT_HELMET;
+    public static GenericArmor T2_HAZMAT_CHESTPLATE;
+    public static GenericArmor T2_HAZMAT_LEGGINGS;
+    public static GenericArmor T2_HAZMAT_BOOTS;
 
     public static TGArmorMaterial T2_COMBAT;
     public static GenericArmor T2_COMBAT_HELMET;
@@ -43,6 +47,10 @@ public class TGArmors implements ITGInitializer{
     public static GenericArmor T2_COMBAT_BOOTS;
 
     public static TGArmorMaterial T2_COMMANDO;
+    public static GenericArmor T2_COMMANDO_HELMET;
+    public static GenericArmor T2_COMMANDO_CHESTPLATE;
+    public static GenericArmor T2_COMMANDO_LEGGINGS;
+    public static GenericArmor T2_COMMANDO_BOOTS;
 
     public static TGArmorMaterial T2_RIOT;
     public static GenericArmor T2_RIOT_HELMET;
@@ -71,8 +79,16 @@ public class TGArmors implements ITGInitializer{
     public static GenericArmor T3_POWER_BOOTS;
 
     public static TGArmorMaterial T3_MINER;
+    public static GenericArmor T3_MINER_HELMET;
+    public static GenericArmor T3_MINER_CHESTPLATE;
+    public static GenericArmor T3_MINER_LEGGINGS;
+    public static GenericArmor T3_MINER_BOOTS;
 
     public static TGArmorMaterial T4_PRAETOR;
+    public static GenericArmor T4_PRAETOR_HELMET;
+    public static GenericArmor T4_PRAETOR_CHESTPLATE;
+    public static GenericArmor T4_PRAETOR_LEGGINGS;
+    public static GenericArmor T4_PRAETOR_BOOTS;
 
     public static TGArmorMaterial T4_POWER;
     public static GenericArmor T4_POWER_HELMET;
@@ -131,7 +147,17 @@ public class TGArmors implements ITGInitializer{
         T2_RIOT_HELMET = registerArmor2d(T2_RIOT, EquipmentSlot.HEAD).setSpeedBoni(0.12f,0.f);
         T2_RIOT_CHESTPLATE = registerArmor2d(T2_RIOT, EquipmentSlot.CHEST).setSpeedBoni(0.12f, 0.f);
         T2_RIOT_LEGGINGS = registerArmor2d(T2_RIOT, EquipmentSlot.LEGS).setSpeedBoni(0.13f, 0.f);
-        T2_RIOT_BOOTS = registerArmor2d(T2_RIOT, EquipmentSlot.FEET).setSpeedBoni(0.13f, 0.15f).setFallProtection(0.2f, 0.5f);;
+        T2_RIOT_BOOTS = registerArmor2d(T2_RIOT, EquipmentSlot.FEET).setSpeedBoni(0.13f, 0.15f).setFallProtection(0.2f, 0.5f);
+
+        T2_HAZMAT_HELMET = registerArmor2d(T2_HAZMAT, EquipmentSlot.HEAD);
+        T2_HAZMAT_CHESTPLATE = registerArmor2d(T2_HAZMAT, EquipmentSlot.CHEST);
+        T2_HAZMAT_LEGGINGS = registerArmor2d(T2_HAZMAT, EquipmentSlot.LEGS);
+        T2_HAZMAT_BOOTS = registerArmor2d(T2_HAZMAT, EquipmentSlot.FEET).setFallProtection(0.2f, 0.5f);
+
+        T2_COMMANDO_HELMET = registerArmor2d(T2_COMMANDO, EquipmentSlot.HEAD).setSpeedBoni(0.10f,0.f).setSpeedBoni(0.10f,0f).setMiningBoniWater(1.25f).setGunBonus(0.05f).setOxygenGear(1.0f);
+        T2_COMMANDO_CHESTPLATE = registerArmor2d(T2_COMMANDO, EquipmentSlot.CHEST).setSpeedBoni(0.1f,0.0f).setSpeedBoni(0.10f,0f).setMiningBoniWater(1.25f).setGunBonus(0.05f);
+        T2_COMMANDO_LEGGINGS = registerArmor2d(T2_COMMANDO, EquipmentSlot.LEGS).setSpeedBoni(0.1f,0.0f).setSpeedBoni(0.10f,0.f).setMiningBoniWater(1.25f).setGunBonus(0.05f);
+        T2_COMMANDO_BOOTS = registerArmor2d(T2_COMMANDO, EquipmentSlot.FEET).setSpeedBoni(0.1f,0.1f).setSpeedBoni(0.10f,0.1f).setMiningBoniWater(1.25f).setGunBonus(0.05f).setFallProtection(0.2f, 1.0f);
 
         T3_COMBAT_HELMET = registerArmor2d(T3_COMBAT, EquipmentSlot.HEAD).setSpeedBoni(0.1f,0.0f);
         T3_COMBAT_CHESTPLATE = registerArmor2d(T3_COMBAT, EquipmentSlot.CHEST).setSpeedBoni(0.1f,0.0f);
@@ -169,6 +195,73 @@ public class TGArmors implements ITGInitializer{
                 .setHealthBonus(1,0)
                 .setStepAssist(1.0f,0)
                 .setRADResistance(0.75f);
+
+        T3_MINER_HELMET = registerArmorPowered2d(T3_MINER, EquipmentSlot.HEAD, ArmorPowerType.RF, 10)
+                .setSpeedBoni(0.1f,0.3f,0,0)
+                .setWaterspeedBonus(1.25f, 0)
+                .setMiningBoni(0.1f,0)
+                .setMiningBoniWater(1.25f,0)
+                .setOxygenGear(1.0f,0.0f)
+                .setRADResistance(1f);
+
+        T3_MINER_CHESTPLATE = registerArmorPowered2d(T3_MINER, EquipmentSlot.CHEST, ArmorPowerType.RF, 10000)
+                .setBattery(TGItems.ENERGY_CELL).setEmptyBattery(TGItems.ENERGY_CELL_EMPTY)
+                .setSpeedBoni(0.1f, 0.03f,0,0)
+                .setWaterspeedBonus(1.25f, 0)
+                .setMiningBoni(0.1f,0)
+                .setMiningBoniWater(1.25f,0)
+                .setCoolingSystem(1.0f,0)
+                .setRADResistance(1f);
+
+        T3_MINER_LEGGINGS = registerArmorPowered2d(T3_MINER, EquipmentSlot.LEGS, ArmorPowerType.RF, 10)
+                .setSpeedBoni(0.1f, 0.03f,0,0)
+                .setWaterspeedBonus(1.25f, 0)
+                .setMiningBoni(0.1f,0)
+                .setMiningBoniWater(1.25f,0)
+                .setRADResistance(1f);
+
+        T3_MINER_BOOTS = registerArmorPowered2d(T3_MINER, EquipmentSlot.FEET, ArmorPowerType.RF, 10)
+                .setSpeedBoni(0.1f, 0.15f,0,0)
+                .setWaterspeedBonus(1.25f, 0)
+                .setMiningBoni(0.1f,0)
+                .setMiningBoniWater(1.25f,0)
+                .setStepAssist(1.0f,0)
+                .setFallProtection(0.5f, 3.0f,0,0)
+                .setRADResistance(1f);
+
+
+        T4_PRAETOR_HELMET = registerArmorPowered2d(T4_PRAETOR, EquipmentSlot.HEAD, ArmorPowerType.RF, 10)
+                .setSpeedBoni(0.1f,0.3f,0,0)
+                .setWaterspeedBonus(1.25f, 0)
+                .setMiningBoni(0.1f,0)
+                .setMiningBoniWater(1.25f,0)
+                .setOxygenGear(1.0f,0.0f)
+                .setRADResistance(1.5f);
+
+        T4_PRAETOR_CHESTPLATE = registerArmorPowered2d(T4_PRAETOR, EquipmentSlot.CHEST, ArmorPowerType.RF, 20000)
+                .setBattery(TGItems.NUCLEAR_POWERCELL).setEmptyBattery(TGItems.NUCLEAR_POWERCELL_EMPTY)
+                .setSpeedBoni(0.1f, 0.03f,0,0)
+                .setWaterspeedBonus(1.25f, 0)
+                .setMiningBoni(0.1f,0)
+                .setMiningBoniWater(1.25f,0)
+                .setCoolingSystem(1.0f,0)
+                .setRADResistance(1.5f);
+
+        T4_PRAETOR_LEGGINGS = registerArmorPowered2d(T4_PRAETOR, EquipmentSlot.LEGS, ArmorPowerType.RF, 10)
+                .setSpeedBoni(0.1f, 0.03f,0,0)
+                .setWaterspeedBonus(1.25f, 0)
+                .setMiningBoni(0.1f,0)
+                .setMiningBoniWater(1.25f,0)
+                .setRADResistance(1.5f);
+
+        T4_PRAETOR_BOOTS = registerArmorPowered2d(T4_PRAETOR, EquipmentSlot.FEET, ArmorPowerType.RF, 10)
+                .setSpeedBoni(0.1f, 0.15f,0,0)
+                .setWaterspeedBonus(1.25f, 0)
+                .setMiningBoni(0.1f,0)
+                .setMiningBoniWater(1.25f,0)
+                .setStepAssist(1.0f,0)
+                .setFallProtection(0.5f, 3.0f,0,0)
+                .setRADResistance(1.5f);
 
         T4_POWER_HELMET = registerArmor3d(T4_POWER, EquipmentSlot.HEAD);
         T4_POWER_CHESTPLATE = registerArmor3d(T4_POWER, EquipmentSlot.CHEST);

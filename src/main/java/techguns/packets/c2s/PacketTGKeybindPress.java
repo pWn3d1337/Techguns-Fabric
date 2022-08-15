@@ -79,6 +79,14 @@ public class PacketTGKeybindPress extends TGBasePacket {
 				TGPacketsS2C.sendTo(new PacketShowKeybindConfirmedMessage(TGKeybindID.TOGGLE_SAFEMODE, props.hasEnabledSafemode()), ply);
 			}
 			break;
+		case TOGGLE_STEPASSIST:
+			var tg_player = (PlayerEntity & ITGExtendedPlayer)ply;
+			tg_player.setStepAssist(!tg_player.hasEnabledStepAssist());
+
+			if(this.showMsg) {
+				TGPacketsS2C.sendTo(new PacketShowKeybindConfirmedMessage(TGKeybindID.TOGGLE_STEPASSIST, tg_player.hasEnabledStepAssist()), ply);
+			}
+			break;
 		default:
 			break;
 		}

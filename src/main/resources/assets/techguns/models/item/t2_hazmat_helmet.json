@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "techguns:items/hazmat_helmet_layer1",
+    "layer1": "techguns:items/hazmat_helmet_layer2"
+  }
+}

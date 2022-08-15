@@ -1,5 +1,6 @@
 package techguns.items.armors;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.item.TooltipContext;
@@ -228,7 +229,7 @@ public class PoweredArmor extends GenericArmor {
                 attributes.put(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], "Armor knockback resistance", this.getMaterial().getKnockbackResistance(), EntityAttributeModifier.Operation.ADDITION));
             }
 
-            if (getPower(stack) > 0) {
+            /*if (getPower(stack) > 0) {
 
                 if (this.speedBonus != 0.0F) {
                     attributes.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName("armor_movespeed", slot), this.speedBonus, EntityAttributeModifier.Operation.ADDITION));
@@ -241,6 +242,12 @@ public class PoweredArmor extends GenericArmor {
                 }
                 if (this.waterMiningBonus != 0.0F) {
                     attributes.put(TGEntityAttributes.ARMOR_WATERMININGSPEED, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName("armor_waterminingspeed", slot), this.waterMiningBonus, EntityAttributeModifier.Operation.ADDITION));
+                }
+                if(this.fallDMG != 0.0F){
+                    attributes.put(TGEntityAttributes.ARMOR_FALLDAMAGEREDUCTION, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName("armor_falldamagereduction", slot), this.fallDMG, EntityAttributeModifier.Operation.ADDITION));
+                }
+                if(this.fallFreeHeight != 0.0F){
+                    attributes.put(TGEntityAttributes.ARMOR_FALLFREEHEIGHT, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName("armor_fallfreeheight", slot), this.fallFreeHeight, EntityAttributeModifier.Operation.ADDITION));
                 }
 
             } else {
@@ -257,10 +264,40 @@ public class PoweredArmor extends GenericArmor {
                 if (this.waterMiningBonusUnpowered != 0.0F) {
                     attributes.put(TGEntityAttributes.ARMOR_WATERMININGSPEED, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName("armor_waterminingspeed", slot), this.waterMiningBonusUnpowered, EntityAttributeModifier.Operation.ADDITION));
                 }
-            }
+                if(this.fallDMGUnpowered != 0.0F){
+                    attributes.put(TGEntityAttributes.ARMOR_FALLDAMAGEREDUCTION, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName("armor_falldamagereduction", slot), this.fallDMGUnpowered, EntityAttributeModifier.Operation.ADDITION));
+                }
+                if(this.fallFreeHeightUnpowered != 0.0F){
+                    attributes.put(TGEntityAttributes.ARMOR_FALLFREEHEIGHT, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName("armor_fallfreeheight", slot), this.fallFreeHeightUnpowered, EntityAttributeModifier.Operation.ADDITION));
+                }
+            }*/
+            handle_attribute(attributes, stack, slot, EntityAttributes.GENERIC_MOVEMENT_SPEED, this.speedBonus, this.speedBonusUnpowered);
+            handle_attribute(attributes, stack, slot, TGEntityAttributes.ARMOR_JUMPBOOST, this.jumpBonus, this.jumpBonusUnpowered);
+            handle_attribute(attributes, stack, slot, TGEntityAttributes.ARMOR_MININGSPEED, this.miningSpeedBonus, this.miningSpeedBonusUnpowered);
+            handle_attribute(attributes, stack, slot, TGEntityAttributes.ARMOR_WATERMININGSPEED, this.waterMiningBonus, this.waterMiningBonusUnpowered);
+            handle_attribute(attributes, stack, slot, TGEntityAttributes.ARMOR_FALLDAMAGEREDUCTION, this.fallDMG, this.fallDMGUnpowered);
+            handle_attribute(attributes, stack, slot, TGEntityAttributes.ARMOR_FALLFREEHEIGHT, this.fallFreeHeight, this.fallFreeHeightUnpowered);
+            handle_attribute(attributes, stack, slot, TGEntityAttributes.ARMOR_GUNACCURACY, this.gunAccuracy, this.gunAccuracyUnpowered);
+            handle_attribute(attributes, stack, slot, EntityAttributes.GENERIC_MAX_HEALTH, this.extraHearts, this.extraHeartsUnpowered);
+            handle_attribute(attributes, stack, slot, TGEntityAttributes.ARMOR_NIGHTVISION, this.nightvision, this.nightvisionUnpowered);
+            handle_attribute(attributes, stack, slot, TGEntityAttributes.ARMOR_STEPASSIST, this.stepassist, this.stepassistUnpowerd);
+            handle_attribute(attributes, stack, slot, TGEntityAttributes.ARMOR_OXYGENGEAR, this.oxygengear, this.oxygengearUnpowered);
+            handle_attribute(attributes, stack, slot, TGEntityAttributes.ARMOR_WATERELECTROLYZER, this.waterelectrolyzer, this.water_electrolyzerUnpowered);
+            handle_attribute(attributes, stack, slot, TGEntityAttributes.ARMOR_COOLINGSYSTEM, this.coolingsystem, this.coolingsystemUnpowered);
 
         }
         return attributes.build();
+    }
+    private void handle_attribute(ImmutableMultimap.Builder<EntityAttribute, EntityAttributeModifier> builder, ItemStack stack, EquipmentSlot slot, EntityAttribute attribute, double attributeValue, double attributeValueUnpowered){
+        if (getPower(stack) > 0){
+            if(attributeValue != 0D){
+                builder.put(attribute, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName(attribute.getTranslationKey(), slot), attributeValue, EntityAttributeModifier.Operation.ADDITION));
+            }
+        } else {
+            if(attributeValueUnpowered != 0D){
+                builder.put(attribute, new EntityAttributeModifier(ARMOR_MODIFIER_UUIDS[slot.getEntitySlotId()], getAttributeName(attribute.getTranslationKey(), slot), attributeValueUnpowered, EntityAttributeModifier.Operation.ADDITION));
+            }
+        }
     }
 
     public int applyPowerConsumptionOnAction(TGArmorBonus type, PlayerEntity player){

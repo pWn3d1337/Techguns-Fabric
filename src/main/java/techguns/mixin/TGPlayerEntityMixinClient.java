@@ -20,6 +20,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import techguns.TGEntityAttributes;
 import techguns.TGPacketsC2S;
 import techguns.api.client.entity.ITGExtendedPlayerClient;
 import techguns.api.entity.ITGExtendedPlayer;
@@ -46,7 +47,7 @@ public abstract class TGPlayerEntityMixinClient extends LivingEntity implements 
 	protected TGPlayerEntityMixinClient(EntityType<? extends LivingEntity> entityType, World world) {
 		super(entityType, world);
 	}
-	
+
 	@Inject(at = @At(value = "RETURN"), method="tick", cancellable = false)
 	public void tick(CallbackInfo info) {
 		if(this.world.isClient) {
@@ -58,7 +59,7 @@ public abstract class TGPlayerEntityMixinClient extends LivingEntity implements 
 	public void clientPlayerTick() {
 		ClientProxy cp = ClientProxy.get();
 		
-		PlayerEntity ply = (PlayerEntity)(Object)this;
+		var ply = (PlayerEntity & ITGExtendedPlayer)(Object)this;
 		ITGExtendedPlayer props = (ITGExtendedPlayer)this;
 		
 		// ONLY DO FOR OWN PLAYER!
@@ -134,6 +135,13 @@ public abstract class TGPlayerEntityMixinClient extends LivingEntity implements 
 			} else {
 				cp.keyFirePressedMainhand = false;
 				cp.keyFirePressedOffhand = false;
+			}
+
+			//adjust step_height
+			if (ply.hasEnabledStepAssist() && ply.getAttributeValue(TGEntityAttributes.ARMOR_STEPASSIST) >= 1D){
+				ply.stepHeight = 1.0F;
+			} else {
+				ply.stepHeight = 0.6F;
 			}
 		}
 		

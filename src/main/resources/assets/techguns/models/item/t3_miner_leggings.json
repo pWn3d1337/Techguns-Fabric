@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/t3_miner_leggings"
+    "layer0": "techguns:items/t3_miner_leggings_layer1",
+    "layer1": "techguns:items/t3_miner_leggings_layer2"
   }
 }

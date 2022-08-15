@@ -120,7 +120,7 @@ public class ModelT3PowerArmor extends BipedEntityModel {
 
         if (slot == EquipmentSlot.CHEST) {
             var B01 = new ModelPartLegacy(41, 19);
-            B01.addCuboid(-4F, 0F, -2F, 9, 12, 5);
+            B01.addCuboid(-4.5F, -0.25F, -2.5F, 9, 12, 5);
             B01.setPivot(-0.5F, -0.5F, -0.5F);
             B01.setTextureSize(128, 64);
             B01.mirror = true;

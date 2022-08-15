@@ -311,6 +311,85 @@ public class TGCamos implements ITGInitializer {
 		registerCamo(TGArmors.T3_EXO_BOOTS, t3combatCamo_silver, new int[]{0x4a4a4a, 0xcfdbd9, 0xB0B0B0}, t3exoTexture_silver);
 
 
+		Identifier t2hazmatTexture =        new TGIdentifier("textures/armors/hazmatsuit_layer_1.png");
+		Identifier t2hazmatTexture_orange = new TGIdentifier("textures/armors/hazmatsuit_orange_layer_1.png");
+		Identifier t2hazmatTexture_grey =   new TGIdentifier("textures/armors/hazmatsuit_grey_layer_1.png");
+		Identifier t2hazmatTexture_blue =   new TGIdentifier("textures/armors/hazmatsuit_blue_layer_1.png");
+
+		int[] color_hazmat_yellow = {0xEEFF00};
+		int[] color_hazmat_orange = {0xFF8800};
+		int[] color_hazmat_grey = {0xA6A6A6};
+		int[] color_hazmat_blue = {0x4DCFFF};
+
+		Identifier t2hazmatCamo_orange = new TGIdentifier("orange");
+		Identifier t2hazmatCamo_grey = new TGIdentifier("grey");
+		Identifier t2hazmatCamo_blue = new TGIdentifier("blue");
+
+		registerCamo(TGArmors.T2_HAZMAT_HELMET, DEFAULT, color_hazmat_yellow, t2hazmatTexture);
+		registerCamo(TGArmors.T2_HAZMAT_HELMET, t2hazmatCamo_orange, color_hazmat_orange, t2hazmatTexture_orange);
+		registerCamo(TGArmors.T2_HAZMAT_HELMET, t2hazmatCamo_grey, color_hazmat_grey, t2hazmatTexture_grey);
+		registerCamo(TGArmors.T2_HAZMAT_HELMET, t2hazmatCamo_blue, color_hazmat_blue, t2hazmatTexture_blue);
+
+		registerCamo(TGArmors.T2_HAZMAT_CHESTPLATE, DEFAULT, color_hazmat_yellow, t2hazmatTexture);
+		registerCamo(TGArmors.T2_HAZMAT_CHESTPLATE, t2hazmatCamo_orange, color_hazmat_orange, t2hazmatTexture_orange);
+		registerCamo(TGArmors.T2_HAZMAT_CHESTPLATE, t2hazmatCamo_grey, color_hazmat_grey, t2hazmatTexture_grey);
+		registerCamo(TGArmors.T2_HAZMAT_CHESTPLATE, t2hazmatCamo_blue, color_hazmat_blue, t2hazmatTexture_blue);
+
+		registerCamo(TGArmors.T2_HAZMAT_LEGGINGS, DEFAULT, color_hazmat_yellow,             new TGIdentifier("textures/armors/hazmatsuit_layer_2.png"));
+		registerCamo(TGArmors.T2_HAZMAT_LEGGINGS, t2hazmatCamo_orange, color_hazmat_orange, new TGIdentifier("textures/armors/hazmatsuit_orange_layer_2.png"));
+		registerCamo(TGArmors.T2_HAZMAT_LEGGINGS, t2hazmatCamo_grey, color_hazmat_grey,     new TGIdentifier("textures/armors/hazmatsuit_grey_layer_2.png"));
+		registerCamo(TGArmors.T2_HAZMAT_LEGGINGS, t2hazmatCamo_blue, color_hazmat_blue,     new TGIdentifier("textures/armors/hazmatsuit_blue_layer_2.png"));
+
+		registerCamo(TGArmors.T2_HAZMAT_BOOTS, DEFAULT, t2hazmatTexture);
+		//registerCamo(TGArmors.T2_HAZMAT_BOOTS, t1scoutCamo_forest, color_hazmat_orange, t2hazmatTexture_orange);
+		//registerCamo(TGArmors.T2_HAZMAT_BOOTS, t1scoutCamo_snow, color_hazmat_grey, t2hazmatTexture_grey);
+		//registerCamo(TGArmors.T2_HAZMAT_BOOTS, t1scoutCamo_black, color_hazmat_blue, t2hazmatTexture_blue);
+
+		Identifier t2commandoTexture = new TGIdentifier("textures/armors/t2_commando_layer_1.png");
+		registerCamo(TGArmors.T2_COMMANDO_HELMET, DEFAULT, t2commandoTexture);
+		registerCamo(TGArmors.T2_COMMANDO_CHESTPLATE, DEFAULT, t2commandoTexture);
+		registerCamo(TGArmors.T2_COMMANDO_LEGGINGS, DEFAULT, new TGIdentifier("textures/armors/t2_commando_layer_2.png"));
+		registerCamo(TGArmors.T2_COMMANDO_BOOTS, DEFAULT, t2commandoTexture);
+
+		Identifier t1combatTexture = new TGIdentifier("textures/armors/t1_combat_layer_1.png");
+		registerCamo(TGArmors.T1_COMBAT_HELMET, DEFAULT, t1combatTexture);
+		registerCamo(TGArmors.T1_COMBAT_CHESTPLATE, DEFAULT, t1combatTexture);
+		registerCamo(TGArmors.T1_COMBAT_LEGGINGS, DEFAULT, new TGIdentifier("textures/armors/t1_combat_layer_2.png"));
+		registerCamo(TGArmors.T1_COMBAT_BOOTS, DEFAULT, t1combatTexture);
+
+		Identifier t4praetorTexture = new TGIdentifier("textures/armors/t4_praetor_layer_1.png");
+		registerCamo(TGArmors.T4_PRAETOR_HELMET, DEFAULT, t4praetorTexture);
+		registerCamo(TGArmors.T4_PRAETOR_CHESTPLATE, DEFAULT, t4praetorTexture);
+		registerCamo(TGArmors.T4_PRAETOR_LEGGINGS, DEFAULT, new TGIdentifier("textures/armors/t4_praetor_layer_2.png"));
+		registerCamo(TGArmors.T4_PRAETOR_BOOTS, DEFAULT, t4praetorTexture);
+
+		int t3miner_color_default = 0xffae00;
+		int t3miner_color_black = 0x424242;
+		int t3miner_color_silver = 0xeeeeee;
+
+		Identifier t3minerTexture = new TGIdentifier("textures/armors/hevsuit_layer_1.png");
+		Identifier t3minerTexture_black = new TGIdentifier("textures/armors/hevsuit_black_layer_1.png");
+		Identifier t3minerTexture_silver = new TGIdentifier("textures/armors/hevsuit_silver_layer_1.png");
+
+		Identifier t3minerCamo_black = new TGIdentifier("black");
+		Identifier t3minerCamo_silver = new TGIdentifier("silver");
+
+		registerCamo(TGArmors.T3_MINER_HELMET, DEFAULT, new int[]{t3miner_color_default, -1, 0x8bc2ff}, t3minerTexture);
+		registerCamo(TGArmors.T3_MINER_HELMET, t3minerCamo_black, new int[]{t3miner_color_black, -1, 0xff3c00}, t3minerTexture_black);
+		registerCamo(TGArmors.T3_MINER_HELMET, t3minerCamo_silver, new int[]{t3miner_color_silver, -1, 0x8bc2ff}, t3minerTexture_silver);
+
+		registerCamo(TGArmors.T3_MINER_CHESTPLATE, DEFAULT, t3miner_color_default, t3minerTexture);
+		registerCamo(TGArmors.T3_MINER_CHESTPLATE, t3minerCamo_black, t3miner_color_black, t3minerTexture_black);
+		registerCamo(TGArmors.T3_MINER_CHESTPLATE, t3minerCamo_silver, t3miner_color_silver, t3minerTexture_silver);
+
+		registerCamo(TGArmors.T3_MINER_LEGGINGS, DEFAULT, t3miner_color_default, new TGIdentifier("textures/armors/hevsuit_layer_2.png"));
+		registerCamo(TGArmors.T3_MINER_LEGGINGS, t3minerCamo_black, t3miner_color_black, new TGIdentifier("textures/armors/hevsuit_black_layer_2.png"));
+		registerCamo(TGArmors.T3_MINER_LEGGINGS, t3minerCamo_silver, t3miner_color_silver, new TGIdentifier("textures/armors/hevsuit_silver_layer_2.png"));
+
+		registerCamo(TGArmors.T3_MINER_BOOTS, DEFAULT, t3miner_color_default, t3minerTexture);
+		registerCamo(TGArmors.T3_MINER_BOOTS, t3minerCamo_black, t3miner_color_black, t3minerTexture_black);
+		registerCamo(TGArmors.T3_MINER_BOOTS, t3minerCamo_silver, t3miner_color_silver, t3minerTexture_silver);
+
 		FabricItemGroupBuilder.create(
 				new TGIdentifier("techguns_camos"))
 				.icon(() -> new ItemStack(TGBlocks.CAMO_BENCH))

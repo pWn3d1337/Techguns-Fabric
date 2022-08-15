@@ -34,12 +34,10 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-import techguns.TGCamos;
-import techguns.TGItems;
-import techguns.TGPacketsS2C;
-import techguns.TGSounds;
+import techguns.*;
 import techguns.api.ICamoChangeable;
 import techguns.api.damagesystem.DamageType;
 import techguns.api.entity.ITGExtendedPlayer;
@@ -766,7 +764,12 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	}
 	
 	protected void shootGun(World world, LivingEntity shooter,ItemStack itemstack,float accuracybonus,float damagebonus, int attackType, Hand hand, EnumBulletFirePos firePos, Entity target){
-		
+
+		float armor_accuracy_bonus = 1.0F;
+		if(shooter.getAttributes().hasAttribute(TGEntityAttributes.ARMOR_GUNACCURACY)){
+			armor_accuracy_bonus = MathHelper.clamp(1.0F-(float)shooter.getAttributeValue(TGEntityAttributes.ARMOR_GUNACCURACY), 0F, 1F);
+		}
+
 		//send pakets to clients
 		if (!world.isClient){
 	    	int msg_recoiltime = ((int)(((float)recoiltime/20.0f)*1000.0f));
@@ -774,7 +777,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	    	TGPacketsS2C.sendToAllAroundEntity(new GunFiredMessage(shooter,msg_recoiltime,msg_muzzleflashtime,(byte)attackType,checkRecoil,hand), shooter, 100.0);
 		}
     	//
-		spawnProjectile(world, shooter,itemstack, accuracy*accuracybonus, projectileForwardOffset,damagebonus, firePos, target);
+		spawnProjectile(world, shooter,itemstack, accuracy * accuracybonus * armor_accuracy_bonus, projectileForwardOffset,damagebonus, firePos, target);
 		
         if (shotgun){
         	float offset=0;
