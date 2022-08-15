@@ -4,12 +4,17 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.MathHelper;
 import org.checkerframework.checker.units.qual.A;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.MixinEnvironment;
@@ -57,6 +62,8 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	@Shadow public abstract PlayerInventory getInventory();
 
 	@Shadow protected abstract void initDataTracker();
+
+	@Shadow public abstract void playSound(SoundEvent sound, float volume, float pitch);
 
 	@Unique
 	public AttackTime techguns_attackTimes_mh = new AttackTime();
@@ -107,8 +114,8 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 	@Inject(at = @At(value = "RETURN"), method="tick", cancellable = false)
 	public void tick(CallbackInfo info) {
 		this.playerTickEvent(!this.world.isClient);
-	}	
-	
+	}
+
 	@Inject(at = @At(value = "RETURN"), method="initDataTracker", cancellable = false)
 	protected void initDataTracker(CallbackInfo info) {
 	    this.dataTracker.startTracking(TECHGUNS_DATA_CHARGING_WEAPON, false);
@@ -237,7 +244,6 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 		return this.techguns_grapplingStatus;
 	}
 
-
 	public void playerTickEvent(boolean server) {
 		// reduce fire delays on both sides
 		if (this.techguns_fireDelayMainhand > 0) {
@@ -305,23 +311,23 @@ public abstract class TGPlayerEntityMixin extends LivingEntity implements ITGExt
 		 * handle armor stuff
 		 */
 		var player = (PlayerEntity & ITGExtendedPlayer) (Object) this;
+
 		PoweredArmor.calculateConsumptionTick(player);
 
+		if (player.isOnFire()) {
+			double cooling = player.getAttributeValue(TGEntityAttributes.ARMOR_COOLINGSYSTEM);
+			if (cooling >=1.0){
+				PoweredArmor.consumePower(player, EquipmentSlot.CHEST, PoweredArmor.CONSUMPTION_EXTINGUISH);
+				PoweredArmor.armorActionEffect(TGEntityAttributes.ARMOR_COOLINGSYSTEM, EquipmentSlot.CHEST, player);
+				player.extinguish();
+			}
+		}
 		/**
 		 * Check if maxHealth dropped and Health is now too high, caused by armor provided entity Attributes
 		 */
 		if (player.getHealth() > player.getMaxHealth()){
 			player.setHealth(player.getMaxHealth());
 		}
-
-		if (player.isOnFire()) {
-			double cooling = 0D; //TODO Cooling system entityAttribute
-			//float cooling = GenericArmor.getArmorBonusForPlayer(player, TGArmorBonus.COOLING_SYSTEM, false);
-			if (cooling >=1.0){
-				player.extinguish();
-			}
-		}
-
 	}
 
 	@Override

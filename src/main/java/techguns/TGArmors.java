@@ -96,6 +96,11 @@ public class TGArmors implements ITGInitializer{
     public static GenericArmor T4_POWER_LEGGINGS;
     public static GenericArmor T4_POWER_BOOTS;
 
+    /**
+     * Needs to be higher than maximum consumption per tick, so bonuses don't flicker on/off
+     */
+    public static final int POWER_VALUE_MINOR_SLOTS = 100;
+
     @Override
     public void init() {
         T1_COMBAT = new TGArmorMaterial("t1_combat", 60, 15F, 0, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER,0.5F, 0.1F, TGItems.HEAVY_CLOTH, Items.IRON_INGOT);
@@ -169,7 +174,7 @@ public class TGArmors implements ITGInitializer{
         T3_EXO_LEGGINGS = registerArmor2d(T3_EXO, EquipmentSlot.LEGS);
         T3_EXO_BOOTS = registerArmor2d(T3_EXO, EquipmentSlot.FEET);
 
-        T3_POWER_HELMET = registerArmorPowered3d(T3_POWER, EquipmentSlot.HEAD, ArmorPowerType.RF, 10)
+        T3_POWER_HELMET = registerArmorPowered3d(T3_POWER, EquipmentSlot.HEAD, ArmorPowerType.RF, POWER_VALUE_MINOR_SLOTS)
                 .setSpeedBoni(0.05f,0.03f,0.0f,0.0f)
                 .setMiningBoni(0.05f,0.0f)
                 .setHealthBonus(1,0)
@@ -182,13 +187,13 @@ public class TGArmors implements ITGInitializer{
                 .setBattery(TGItems.ENERGY_CELL).setEmptyBattery(TGItems.ENERGY_CELL_EMPTY)
                 .setRADResistance(0.75f);
 
-        T3_POWER_LEGGINGS = registerArmorPowered3d(T3_POWER, EquipmentSlot.LEGS, ArmorPowerType.RF, 10)
+        T3_POWER_LEGGINGS = registerArmorPowered3d(T3_POWER, EquipmentSlot.LEGS, ArmorPowerType.RF, POWER_VALUE_MINOR_SLOTS)
                 .setSpeedBoni(0.05f,0.03f,0f,0f)
                 .setMiningBoni(0.05f,0f)
                 .setHealthBonus(1,0)
                 .setRADResistance(0.75f);
 
-        T3_POWER_BOOTS = registerArmorPowered3d(T3_POWER, EquipmentSlot.FEET, ArmorPowerType.RF, 10)
+        T3_POWER_BOOTS = registerArmorPowered3d(T3_POWER, EquipmentSlot.FEET, ArmorPowerType.RF, POWER_VALUE_MINOR_SLOTS)
                 .setSpeedBoni(0.05f,0.15f,0,0)
                 .setMiningBoni(0.05f,0)
                 .setFallProtection(0.2f, 1.0f,0,0)
@@ -196,7 +201,7 @@ public class TGArmors implements ITGInitializer{
                 .setStepAssist(1.0f,0)
                 .setRADResistance(0.75f);
 
-        T3_MINER_HELMET = registerArmorPowered2d(T3_MINER, EquipmentSlot.HEAD, ArmorPowerType.RF, 10)
+        T3_MINER_HELMET = registerArmorPowered2d(T3_MINER, EquipmentSlot.HEAD, ArmorPowerType.RF, POWER_VALUE_MINOR_SLOTS)
                 .setSpeedBoni(0.1f,0.3f,0,0)
                 .setWaterspeedBonus(1.25f, 0)
                 .setMiningBoni(0.1f,0)
@@ -213,14 +218,14 @@ public class TGArmors implements ITGInitializer{
                 .setCoolingSystem(1.0f,0)
                 .setRADResistance(1f);
 
-        T3_MINER_LEGGINGS = registerArmorPowered2d(T3_MINER, EquipmentSlot.LEGS, ArmorPowerType.RF, 10)
+        T3_MINER_LEGGINGS = registerArmorPowered2d(T3_MINER, EquipmentSlot.LEGS, ArmorPowerType.RF, POWER_VALUE_MINOR_SLOTS)
                 .setSpeedBoni(0.1f, 0.03f,0,0)
                 .setWaterspeedBonus(1.25f, 0)
                 .setMiningBoni(0.1f,0)
                 .setMiningBoniWater(1.25f,0)
                 .setRADResistance(1f);
 
-        T3_MINER_BOOTS = registerArmorPowered2d(T3_MINER, EquipmentSlot.FEET, ArmorPowerType.RF, 10)
+        T3_MINER_BOOTS = registerArmorPowered2d(T3_MINER, EquipmentSlot.FEET, ArmorPowerType.RF, POWER_VALUE_MINOR_SLOTS)
                 .setSpeedBoni(0.1f, 0.15f,0,0)
                 .setWaterspeedBonus(1.25f, 0)
                 .setMiningBoni(0.1f,0)
@@ -230,7 +235,7 @@ public class TGArmors implements ITGInitializer{
                 .setRADResistance(1f);
 
 
-        T4_PRAETOR_HELMET = registerArmorPowered2d(T4_PRAETOR, EquipmentSlot.HEAD, ArmorPowerType.RF, 10)
+        T4_PRAETOR_HELMET = registerArmorPowered2d(T4_PRAETOR, EquipmentSlot.HEAD, ArmorPowerType.RF, POWER_VALUE_MINOR_SLOTS)
                 .setSpeedBoni(0.1f,0.3f,0,0)
                 .setWaterspeedBonus(1.25f, 0)
                 .setMiningBoni(0.1f,0)
@@ -247,14 +252,14 @@ public class TGArmors implements ITGInitializer{
                 .setCoolingSystem(1.0f,0)
                 .setRADResistance(1.5f);
 
-        T4_PRAETOR_LEGGINGS = registerArmorPowered2d(T4_PRAETOR, EquipmentSlot.LEGS, ArmorPowerType.RF, 10)
+        T4_PRAETOR_LEGGINGS = registerArmorPowered2d(T4_PRAETOR, EquipmentSlot.LEGS, ArmorPowerType.RF, POWER_VALUE_MINOR_SLOTS)
                 .setSpeedBoni(0.1f, 0.03f,0,0)
                 .setWaterspeedBonus(1.25f, 0)
                 .setMiningBoni(0.1f,0)
                 .setMiningBoniWater(1.25f,0)
                 .setRADResistance(1.5f);
 
-        T4_PRAETOR_BOOTS = registerArmorPowered2d(T4_PRAETOR, EquipmentSlot.FEET, ArmorPowerType.RF, 10)
+        T4_PRAETOR_BOOTS = registerArmorPowered2d(T4_PRAETOR, EquipmentSlot.FEET, ArmorPowerType.RF, POWER_VALUE_MINOR_SLOTS)
                 .setSpeedBoni(0.1f, 0.15f,0,0)
                 .setWaterspeedBonus(1.25f, 0)
                 .setMiningBoni(0.1f,0)

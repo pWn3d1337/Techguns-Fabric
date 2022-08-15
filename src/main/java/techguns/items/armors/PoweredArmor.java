@@ -1,11 +1,11 @@
 package techguns.items.armors;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -20,6 +20,7 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import techguns.TGArmors;
 import techguns.TGEntityAttributes;
 import techguns.TGItems;
 import techguns.TGSounds;
@@ -32,6 +33,10 @@ public class PoweredArmor extends GenericArmor {
     protected ArmorPowerType powerType;
     protected ItemStack battery = ItemStack.EMPTY;
     protected ItemStack battery_empty = ItemStack.EMPTY;
+
+    public static final int CONSUMPTION_EXTINGUISH = 5;
+    public static final int CONSUMPTION_JUMPBOOST = 20;
+    public static final int CONSUMPTION_FALLHEIGHT = 2;
 
     public int maxpower;
 
@@ -147,7 +152,13 @@ public class PoweredArmor extends GenericArmor {
         return this;
     }
 
-    public static void consumePower(ItemStack armor, int amount) {
+    /**
+     * Returns amount of power that could not be consumed
+     * @param armor
+     * @param amount
+     * @return
+     */
+    public static int consumePower(ItemStack armor, int amount) {
         NbtCompound tags = armor.getNbt();
         if(tags==null){
             tags=new NbtCompound();
@@ -155,10 +166,13 @@ public class PoweredArmor extends GenericArmor {
         }
         int power=tags.getInt(KEY_POWER);
         power-=amount;
+        int ret = 0;
         if(power<0){
+            ret=-power;
             power=0;
         }
         tags.putInt(KEY_POWER, power);
+        return ret;
     }
 
     public int setPowered(ItemStack armor, int max) {
@@ -300,31 +314,19 @@ public class PoweredArmor extends GenericArmor {
         }
     }
 
-    public int applyPowerConsumptionOnAction(TGArmorBonus type, PlayerEntity player){
-        if (type==TGArmorBonus.JUMP){
-            if (this.slot==EquipmentSlot.LEGS){
-                if (!player.world.isClient())
-                {
-                    //player.world.playSoundAtEntity(player, "techguns:effects.steamarmorJump", 0.66F, 1.0F );
-                    player.world.playSound(null, player.getX(), player.getY(), player.getZ(), TGSounds.STEAM_JUMP, SoundCategory.PLAYERS, 1f, 1f);
-                }
-                return 5;
-            }
-        } else if (type ==TGArmorBonus.FALLDMG){
-            if (this.slot==EquipmentSlot.FEET){
-				/*if (!player.worldObj.isRemote)
-		        {
-    				player.worldObj.playSoundAtEntity(player, "random.door_close", 1.0F, 1.0F );
-		        }*/
-                return 5;
-            }
-        } else if (type ==TGArmorBonus.COOLING_SYSTEM){
-            if (this.slot==EquipmentSlot.CHEST){
-                return 1;
-            }
+    /**
+     * Play armor action effect, like sound & particle effect
+     * @param attributeType - what armor attribute type is responsible for effect
+     * @param slotPriority - which armor slot should be taken as priority, fallback to chest
+     * @param entity
+     */
+    public static void armorActionEffect(EntityAttribute attributeType, @Nullable EquipmentSlot slotPriority, LivingEntity entity){
+        if (TGEntityAttributes.ARMOR_FALLDAMAGEREDUCTION.equals(attributeType) ||
+                TGEntityAttributes.ARMOR_FALLFREEHEIGHT.equals(attributeType)) {
+            //TODO
+        } else if ( attributeType == TGEntityAttributes.ARMOR_JUMPBOOST){
+            //TODO
         }
-
-        return 0;
     }
 
     /**
@@ -392,6 +394,33 @@ public class PoweredArmor extends GenericArmor {
         }
     }
 
+    public static boolean consumePower(LivingEntity entity, @Nullable EquipmentSlot slot, int amount) {
+        if (!(entity instanceof PlayerEntity)) return false;
+        PlayerEntity player = (PlayerEntity) entity;
+
+        player.sendMessage(Text.of("Consumed Power: "+amount), true);
+
+        ArmorPowerType powerType = null;
+        if (slot != null && slot != EquipmentSlot.CHEST){
+            ItemStack stack = player.getInventory().getArmorStack(slot.getEntitySlotId());
+            if(!stack.isEmpty() && stack.getItem() instanceof PoweredArmor){
+                PoweredArmor poweredArmor = (PoweredArmor) stack.getItem();
+                powerType = poweredArmor.powerType;
+
+                amount = consumePower(stack, amount);
+            }
+        }
+
+        ItemStack chest = player.getInventory().getArmorStack(EquipmentSlot.CHEST.getEntitySlotId());
+        if (amount > 0 && !chest.isEmpty() && chest.getItem() instanceof PoweredArmor) {
+            PoweredArmor chestArmor = (PoweredArmor) chest.getItem();
+            if (chestArmor.powerType == powerType){
+                amount = consumePower(chest, amount);
+            }
+        }
+        return amount <= 0;
+    }
+
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> list, TooltipContext context) {
         NbtCompound tags = stack.getNbt();
@@ -412,6 +441,7 @@ public class PoweredArmor extends GenericArmor {
         }
         super.appendTooltip(stack, world, list, context);
     }
+
 
 
 }

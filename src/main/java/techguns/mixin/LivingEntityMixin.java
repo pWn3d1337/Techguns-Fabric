@@ -1,6 +1,6 @@
 package techguns.mixin;
 
-import net.minecraft.entity.EntityPose;
+import net.minecraft.entity.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -13,9 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.advancement.criterion.Criteria;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.damage.EntityDamageSource;
 import net.minecraft.entity.effect.StatusEffects;
@@ -33,6 +30,7 @@ import techguns.api.entity.ITGLivingEntity;
 import techguns.damagesystem.TGDamageSource;
 import techguns.deatheffects.EntityDeathUtils;
 import techguns.deatheffects.EntityDeathUtils.DeathType;
+import techguns.items.armors.PoweredArmor;
 import techguns.packets.PacketEntityDeathType;
 
 @Mixin(LivingEntity.class)
@@ -134,8 +132,11 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 
 			//System.out.println("JumpBoost: "+ jumpboost + " Reduction " + reduction + " FreeHeight: " + freeheight + " DamageMult: "+ damageMultiplier);
 
-			if (jumpboost > 0){
+			if (jumpboost + reduction + freeheight > 0){
 				//System.out.println("OrgRet: "+ original_return);
+
+				PoweredArmor.consumePower(self, EquipmentSlot.FEET, MathHelper.ceil(PoweredArmor.CONSUMPTION_FALLHEIGHT*fallDistance));
+				PoweredArmor.armorActionEffect(TGEntityAttributes.ARMOR_FALLDAMAGEREDUCTION, EquipmentSlot.FEET, self);
 
 				double val = Math.floor(original_return / damageMultiplier);
 
@@ -351,6 +352,8 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 		double original_return = cir.getReturnValue();
 		double jumpboost = this.getAttributeValue(TGEntityAttributes.ARMOR_JUMPBOOST);
 		if(jumpboost != 0.0){
+			PoweredArmor.consumePower((LivingEntity) (Object)this, EquipmentSlot.FEET, PoweredArmor.CONSUMPTION_JUMPBOOST);
+			PoweredArmor.armorActionEffect(TGEntityAttributes.ARMOR_JUMPBOOST, EquipmentSlot.FEET, (LivingEntity) (Object)this);
 			cir.setReturnValue(original_return+jumpboost);
 		}
 	}
