@@ -15,26 +15,31 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import techguns.TGEntities;
 import techguns.TGPacketsS2C;
+import techguns.TGSounds;
 import techguns.api.damagesystem.DamageType;
 import techguns.client.ClientProxy;
 import techguns.damagesystem.TGDamageSource;
+import techguns.damagesystem.TGExplosion;
+import techguns.damagesystem.TGExplosionIgnoreBlocks;
 import techguns.deatheffects.EntityDeathUtils;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.IChargedProjectileFactory;
 import techguns.items.guns.ammo.AmmoType;
 import techguns.items.guns.ammo.AmmoTypes;
 import techguns.items.guns.ammo.AmmoVariant;
+import techguns.packets.PacketPlaySound;
 import techguns.packets.PacketSpawnParticle;
+import techguns.sounds.TGSoundCategory;
 import techguns.util.MathUtil;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
@@ -46,7 +51,7 @@ public class MagicRifleProjectile extends GenericProjectile{
 
     static HashMap<Byte, MagicRifleProjectileType> ProjectileTypeMap = new HashMap<Byte, MagicRifleProjectileType>();
     static {
-        ProjectileTypeMap.put(TYPE_DEFAULT, new MagicRifleProjectileType());
+        ProjectileTypeMap.put(TYPE_DEFAULT, new MagicRifleProjectileTypeArcane());
         ProjectileTypeMap.put(TYPE_FIRE, new MagicRifleProjectileTypeFire());
         ProjectileTypeMap.put(TYPE_LIGHTNING, new MagicRifleProjectileTypeLightning()); //TODO
     }
@@ -74,9 +79,13 @@ public class MagicRifleProjectile extends GenericProjectile{
         return MagicRifleProjectile.ProjectileTypeMap.get(this.getProjectileType());
     }
 
+    protected TGDamageSource getProjectileDamageSource() {
+        return this.getProjType().getDamageSource(this, this.getOwner());
+    }
+
     @Override
     public void tick() {
-        System.out.println("post_impact_ticks: "+this.postImpactTicks);
+        //System.out.println("post_impact_ticks: "+this.postImpactTicks);
         if (this.postImpactTicks-- > 0) {
             getProjType().handlePostImpactTick(this);
             if (this.postImpactTicks <= 0) {
@@ -139,8 +148,10 @@ public class MagicRifleProjectile extends GenericProjectile{
     }
 
 
-    public static class MagicRifleProjectileType {
-
+    public abstract static class MagicRifleProjectileType {
+        public TGDamageSource getDamageSource(MagicRifleProjectile proj, Entity shooter) {
+            return TGDamageSource.causeBulletDamage(proj, shooter, EntityDeathUtils.DeathType.DEFAULT);
+        }
         public void handlePostImpactTick(MagicRifleProjectile proj) {
             return;
         }
@@ -159,7 +170,7 @@ public class MagicRifleProjectile extends GenericProjectile{
             GenericProjectile.handleBulletImpact(proj.world, x, y, z, pitch, yaw, blockSoundGroup,false);
         }
         public void createFXTrail(MagicRifleProjectile proj) {
-            this.createScaledProjectileTrail(proj,"MagicRifleProjectileTrail_Arcane");
+            return;
         }
 
         protected void createScaledProjectileTrail(MagicRifleProjectile proj, String fxlist) {
@@ -168,7 +179,51 @@ public class MagicRifleProjectile extends GenericProjectile{
         }
     }
 
+    static class MagicRifleProjectileTypeArcane extends MagicRifleProjectileType {
+
+        public TGDamageSource getDamageSource(MagicRifleProjectile proj, Entity shooter) {
+            return TGDamageSource.causeEnergyDamage(proj, shooter, EntityDeathUtils.DeathType.GORE);
+        }
+
+        public void handleEntityHit(MagicRifleProjectile proj, LivingEntity livingEntity, EntityHitResult entityHitResult) {
+            if (!proj.world.isClient)
+                createExplosion(proj, livingEntity);
+        }
+        public void handleBlockHit(MagicRifleProjectile proj, BlockHitResult blockHitResult) {
+            if (!proj.world.isClient)
+                createExplosion(proj, null);
+        }
+        public void createFXTrail(MagicRifleProjectile proj) {
+            this.createScaledProjectileTrail(proj,"MagicRifleProjectileTrail_Arcane");
+        }
+
+        private void createExplosion(MagicRifleProjectile proj, LivingEntity targetHit) {
+            float size =  0.5f + proj.chargeAmount * 2.5f;
+            float exp_dmgMax = proj.damage*0.66f * size;
+            float exp_dmgMin = proj.damage*0.33f * size;
+            float exp_r1 = size*1.0f;
+            float exp_r2 = size*2.0f;
+
+            List<Entity> excludedEntities;
+            if (targetHit != null) {
+                excludedEntities = new ArrayList<>(Arrays.asList(proj, targetHit));
+            } else {
+                excludedEntities = new ArrayList<>(Arrays.asList(proj));
+            }
+
+            TGDamageSource dmgSrc = proj.getProjectileDamageSource();
+
+            TGPacketsS2C.sendToAllAroundEntity(new PacketSpawnParticle("MagicRifleExplosion_Arcane", proj.getX(), proj.getY(), proj.getZ(), size), proj, 100.0f);
+            TGExplosionIgnoreBlocks.createExplosion(proj.world, proj.getX(), proj.getY(), proj.getZ(), dmgSrc, exp_dmgMax, exp_dmgMin, exp_r1, exp_r2, excludedEntities);
+            TGPacketsS2C.sendToAllAroundEntity(new PacketPlaySound(TGSounds.TFG_EXPLOSION, proj, 5.0f, 1.0f, false, false, false, TGSoundCategory.EXPLOSION), proj, 100.0f);
+        }
+
+    }
+
     static class MagicRifleProjectileTypeFire extends MagicRifleProjectileType {
+        public TGDamageSource getDamageSource(MagicRifleProjectile proj, Entity shooter) {
+            return TGDamageSource.causeFireDamage(proj, shooter, EntityDeathUtils.DeathType.LASER);
+        }
         public void handleEntityHit(MagicRifleProjectile proj, LivingEntity livingEntity, EntityHitResult entityHitResult) {
             int fireTime = 3 + (int) proj.chargeAmount * 7;
             if(!livingEntity.isFireImmune()) {
@@ -189,6 +244,9 @@ public class MagicRifleProjectile extends GenericProjectile{
 
     }
     static class MagicRifleProjectileTypeLightning extends MagicRifleProjectileType {
+        public TGDamageSource getDamageSource(MagicRifleProjectile proj, Entity shooter) {
+            return TGDamageSource.causeLightningDamage(proj, shooter, EntityDeathUtils.DeathType.GORE);
+        }
         public void handleEntityHit(MagicRifleProjectile proj, LivingEntity livingEntity, EntityHitResult entityHitResult) {
             //if (proj.chargeAmount > 0.25f) {
                 BlockPos blockPos = getFreeBlockPos(proj.world, (float) livingEntity.getX(), (float) livingEntity.getY(), (float) livingEntity.getZ());
@@ -207,7 +265,7 @@ public class MagicRifleProjectile extends GenericProjectile{
         public boolean handleRemoval(MagicRifleProjectile proj) {
             if (proj.ticksToLive > 0 && proj.chargeAmount > 0.25f) {
                 proj.postImpactTicks = 10 + (int)(proj.chargeAmount* 30);
-                System.out.println("set post_impact_ticks: "+proj.postImpactTicks);
+                //System.out.println("set post_impact_ticks: "+proj.postImpactTicks);
                 return true;
             }
             return false;

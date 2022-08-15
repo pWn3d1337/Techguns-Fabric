@@ -3544,30 +3544,32 @@ MR_TrailBlue
 MR_TrailWave
 MR_TrailGlow
 MR_TrailRunes
+MR_TrailSparks_Arcane
 }
 
 MR_TrailBlue {
-Texture = techguns:textures/fx/laser_blue.png
+Texture = techguns:textures/fx/magic_rifle_trail.png
 RenderType = ADDITIVE
 Streak = true
-Lifetime = 19 19
+Lifetime = 17 17
 SpawnDelay = 0 0
 SystemLifetime = 0 0
-Size = 3 3
-SizeRate = -0.35 -0.35
-SizeRateDamping = 0.9 0.9
-//Alpha = 1 0
-//Alpha = 0 1
-Color = 255 255 255 0
-Color = 135 135 135 0.25
-Color = 0 0 0 1
+Size = 1.5 2
+SizeRate = -0.15 -0.13
+SizeRateDamping = 0.82 0.87
+Alpha = 1 0
+Alpha = 0 1
+Color = 128 192 255 0
+Color = 64 128 255 1
 ParticleCount = 1 1
 Gravity = 0.0
 VolumeType = POINT
-VelocityType = NONE
-VelocityDamping = 1 1
+VelocityType = SPHERICAL
+Velocity1 = 0 0.15
+VelocityDamping = 0.88 0.91
 InitialDelay = 0 0
 offset = 0 0 0
+SystemVelocityFactor = 0.02 0.02
 }
 
 MR_TrailWave {
@@ -3584,8 +3586,8 @@ Lifetime = 4 4
 SystemLifetime = 0 0
 AnimationSpeed = 1 1
 Size = 1.0 1.0
-SizeRate = 7 10
-SizeRateDamping = 0.90 0.9
+SizeRate = 4 8
+SizeRateDamping = 0.84 0.9
 Alpha = 0 0
 Alpha = 0.25 0.25
 Alpha = 0 1
@@ -3673,6 +3675,43 @@ VelocityType = SPHERICAL
 Velocity1 = 1 2
 //VelocityDamping = 0.95 0.97
 Gravity = 0.01
+VolumeType = POINT
+IsHollow =false
+RemoveOnGround = true
+SystemVelocityFactor = 0.0 0.1
+}
+
+MR_TrailSparks_Arcane {
+AnimationSpeed = 1 1
+Size = 1.0 1.0
+Texture = techguns:textures/fx/impact.png
+RenderType = ADDITIVE
+Rows = 2
+Columns = 2
+Frames = 4
+HasVariations = true
+Angle = 0 360
+AngleRate = -5 5
+AngleRateDamping = 0.91 0.92
+RandomRotation = true
+Lifetime = 15 17
+SystemLifetime = 0 0
+AnimationSpeed = 1 1
+Size = 0.05 0.1
+SizeRate = 0.15 0.12
+SizeRateDamping = 0.82 0.84
+Alpha = 0.5 0
+Alpha = 0 1
+Color = 128 192 255 0
+Color = 128 192 255 1
+//Color = 0 0 0 1
+ParticleCount = 3 3
+InitialDelay = 1 1
+SpawnDelay = 0 0
+VelocityType = SPHERICAL
+Velocity1 = 2 6
+//VelocityDamping = 0.95 0.97
+Gravity = 0.015
 VolumeType = POINT
 IsHollow =false
 RemoveOnGround = true
@@ -3853,3 +3892,214 @@ offset = 0 0 0
 SystemVelocityFactor = 0.25 0.25
 }
 
+
+FXLIST MagicRifleExplosion_Arcane {
+MR_ExpArcane_Wave
+MR_ExpArcane_Wave_GroundAligned
+MR_ExpArcane_GroundRune
+MR_ExpArcane_ImpactRune
+MR_ExpArcane_Runes
+MR_ExpArcane_RuneBlast
+MR_ExpArcane_ImpactGlow
+}
+
+MR_ExpArcane_RuneBlast {
+Texture = techguns:textures/fx/arcane_blast.png
+RenderType = ADDITIVE
+Angle = -5 5
+AngleRate = -1 1
+AngleRateDamping = 0.81 0.82
+Lifetime = 32 33
+SystemLifetime = 1 1
+Size = 5.0 5.0
+SizeRate = 4 6
+SizeRateDamping = 0.76 0.78
+Alpha = 0.0 0
+Alpha = 0.25 0.25
+Alpha = 0 1.0
+//Alpha = 1 1 0
+Color = 255 255 255 0
+Color = 255 255 255 1
+ParticleCount = 1 1
+InitialDelay = 0 0
+SpawnDelay = 99 99
+VelocityType = NONE
+VolumeType = POINT
+}
+
+MR_ExpArcane_Wave {
+Texture = techguns:textures/fx/shockwave.png
+RenderType = ADDITIVE
+Angle = 0 360
+AngleRate = -15 15
+AngleRateDamping = 0.91 0.95
+Lifetime = 10 11
+SystemLifetime = 1 1
+Size = 1.0 1.0
+SizeRate = 7 7
+SizeRateDamping = 0.84 0.85
+Alpha = 0.0 0
+Alpha = 0.25 0.25
+Alpha = 0 1.0
+//Alpha = 1 1 0
+Color = 128 192 255 0
+Color = 0 0 0 1
+ParticleCount = 3 3
+InitialDelay = 0 0
+SpawnDelay = 99 99
+VelocityType = NONE
+VolumeType = POINT
+}
+
+MR_ExpArcane_Wave_GroundAligned {
+Texture = techguns:textures/fx/shockwave.png
+RenderType = ADDITIVE
+Angle = 0 360
+AngleRate = -15 15
+AngleRateDamping = 0.91 0.95
+Lifetime = 10 11
+SystemLifetime = 1 1
+Size = 1.0 1.0
+SizeRate = 7 7
+SizeRateDamping = 0.84 0.85
+Alpha = 0.0 0
+Alpha = 0.25 0.25
+Alpha = 0 1.0
+//Alpha = 1 1 0
+Color = 128 192 255 0
+Color = 0 0 0 1
+ParticleCount = 3 3
+InitialDelay = 0 0
+SpawnDelay = 99 99
+VelocityType = NONE
+VolumeType = POINT
+groundAligned = true
+}
+
+MR_ExpArcane_GroundRune {
+Texture = techguns:textures/fx/magic_circle_arcane.png
+RenderType = ADDITIVE
+Angle = 0 0
+AngleRate = -3 3
+AngleRateDamping = 0.91 0.95
+Lifetime = 17 18
+SystemLifetime = 3 3
+Size = 10.0 30.0
+SizeRate = -0.5 0
+SizeRateDamping = 0.82 0.88
+Alpha = 0.0 0
+Alpha = 0.15 0.25
+Alpha = 0 1.0
+//Alpha = 1 1 0
+Color = 255 255 255 0
+Color = 0 0 0 1
+ParticleCount = 2 2
+InitialDelay = 0 0
+SpawnDelay = 0 0
+VelocityType = ORTHO
+Velocity1 = 0 0
+Velocity2 = -0.5 0.5
+Velocity3 = 0 0
+VelocityDamping = 0.88 0.91
+VolumeType = POINT
+groundAligned = true
+}
+
+MR_ExpArcane_ImpactRune {
+Texture = techguns:textures/fx/magic_circle_arcane.png
+RenderType = ADDITIVE
+Angle = 0 0
+AngleRate = -3 3
+AngleRateDamping = 0.91 0.95
+Lifetime = 17 18
+SystemLifetime = 3 3
+Size = 5.0 15.0
+SizeRate = 0.2 0.4
+SizeRateDamping = 0.82 0.86
+Alpha = 0.0 0
+Alpha = 0.25 0.25
+Alpha = 0 1.0
+//Alpha = 1 1 0
+Color = 255 255 255 0
+Color = 0 0 0 1
+ParticleCount = 1 1
+InitialDelay = 0 0
+SpawnDelay = 0 0
+VelocityType = NONE
+VelocityDamping = 0.92 0.95
+VolumeType = POINT
+}
+
+MR_ExpArcane_Runes {
+AnimationSpeed = 1 1
+Texture = techguns:textures/fx/runes01.png
+RenderType = ADDITIVE
+Rows = 8
+Columns = 8
+Frames = 21
+HasVariations = true
+Angle = 0 360
+AngleRate = -12 12
+AngleRateDamping = 0.91 0.92
+RandomRotation = true
+Lifetime = 14 21
+SystemLifetime = 1 1
+AnimationSpeed = 1 1
+Size = 0.2 0.3
+SizeRate = 0.2 0.3
+SizeRateDamping = 0.75 0.78
+StartSizeRate = 0 0
+StartSizeRateDamping = 1.0 1.0
+Alpha = 0.0 0
+Alpha = 1.0 0.25
+Alpha = 0 1.0
+Color = 128 192 255 0
+Color = 128 192 255 1
+//Color = 0 0 0 1
+ParticleCount = 11 12
+InitialDelay = 0 0
+SpawnDelay = 0 0
+VelocityType = SPHERICAL
+Velocity1 = 2 5
+//Velocity2 = 2 6
+VelocityDamping = 0.84 0.87
+Gravity = 0.02
+VolumeType = POINT
+IsHollow = false
+RemoveOnGround = true
+}
+
+MR_ExpArcane_ImpactGlow {
+AnimationSpeed = 1 1
+Texture = techguns:textures/fx/lensflare3.png
+RenderType = ADDITIVE
+Rows = 1
+Columns = 1
+Frames = 1
+HasVariations = false
+Angle = 0 360
+AngleRate = -3 3
+AngleRateDamping = 0.95 0.98
+Lifetime = 8 12
+SystemLifetime = 4 5
+AnimationSpeed = 1 1
+Size = 1 5
+SizeRate = 0.5 3
+SizeRateDamping = 0.75 0.81
+StartSizeRate = 0 0
+StartSizeRateDamping = 1.0 1.0
+Alpha = 0.0 0
+Alpha = 1.0 0.05
+Alpha = 0 1.0
+Color = 128 192 255 0
+Color = 64 128 255 1
+//Color = 0 0 0 1
+ParticleCount = 1 3
+InitialDelay = 0 0
+SpawnDelay = 0 0
+VelocityType = NONE
+VelocityDamping = 1 1
+VolumeType = POINT
+IsHollow = false
+RemoveOnGround = false
+}
