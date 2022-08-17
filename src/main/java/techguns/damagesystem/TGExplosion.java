@@ -8,10 +8,8 @@ import java.util.Random;
 import com.mojang.datafixers.util.Pair;
 
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockEntityProvider;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import it.unimi.dsi.fastutil.objects.ObjectListIterator;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -24,11 +22,8 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult.Type;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.*;
 
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.explosion.Explosion;
 import net.minecraft.world.explosion.Explosion.DestructionType;
 import net.minecraft.world.RaycastContext;
@@ -38,7 +33,10 @@ import techguns.deatheffects.EntityDeathUtils.DeathType;
 public class TGExplosion {
 	
 	 /** whether or not the explosion sets fire to blocks around it */
-    //private final boolean causesFire;
+    boolean burnsBlocks = false;
+    boolean burnsEntities = false;
+    double fireDensity = 0.5;
+    int entityFireTime = 0;
     /** whether or not this explosion spawns smoke particles */
     boolean damagesTerrain;
     Random random;
@@ -112,6 +110,14 @@ public class TGExplosion {
     public TGExplosion setDmgSrc(TGDamageSource src) {
     	this.dmgSrc=src;
     	return this;
+    }
+
+    public TGExplosion setIncendiary(boolean burnsBlocks, boolean burnsEntities, double fireDensity, int fireTime) {
+        this.burnsBlocks = burnsBlocks;
+        this.burnsEntities = burnsEntities;
+        this.fireDensity = fireDensity;
+        this.entityFireTime = fireTime;
+        return this;
     }
     
     public Explosion getExplosionDummy() {
@@ -196,6 +202,8 @@ public class TGExplosion {
                                 }else {
                                 	explosionPower = 0.0;
                                 }
+                            } else {
+                                set.put(blockpos, distance);
                             }
                             
                             px += dx * stepOffset;
@@ -277,7 +285,13 @@ public class TGExplosion {
 //	            	}
 	            	
 	            	//System.out.println("Attack Damage: "+ damage +" against "+entity);
-	            	entity.damage(tgs,  (float)Math.max(0, damage*f));   
+	            	entity.damage(tgs,  (float)Math.max(0, damage*f));
+
+                    if (this.burnsEntities && this.entityFireTime > 0) {
+                        if(!entity.isFireImmune()) {
+                            entity.setOnFireFor(this.entityFireTime);
+                        }
+                    }
 	            }
 
             }
@@ -291,56 +305,85 @@ public class TGExplosion {
     }
     
     private void breakBlocks() {
-    	if (this.damagesTerrain)
-        {
-    		double r = (this.secondaryRadius-this.primaryRadius);
-    		
-    		
-    		ObjectArrayList<Pair<ItemStack, BlockPos>> objectArrayList = new ObjectArrayList<Pair<ItemStack, BlockPos>>();
-    		
-    		for (Map.Entry<BlockPos, Double> entry : this.affectedBlockPositions.entrySet())          
-            {
-    			BlockPos blockpos = entry.getKey();
-            	
-    			//this.world.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 3);
-    			
-    			
-              	BlockState blockState = this.world.getBlockState(blockpos);
-              	Block block = blockState.getBlock();
-               
-              	BlockPos blockpos2 = blockpos.toImmutable();
-               
-				if (!blockState.isAir()) {
-					if (entry.getValue() > this.primaryRadius
-							&& Math.random() < (blockDropChance * (entry.getValue() - this.primaryRadius) / r)) {
-						if (block.shouldDropItemsOnExplosion(explosionDummy) && this.world instanceof ServerWorld) {
-							// block.dropBlockAsItemWithChance(this.world, blockpos,
-							// this.world.getBlockState(blockpos), 1.0f, 0);
-                            
-							BlockEntity blockEntity = block instanceof BlockEntityProvider ? this.world.getBlockEntity(blockpos)
-									: null;
-							LootContext.Builder builder = (new LootContext.Builder((ServerWorld) this.world))
-									.random(this.world.random)
-									.parameter(LootContextParameters.ORIGIN, Vec3d.ofCenter(blockpos))
-									.parameter(LootContextParameters.TOOL, ItemStack.EMPTY)
-									.optionalParameter(LootContextParameters.BLOCK_ENTITY, blockEntity)
-									.optionalParameter(LootContextParameters.THIS_ENTITY, this.exploder);
+    	if (this.damagesTerrain) {
+            double r = (this.secondaryRadius - this.primaryRadius);
+
+
+            ObjectArrayList<Pair<ItemStack, BlockPos>> objectArrayList = new ObjectArrayList<Pair<ItemStack, BlockPos>>();
+
+            for (Map.Entry<BlockPos, Double> entry : this.affectedBlockPositions.entrySet()) {
+                BlockPos blockpos = entry.getKey();
+
+                //this.world.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 3);
+
+
+                BlockState blockState = this.world.getBlockState(blockpos);
+                Block block = blockState.getBlock();
+
+                BlockPos blockpos2 = blockpos.toImmutable();
+
+                if (!blockState.isAir()) {
+                    if (entry.getValue() > this.primaryRadius
+                            && Math.random() < (blockDropChance * (entry.getValue() - this.primaryRadius) / r)) {
+                        if (block.shouldDropItemsOnExplosion(explosionDummy) && this.world instanceof ServerWorld) {
+                            // block.dropBlockAsItemWithChance(this.world, blockpos,
+                            // this.world.getBlockState(blockpos), 1.0f, 0);
+
+                            BlockEntity blockEntity = block instanceof BlockEntityProvider ? this.world.getBlockEntity(blockpos)
+                                    : null;
+                            LootContext.Builder builder = (new LootContext.Builder((ServerWorld) this.world))
+                                    .random(this.world.random)
+                                    .parameter(LootContextParameters.ORIGIN, Vec3d.ofCenter(blockpos))
+                                    .parameter(LootContextParameters.TOOL, ItemStack.EMPTY)
+                                    .optionalParameter(LootContextParameters.BLOCK_ENTITY, blockEntity)
+                                    .optionalParameter(LootContextParameters.THIS_ENTITY, this.exploder);
 //                          if (this.destructionType == Explosion.DestructionType.DESTROY) {
 //                             builder.parameter(LootContextParameters.EXPLOSION_RADIUS, this.power);
 //                          }
-							blockState.getDroppedStacks(builder).forEach((itemStack) -> {
-								method_24023(objectArrayList, itemStack, blockpos2);
-							});
-						}
-                	}
-					this.world.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 3);
-					block.onDestroyedByExplosion(this.world, blockpos, this.explosionDummy);
-					this.world.getProfiler().pop();
+                            blockState.getDroppedStacks(builder).forEach((itemStack) -> {
+                                method_24023(objectArrayList, itemStack, blockpos2);
+                            });
+                        }
+                    }
+                    this.world.setBlockState(blockpos, Blocks.AIR.getDefaultState(), 3);
+                    block.onDestroyedByExplosion(this.world, blockpos, this.explosionDummy);
+                    this.world.getProfiler().pop();
                 }
-                
+
+            }
+        }
+        if (this.burnsBlocks) {
+            double r = (this.secondaryRadius - this.primaryRadius);
+
+            for (Map.Entry<BlockPos, Double> entry : this.affectedBlockPositions.entrySet()) {
+                BlockPos blockPos = entry.getKey();
+
+                double chanceToBurn;
+                if (r != 0) chanceToBurn = this.fireDensity * (1.0 - (entry.getValue() - this.primaryRadius) / r);  //TODO: not sure if chance should be capped at 1
+                else chanceToBurn = this.fireDensity;
+
+                if (entry.getValue() <= this.secondaryRadius && Math.random() < chanceToBurn) {
+//                    if (this.world.getBlockState(blockPos).isAir() && this.world.getBlockState(blockPos.down()).isOpaqueFullCube(this.world, blockPos.down())) {
+//                        this.world.setBlockState(blockPos, AbstractFireBlock.getState(this.world, blockPos));
+//                    }
+                    for (Direction direction : Direction.values()) {
+                        if (AbstractFireBlock.canPlaceAt(world, blockPos, direction)) {
+                            world.setBlockState(blockPos, AbstractFireBlock.getState(world, blockPos), 11);
+                        }
+                    }
+                }
             }
         }
 
+    }
+
+    private static boolean canBurnBlock(World world, BlockPos pos, Direction direction) {
+        BlockState blockState = world.getBlockState(pos);
+        if (!blockState.isAir()) {
+            return false;
+        } else {
+            return AbstractFireBlock.getState(world, pos).canPlaceAt(world, pos);
+        }
     }
     
     private static void method_24023(ObjectArrayList<Pair<ItemStack, BlockPos>> objectArrayList, ItemStack itemStack, BlockPos blockPos) {

@@ -229,17 +229,51 @@ public class MagicRifleProjectile extends GenericProjectile{
             if(!livingEntity.isFireImmune()) {
                 livingEntity.setOnFireFor(fireTime);
             }
+            if (!proj.world.isClient)
+                createExplosion(proj, livingEntity);
         }
         public void handleBlockHit(MagicRifleProjectile proj, BlockHitResult blockHitResult) {
             if (proj.blockdamage) {
                 burnBlocks(proj.world, blockHitResult, 1.0f);
             }
+            if (!proj.world.isClient)
+                createExplosion(proj, null);
         }
         public void handleImpactEffects(MagicRifleProjectile proj, double x, double y, double z, float pitch, float yaw, BlockSoundGroup blockSoundGroup) {
             GenericProjectile.handleBulletImpact(proj.world, x, y, z, pitch, yaw, blockSoundGroup,true);
         }
         public void createFXTrail(MagicRifleProjectile proj) {
             this.createScaledProjectileTrail(proj,"MagicRifleProjectileTrail_Fire");
+        }
+
+        private void createExplosion(MagicRifleProjectile proj, LivingEntity targetHit) {
+            float size =  0.5f + proj.chargeAmount * 2.5f;
+            float exp_dmgMax = proj.damage*0.25f * size;
+            float exp_dmgMin = proj.damage*0.125f * size;
+            float exp_r1 = size*1.0f;
+            float exp_r2 = size*2.0f;
+
+//            List<Entity> excludedEntities;
+//            if (targetHit != null) {
+//                excludedEntities = new ArrayList<>(Arrays.asList(proj, targetHit));
+//            } else {
+//                excludedEntities = new ArrayList<>(Arrays.asList(proj));
+//            }
+
+            int fireTime = 3 + (int) proj.chargeAmount * 7;
+
+            TGPacketsS2C.sendToAllAroundEntity(new PacketSpawnParticle("MagicRifleExplosion_Fire", proj.getX(), proj.getY(), proj.getZ(), size), proj, 100.0f);
+
+            TGExplosion explosion = new TGExplosion(proj.world, proj.getOwner(), proj, proj.getX(), proj.getY(), proj.getZ(), exp_dmgMax, exp_dmgMin, exp_r1, exp_r2, 0.0f);
+            if (proj.blockdamage) {
+                explosion.setIncendiary(true, true, 1.0, fireTime);
+            }else {
+                explosion.setIncendiary(false, true, 1.0, fireTime);
+            }
+            explosion.setDmgSrc(proj.getProjectileDamageSource());
+            explosion.doExplosion(false);
+
+            TGPacketsS2C.sendToAllAroundEntity(new PacketPlaySound(TGSounds.TFG_EXPLOSION, proj, 5.0f, 1.0f, false, false, false, TGSoundCategory.EXPLOSION), proj, 100.0f);
         }
 
     }
