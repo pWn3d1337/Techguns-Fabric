@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:t2_commando_leggings"
+  },
+  "pattern": [
+    "hih",
+    "i i",
+    "h h"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "h": {
+      "tag": "c:dyes"
+    },
+    "i": {
+      "tag": "c:obsidian_ingots"
+    }
+  }
+}

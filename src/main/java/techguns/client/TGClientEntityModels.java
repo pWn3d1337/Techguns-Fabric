@@ -37,6 +37,9 @@ public class TGClientEntityModels {
     public static void initialize() {
 
         registerEntityRenderer(TGEntities.ZOMBIE_SOLDIER, GenericNPCModel::new, texturedModelData_biped, texturedModelData_biped_inner_armor, texturedModelData_biped_outer_armor);
+        registerEntityRenderer(TGEntities.ZOMBIE_MINER, GenericNPCModel::new, texturedModelData_biped, texturedModelData_biped_inner_armor, texturedModelData_biped_outer_armor, "zombie_soldier");
+        registerEntityRenderer(TGEntities.ZOMBIE_FARMER, GenericNPCModel::new, texturedModelData_biped, texturedModelData_biped_inner_armor, texturedModelData_biped_outer_armor, "zombie_soldier");
+        registerEntityRenderer(TGEntities.ZOMBIE_POLICEMAN, GenericNPCModel::new, texturedModelData_biped, texturedModelData_biped_inner_armor, texturedModelData_biped_outer_armor);
 
         addArmorRendering(ModelT3PowerArmor::new, ModelT3PowerArmor::getModelData, 128, 64,
                 TGArmors.T3_POWER_HELMET,
@@ -132,6 +135,7 @@ public class TGClientEntityModels {
                 TGArmors.T4_PRAETOR_BOOTS
         );
 
+        addArmorRendering(TGArmors.T2_BERET_HELMET, ModelBeret::new, TexturedModelData.of(ModelBeret.getModelData(OUTER_ARMOR_DILATION, EquipmentSlot.HEAD), 32, 32));
     }
 
     public static void addMissingParts(ModelPartData modelPartData) {
@@ -176,22 +180,26 @@ public class TGClientEntityModels {
 
 
     /**
-     * Registers an entity type, retrieves modellayer and texture from entity name
-     *
-     * @param entityType
-     * @param modelData
-     * @param <T>
+     * Registers an entity type, retrieves modellayer from entity name, pass different texture name
      */
-    protected static <T extends GenericNPC> void registerEntityRenderer(EntityType<T> entityType, Function<ModelPart, GenericNPCModel<T>> modelConstructor, TexturedModelData modelData, TexturedModelData modelDataInnerArmor, TexturedModelData modelDataOuterArmor) {
+    protected static <T extends GenericNPC> void registerEntityRenderer(EntityType<T> entityType, Function<ModelPart, GenericNPCModel<T>> modelConstructor, TexturedModelData modelData, TexturedModelData modelDataInnerArmor, TexturedModelData modelDataOuterArmor, String texturename) {
         String entityName = entityType.toString().substring("entity.techguns.".length());
 
         EntityModelLayer modelLayer = new EntityModelLayer(new TGIdentifier(entityName), "main");
         EntityModelLayer modelLayerLegsArmor = new EntityModelLayer(new TGIdentifier(entityName), "inner_armor");
         EntityModelLayer modelLayerBodyArmor = new EntityModelLayer(new TGIdentifier(entityName), "outer_armor");
         EntityRendererRegistry.register(entityType, (context) ->
-                new RenderGenericNPC<T>(context, new TGIdentifier("textures/entity/" + entityName + ".png"), modelLayer, modelLayerLegsArmor, modelLayerBodyArmor, modelConstructor));
+                new RenderGenericNPC<T>(context, new TGIdentifier("textures/entity/" + texturename + ".png"), modelLayer, modelLayerLegsArmor, modelLayerBodyArmor, modelConstructor));
         EntityModelLayerRegistry.registerModelLayer(modelLayer, () -> modelData);
         EntityModelLayerRegistry.registerModelLayer(modelLayerLegsArmor, () -> modelDataInnerArmor);
         EntityModelLayerRegistry.registerModelLayer(modelLayerBodyArmor, () -> modelDataOuterArmor);
+    }
+
+    /**
+     * Registers an entity type, retrieves modellayer and texture from entity name
+     */
+    protected static <T extends GenericNPC> void registerEntityRenderer(EntityType<T> entityType, Function<ModelPart, GenericNPCModel<T>> modelConstructor, TexturedModelData modelData, TexturedModelData modelDataInnerArmor, TexturedModelData modelDataOuterArmor) {
+        String entityName = entityType.toString().substring("entity.techguns.".length());
+        registerEntityRenderer(entityType, modelConstructor, modelData, modelDataInnerArmor, modelDataOuterArmor, entityName);
     }
 }

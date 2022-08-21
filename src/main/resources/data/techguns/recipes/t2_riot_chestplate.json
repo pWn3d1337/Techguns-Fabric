@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "techguns:t2_riot_chestplate"
+  },
+  "pattern": [
+    "p p",
+    "lcl",
+    "lpl"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:lead_ingots"
+    },
+    "c": {
+      "item": "techguns:t2_combat_chestplate"
+    },
+    "l": {
+      "item": "techguns:treatedleather"
+    }
+  }
+}

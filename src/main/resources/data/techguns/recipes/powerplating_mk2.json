@@ -1,0 +1,29 @@
+{
+  "result": {
+    "item": "techguns:powerplating_mk2",
+    "count": 4
+  },
+  "pattern": [
+    "tmt",
+    "bcb",
+    "pmp"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:powerplating"
+    },
+    "b": {
+      "item": "techguns:circuitboardadvanced"
+    },
+    "c": {
+      "item": "techguns:cyberneticparts"
+    },
+    "t": {
+      "tag": "c:netherite_ingots"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartscarbon"
+    }
+  }
+}

@@ -107,11 +107,16 @@ public abstract class LivingEntityMixin extends Entity implements ITGLivingEntit
 
 	@Inject(method = "damage", at = @At(value = "HEAD"), cancellable = true)
 	public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
-		boolean ret = false;
-		if (source instanceof TGDamageSource) {
-			ret = Techguns_damage_func((TGDamageSource)source, amount);
-			info.setReturnValue(ret);
+		if (source.getName().equals("lava") && this.getAttributeValue(TGEntityAttributes.ARMOR_COOLINGSYSTEM) >=1.0D){
+			info.setReturnValue(false);
 			info.cancel();
+		} else {
+			boolean ret = false;
+			if (source instanceof TGDamageSource) {
+				ret = Techguns_damage_func((TGDamageSource) source, amount);
+				info.setReturnValue(ret);
+				info.cancel();
+			}
 		}
 	}
 

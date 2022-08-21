@@ -1,0 +1,17 @@
+{
+  "result": {
+    "item": "techguns:circuitboardadvanced"
+  },
+  "ingredients": [
+    {
+      "tag": "c:basic_circuits"
+    },
+    {
+      "tag": "c:gold_wires"
+    },
+    {
+      "item": "minecraft:lapis_lazuli"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

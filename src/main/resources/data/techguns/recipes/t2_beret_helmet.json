@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "techguns:t2_beret_helmet"
+  },
+  "pattern": [
+    " cc",
+    "c c"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "techguns:heavycloth"
+    }
+  }
+}

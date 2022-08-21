@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "techguns:t3_power_leggings"
+  },
+  "pattern": [
+    "pcp",
+    "e e",
+    "p p"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:powerplating"
+    },
+    "c": {
+      "tag": "c:advanced_circuits"
+    },
+    "e": {
+      "item": "techguns:electricengine"
+    }
+  }
+}

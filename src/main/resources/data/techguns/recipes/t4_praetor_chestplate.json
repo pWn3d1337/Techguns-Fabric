@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:t4_praetor_chestplate"
+  },
+  "pattern": [
+    "p p",
+    "cpc",
+    "ppp"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:netherarmorplating"
+    },
+    "c": {
+      "tag": "c:elite_circuits"
+    }
+  }
+}

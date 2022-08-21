@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "techguns:t2_combat_helmet"
+  },
+  "pattern": [
+    "iii",
+    "h h"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "h": {
+      "item": "techguns:heavycloth"
+    },
+    "i": {
+      "tag": "c:obsidian_ingots"
+    }
+  }
+}

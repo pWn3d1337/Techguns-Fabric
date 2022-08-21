@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "techguns:t3_miner_boots"
+  },
+  "pattern": [
+    "l l",
+    "p p"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:carbon_plates"
+    },
+    "l": {
+      "tag": "c:titanium_ingots"
+    }
+  }
+}

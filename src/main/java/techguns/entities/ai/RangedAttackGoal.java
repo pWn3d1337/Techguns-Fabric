@@ -3,14 +3,16 @@ package techguns.entities.ai;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.item.BowItem;
 import net.minecraft.util.Hand;
 import techguns.api.guns.IGenericGun;
+import techguns.api.npc.INPCTechgunsShooter;
 import techguns.entities.npcs.GenericNPC;
 
 import java.util.EnumSet;
 
-public class RangedAttackGoal <T extends GenericNPC & RangedAttackMob> extends Goal {
+public class RangedAttackGoal <T extends HostileEntity & RangedAttackMob> extends Goal {
 
     protected final T actor;
     protected final double speed;
@@ -21,12 +23,19 @@ public class RangedAttackGoal <T extends GenericNPC & RangedAttackMob> extends G
     protected boolean movingToLeft;
     protected boolean backward;
     protected int combatTicks = -1;
+    protected int burstCount;
+    protected int maxBurstCount;
+    protected int shotDelay;
 
-    public RangedAttackGoal(T actor, double speed, int attackInterval, float range) {
-        this.actor = actor;
-        this.speed = speed;
-        this.attackInterval = attackInterval;
-        this.squaredRange = range * range;
+    public RangedAttackGoal(T shooter, double moveSpeed, int attackTime, float attackRange, int maxBurstCount, int shotDelay)
+    {
+        this.actor = shooter;
+        this.speed = moveSpeed;
+        this.attackInterval = attackTime;
+        this.squaredRange = attackRange * attackRange;
+        this.burstCount = 0;
+        this.maxBurstCount = maxBurstCount;
+        this.shotDelay = shotDelay;
         this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
     }
 
@@ -116,7 +125,7 @@ public class RangedAttackGoal <T extends GenericNPC & RangedAttackMob> extends G
         } else {
             this.actor.getLookControl().lookAt(livingEntity, 30.0f, 30.0f);
         }
-        if (this.actor.isUsingItem()) {
+        /*if (this.actor.isUsingItem()) {
             int i;
             if (!bl && this.targetSeeingTicker < -60) {
                 this.actor.clearActiveItem();
@@ -127,6 +136,17 @@ public class RangedAttackGoal <T extends GenericNPC & RangedAttackMob> extends G
             }
         } else if (--this.cooldown <= 0 && this.targetSeeingTicker >= -60) {
             this.actor.setCurrentHand(getHandPossiblyUsingGun(actor));
+        }*/
+
+        if (--this.cooldown<=0 && this.targetSeeingTicker >= -60) {
+            this.actor.attack(livingEntity, 1F);
+            if (maxBurstCount > 0) burstCount--;
+            if (burstCount > 0) {
+                this.cooldown = shotDelay;
+            } else {
+                burstCount = maxBurstCount;
+                this.cooldown = this.attackInterval;
+            }
         }
     }
 

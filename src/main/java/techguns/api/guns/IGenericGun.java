@@ -5,10 +5,14 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.model.BipedEntityModel.ArmPose;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.RangedAttackMob;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
+import techguns.entities.ai.RangedAttackGoal;
+import techguns.entities.npcs.GenericNPC;
 
 
 public interface IGenericGun {
@@ -38,4 +42,6 @@ public interface IGenericGun {
 	public ArmPose getArmPose(boolean akimbo);
 
 	public String getCurrentAmmoVariantKey(ItemStack stack);
+
+	public <T extends HostileEntity & RangedAttackMob> RangedAttackGoal getAIAttack(T shooter);
 }

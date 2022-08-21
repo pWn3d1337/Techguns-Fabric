@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "techguns:t1_miner_boots"
+  },
+  "pattern": [
+    "c c",
+    "i i"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "techguns:heavycloth"
+    },
+    "i": {
+      "tag": "c:iron_nuggets"
+    }
+  }
+}

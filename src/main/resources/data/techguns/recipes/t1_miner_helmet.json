@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "techguns:t1_miner_helmet"
+  },
+  "pattern": [
+    "iyi",
+    "c c"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "c": {
+      "item": "techguns:heavycloth"
+    },
+    "i": {
+      "tag": "c:iron_ingots"
+    },
+    "y": {
+      "tag": "c:dyes"
+    }
+  }
+}

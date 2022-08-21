@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:t4_power_chestplate"
+  },
+  "pattern": [
+    "p p",
+    "cpc",
+    "ppp"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:powerplating_mk2"
+    },
+    "c": {
+      "tag": "c:elite_circuits"
+    }
+  }
+}

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/t2_beret"
+    "layer0": "techguns:items/powerplating_mk2"
   }
 }

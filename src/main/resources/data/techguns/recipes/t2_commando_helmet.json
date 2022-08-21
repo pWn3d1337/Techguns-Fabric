@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "techguns:t2_commando_helmet"
+  },
+  "pattern": [
+    "ihi",
+    "hgh"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "g": {
+      "tag": "c:glass_panes"
+    },
+    "h": {
+      "tag": "c:dyes"
+    },
+    "i": {
+      "tag": "c:obsidian_ingots"
+    }
+  }
+}

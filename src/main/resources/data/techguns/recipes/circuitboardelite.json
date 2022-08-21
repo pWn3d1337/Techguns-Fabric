@@ -1,17 +1,32 @@
 {
   "result": {
-    "item": "techguns:circuitboardelite"
+    "item": "techguns:circuitboardelite",
+    "count": 2
   },
-  "ingredients": [
-    {
-      "tag": "c:basic_circuits"
+  "pattern": [
+    "cqc",
+    "ril",
+    "cgc"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "q": {
+      "item": "minecraft:quartz"
     },
-    {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "c": {
       "tag": "c:gold_wires"
     },
-    {
+    "g": {
+      "item": "minecraft:ghast_tear"
+    },
+    "i": {
+      "tag": "c:carbon_plates"
+    },
+    "l": {
       "item": "minecraft:lapis_lazuli"
     }
-  ],
-  "type": "minecraft:crafting_shapeless"
+  }
 }

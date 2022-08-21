@@ -13,8 +13,11 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -35,6 +38,7 @@ import net.minecraft.util.UseAction;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import techguns.*;
@@ -49,6 +53,8 @@ import techguns.client.ShooterValues;
 import techguns.client.render.ITGItemRenderer;
 import techguns.damagesystem.TGDamageSource;
 import techguns.deatheffects.EntityDeathUtils.DeathType;
+import techguns.entities.ai.RangedAttackGoal;
+import techguns.entities.npcs.GenericNPC;
 import techguns.entities.projectiles.EnumBulletFirePos;
 import techguns.entities.projectiles.GenericProjectile;
 import techguns.items.GenericItem;
@@ -456,7 +462,17 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	 * Override in subclass for extra logic on projectile spawn, before spawning in world
 	 */
 	protected void onProjectileSpawn(GenericProjectile proj, final World world, final LivingEntity player, final ItemStack itemstack, float spread, float offset, float damagebonus, EnumBulletFirePos firePos, Entity target) {}
-	
+
+	/**
+	 * needed to set projectile velocity after spawn, similar too ProjectileEntity Method, but not adding the shooters velocity
+	 */
+	protected static void updateVelocity(ProjectileEntity projectile, float pitch, float yaw, float roll, float speed, float divergence) {
+		float f = -MathHelper.sin(yaw * ((float)Math.PI / 180)) * MathHelper.cos(pitch * ((float)Math.PI / 180));
+		float g = -MathHelper.sin((pitch + roll) * ((float)Math.PI / 180));
+		float h = MathHelper.cos(yaw * ((float)Math.PI / 180)) * MathHelper.cos(pitch * ((float)Math.PI / 180));
+		projectile.setVelocity(f, g, h, speed, divergence);
+	}
+
 	@SuppressWarnings("unchecked")
 	protected void spawnProjectile(final World world, final LivingEntity player, final ItemStack itemstack, float spread, float offset, float damagebonus, EnumBulletFirePos firePos, Entity target) {
 		String ammoVariantKey = this.getCurrentAmmoVariantKey(itemstack);
@@ -472,7 +488,9 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 				mod.getRange(this.damageDropEnd), mod.getDamage(this.damageMin) * damagebonus, this.penetration, getDoBlockDamage(player), firePos, mod.getRadius(radius), gravity);
 
 		projectile.setProjectileType(projectileType);
-		projectile.setVelocity(player, projectile.getPitch(), projectile.getYaw(), 0.0f, modified_speed, 0.0F);
+		updateVelocity(projectile, projectile.getPitch(), projectile.getYaw(), 0.0f, modified_speed, 0.0F);
+
+
 		//projectile.setProperties(player, player.pitch, player.yaw, 0.0F, modified_speed, 1.0F);
 						
 		//float f=1.0f;
@@ -1162,11 +1180,11 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	public boolean isModelBase(ItemStack stack) {
 		return this.hasCustomTexture;
 	}
-	
-	//TODO add AI attacks
-	/*public EntityAIRangedAttack getAIAttack(IRangedAttackMob shooter) {
-		return new EntityAIRangedAttack(shooter, 1.0D, this.AI_attackTime/3, this.AI_attackTime, this.AI_attackRange, this.AI_burstCount, this.AI_burstAttackTime);
-	}*/
+
+	@Override
+	public <T extends HostileEntity & RangedAttackMob> RangedAttackGoal getAIAttack(T shooter) {
+		return new RangedAttackGoal<T>(shooter, shooter.getMovementSpeed(),  this.AI_attackTime, this.AI_attackRange, this.AI_burstCount, this.AI_burstAttackTime);
+	}
 	
 	 public AmmoType getAmmoType() {
 		return ammoType;

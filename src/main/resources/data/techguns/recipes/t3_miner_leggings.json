@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "techguns:t3_miner_leggings"
+  },
+  "pattern": [
+    "ppp",
+    "c c",
+    "l l"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:carbon_plates"
+    },
+    "c": {
+      "tag": "c:advanced_circuits"
+    },
+    "l": {
+      "tag": "c:titanium_ingots"
+    }
+  }
+}
