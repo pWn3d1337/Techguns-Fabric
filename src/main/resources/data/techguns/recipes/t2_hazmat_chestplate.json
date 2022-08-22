@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "techguns:t2_hazmat_chestplate"
+  },
+  "pattern": [
+    "x x",
+    "xxx",
+    "xxx"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "x": {
+      "item": "techguns:protectivefiber"
+    }
+  }
+}

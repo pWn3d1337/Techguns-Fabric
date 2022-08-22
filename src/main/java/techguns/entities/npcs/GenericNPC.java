@@ -5,9 +5,11 @@ import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.PathAwareEntity;
+import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.LocalDifficulty;
@@ -15,6 +17,8 @@ import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Unique;
+import techguns.TGCamos;
+import techguns.api.ICamoChangeable;
 import techguns.api.entity.AttackTime;
 import techguns.api.entity.ITGShooterValues;
 import techguns.api.guns.IGenericGun;
@@ -23,21 +27,8 @@ import techguns.entities.ai.RangedAttackGoal;
 import techguns.items.guns.GenericGun;
 
 public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTechgunsShooter, ITGShooterValues {
-    protected final RangedAttackGoal<GenericNPC> rangedAttackGoal = new RangedAttackGoal<>(this, 1.0, 20, 15.0f);
-    protected final MeleeAttackGoal meleeAttackGoal = new MeleeAttackGoal(this, 1.2, false){
-
-        @Override
-        public void stop() {
-            super.stop();
-            GenericNPC.this.setAttacking(false);
-        }
-
-        @Override
-        public void start() {
-            super.start();
-            GenericNPC.this.setAttacking(true);
-        }
-    };
+    protected RangedAttackGoal<GenericNPC> rangedAttackGoal = null;
+    protected MeleeAttackGoal meleeAttackGoal = null;
     protected AttackTime attackTimes_mh = new AttackTime();
     protected AttackTime attackTimes_oh = new AttackTime();
 
@@ -106,18 +97,33 @@ public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTe
         if (this.world == null || this.world.isClient) {
             return;
         }
-        this.goalSelector.remove(this.meleeAttackGoal);
-        this.goalSelector.remove(this.rangedAttackGoal);
+        if (this.meleeAttackGoal!=null) {
+            this.goalSelector.remove(this.meleeAttackGoal);
+        }
+        if (this.rangedAttackGoal!=null) {
+            this.goalSelector.remove(this.rangedAttackGoal);
+        }
 
         ItemStack itemStack = this.getStackInHand(RangedAttackGoal.getHandPossiblyUsingGun(this));
         if (!itemStack.isEmpty() && itemStack.getItem() instanceof IGenericGun) {
-            int i = 20;
-            if (this.world.getDifficulty() != Difficulty.HARD) {
-                i = 40;
-            }
-            this.rangedAttackGoal.setAttackInterval(i);
+            IGenericGun gun = (IGenericGun) itemStack.getItem();
+
+            this.rangedAttackGoal = gun.getAIAttack(this);
             this.goalSelector.add(4, this.rangedAttackGoal);
         } else {
+            this.meleeAttackGoal = new MeleeAttackGoal(this, this.getMovementSpeed(), false){
+                @Override
+                public void stop() {
+                    super.stop();
+                    GenericNPC.this.setAttacking(false);
+                }
+
+                @Override
+                public void start() {
+                    super.start();
+                    GenericNPC.this.setAttacking(true);
+                }
+            };
             this.goalSelector.add(4, this.meleeAttackGoal);
         }
     }
@@ -140,4 +146,22 @@ public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTe
     public AttackTime getAttackTime(boolean offHand) {
         return offHand ? this.attackTimes_oh : this.attackTimes_mh;
     }
+
+    public void equipStackWithChance(Random random, ArmorItem armor, double chance){
+       equipStackWithChance(random, armor, chance, null);
+    }
+    public void equipStackWithCamo(Random random, ArmorItem armor, Identifier camo){
+        equipStackWithChance(random, armor, 1.0D, camo);
+    }
+
+    public void equipStackWithChance(Random random, ArmorItem armor, double chance, @Nullable Identifier camo){
+        if (chance >= 1.0D || random.nextDouble()<=chance){
+            ItemStack stack = new ItemStack(armor);
+            if (armor instanceof ICamoChangeable && camo != null){
+                ICamoChangeable.setCamo(stack, camo);
+            }
+            this.equipStack(armor.getSlotType(), stack);
+        }
+    }
+
 }

@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "techguns:t3_combat_helmet"
+  },
+  "pattern": [
+    "ppp",
+    "f f"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:carbon_plates"
+    },
+    "f": {
+      "tag": "c:carbon_fibers"
+    }
+  }
+}

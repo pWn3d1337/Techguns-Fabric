@@ -1,0 +1,24 @@
+{
+  "result": {
+    "item": "techguns:t3_miner_helmet"
+  },
+  "pattern": [
+    "pcp",
+    "lgl"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:carbon_plates"
+    },
+    "c": {
+      "tag": "c:advanced_circuits"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    },
+    "l": {
+      "tag": "c:titanium_ingots"
+    }
+  }
+}

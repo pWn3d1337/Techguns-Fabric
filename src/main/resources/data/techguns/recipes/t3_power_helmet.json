@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "techguns:t3_power_helmet"
+  },
+  "pattern": [
+    "cpc",
+    "pgp"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:powerplating"
+    },
+    "c": {
+      "tag": "c:advanced_circuits"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    }
+  }
+}

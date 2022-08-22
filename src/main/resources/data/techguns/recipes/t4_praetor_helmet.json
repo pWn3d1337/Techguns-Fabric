@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "techguns:t4_praetor_helmet"
+  },
+  "pattern": [
+    "cpc",
+    "pgp"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:netherarmorplating"
+    },
+    "c": {
+      "tag": "c:elite_circuits"
+    },
+    "g": {
+      "tag": "c:glass_panes"
+    }
+  }
+}

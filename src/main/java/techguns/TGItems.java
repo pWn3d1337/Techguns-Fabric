@@ -1,7 +1,6 @@
 package techguns;
 
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -72,7 +71,7 @@ public class TGItems implements ITGInitializer {
 	 * MATERIALS
 	 */
 	public static Item HEAVY_CLOTH;
-	public static ItemStack PROTECTIVE_FIBER;
+	public static Item PROTECTIVE_FIBER;
 	
 	public static Item BIOMASS;
 	
@@ -121,8 +120,11 @@ public class TGItems implements ITGInitializer {
 	public static Item CARBON_FIBERS;
 
 	public static Item CIRCUIT_BOARD_BASIC;
+	public static Item CIRCUIT_BOARD_ADVANCED;
 	public static Item CIRCUIT_BOARD_ELITE;
 	public static Item POWER_ARMOR_PLATING;
+	public static Item POWER_ARMOR_PLATING_MK2;
+	public static Item NETHER_ARMOR_PLATING;
 
 	public static Item COIL;
 	public static Item CYBERNETIC_PARTS;
@@ -260,6 +262,9 @@ public class TGItems implements ITGInitializer {
 
 	//spawn eggs
 	public static Item SPAWN_EGG_ZOMBIE_SOLDIER;
+	public static Item SPAWN_EGG_ZOMBIE_MINER;
+	public static Item SPAWN_EGG_ZOMBIE_FARMER;
+	public static Item SPAWN_EGG_ZOMBIE_POLICEMAN;
 
 	public static final ItemGroup ITEM_GROUP_TECHGUNS = FabricItemGroupBuilder.build(
 			new TGIdentifier("techguns"),
@@ -382,8 +387,12 @@ public class TGItems implements ITGInitializer {
 		CARBON_FIBERS = addItem("carbonfibers");
 
 		CIRCUIT_BOARD_BASIC = addItem("circuitboard");
+		CIRCUIT_BOARD_ADVANCED = addItem("circuitboardadvanced");
 		CIRCUIT_BOARD_ELITE = addItem("circuitboardelite");
+
 		POWER_ARMOR_PLATING = addItem("powerplating");
+		POWER_ARMOR_PLATING_MK2 = addItem("powerplating_mk2");
+		NETHER_ARMOR_PLATING = addItem("netherarmorplating");
 
 		COIL = addItem("coil");
 		CYBERNETIC_PARTS = addItem("cyberneticparts");
@@ -472,8 +481,9 @@ public class TGItems implements ITGInitializer {
 		RECEIVER_TITANIUM =  addItem("titaniumreceiver");
 		PLASMA_GENERATOR =  addItem("plasmagenerator");
 
+		PROTECTIVE_FIBER = addItem("protectivefiber");
+
 		//WORKING_GLOVES = addItem("workinggloves", false, TGSlotType.HANDSLOT, 1, true);
-		//PROTECTIVE_FIBER = addItem("protectivefiber");
 
 		/*OREDRILLHEAD_STEEL = addItem("oredrillsmall_steel", false, TGSlotType.DRILL_SMALL, 1, true);
 		OREDRILLHEAD_OBSIDIANSTEEL = addItem("oredrillsmall_obsidiansteel", false, TGSlotType.DRILL_SMALL, 1, true);
@@ -498,6 +508,9 @@ public class TGItems implements ITGInitializer {
 		AMMO_BOX_LARGE = Registry.register(Registry.ITEM, new TGIdentifier("ammo_box_large"), new AmmoBagItem(new Item.Settings(), 64*8));
 
 		SPAWN_EGG_ZOMBIE_SOLDIER = Registry.register(Registry.ITEM, new TGIdentifier("zombie_soldier_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_SOLDIER, 0x757468, 0x38B038, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
+		SPAWN_EGG_ZOMBIE_MINER = Registry.register(Registry.ITEM, new TGIdentifier("zombie_miner_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_MINER, 0x757468, 0x38B038, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
+		SPAWN_EGG_ZOMBIE_FARMER = Registry.register(Registry.ITEM, new TGIdentifier("zombie_farmer_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_FARMER, 0x757468, 0x38B038, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
+		SPAWN_EGG_ZOMBIE_POLICEMAN = Registry.register(Registry.ITEM, new TGIdentifier("zombie_policeman_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_POLICEMAN, 0x303030, 0x0000FF, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
 
 		/*	UPGRADE_PROTECTION_1 = addItem("upgrade_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 		UPGRADE_PROJECTILE_PROTECTION_1 = addItem("upgrade_projectile_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);

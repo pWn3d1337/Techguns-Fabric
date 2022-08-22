@@ -390,6 +390,11 @@ public class TGCamos implements ITGInitializer {
 		registerCamo(TGArmors.T3_MINER_BOOTS, t3minerCamo_black, t3miner_color_black, t3minerTexture_black);
 		registerCamo(TGArmors.T3_MINER_BOOTS, t3minerCamo_silver, t3miner_color_silver, t3minerTexture_silver);
 
+		registerCamo(TGArmors.T2_BERET_HELMET, DEFAULT, 0xb30000, new TGIdentifier("textures/armors/beret_texture.png"));
+		registerCamo(TGArmors.T2_BERET_HELMET, new TGIdentifier("green"), 0x009000, new TGIdentifier("textures/armors/beret_texture_green.png"));
+		registerCamo(TGArmors.T2_BERET_HELMET, new TGIdentifier("black"), 0x444444, new TGIdentifier("textures/armors/beret_texture_black.png"));
+
+
 		FabricItemGroupBuilder.create(
 				new TGIdentifier("techguns_camos"))
 				.icon(() -> new ItemStack(TGBlocks.CAMO_BENCH))
@@ -434,6 +439,15 @@ public class TGCamos implements ITGInitializer {
 		}
 		//return empty list if no camos found
 		return new ArrayList<Identifier>();
+	}
+
+	public static Identifier getRandomCamoFor(ICamoChangeable c, net.minecraft.util.math.random.Random rand)
+	{
+		CamoList list = weapon_camos.getOrDefault(c, null);
+		if (list!=null && !list.camo_names.isEmpty()){
+			return list.camo_names.get(rand.nextInt(list.camo_names.size()));
+		}
+		return DEFAULT;
 	}
 	
 

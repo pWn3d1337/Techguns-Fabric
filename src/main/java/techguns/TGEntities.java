@@ -7,7 +7,7 @@ import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import techguns.entities.npcs.ZombieSoldier;
+import techguns.entities.npcs.*;
 import techguns.entities.projectiles.*;
 
 import java.util.HashMap;
@@ -37,6 +37,9 @@ public class TGEntities implements ITGInitializer {
 
 	//Hostile NPCs
 	public static EntityType<ZombieSoldier> ZOMBIE_SOLDIER;
+	public static EntityType<ZombieFarmer> ZOMBIE_FARMER;
+	public static EntityType<ZombieMiner> ZOMBIE_MINER;
+	public static EntityType<ZombiePoliceman> ZOMBIE_POLICEMAN;
 
 	public static final int bulletTrackRange = 128;
 	public static final int gibsTrackRange = 64;
@@ -160,7 +163,10 @@ public class TGEntities implements ITGInitializer {
 		ENTITY_SPAWN_PACKET_MAP.put(MAGIC_RIFLE_PROJECTILE, MagicRifleProjectile::new);
 
 		//Hostile NPC registration
-		ZOMBIE_SOLDIER = register_creature("zombie_soldier", ZombieSoldier::new, ZombieSoldier.createHostileAttributes(), humanSize());
+		ZOMBIE_SOLDIER = register_creature("zombie_soldier", ZombieSoldier::new, ZombieSoldier.createMobAttributes(), humanSize());
+		ZOMBIE_FARMER = register_creature("zombie_farmer", ZombieFarmer::new, ZombieFarmer.createMobAttributes(), humanSize());
+		ZOMBIE_MINER = register_creature("zombie_miner", ZombieMiner::new, ZombieMiner.createMobAttributes(), humanSize());
+		ZOMBIE_POLICEMAN = register_creature("zombie_policeman", ZombiePoliceman::new, ZombiePoliceman.createMobAttributes(), humanSize());
 
 	}
 

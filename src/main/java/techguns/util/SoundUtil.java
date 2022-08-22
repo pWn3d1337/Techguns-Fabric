@@ -70,15 +70,12 @@ public class SoundUtil {
 	/**
 	 * Plays a non-moving Sound at the specified Entity's position
 	 */
-	/*public static void playSoundAtEntityPos(World world, Entity entity, SoundEvent soundname, float volume, float pitch, boolean repeat, TGSoundCategory category) {
-		if (!world.isRemote) {
-		TGPackets.network.sendToAllAround(new PacketPlaySound(soundname, entity, volume, pitch, repeat, false, category),
-				new TargetPoint(entity.dimension, entity.posX, entity.posY, entity.posZ, 100.0f));
+	public static void playSoundAtEntityPos(World world, Entity entity, SoundEvent soundname, float volume, float pitch, boolean repeat, TGSoundCategory category) {
+		if (!world.isClient) {
+			TGPacketsS2C.sendToAllAroundEntity(new PacketPlaySound(soundname, entity, volume, pitch, repeat, false, false, category), entity, 100.0);
 		}else {
-			//Minecraft.getMinecraft().getSoundHandler().playSound(new TGSound(soundname, (float)entity.posX, (float)entity.posY, (float)entity.posZ, volume, pitch, repeat));
-			//Minecraft.getMinecraft().getSoundHandler().playSound(new TGSound(soundname,entity, volume, pitch, repeat, false));
-			Techguns.proxy.playSoundOnEntity(entity, soundname, volume, pitch, repeat, false, false,category);
+			ClientProxy.get().playSoundOnEntity(entity, soundname, volume, pitch, repeat, false, false, category);
 		}
-	}*/
+	}
 	
 }

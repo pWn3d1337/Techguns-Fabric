@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:t4_power_leggings"
+  },
+  "pattern": [
+    "ppp",
+    "c c",
+    "p p"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "item": "techguns:powerplating_mk2"
+    },
+    "c": {
+      "tag": "c:elite_circuits"
+    }
+  }
+}

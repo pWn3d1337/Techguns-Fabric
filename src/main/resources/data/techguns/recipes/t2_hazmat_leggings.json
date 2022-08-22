@@ -1,0 +1,16 @@
+{
+  "result": {
+    "item": "techguns:t2_hazmat_leggings"
+  },
+  "pattern": [
+    "xxx",
+    "x x",
+    "x x"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "x": {
+      "item": "techguns:protectivefiber"
+    }
+  }
+}

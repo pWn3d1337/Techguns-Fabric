@@ -15,6 +15,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
@@ -24,7 +25,9 @@ import techguns.TGArmors;
 import techguns.TGEntityAttributes;
 import techguns.TGItems;
 import techguns.TGSounds;
+import techguns.sounds.TGSoundCategory;
 import techguns.util.InventoryUtil;
+import techguns.util.SoundUtil;
 import techguns.util.TextUtil;
 
 import java.util.List;
@@ -61,6 +64,9 @@ public class PoweredArmor extends GenericArmor {
     protected float waterSpeedBonusUnpowered =0.0f;
 
     protected static final String KEY_POWER = "power";
+
+    protected SoundEvent fallsound = null;
+    protected SoundEvent jumpsound = TGSounds.STEAM_JUMP;
 
     public PoweredArmor(TGArmorMaterial material, EquipmentSlot slot, boolean hasInvRenderhack, boolean hasEntityModelRenderhack, boolean shouldRenderDefaultArmor, ArmorPowerType powerType, int maxpower) {
         super(material, slot, hasInvRenderhack, hasEntityModelRenderhack, shouldRenderDefaultArmor);
@@ -149,6 +155,16 @@ public class PoweredArmor extends GenericArmor {
 
     public PoweredArmor setEmptyBattery(Item emptyBattery) {
         this.battery_empty = new ItemStack(emptyBattery);
+        return this;
+    }
+
+    public PoweredArmor setJumpSound(SoundEvent sound){
+        this.jumpsound = sound;
+        return this;
+    }
+
+    public PoweredArmor setFallSound(SoundEvent sound){
+        this.fallsound = sound;
         return this;
     }
 
@@ -320,12 +336,40 @@ public class PoweredArmor extends GenericArmor {
      * @param slotPriority - which armor slot should be taken as priority, fallback to chest
      * @param entity
      */
-    public static void armorActionEffect(EntityAttribute attributeType, @Nullable EquipmentSlot slotPriority, LivingEntity entity){
-        if (TGEntityAttributes.ARMOR_FALLDAMAGEREDUCTION.equals(attributeType) ||
-                TGEntityAttributes.ARMOR_FALLFREEHEIGHT.equals(attributeType)) {
-            //TODO
-        } else if ( attributeType == TGEntityAttributes.ARMOR_JUMPBOOST){
-            //TODO
+    public static void armorActionEffect(EntityAttribute attributeType, @Nullable EquipmentSlot slotPriority, LivingEntity entity) {
+        PoweredArmor armorItem = null;
+
+        ItemStack stack = entity.getEquippedStack(slotPriority);
+        if (!stack.isEmpty() && stack.getItem() instanceof PoweredArmor) {
+            armorItem = (PoweredArmor) stack.getItem();
+        }
+        if (armorItem == null) {
+            stack = entity.getEquippedStack(EquipmentSlot.CHEST);
+            if (!stack.isEmpty() && stack.getItem() instanceof PoweredArmor) {
+                armorItem = (PoweredArmor) stack.getItem();
+            }
+        }
+
+        if (armorItem != null) {
+            if (TGEntityAttributes.ARMOR_FALLDAMAGEREDUCTION.equals(attributeType) ||
+                    TGEntityAttributes.ARMOR_FALLFREEHEIGHT.equals(attributeType)) {
+                armorItem.playFallSoundEffect(entity);
+
+            } else if (attributeType == TGEntityAttributes.ARMOR_JUMPBOOST) {
+                armorItem.playJumpSoundEffect(entity);
+            }
+        }
+    }
+
+    protected void playFallSoundEffect(LivingEntity entity){
+        if (this.fallsound != null) {
+            SoundUtil.playSoundAtEntityPos(entity.world, entity, this.fallsound, 1f, 1f, false, TGSoundCategory.PLAYER_EFFECT);
+        }
+    }
+
+    protected void playJumpSoundEffect(LivingEntity entity){
+        if (this.jumpsound != null) {
+            SoundUtil.playSoundAtEntityPos(entity.world, entity, this.jumpsound, 1f, 1f, false, TGSoundCategory.PLAYER_EFFECT);
         }
     }
 
@@ -398,7 +442,7 @@ public class PoweredArmor extends GenericArmor {
         if (!(entity instanceof PlayerEntity)) return false;
         PlayerEntity player = (PlayerEntity) entity;
 
-        player.sendMessage(Text.of("Consumed Power: "+amount), true);
+        //player.sendMessage(Text.of("Consumed Power: "+amount), true);
 
         ArmorPowerType powerType = null;
         if (slot != null && slot != EquipmentSlot.CHEST){

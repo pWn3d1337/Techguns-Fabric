@@ -1,0 +1,22 @@
+{
+  "result": {
+    "item": "techguns:t2_riot_leggings"
+  },
+  "pattern": [
+    "lhl",
+    "p p",
+    "l l"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:lead_ingots"
+    },
+    "h": {
+      "item": "techguns:t2_combat_leggings"
+    },
+    "l": {
+      "item": "techguns:treatedleather"
+    }
+  }
+}

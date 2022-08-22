@@ -1,0 +1,18 @@
+{
+  "result": {
+    "item": "techguns:t2_commando_boots"
+  },
+  "pattern": [
+    "i i",
+    "h h"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "h": {
+      "tag": "c:dyes"
+    },
+    "i": {
+      "tag": "c:obsidian_ingots"
+    }
+  }
+}

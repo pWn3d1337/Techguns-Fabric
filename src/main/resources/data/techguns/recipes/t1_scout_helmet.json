@@ -1,0 +1,15 @@
+{
+  "result": {
+    "item": "techguns:t1_scout_helmet"
+  },
+  "pattern": [
+    "xxx",
+    "x x"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "x": {
+      "item": "techguns:heavycloth"
+    }
+  }
+}

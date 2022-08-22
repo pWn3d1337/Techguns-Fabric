@@ -1,0 +1,23 @@
+{
+  "result": {
+    "item": "techguns:t3_exo_helmet"
+  },
+  "ingredients": [
+    {
+      "item": "techguns:t3_combat_helmet"
+    },
+    {
+      "item": "techguns:mechanicalpartscarbon"
+    },
+    {
+      "tag": "c:advanced_circuits"
+    },
+    {
+      "item": "techguns:electricengine"
+    },
+    {
+      "tag": "c:titanium_ingots"
+    }
+  ],
+  "type": "minecraft:crafting_shapeless"
+}

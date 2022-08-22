@@ -1,0 +1,19 @@
+{
+  "result": {
+    "item": "techguns:t3_combat_leggings"
+  },
+  "pattern": [
+    "pfp",
+    "p p",
+    "f f"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:carbon_plates"
+    },
+    "f": {
+      "tag": "c:carbon_fibers"
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "result": {
+    "item": "techguns:t2_riot_helmet"
+  },
+  "pattern": [
+    "php",
+    "l l"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:lead_ingots"
+    },
+    "h": {
+      "item": "techguns:t2_combat_helmet"
+    },
+    "l": {
+      "item": "techguns:treatedleather"
+    }
+  }
+}

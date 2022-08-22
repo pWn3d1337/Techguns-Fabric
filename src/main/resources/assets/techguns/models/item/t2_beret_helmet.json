@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "techguns:items/t2_beret_layer1",
+    "layer1": "techguns:items/t2_beret_layer2"
+  }
+}

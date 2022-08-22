@@ -1,0 +1,29 @@
+{
+  "result": {
+    "item": "techguns:powerplating",
+    "count": 2
+  },
+  "pattern": [
+    "tmt",
+    "bcb",
+    "pmp"
+  ],
+  "type": "minecraft:crafting_shaped",
+  "key": {
+    "p": {
+      "tag": "c:carbon_plates"
+    },
+    "b": {
+      "item": "techguns:circuitboard"
+    },
+    "c": {
+      "item": "techguns:cyberneticparts"
+    },
+    "t": {
+      "tag": "c:titanium_ingots"
+    },
+    "m": {
+      "item": "techguns:mechanicalpartscarbon"
+    }
+  }
+}
