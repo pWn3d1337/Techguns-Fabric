@@ -242,16 +242,21 @@ public class MagicRifleProjectile extends GenericProjectile{
         public void handleImpactEffects(MagicRifleProjectile proj, double x, double y, double z, float pitch, float yaw, BlockSoundGroup blockSoundGroup) {
             GenericProjectile.handleBulletImpact(proj.world, x, y, z, pitch, yaw, blockSoundGroup,true);
         }
+
+        protected void createScaledProjectileTrail(MagicRifleProjectile proj, String fxlist) {
+            float scale = 0.5f + proj.chargeAmount * 1.5f;
+            ClientProxy.get().createFXOnEntity(fxlist, proj, scale);
+        }
         public void createFXTrail(MagicRifleProjectile proj) {
             this.createScaledProjectileTrail(proj,"MagicRifleProjectileTrail_Fire");
         }
 
         private void createExplosion(MagicRifleProjectile proj, LivingEntity targetHit) {
-            float size =  0.5f + proj.chargeAmount * 2.5f;
-            float exp_dmgMax = proj.damage*0.25f * size;
-            float exp_dmgMin = proj.damage*0.125f * size;
-            float exp_r1 = size*1.0f;
-            float exp_r2 = size*2.0f;
+            float size =  0.5f + proj.chargeAmount * 1.5f;
+            float exp_dmgMax = proj.damage*0.5f * size;
+            float exp_dmgMin = proj.damage*0.25f * size;
+            float exp_r1 = size*1.75f;
+            float exp_r2 = size*3.5f;
 
 //            List<Entity> excludedEntities;
 //            if (targetHit != null) {
@@ -262,8 +267,11 @@ public class MagicRifleProjectile extends GenericProjectile{
 
             int fireTime = 3 + (int) proj.chargeAmount * 7;
 
-            TGPacketsS2C.sendToAllAroundEntity(new PacketSpawnParticle("MagicRifleExplosion_Fire", proj.getX(), proj.getY(), proj.getZ(), size), proj, 100.0f);
-
+            if (proj.chargeAmount > 0.8) {
+                TGPacketsS2C.sendToAllAroundEntity(new PacketSpawnParticle("MagicRifleExplosion_Fire_Charged", proj.getX(), proj.getY(), proj.getZ(), size), proj, 100.0f);
+            }else {
+                TGPacketsS2C.sendToAllAroundEntity(new PacketSpawnParticle("MagicRifleExplosion_Fire", proj.getX(), proj.getY(), proj.getZ(), size), proj, 100.0f);
+            }
             TGExplosion explosion = new TGExplosion(proj.world, proj.getOwner(), proj, proj.getX(), proj.getY(), proj.getZ(), exp_dmgMax, exp_dmgMin, exp_r1, exp_r2, 0.0f);
             if (proj.blockdamage) {
                 explosion.setIncendiary(true, true, 1.0, fireTime);

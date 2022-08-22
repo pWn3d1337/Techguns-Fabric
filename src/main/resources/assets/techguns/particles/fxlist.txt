@@ -4105,8 +4105,17 @@ RemoveOnGround = false
 }
 
 FXLIST MagicRifleExplosion_Fire {
-//MR_ExpArcane_Wave
-//MR_ExpArcane_Wave_GroundAligned
+//MR_ExpFire_GroundRune
+MR_ExpFire_Blast
+MR_ExpFireExplosion
+MR_ExpFireExplosionSmoke
+MR_ExpFireExplosionEmbers
+MR_ExpFireExplosionSparks
+MR_ExpFire_Wave
+MR_ExpFire_Wave_GroundAligned
+}
+
+FXLIST MagicRifleExplosion_Fire_Charged {
 MR_ExpFire_GroundRune
 MR_ExpFire_Blast
 MR_ExpFireExplosion
@@ -4115,10 +4124,6 @@ MR_ExpFireExplosionEmbers
 MR_ExpFireExplosionSparks
 MR_ExpFire_Wave
 MR_ExpFire_Wave_GroundAligned
-//MR_ExpArcane_ImpactRune
-//MR_ExpFire_Runes
-//MR_ExpArcane_RuneBlast
-//MR_ExpArcane_ImpactGlow
 }
 
 
@@ -4130,7 +4135,7 @@ AngleRate = -1 1
 AngleRateDamping = 0.87 0.89
 Lifetime = 28 32
 SystemLifetime = 4 4
-Size = 24.0 25.0
+Size = 28.0 30.0
 SizeRate = -0.05 0.05
 SizeRateDamping = 0.78 0.84
 Alpha = 0.0 0
