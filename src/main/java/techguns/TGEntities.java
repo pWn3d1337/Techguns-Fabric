@@ -40,6 +40,7 @@ public class TGEntities implements ITGInitializer {
 	public static EntityType<ZombieFarmer> ZOMBIE_FARMER;
 	public static EntityType<ZombieMiner> ZOMBIE_MINER;
 	public static EntityType<ZombiePoliceman> ZOMBIE_POLICEMAN;
+	public static EntityType<ArmySoldier> ARMY_SOLDIER;
 
 	public static final int bulletTrackRange = 128;
 	public static final int gibsTrackRange = 64;
@@ -167,6 +168,7 @@ public class TGEntities implements ITGInitializer {
 		ZOMBIE_FARMER = register_creature("zombie_farmer", ZombieFarmer::new, ZombieFarmer.createMobAttributes(), humanSize());
 		ZOMBIE_MINER = register_creature("zombie_miner", ZombieMiner::new, ZombieMiner.createMobAttributes(), humanSize());
 		ZOMBIE_POLICEMAN = register_creature("zombie_policeman", ZombiePoliceman::new, ZombiePoliceman.createMobAttributes(), humanSize());
+		ARMY_SOLDIER = register_creature("army_soldier", ArmySoldier::new, ArmySoldier.createMobAttributes(), humanSize());
 
 	}
 

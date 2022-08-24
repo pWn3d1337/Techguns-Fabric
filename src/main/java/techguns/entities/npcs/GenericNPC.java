@@ -24,6 +24,7 @@ import techguns.api.entity.ITGShooterValues;
 import techguns.api.guns.IGenericGun;
 import techguns.api.npc.INPCTechgunsShooter;
 import techguns.entities.ai.RangedAttackGoal;
+import techguns.items.armors.GenericArmor;
 import techguns.items.guns.GenericGun;
 
 public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTechgunsShooter, ITGShooterValues {
@@ -152,6 +153,10 @@ public class GenericNPC extends HostileEntity implements RangedAttackMob, INPCTe
     }
     public void equipStackWithCamo(Random random, ArmorItem armor, Identifier camo){
         equipStackWithChance(random, armor, 1.0D, camo);
+    }
+
+    public void equipStackWithRandomCamo(Random random, GenericArmor armor){
+        equipStackWithChance(random, armor, 1.0D, TGCamos.getRandomCamoFor(armor, random));
     }
 
     public void equipStackWithChance(Random random, ArmorItem armor, double chance, @Nullable Identifier camo){

@@ -265,6 +265,7 @@ public class TGItems implements ITGInitializer {
 	public static Item SPAWN_EGG_ZOMBIE_MINER;
 	public static Item SPAWN_EGG_ZOMBIE_FARMER;
 	public static Item SPAWN_EGG_ZOMBIE_POLICEMAN;
+	public static Item SPAWN_EGG_ARMY_SOLDIER;
 
 	public static final ItemGroup ITEM_GROUP_TECHGUNS = FabricItemGroupBuilder.build(
 			new TGIdentifier("techguns"),
@@ -511,6 +512,7 @@ public class TGItems implements ITGInitializer {
 		SPAWN_EGG_ZOMBIE_MINER = Registry.register(Registry.ITEM, new TGIdentifier("zombie_miner_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_MINER, 0x757468, 0x38B038, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
 		SPAWN_EGG_ZOMBIE_FARMER = Registry.register(Registry.ITEM, new TGIdentifier("zombie_farmer_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_FARMER, 0x757468, 0x38B038, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
 		SPAWN_EGG_ZOMBIE_POLICEMAN = Registry.register(Registry.ITEM, new TGIdentifier("zombie_policeman_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_POLICEMAN, 0x303030, 0x0000FF, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
+		SPAWN_EGG_ARMY_SOLDIER = Registry.register(Registry.ITEM, new TGIdentifier("army_soldier_spawn_egg"), new SpawnEggItem(TGEntities.ARMY_SOLDIER, 0x74806e, 0x191512, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
 
 		/*	UPGRADE_PROTECTION_1 = addItem("upgrade_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 		UPGRADE_PROJECTILE_PROTECTION_1 = addItem("upgrade_projectile_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);

@@ -40,6 +40,7 @@ public class TGClientEntityModels {
         registerEntityRenderer(TGEntities.ZOMBIE_MINER, GenericNPCModel::new, texturedModelData_biped, texturedModelData_biped_inner_armor, texturedModelData_biped_outer_armor, "zombie_soldier");
         registerEntityRenderer(TGEntities.ZOMBIE_FARMER, GenericNPCModel::new, texturedModelData_biped, texturedModelData_biped_inner_armor, texturedModelData_biped_outer_armor, "zombie_soldier");
         registerEntityRenderer(TGEntities.ZOMBIE_POLICEMAN, GenericNPCModel::new, texturedModelData_biped, texturedModelData_biped_inner_armor, texturedModelData_biped_outer_armor);
+        registerEntityRenderer(TGEntities.ARMY_SOLDIER, GenericNPCModel::new, texturedModelData_biped, texturedModelData_biped_inner_armor, texturedModelData_biped_outer_armor);
 
         addArmorRendering(ModelT3PowerArmor::new, ModelT3PowerArmor::getModelData, 128, 64,
                 TGArmors.T3_POWER_HELMET,
