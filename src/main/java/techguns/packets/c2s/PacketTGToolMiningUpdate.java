@@ -2,12 +2,12 @@ package techguns.packets.c2s;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import techguns.TGPacketsC2S;
 import techguns.TGPacketsS2C;
 import techguns.packets.GunFiredMessage;
@@ -27,7 +27,7 @@ public class PacketTGToolMiningUpdate extends TGBasePacket {
 	
 	public PacketTGToolMiningUpdate(int recoiltime, int muzzleFlashtime, Vec3d hitpos, SoundEvent sound) {
 		this.hitpos = hitpos;
-		this.soundname = Registry.SOUND_EVENT.getId(sound).toString();
+		this.soundname = Registries.SOUND_EVENT.getId(sound).toString();
 		this.recoiltime = recoiltime;
 		this.muzzleFlashtime = muzzleFlashtime;
 	}
@@ -59,7 +59,7 @@ public class PacketTGToolMiningUpdate extends TGBasePacket {
 
 	@Override
 	public void handle(PlayerEntity player) {
-		SoundEvent s = Registry.SOUND_EVENT.get(new Identifier(soundname));
+		SoundEvent s = Registries.SOUND_EVENT.get(new Identifier(soundname));
 		TGPacketsS2C.sendToAllTracking(new GunFiredMessage(player, recoiltime, muzzleFlashtime, (byte)0, true, Hand.MAIN_HAND), player, false);
 		if (s!=null) {
 			TGPacketsS2C.sendToAllTracking(new PacketPlaySound(s, player, 1.0f, 1.0f, false, false, true, false, TGSoundCategory.GUN_FIRE), player, false);

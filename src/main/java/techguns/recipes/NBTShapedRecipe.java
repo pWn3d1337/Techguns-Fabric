@@ -8,10 +8,12 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.ShapedRecipe;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
-import net.minecraft.util.registry.Registry;
 import techguns.mixin.ShapedRecipeAccessor;
 
 import java.util.HashMap;
@@ -29,8 +31,8 @@ public class NBTShapedRecipe extends ShapedRecipe {
         NUMBER_DTYPES.put("mininghead", Byte.class);
     }
 
-    public NBTShapedRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> ingredients, ItemStack output) {
-        super(id, group, width, height, ingredients, output);
+    public NBTShapedRecipe(Identifier id, String group, CraftingRecipeCategory category, int width, int height, DefaultedList<Ingredient> ingredients, ItemStack output) {
+        super(id, group, category, width, height, ingredients, output);
     }
 
     public static void parseTagCompound(NbtCompound tags, String key, JsonElement element){
@@ -81,7 +83,7 @@ public class NBTShapedRecipe extends ShapedRecipe {
 
     public static ItemStack getItemStack(JsonObject json) {
         String string = JsonHelper.getString(json, "item");
-        Item item = (Item) Registry.ITEM.getOrEmpty(new Identifier(string)).orElseThrow(() -> {
+        Item item = (Item) Registries.ITEM.getOrEmpty(new Identifier(string)).orElseThrow(() -> {
             return new JsonSyntaxException("Unknown item '" + string + "'");
         });
         NbtCompound tags =null;
@@ -110,7 +112,7 @@ public class NBTShapedRecipe extends ShapedRecipe {
             int j = strings.length;
             DefaultedList<Ingredient> defaultedList = ShapedRecipeAccessor.invokeCreatePatternMatrix(strings, map, i, j);
             ItemStack itemStack = NBTShapedRecipe.getItemStack(JsonHelper.getObject(jsonObject, "result"));
-            return new NBTShapedRecipe(identifier, string, i, j, defaultedList, itemStack);
+            return new NBTShapedRecipe(identifier, string, CraftingRecipeCategory.MISC,  i, j, defaultedList, itemStack);
         }
 
         @Override
@@ -125,7 +127,8 @@ public class NBTShapedRecipe extends ShapedRecipe {
             }
 
             ItemStack itemStack = packetByteBuf.readItemStack();
-            return new NBTShapedRecipe(identifier, string, i, j, defaultedList, itemStack);
+            //TODO 1.19.3 REWRITE THIS CLASS
+            return new NBTShapedRecipe(identifier, string, CraftingRecipeCategory.MISC, i, j, defaultedList, itemStack);
         }
 
         @Override

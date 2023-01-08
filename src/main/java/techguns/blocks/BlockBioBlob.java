@@ -21,9 +21,9 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.TickPriority;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import net.minecraft.world.tick.TickPriority;
 import org.jetbrains.annotations.Nullable;
 import techguns.TGPacketsS2C;
 import techguns.TGSounds;
@@ -109,7 +109,8 @@ public class BlockBioBlob extends Block {
      * @param rnd
      */
     public void scheduleTick(World world, BlockPos pos, Random rnd){
-        world.createAndScheduleBlockTick(pos, this, MathHelper.nextInt(rnd, 80, 120), TickPriority.LOW);
+        world.scheduleBlockTick(pos, this, MathHelper.nextInt(rnd, 80, 120), TickPriority.LOW);
+        //world.createAndScheduleBlockTick(pos, this, MathHelper.nextInt(rnd, 80, 120), TickPriority.LOW); //TODO check 1.19.3
     }
 
     @Override

@@ -11,8 +11,9 @@ import net.minecraft.client.render.entity.model.*;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import techguns.TGArmors;
 import techguns.TGEntities;
 import techguns.TGIdentifier;
@@ -163,7 +164,7 @@ public class TGClientEntityModels {
     }
 
     public static void addArmorRendering(GenericArmor armorItem, Function<ModelPart, BipedEntityModel<LivingEntity>> modelConstructor, TexturedModelData modelData){
-        String name = Registry.ITEM.getId(armorItem).getPath();
+        String name = Registries.ITEM.getId(armorItem).getPath();
         EntityModelLayer layer = new EntityModelLayer(new TGIdentifier("armor"), name);
         EntityModelLayerRegistry.registerModelLayer(layer, () -> modelData);
         ArmorRenderer.register(new TGArmorRenderer(modelConstructor, layer, armorItem), armorItem);

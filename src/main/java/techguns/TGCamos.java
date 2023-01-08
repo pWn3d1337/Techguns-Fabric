@@ -2,9 +2,12 @@ package techguns;
 
 import java.util.*;
 
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.item.ItemGroup;
 import org.jetbrains.annotations.Nullable;
 
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
@@ -15,7 +18,10 @@ public class TGCamos implements ITGInitializer {
 	protected static HashMap<Item, CamoList> weapon_camos = new HashMap<>();
 	
 	public static final Identifier DEFAULT = new TGIdentifier("default");
-	
+
+	public static final ItemGroup CAMO_ITEM_GROUP = FabricItemGroup.builder(new TGIdentifier("camo_items"))
+			.icon(() -> new ItemStack(TGBlocks.CAMO_BENCH)).build();
+
 	@Override
 	public void init() {
 		registerCamo(TGuns.M4, DEFAULT, new TGIdentifier("textures/guns/m4texture.png"));
@@ -394,18 +400,12 @@ public class TGCamos implements ITGInitializer {
 		registerCamo(TGArmors.T2_BERET_HELMET, new TGIdentifier("green"), 0x009000, new TGIdentifier("textures/armors/beret_texture_green.png"));
 		registerCamo(TGArmors.T2_BERET_HELMET, new TGIdentifier("black"), 0x444444, new TGIdentifier("textures/armors/beret_texture_black.png"));
 
-
-		FabricItemGroupBuilder.create(
-				new TGIdentifier("techguns_camos"))
-				.icon(() -> new ItemStack(TGBlocks.CAMO_BENCH))
-				.appendItems(stacks -> {
-					addAllCamoItems(stacks);
-				})
-				.build();
+		ItemGroupEvents.modifyEntriesEvent(CAMO_ITEM_GROUP).register(content -> {
+			addAllCamoItems(content); });
 	}
 	
 	
-	protected void addAllCamoItems(List<ItemStack> list) {
+	protected void addAllCamoItems(FabricItemGroupEntries group) {
 		for (Item it : weapon_camos.keySet()) {
 			
 			ItemStack gun = new ItemStack(it);
@@ -416,7 +416,7 @@ public class TGCamos implements ITGInitializer {
 				ItemStack gun_to_add = gun.copy();
 				gun_to_add.getNbt().putString("camo", entry.toString());
 				
-				list.add(gun_to_add);
+				group.add(gun_to_add);
 			}
 		}
 	}

@@ -1,10 +1,11 @@
 package techguns;
 
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.BlockTags;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import techguns.api.guns.GunHandType;
 import techguns.entities.projectiles.*;
 import techguns.items.guns.*;
@@ -283,7 +284,7 @@ public class TGuns implements ITGInitializer {
 	}
 	
 	public static GenericGun reg(GenericGun gun) {
-		Registry.register(Registry.ITEM, new TGIdentifier(gun.name), gun);
+		Registry.register(Registries.ITEM, new TGIdentifier(gun.name), gun);
 		return gun;
 	}
 	

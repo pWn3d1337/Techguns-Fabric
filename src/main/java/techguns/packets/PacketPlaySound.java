@@ -3,9 +3,9 @@ package techguns.packets;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import techguns.TGPacketsS2C;
 import techguns.client.ClientProxy;
 import techguns.sounds.TGSoundCategory;
@@ -49,7 +49,7 @@ public class PacketPlaySound extends TGBasePacket {
 			this.entityId = entity.getId();
 		}
 		
-		this.soundname = Registry.SOUND_EVENT.getId(soundname).toString();
+		this.soundname = Registries.SOUND_EVENT.getId(soundname).toString();
 		this.volume = volume;
 		this.pitch = pitch;
 		this.repeat = repeat;
@@ -65,7 +65,7 @@ public class PacketPlaySound extends TGBasePacket {
 		} else {
 			this.entityId = entity.getId();
 		}
-		this.soundname = Registry.SOUND_EVENT.getId(soundname).toString();
+		this.soundname = Registries.SOUND_EVENT.getId(soundname).toString();
 		this.volume = volume;
 		this.pitch = pitch;
 		this.repeat = repeat;
@@ -134,7 +134,7 @@ public class PacketPlaySound extends TGBasePacket {
 
 	@Override
 	public void handle(PlayerEntity player) {
-		SoundEvent event = Registry.SOUND_EVENT.get(new Identifier(this.soundname));
+		SoundEvent event = Registries.SOUND_EVENT.get(new Identifier(this.soundname));
 				
 		ClientProxy cp = ClientProxy.get();
 		if (this.entityId!=-1){	

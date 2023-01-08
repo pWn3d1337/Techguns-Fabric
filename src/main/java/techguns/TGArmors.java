@@ -2,8 +2,9 @@ package techguns;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Items;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.registry.Registry;
 import techguns.items.armors.ArmorPowerType;
 import techguns.items.armors.GenericArmor;
 import techguns.items.armors.PoweredArmor;
@@ -394,13 +395,13 @@ public class TGArmors implements ITGInitializer{
 
     protected static GenericArmor registerArmor(TGArmorMaterial mat,  EquipmentSlot slot, boolean hasInvRenderhack, boolean hasEntityModelRenderhack, boolean shouldRenderDefaultArmor){
         GenericArmor armor = new GenericArmor(mat, slot, hasInvRenderhack, hasEntityModelRenderhack, shouldRenderDefaultArmor);
-        Registry.register(Registry.ITEM, new TGIdentifier(getArmorIdentifier(armor)), armor);
+        Registry.register(Registries.ITEM, new TGIdentifier(getArmorIdentifier(armor)), armor);
         return armor;
     }
 
     protected static PoweredArmor registerArmorPowered(TGArmorMaterial mat, EquipmentSlot slot, boolean hasInvRenderhack, boolean hasEntityModelRenderhack, boolean shouldRenderDefaultArmor, ArmorPowerType powerType, int maxpower){
         PoweredArmor armor = new PoweredArmor(mat, slot, hasInvRenderhack, hasEntityModelRenderhack, shouldRenderDefaultArmor, powerType, maxpower);
-        Registry.register(Registry.ITEM, new TGIdentifier(getArmorIdentifier(armor)), armor);
+        Registry.register(Registries.ITEM, new TGIdentifier(getArmorIdentifier(armor)), armor);
         return armor;
     }
 

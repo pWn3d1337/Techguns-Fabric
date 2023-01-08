@@ -11,25 +11,19 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-//import com.sun.org.apache.regexp.internal.RE;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
-import techguns.TGConfig;
-import techguns.TGIdentifier;
-import techguns.TGItems;
 import techguns.Techguns;
 import techguns.items.guns.GenericGun;
 import techguns.items.guns.GenericGunMeleeCharge;
 import techguns.items.guns.ammo.AmmoType;
 import techguns.items.guns.ammo.AmmoTypes;
-import techguns.items.guns.ammo.AmmoVariant;
-
 
 /**
  * Based on:
@@ -138,7 +132,7 @@ public class RecipeJsonConverter {
         json.put("replace", false);
         List<String> values;
 
-        values = items.stream().map(item -> Registry.ITEM.getId(item).toString()).collect(Collectors.toList());
+        values = items.stream().map(item -> Registries.ITEM.getId(item).toString()).collect(Collectors.toList());
         json.put("values", values);
         return json;
     }
@@ -186,7 +180,7 @@ public class RecipeJsonConverter {
         // janky I know but it works
         String suffix = ""; //no more subtypes in 1.16
 
-        String name = Registry.ITEM.getId(result.getItem()).getPath();
+        String name = Registries.ITEM.getId(result.getItem()).getPath();
         /*if(result.getItem()  instanceof GenericItemShared) {
             suffix = suffix +"_"+ TGItems.SHARED_ITEM.get(result.getItemDamage()).getName();
         }*/
@@ -274,7 +268,7 @@ public class RecipeJsonConverter {
             suffix+="_"+camo;
         }
 
-        String name = Registry.ITEM.getId(gun).getPath();
+        String name = Registries.ITEM.getId(gun).getPath();
 
         File f = new File(RECIPE_DIR, name + suffix + ".json");
 
@@ -336,7 +330,7 @@ public class RecipeJsonConverter {
             suffix+="_"+camo;
         }
 
-        String name = Registry.ITEM.getId(gun).getPath();
+        String name = Registries.ITEM.getId(gun).getPath();
 
         File f = new File(RECIPE_DIR, name + suffix + ".json");
 
@@ -381,7 +375,7 @@ public class RecipeJsonConverter {
         // janky I know but it works
         String suffix = "";
 
-        String name = Registry.ITEM.getId(result.getItem()).getPath();
+        String name = Registries.ITEM.getId(result.getItem()).getPath();
         /*if(result.getItem()  instanceof GenericItemShared) {
             suffix = suffix +"_"+ TGItems.SHARED_ITEM.get(result.getItemDamage()).getName();
         }*/
@@ -442,7 +436,7 @@ public class RecipeJsonConverter {
         json.put("type", type.toString());
         json.put("group", group);
         json.put("ingredient", serializeItem(input));
-        json.put("result", Registry.ITEM.getId(result.getItem()).toString());
+        json.put("result", Registries.ITEM.getId(result.getItem()).toString());
         json.put("experience", xp);
         json.put("cookingtime", cookingtime);
 
@@ -451,7 +445,7 @@ public class RecipeJsonConverter {
         // janky I know but it works
         String suffix = "_" + type.getPath();
 
-        String name = Registry.ITEM.getId(result.getItem()).getPath();
+        String name = Registries.ITEM.getId(result.getItem()).getPath();
 
         File f = new File(RECIPE_DIR, name + suffix + ".json");
         while (f.exists()) {
@@ -482,7 +476,7 @@ public class RecipeJsonConverter {
         // janky I know but it works
         String suffix = "";
 
-        String name = Registry.ITEM.getId(gun).getPath();
+        String name = Registries.ITEM.getId(gun).getPath();
 
         File f = new File(RECIPE_DIR, name + suffix + ".json");
         while (f.exists()) {
@@ -592,7 +586,7 @@ public class RecipeJsonConverter {
         // janky I know but it works
         String suffix = "_ammo_"+key;
 
-        String name = Registry.ITEM.getId(result.getItem()).getPath();
+        String name = Registries.ITEM.getId(result.getItem()).getPath();
 
         File f = new File(RECIPE_DIR, name + suffix + ".json");
 
@@ -700,7 +694,7 @@ public class RecipeJsonConverter {
         // janky I know but it works
         String suffix = "";
 
-        String name = Registry.ITEM.getId(result.getItem()).getPath();
+        String name = Registries.ITEM.getId(result.getItem()).getPath();
         /*if(result.getItem()  instanceof GenericItemShared) {
             suffix = suffix +"_"+ TGItems.SHARED_ITEM.get(result.getItemDamage()).getName();
         }*/
@@ -739,7 +733,7 @@ public class RecipeJsonConverter {
         if (thing instanceof ItemStack) {
             ItemStack stack = (ItemStack) thing;
             Map<String, Object> ret = new HashMap<>();
-            ret.put("item", Registry.ITEM.getId(stack.getItem()).toString());
+            ret.put("item", Registries.ITEM.getId(stack.getItem()).toString());
             if (stack.getDamage() != 0) {
                 ret.put("data", stack.getDamage());
             }
@@ -773,7 +767,7 @@ public class RecipeJsonConverter {
 
         ItemStack stack = new ItemStack(gun,1);
         Map<String, Object> ret = new HashMap<>();
-        ret.put("item", Registry.ITEM.getId(gun).toString());
+        ret.put("item", Registries.ITEM.getId(gun).toString());
         TreeMap<String, Object> data = new TreeMap<>();
         data.put("camo", camo);
         data.put("ammovariant", ammo_variant);
@@ -815,7 +809,7 @@ public class RecipeJsonConverter {
         Map<String, Object> ret = new HashMap<>();
 
         ret.put("type", Recipewriter.itemStackHasNBTInt);
-        ret.put("item", Registry.ITEM.getId(stack.getItem()).toString());
+        ret.put("item", Registries.ITEM.getId(stack.getItem()).toString());
         if (stack.getDamage() != 0) {
             ret.put("data", stack.getDamage());
         }
@@ -843,7 +837,7 @@ public class RecipeJsonConverter {
         // janky I know but it works
         String suffix = "";
 
-        String name = Registry.ITEM.getId(result.getItem()).getPath();
+        String name = Registries.ITEM.getId(result.getItem()).getPath();
 
         if(result.getItem() instanceof BlockItem) {
             BlockItem bi = (BlockItem) result.getItem();

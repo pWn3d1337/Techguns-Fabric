@@ -11,7 +11,6 @@ import net.fabricmc.fabric.api.client.model.ModelLoadingRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.TooltipComponentCallback;
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.mixin.client.rendering.EntityModelLayersAccessor;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.color.item.ItemColorProvider;
@@ -622,12 +621,12 @@ public class ClientProxy implements ClientModInitializer {
 
 	protected void registerTexturesToAtlas() {
 		// Add sprites to block texture atlas
-		ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
+		/*ClientSpriteRegistryCallback.event(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE).register((atlasTexture, registry) -> {
 			registry.register(SlotTagItem.SLOT_BG_INGOT_DARK);
 			registry.register(SlotTagItem.SLOT_BG_INGOT);
 			registry.register(SlotTagItem.SLOT_BG_POWDER);
-		});
-
+		});*/
+		//TODO 1.19.3 check for texture stitching
 	}
 
 	public void register_ammo_itemrenderers() {

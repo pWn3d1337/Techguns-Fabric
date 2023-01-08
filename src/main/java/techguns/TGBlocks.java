@@ -7,11 +7,12 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import net.minecraft.world.BlockView;
 import techguns.blocks.AmmoBenchBlock;
 import techguns.blocks.BlockBioBlob;
@@ -96,12 +97,12 @@ public class TGBlocks implements ITGInitializer {
 
     public static Item registerBlockAndItem(String id, Block b){
         Identifier identifier = new TGIdentifier(id);
-        Registry.register(Registry.BLOCK, identifier, b);
-        return Registry.register(Registry.ITEM, identifier, new BlockItem(b, new Item.Settings().group(TGItems.ITEM_GROUP_TECHGUNS)));
+        Registry.register(Registries.BLOCK, identifier, b);
+        return Registry.register(Registries.ITEM, identifier, new BlockItem(b, new Item.Settings().group(TGItems.ITEM_GROUP_TECHGUNS)));
     }
 
     public static void registerBlock(String id, Block b){
-        Registry.register(Registry.BLOCK, new TGIdentifier(id), b);
+        Registry.register(Registries.BLOCK, new TGIdentifier(id), b);
     }
 
     //not yet needed for 1.17

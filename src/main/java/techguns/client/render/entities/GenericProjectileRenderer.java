@@ -8,11 +8,10 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix4f;
-import net.minecraft.util.math.Vec3f;
+import net.minecraft.util.math.RotationAxis;
+import org.joml.Matrix4f;
 import techguns.TGIdentifier;
 import techguns.client.render.TGRenderHelper;
 import techguns.entities.projectiles.GenericProjectile;
@@ -64,12 +63,12 @@ public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericP
 
 			//System.out.println("Yaw: "+ entity.getYaw() + " Pitch: "+ entity.getPitch());
 			matrixStack.push();
-			matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(
+			matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(
 					MathHelper.lerp(tickDelta, entity.prevYaw, entity.getYaw()) - 90.0F));
-			matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(
+			matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(
 					MathHelper.lerp(tickDelta, entity.prevPitch, entity.getPitch())));
 
-	        matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(360.0f * angleX));
+	        matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(360.0f * angleX));
 			//matrixStack.multiply(Vector3d.POSITIVE_X.getDegreesQuaternion(45.0F));
 			matrixStack.scale(0.05625F, 0.05625F, 0.05625F);
 			matrixStack.translate(-4.0D, 0.0D, 0.0D);
@@ -87,7 +86,7 @@ public class GenericProjectileRenderer extends RenderLateEntityRenderer<GenericP
 	        float v2 = 1.0f;
 			
 			for (int u = 0; u < 4; ++u) {
-				matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(45.0F));
+				matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(45.0F));
 				this.addVertex(model_mat, vertexConsumer, -length, -width, 0f, u1,v1, light);
 				this.addVertex(model_mat, vertexConsumer, length, -width, 0f, u2,v1, light);
 				this.addVertex(model_mat, vertexConsumer, length, width, 0f, u2,v2, light);

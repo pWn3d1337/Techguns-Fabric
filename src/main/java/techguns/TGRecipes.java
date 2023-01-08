@@ -2,7 +2,7 @@ package techguns;
 
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.recipe.SpecialRecipeSerializer;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import techguns.recipes.*;
 
 public class TGRecipes implements ITGInitializer {

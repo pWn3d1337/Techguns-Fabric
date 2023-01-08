@@ -9,10 +9,10 @@ import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tag.BiomeTags;
+import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
@@ -69,6 +69,8 @@ public class ArmySoldier extends GenericHuman{
         Identifier camo = TGCamos.getRandomCamoFor(TGArmors.T2_COMBAT_CHESTPLATE, random);
         if (biomeEntry.value().getPrecipitation() == Biome.Precipitation.SNOW){
             camo = new TGIdentifier("arctic");
+        } else if(biomeEntry.isIn(BiomeTags.IS_BADLANDS) || biomeEntry.isIn(BiomeTags.IS_SAVANNA)){
+            camo = new TGIdentifier("desert");
         }
         //TODO desert biome check
 

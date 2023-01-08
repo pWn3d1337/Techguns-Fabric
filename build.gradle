@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.12-SNAPSHOT'
+	id 'fabric-loom' version '1.0-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -38,8 +38,8 @@ dependencies {
 
 	//add REI to DEV env
 	//modImplementation "me.shedaniel:RoughlyEnoughItems:${project.rei_version}"
-	modImplementation "curse.maven:Architectury-419699:3843623" //required for REI
-	modImplementation "curse.maven:RoughlyEnoughItems-310111:3851405"
+	modImplementation "curse.maven:Architectury-419699:4252900" //required for REI
+	modImplementation "curse.maven:RoughlyEnoughItems-310111:4167518"
 
 	//add connected textures mod to dev env
 	//not supported for 1.18

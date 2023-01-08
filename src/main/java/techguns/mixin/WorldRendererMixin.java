@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.Matrix4f;
+import org.joml.Matrix4f;
 import techguns.client.ClientProxy;
 import techguns.client.render.entities.RenderLateEntityRenderer;
 import techguns.items.guns.GenericGunMeleeCharge;

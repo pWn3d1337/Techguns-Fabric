@@ -3,10 +3,10 @@ package techguns.packets.c2s;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 import techguns.TGPacketsC2S;
 import techguns.TGPacketsS2C;
 import techguns.packets.GunFiredMessage;
@@ -33,7 +33,7 @@ public class PacketClientSwingRecoil extends TGBasePacket {
         this.checkRecoil = checkRecoil;
         this.recoiltime = recoiltime;
         this.muzzleflashtime = muzzleflashtime;
-        this.soundname = Registry.SOUND_EVENT.getId(soundEvent).toString();
+        this.soundname = Registries.SOUND_EVENT.getId(soundEvent).toString();
     }
 
     @Override
@@ -58,7 +58,7 @@ public class PacketClientSwingRecoil extends TGBasePacket {
     public void handle(PlayerEntity player) {
         TGPacketsS2C.sendToAllTracking(new GunFiredMessage(player, recoiltime, muzzleflashtime, (byte)0, checkRecoil, hand), player, false);
 
-        SoundEvent soundEvent = Registry.SOUND_EVENT.get(new Identifier(this.soundname));
+        SoundEvent soundEvent = Registries.SOUND_EVENT.get(new Identifier(this.soundname));
         if(soundEvent!=null) {
             TGPacketsS2C.sendToAllTracking(new PacketPlaySound(soundEvent, player, 1.0f, 1.0f, false, false, true, false, TGSoundCategory.GUN_FIRE), player, false);
         }

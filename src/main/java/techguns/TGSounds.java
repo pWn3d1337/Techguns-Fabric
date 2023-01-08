@@ -2,9 +2,10 @@ package techguns;
 
 import java.util.ArrayList;
 
+import net.minecraft.registry.Registries;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 
 public class TGSounds implements ITGInitializer {
 
@@ -254,7 +255,7 @@ public class TGSounds implements ITGInitializer {
 	@Override
 	public void init() {
 		events.forEach(ev -> {
-			Registry.register(Registry.SOUND_EVENT, ev.id, ev.event);
+			Registry.register(Registries.SOUND_EVENT, ev.id, ev.event);
 		});
 		events.clear(); //no need after init
 	}

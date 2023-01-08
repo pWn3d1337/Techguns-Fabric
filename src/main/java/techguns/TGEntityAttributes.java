@@ -2,7 +2,8 @@ package techguns;
 
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
 import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import techguns.damagesystem.TGDamageSource;
 
 import java.util.ArrayList;
@@ -41,7 +42,7 @@ public class TGEntityAttributes implements ITGInitializer {
     }
 
     protected static EntityAttribute register(String id, double fallback, double min, double max, boolean tracked){
-        EntityAttribute attr = Registry.register(Registry.ATTRIBUTE, new TGIdentifier(id), new ClampedEntityAttribute("attribute.name."+Techguns.MODID+"."+id, fallback, min, max).setTracked(tracked));
+        EntityAttribute attr = Registry.register(Registries.ATTRIBUTE, new TGIdentifier(id), new ClampedEntityAttribute("attribute.name."+Techguns.MODID+"."+id, fallback, min, max).setTracked(tracked));
         TG_LIVINGENTITY_ATTRIBUTES.add(attr);
         return attr;
     };

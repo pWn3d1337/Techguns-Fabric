@@ -1,13 +1,13 @@
 package techguns;
 
-import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.tag.TagKey;
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.item.*;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registry;
 import techguns.api.inventory.TGSlotType;
 import techguns.inventory.slots.SlotTagItem;
 import techguns.items.AmmoBagItem;
@@ -267,9 +267,8 @@ public class TGItems implements ITGInitializer {
 	public static Item SPAWN_EGG_ZOMBIE_POLICEMAN;
 	public static Item SPAWN_EGG_ARMY_SOLDIER;
 
-	public static final ItemGroup ITEM_GROUP_TECHGUNS = FabricItemGroupBuilder.build(
-			new TGIdentifier("techguns"),
-			() -> new ItemStack(TGItems.PISTOL_ROUNDS));
+	public static final ItemGroup ITEM_GROUP_TECHGUNS =  FabricItemGroup.builder(new TGIdentifier("techguns"))
+			.icon(() -> new ItemStack(TGItems.PISTOL_ROUNDS)).build();
 
 	public static TagKey<Item> TAG_BULLET_CORE;
 	public static TagKey<Item> TAG_BULLET_CASING;
@@ -505,14 +504,14 @@ public class TGItems implements ITGInitializer {
 
 		INFUSION_BAG = addItem("infusionbag");
 
-		AMMO_BOX = Registry.register(Registry.ITEM, new TGIdentifier("ammo_box"), new AmmoBagItem(new Item.Settings(), 64*4));
-		AMMO_BOX_LARGE = Registry.register(Registry.ITEM, new TGIdentifier("ammo_box_large"), new AmmoBagItem(new Item.Settings(), 64*8));
+		AMMO_BOX = registerItemTG(new TGIdentifier("ammo_box"), new AmmoBagItem(new Item.Settings(), 64*4));
+		AMMO_BOX_LARGE = registerItemTG(new TGIdentifier("ammo_box_large"), new AmmoBagItem(new Item.Settings(), 64*8));
 
-		SPAWN_EGG_ZOMBIE_SOLDIER = Registry.register(Registry.ITEM, new TGIdentifier("zombie_soldier_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_SOLDIER, 0x757468, 0x38B038, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
-		SPAWN_EGG_ZOMBIE_MINER = Registry.register(Registry.ITEM, new TGIdentifier("zombie_miner_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_MINER, 0x757468, 0x38B038, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
-		SPAWN_EGG_ZOMBIE_FARMER = Registry.register(Registry.ITEM, new TGIdentifier("zombie_farmer_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_FARMER, 0x757468, 0x38B038, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
-		SPAWN_EGG_ZOMBIE_POLICEMAN = Registry.register(Registry.ITEM, new TGIdentifier("zombie_policeman_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_POLICEMAN, 0x303030, 0x0000FF, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
-		SPAWN_EGG_ARMY_SOLDIER = Registry.register(Registry.ITEM, new TGIdentifier("army_soldier_spawn_egg"), new SpawnEggItem(TGEntities.ARMY_SOLDIER, 0x74806e, 0x191512, new Item.Settings().group(ITEM_GROUP_TECHGUNS)));
+		SPAWN_EGG_ZOMBIE_SOLDIER = registerItemTG(new TGIdentifier("zombie_soldier_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_SOLDIER, 0x757468, 0x38B038, new Item.Settings()));
+		SPAWN_EGG_ZOMBIE_MINER = registerItemTG(new TGIdentifier("zombie_miner_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_MINER, 0x757468, 0x38B038, new Item.Settings()));
+		SPAWN_EGG_ZOMBIE_FARMER = registerItemTG(new TGIdentifier("zombie_farmer_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_FARMER, 0x757468, 0x38B038, new Item.Settings()));
+		SPAWN_EGG_ZOMBIE_POLICEMAN = registerItemTG(new TGIdentifier("zombie_policeman_spawn_egg"), new SpawnEggItem(TGEntities.ZOMBIE_POLICEMAN, 0x303030, 0x0000FF, new Item.Settings()));
+		SPAWN_EGG_ARMY_SOLDIER = registerItemTG(new TGIdentifier("army_soldier_spawn_egg"), new SpawnEggItem(TGEntities.ARMY_SOLDIER, 0x74806e, 0x191512, new Item.Settings()));
 
 		/*	UPGRADE_PROTECTION_1 = addItem("upgrade_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 		UPGRADE_PROJECTILE_PROTECTION_1 = addItem("upgrade_projectile_protection_1", false, TGSlotType.ARMOR_UPGRADE, 1, true);
@@ -527,22 +526,22 @@ public class TGItems implements ITGInitializer {
 		UPGRADE_BLAST_PROTECTION_3 = addItem("upgrade_blast_protection_3", false, TGSlotType.ARMOR_UPGRADE, 1, true);
 */
 
-		/*TAG_BULLET_CORE = TagRegistry.item(TAG_BULLET_CORE_ID);
-		TAG_BULLET_CASING = TagRegistry.item(TAG_BULLET_CASING_ID);
-		TAG_BULLET_POWDER = TagRegistry.item(TAG_BULLET_POWDER_ID);
+		/*TAG_BULLET_CORE = TagRegistryKeys.ITEM(TAG_BULLET_CORE_ID);
+		TAG_BULLET_CASING = TagRegistryKeys.ITEM(TAG_BULLET_CASING_ID);
+		TAG_BULLET_POWDER = TagRegistryKeys.ITEM(TAG_BULLET_POWDER_ID);
 
-		TAG_AMMO = TagRegistry.item(TAG_AMMO_ID);
-		TAG_AMMO_EMPTY = TagRegistry.item(TAG_AMMO_EMPTY_ID);
-		TAG_AMMO_FULL = TagRegistry.item(TAG_AMMO_FULL_ID);*/
+		TAG_AMMO = TagRegistryKeys.ITEM(TAG_AMMO_ID);
+		TAG_AMMO_EMPTY = TagRegistryKeys.ITEM(TAG_AMMO_EMPTY_ID);
+		TAG_AMMO_FULL = TagRegistryKeys.ITEM(TAG_AMMO_FULL_ID);*/
 
 
-		TAG_BULLET_CORE = TagKey.of(Registry.ITEM_KEY, TAG_BULLET_CORE_ID);
-		TAG_BULLET_CASING = TagKey.of(Registry.ITEM_KEY, TAG_BULLET_CASING_ID);
-		TAG_BULLET_POWDER = TagKey.of(Registry.ITEM_KEY, TAG_BULLET_POWDER_ID);
+		TAG_BULLET_CORE = TagKey.of(RegistryKeys.ITEM, TAG_BULLET_CORE_ID);
+		TAG_BULLET_CASING = TagKey.of(RegistryKeys.ITEM, TAG_BULLET_CASING_ID);
+		TAG_BULLET_POWDER = TagKey.of(RegistryKeys.ITEM, TAG_BULLET_POWDER_ID);
 
-		TAG_AMMO = TagKey.of(Registry.ITEM_KEY, TAG_AMMO_ID);
-		TAG_AMMO_EMPTY = TagKey.of(Registry.ITEM_KEY, TAG_AMMO_EMPTY_ID);
-		TAG_AMMO_FULL = TagKey.of(Registry.ITEM_KEY, TAG_AMMO_FULL_ID);
+		TAG_AMMO = TagKey.of(RegistryKeys.ITEM, TAG_AMMO_ID);
+		TAG_AMMO_EMPTY = TagKey.of(RegistryKeys.ITEM, TAG_AMMO_EMPTY_ID);
+		TAG_AMMO_FULL = TagKey.of(RegistryKeys.ITEM, TAG_AMMO_FULL_ID);
 
 		SlotTagItem.initSlotBGMap();
 	}
@@ -567,10 +566,26 @@ public class TGItems implements ITGInitializer {
 		return addItem(name, false, TGSlotType.NORMAL, 64, enabled);
 	}
 
+	/**
+	 * Register item and add to Techguns tab
+	 */
+	protected static Item registerItemTG(Identifier id, Item item){
+		//Add to Techguns tab
+		ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP_TECHGUNS).register(content -> {
+			content.add(item);
+		});
+		return Registry.register(Registries.ITEM, id, item);
+	};
+
 	protected static Item addItem(String name, boolean useRenderHack, TGSlotType slottype, int maxStackSize, boolean enabled){
 		if (enabled){
 			GenericItem item = useRenderHack ? new GenericItemRenderHack(new Item.Settings()) : new GenericItem(new Item.Settings());
-			Registry.register(Registry.ITEM, new TGIdentifier(name), item);
+			Registry.register(Registries.ITEM, new TGIdentifier(name), item);
+
+			//Add to Techguns tab
+			ItemGroupEvents.modifyEntriesEvent(ITEM_GROUP_TECHGUNS).register(content -> {
+				content.add(item);
+			});
 			return item;
 		} else {
 			return null;
