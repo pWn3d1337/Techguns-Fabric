@@ -21,8 +21,6 @@ import techguns.mixin.LightmapTextureManagerAccessor;
 
 import java.util.function.Function;
 
-//import net.minecraft.client.render.OpenGlHelper;
-
 /**
  * The inheritance is dummy, to get access to all the protected static fields
  */
