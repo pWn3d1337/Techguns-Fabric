@@ -6,23 +6,19 @@ import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.ModelBakeSettings;
-import net.minecraft.client.render.model.ModelLoader;
-import net.minecraft.client.render.model.UnbakedModel;
+import net.minecraft.client.render.model.*;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.resource.metadata.AnimationResourceMetadata;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.texture.*;
 import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.client.util.math.Vector3d;
+//import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3f;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 import techguns.client.models.obj.TGObjBakedModel;
 
 import java.io.BufferedReader;
@@ -34,8 +30,8 @@ public class TGObjModel implements UnbakedModel {
 
     protected static final SpriteIdentifier BLOCK_ATLAS_SPRITE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, null);
 
-    protected ArrayList<Vec3f> vertices;
-    protected ArrayList<Vec3f> normals;
+    protected ArrayList<Vector3f> vertices;
+    protected ArrayList<Vector3f> normals;
     protected ArrayList<Vec2f> uvs;
     protected HashMap<String, TGObjMtl> mtls;
     protected HashMap<String, SubOjbect> object_material_map;
@@ -43,9 +39,9 @@ public class TGObjModel implements UnbakedModel {
     protected boolean flip_v;
 
     public TGObjModel(TGObjLoader.ModelLoadParameters params) {
-        this.vertices = new ArrayList<Vec3f>();
-        this.normals = new ArrayList<Vec3f>();
-        this.uvs = new ArrayList<Vec2f>();
+        this.vertices = new ArrayList<>();
+        this.normals = new ArrayList<>();
+        this.uvs = new ArrayList<>();
         this.mtls = new HashMap<>();
         this.object_material_map = new HashMap<>();
         this.flip_v = params.flip_v;
@@ -134,7 +130,7 @@ public class TGObjModel implements UnbakedModel {
                                 float x = Float.parseFloat(tokens[1]);
                                 float y = Float.parseFloat(tokens[2]);
                                 float z = Float.parseFloat(tokens[3]);
-                                model.vertices.add(new Vec3f(x,y,z));
+                                model.vertices.add(new Vector3f(x,y,z));
                                 break;
                             case "vt":
                                 float u = Float.parseFloat(tokens[1]);
@@ -148,7 +144,7 @@ public class TGObjModel implements UnbakedModel {
                                 float nx = Float.parseFloat(tokens[1]);
                                 float ny = Float.parseFloat(tokens[2]);
                                 float nz = Float.parseFloat(tokens[3]);
-                                model.normals.add(new Vec3f(nx,ny,nz));
+                                model.normals.add(new Vector3f(nx,ny,nz));
                                 break;
                             case "g":
                                 //groud -ignored
@@ -192,27 +188,32 @@ public class TGObjModel implements UnbakedModel {
     }
 
     @Override
-    public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> unbakedModelGetter, Set<Pair<String, String>> unresolvedTextureReferences) {
-        List<SpriteIdentifier> sprites = new ArrayList<>();
-        for (TGObjMtl mtl : this.mtls.values()){
-            sprites.add(new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, mtl.map_kd));
-        }
-        return sprites;
+    public void setParents(Function<Identifier, UnbakedModel> modelLoader) {
+       //TODO ? needed?
     }
 
-    public static class DummySprite extends Sprite
-    {
-        /**
-         * Just to get a public constructor
-         */
-        public DummySprite(SpriteAtlasTexture spriteAtlasTexture, Info info, int maxLevel, int atlasWidth, int atlasHeight, int x, int y, NativeImage nativeImage) {
-            super(spriteAtlasTexture, info, maxLevel, atlasWidth, atlasHeight, x, y, nativeImage);
-        }
-    }
+    // @Override
+  // public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> unbakedModelGetter, Set<Pair<String, String>> unresolvedTextureReferences) {
+  //     List<SpriteIdentifier> sprites = new ArrayList<>();
+  //     for (TGObjMtl mtl : this.mtls.values()){
+  //         sprites.add(new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, mtl.map_kd));
+  //     }
+  //     return sprites;
+  // }
+
+   public static class DummySprite extends Sprite
+   {
+       /**
+        * Just to get a public constructor
+        */
+       protected DummySprite(Identifier atlasId, SpriteContents contents, int maxLevel, int atlasWidth, int atlasHeight, int x) {
+           super(atlasId, contents, maxLevel, atlasHeight, atlasHeight, x);
+       }
+   }
 
     @Nullable
     @Override
-    public BakedModel bake(ModelLoader loader, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId) {
+    public BakedModel bake(Baker loader, Function<SpriteIdentifier, Sprite> textureGetter, ModelBakeSettings rotationContainer, Identifier modelId){
         MeshBuilder meshBuilder = RendererAccess.INSTANCE.getRenderer().meshBuilder();
         QuadEmitter quadEmitter = meshBuilder.getEmitter();
 
@@ -222,14 +223,13 @@ public class TGObjModel implements UnbakedModel {
 
             Sprite sprite=null;
             if (!custom_texture) {
-                sprite = textureGetter.apply(new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, material.map_kd));
+                sprite = textureGetter.apply(new SpriteIdentifier(PlayerScreenHandler.BLOCK_ATLAS_TEXTURE, material.map_kd));
             }
             else {
                 //dummy
-                SpriteAtlasTexture atlas = new SpriteAtlasTexture(material.map_kd);
                 NativeImage img = new NativeImage(16,16,false);
-                Sprite.Info info = new Sprite.Info(material.map_kd, 16, 16, AnimationResourceMetadata.EMPTY);
-                sprite = new DummySprite(atlas, info, 0, 16, 16, 0, 0, img);
+                SpriteContents contents = new SpriteContents(material.map_kd, new SpriteDimensions(16,16), img, AnimationResourceMetadata.EMPTY);
+                sprite = new DummySprite(material.map_kd, contents, 0, 16, 16, 0);
             }
 
             for (int i=0; i< obj.faces.size(); i++){
@@ -241,9 +241,9 @@ public class TGObjModel implements UnbakedModel {
                     if (k>=3){
                         k=2;
                     }
-                    Vec3f v_pos = vertices.get(face.vertices.get(k));
+                    Vector3f v_pos = vertices.get(face.vertices.get(k));
                     quadEmitter.pos(j, v_pos);
-                    Vec3f v_normal = normals.get(face.normals.get(k));
+                    Vector3f v_normal = normals.get(face.normals.get(k));
                     quadEmitter.normal(j, v_normal);
                     Vec2f uv = uvs.get(face.textures.get(k));
                     quadEmitter.sprite(j, 0, uv.x, uv.y);

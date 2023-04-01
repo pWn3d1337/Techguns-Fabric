@@ -20,7 +20,7 @@ public class AmmoBenchScreen extends StoneCutterStyleScreen<AmmoBenchScreenHandl
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
         super.drawBackground(matrices, delta, mouseX, mouseY);
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, this.getTexture());
 

@@ -7,7 +7,7 @@ import techguns.TGItems;
 public class GenericItem extends Item implements FabricItem {
 
 	public GenericItem(Settings settings) {
-		super(settings.group(TGItems.ITEM_GROUP_TECHGUNS));
+		super(settings);
 	}
 
 }

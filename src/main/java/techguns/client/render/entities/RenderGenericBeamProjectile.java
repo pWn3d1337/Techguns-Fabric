@@ -16,6 +16,8 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.*;
 import net.minecraft.world.RaycastContext;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import techguns.TGIdentifier;
 import techguns.client.render.TGRenderHelper;
 import techguns.client.render.math.TGMatrixOps;
@@ -201,10 +203,10 @@ public class RenderGenericBeamProjectile extends RenderLateEntityRenderer<Generi
 
 		// System.out.println("tD: "+tickDelta);
 
-		matrixStack.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-(yaw - 90.0F)));
-		matrixStack.multiply(Vec3f.POSITIVE_Z.getDegreesQuaternion(pitch));
+		matrixStack.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-(yaw - 90.0F)));
+		matrixStack.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(pitch));
 		if(spinning) {
-			matrixStack.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(360.0f * prog));
+			matrixStack.multiply(RotationAxis.POSITIVE_X.rotationDegrees(360.0f * prog));
 		}
 		
 	}

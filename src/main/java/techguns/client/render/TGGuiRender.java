@@ -73,7 +73,7 @@ public class TGGuiRender {
 	//		gui.drawTexture(matrices, scaledWidth-10, offsetY, 242+7*(props.hasEnabledSafemode()?1:0), 14, 7,7);
 			//mc.getTextureManager().bindTexture(TECHGUNS_PLAYER_INVENTORY_TEXTURE);
 			RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-			RenderSystem.setShader(GameRenderer::getPositionTexShader);
+			RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 			RenderSystem.setShaderTexture(0, TECHGUNS_PLAYER_INVENTORY_TEXTURE);
 
 			gui.drawTexture(matrices, scaledWidth-10, offsetY, 242+7*(props.hasEnabledSafemode()?1:0), 14, 7,7);
@@ -203,7 +203,7 @@ public class TGGuiRender {
 		
 		//Bind back the correct texture for default crosshair rendering
 		RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-		RenderSystem.setShader(GameRenderer::getPositionTexShader);
+		RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 		RenderSystem.setShaderTexture(0, DrawableHelper.GUI_ICONS_TEXTURE);
 		RenderSystem.enableBlend();
 		//RenderSystem.enableAlphaTest(); //FIXME 1.17 see changes
@@ -249,7 +249,7 @@ public class TGGuiRender {
 				float progress = (float) epc.getLockOnTicks() / maxTicks;
 
 				RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-				RenderSystem.setShader(GameRenderer::getPositionTexShader);
+				RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 				RenderSystem.setShaderTexture(0, GUIDED_MISSILE_CROSSHAIRS_TEXTURE);
 
 				// GlStateManager.disableBlend();
@@ -300,7 +300,7 @@ public class TGGuiRender {
 					showCustomCrosshair = true;
 
 					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-					RenderSystem.setShader(GameRenderer::getPositionTexShader);
+					RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 					RenderSystem.setShaderTexture(0, TG_CROSSHAIRS_TEXTURE);
 
 					//same settings as vanilla
@@ -415,7 +415,7 @@ public class TGGuiRender {
 
 					// do same bind as vanilla afterwards
 					RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-					RenderSystem.setShader(GameRenderer::getPositionTexShader);
+					RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 					RenderSystem.setShaderTexture(0, DrawableHelper.GUI_ICONS_TEXTURE);
 				}
 			}

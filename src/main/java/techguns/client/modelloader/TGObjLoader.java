@@ -36,11 +36,11 @@ public class TGObjLoader implements ModelResourceProvider, Function<ResourceMana
 	}
 
 	public void registerManualModel(Identifier identifier){
-		this.manuallyLoadedModels.put(new ModelIdentifier(identifier, null), new ModelLoadParameters(true, false));
+		this.manuallyLoadedModels.put(new ModelIdentifier(identifier, ""), new ModelLoadParameters(true, false));
 	}
 
 	public void registerManualModel(Identifier identifier, boolean flip_v){
-		this.manuallyLoadedModels.put(new ModelIdentifier(identifier, null), new ModelLoadParameters(true, flip_v));
+		this.manuallyLoadedModels.put(new ModelIdentifier(identifier, ""), new ModelLoadParameters(true, flip_v));
 	}
 
 	protected static final ModelLoadParameters DEFAULT_PARAMS = new ModelLoadParameters(false,false);

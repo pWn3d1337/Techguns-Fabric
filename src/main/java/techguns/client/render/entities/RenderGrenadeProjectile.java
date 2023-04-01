@@ -21,7 +21,7 @@ public class RenderGrenadeProjectile extends EntityRenderer<GrenadeProjectile> {
 
     private static final Identifier texture_40mm = new TGIdentifier("textures/entity/launchergrenade.png");
 
-    private static final ModelIdentifier grenade_40mm = new ModelIdentifier(new TGIdentifier("item/grenade40mm.obj"), null);
+    private static final ModelIdentifier grenade_40mm = new ModelIdentifier(new TGIdentifier("item/grenade40mm.obj"), "");
 
     public RenderGrenadeProjectile(EntityRendererFactory.Context ctx) {
         super(ctx);

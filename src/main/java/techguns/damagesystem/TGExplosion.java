@@ -103,7 +103,7 @@ public class TGExplosion {
         this.position = new Vec3d(this.x, this.y, this.z);
         
         
-        Explosion.DestructionType destructionType = this.damagesTerrain ? DestructionType.BREAK : DestructionType.NONE;
+        Explosion.DestructionType destructionType = this.damagesTerrain ? DestructionType.DESTROY_WITH_DECAY : DestructionType.KEEP;
         this.explosionDummy = new Explosion(world, exploder, null, null, x, y, z, (float)Math.max(primaryRadius, secondaryRadius), false, destructionType);
     }
 

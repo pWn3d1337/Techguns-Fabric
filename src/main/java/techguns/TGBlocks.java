@@ -98,7 +98,7 @@ public class TGBlocks implements ITGInitializer {
     public static Item registerBlockAndItem(String id, Block b){
         Identifier identifier = new TGIdentifier(id);
         Registry.register(Registries.BLOCK, identifier, b);
-        return Registry.register(Registries.ITEM, identifier, new BlockItem(b, new Item.Settings().group(TGItems.ITEM_GROUP_TECHGUNS)));
+        return TGItems.registerItemTG(identifier, new BlockItem(b, new Item.Settings()));
     }
 
     public static void registerBlock(String id, Block b){

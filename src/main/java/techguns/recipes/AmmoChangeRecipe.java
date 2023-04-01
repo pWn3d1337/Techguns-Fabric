@@ -6,6 +6,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.RecipeSerializer;
 import net.minecraft.recipe.SpecialCraftingRecipe;
 import net.minecraft.recipe.SpecialRecipeSerializer;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -23,8 +24,8 @@ public class AmmoChangeRecipe extends SpecialCraftingRecipe {
 
     public static SpecialRecipeSerializer<AmmoChangeRecipe> SERIALIZER;
 
-    public AmmoChangeRecipe(Identifier id) {
-        super(id);
+    public AmmoChangeRecipe(Identifier id, CraftingRecipeCategory category) {
+        super(id, category);
     }
 
     private class CraftingTarget {

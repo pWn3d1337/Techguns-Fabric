@@ -24,6 +24,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.network.packet.s2c.play.GameStateChangeS2CPacket;
 import net.minecraft.particle.ParticleTypes;
@@ -808,7 +809,7 @@ public class GenericProjectile extends ProjectileEntity {
 	    return new PacketSpawnEntity(this, owner == null ? 0 : owner.getEntityId(), data);
 	}*/
 	@Override
-	public Packet<?> createSpawnPacket() {
+	public Packet<ClientPlayPacketListener> createSpawnPacket() {
 		Entity entity = this.getOwner();
 		return new EntitySpawnS2CPacket(this, entity == null ? 0 : entity.getId());
 	}

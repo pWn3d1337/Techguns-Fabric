@@ -1,7 +1,5 @@
 package techguns.api.guns;
 
-import java.util.Iterator;
-
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
@@ -10,25 +8,11 @@ public class GunManager {
 
 	/**
 	 * Return if the current off hand weapon can be used depending on dual wield system (1hand,2hand weapons)
-	 * @param mainHand
-	 * @param offHand
 	 * @param ent
 	 * @return
 	 */
 	public static boolean canUseOffhand(LivingEntity ent) {
-		Iterable<ItemStack> items = ent.getItemsHand();
-		ItemStack mh = ItemStack.EMPTY;
-		ItemStack oh = ItemStack.EMPTY;
-		if (items !=null) {
-			Iterator<ItemStack> it= items.iterator();
-			if (it.hasNext()) {
-				mh = it.next();
-				if (it.hasNext()) {
-					oh = it.next();
-				}
-			}
-		}
-		return canUseOffhand(mh, oh, ent);
+		return canUseOffhand(ent.getMainHandStack(), ent.getOffHandStack(), ent);
 	}
 	
 	/**

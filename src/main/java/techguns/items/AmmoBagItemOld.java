@@ -29,7 +29,7 @@ public class AmmoBagItemOld extends BundleItem {
     protected static final int MAX_SIZE = 512;
 
     public AmmoBagItemOld(Item.Settings settings) {
-        super(settings.group(TGItems.ITEM_GROUP_TECHGUNS));
+        super(settings);
     }
 
     @Override

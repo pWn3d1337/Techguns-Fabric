@@ -1,9 +1,9 @@
 package techguns.client.modelloader;
 
-import net.minecraft.client.util.math.Vector3d;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
+import org.joml.Vector3d;
 
 import java.io.BufferedReader;
 import java.io.IOException;

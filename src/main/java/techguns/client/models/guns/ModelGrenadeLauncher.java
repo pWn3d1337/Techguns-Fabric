@@ -12,8 +12,8 @@ import techguns.client.render.math.TGMatrixOps;
 
 public class ModelGrenadeLauncher extends ModelBaseBaked {
 
-    public static final ModelIdentifier model_part1 = new ModelIdentifier(new TGIdentifier("item/grenadelauncher.obj"), null);
-    public static final ModelIdentifier model_part2 = new ModelIdentifier(new TGIdentifier("item/grenadelauncher_1.obj"), null);
+    public static final ModelIdentifier model_part1 = new ModelIdentifier(new TGIdentifier("item/grenadelauncher.obj"), "");
+    public static final ModelIdentifier model_part2 = new ModelIdentifier(new TGIdentifier("item/grenadelauncher_1.obj"), "");
 
     public ModelGrenadeLauncher() {
         super(RenderLayer::getEntitySolid, model_part1);

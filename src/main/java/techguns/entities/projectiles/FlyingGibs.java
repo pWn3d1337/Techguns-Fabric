@@ -8,6 +8,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
+import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -146,7 +147,7 @@ public class FlyingGibs extends Entity{
 
 
 	@Override
-	public Packet<?> createSpawnPacket() {
+	public Packet<ClientPlayPacketListener> createSpawnPacket() {
 	    return null;
 	}
 }

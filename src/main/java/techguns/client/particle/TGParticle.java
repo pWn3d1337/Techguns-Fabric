@@ -667,7 +667,7 @@ public class TGParticle extends Particle implements ITGParticle {
 	@Override
 	public void doRender(VertexConsumerProvider.Immediate vertexConsumerProvider, Entity entityIn, float partialTickTime, float rotX, float rotZ,
 			float rotYZ, float rotXY, float rotXZ, MatrixStack matrices, Camera camera) {
-		Matrix4f mat = matrices.peek().getPositionMatrix().copy();
+		Matrix4f mat = new Matrix4f(matrices.peek().getPositionMatrix()); //copy
 		this.renderParticle(vertexConsumerProvider, entityIn, partialTickTime, rotX, rotZ, rotYZ, rotXY, rotXZ, mat, camera);
 	}
 

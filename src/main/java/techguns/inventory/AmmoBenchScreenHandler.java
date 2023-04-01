@@ -149,7 +149,7 @@ public class AmmoBenchScreenHandler extends StoneCutterStyleScreenHandler<AmmoBe
     }
 
     @Override
-    public ItemStack transferSlot(PlayerEntity player, int index) {
+    public ItemStack quickMove(PlayerEntity player, int index) {
         final int OUTPUT_SLOT=3;
         final int PLAYER_INV_START = OUTPUT_SLOT+1;
         final int PLAYER_INV_END = PLAYER_INV_START+27;

@@ -1,5 +1,6 @@
 package techguns.client.render;
 
+import net.minecraft.client.gl.ShaderProgram;
 import net.minecraft.client.render.*;
 import net.minecraft.util.Util;
 import org.lwjgl.opengl.GL11;
@@ -34,11 +35,11 @@ public class TGRenderHelper extends RenderPhase {
 	
 	public static final int BRIGHT_LIGHT = 15728880;
 
-	public static net.minecraft.client.render.Shader particleShader = null;
-	public static net.minecraft.client.render.Shader getParticleShader(){
+	public static net.minecraft.client.gl.ShaderProgram particleShader = null;
+	public static net.minecraft.client.gl.ShaderProgram getParticleShader(){
 		return particleShader;
 	};
-	public static final net.minecraft.client.render.RenderPhase.Shader TG_PARTICLE_SHADER = new Shader(TGRenderHelper::getParticleShader);
+	public static final RenderPhase.ShaderProgram TG_PARTICLE_SHADER = new ShaderProgram(TGRenderHelper::getParticleShader);
 
 	protected static float lastBrightnessX=0;
 	protected static float lastBrightnessY=0;
@@ -104,7 +105,7 @@ public class TGRenderHelper extends RenderPhase {
 	}
 	
     public static RenderLayer getProjectileCutout(Identifier texture) {
-	      RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false))/*todo 1.17: .alpha(HALF_ALPHA).diffuseLighting(ENABLE_DIFFUSE_LIGHTING) */.lightmap(ENABLE_LIGHTMAP).shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).build(true);
+	      RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().texture(new RenderPhase.Texture(texture, false, false))/*todo 1.17: .alpha(HALF_ALPHA).diffuseLighting(ENABLE_DIFFUSE_LIGHTING) */.lightmap(ENABLE_LIGHTMAP).program(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_PROGRAM).build(true);
 	      return RenderLayer.of("techguns_projectile_cutout", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, true, false, multiPhaseParameters);
 	}
 
@@ -126,27 +127,27 @@ public class TGRenderHelper extends RenderPhase {
 	});
 
 	public static Function<Identifier, RenderLayer> TG_RENDERLAYER_SCOPE = Util.memoize((texture) -> {
-		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).texture(new RenderPhase.Texture(texture, false, false)).transparency(TRANSLUCENT_TRANSPARENCY).target(MAIN_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.COLOR_MASK).depthTest(ALWAYS_DEPTH_TEST).build(false);
+		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().program(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_PROGRAM).texture(new RenderPhase.Texture(texture, false, false)).transparency(TRANSLUCENT_TRANSPARENCY).target(MAIN_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.COLOR_MASK).depthTest(ALWAYS_DEPTH_TEST).build(false);
 		return RenderLayer.of("techguns_scope", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, false, true, multiPhaseParameters);
 	});
 
 	public static Function<Identifier, RenderLayer> TG_RENDERLAYER_PROJECTILE_ADDITIVE = Util.memoize((texture) -> {
-		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).texture(new RenderPhase.Texture(texture, false, false)).transparency(ADDITIVE_TRANSPARENCY).target(PARTICLES_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.ALL_MASK).cull(DISABLE_CULLING).build(true);
+		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().program(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_PROGRAM).texture(new RenderPhase.Texture(texture, false, false)).transparency(ADDITIVE_TRANSPARENCY).target(PARTICLES_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.ALL_MASK).cull(DISABLE_CULLING).build(true);
 		return RenderLayer.of("techguns_projectile_additive", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, false, true, multiPhaseParameters);
 	});
 
 	public static Function<Identifier, RenderLayer> TG_RENDERLAYER_FX_ALPHA = Util.memoize((texture) -> {
-		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).texture(new RenderPhase.Texture(texture, true, true)).transparency(TRANSLUCENT_TRANSPARENCY).target(WEATHER_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.COLOR_MASK).cull(DISABLE_CULLING).build(false);
+		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().program(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_PROGRAM).texture(new RenderPhase.Texture(texture, true, true)).transparency(TRANSLUCENT_TRANSPARENCY).target(WEATHER_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.COLOR_MASK).cull(DISABLE_CULLING).build(false);
 		return RenderLayer.of("techguns_fx_alpha", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, false, true, multiPhaseParameters);
 	});
 
 	public static Function<Identifier, RenderLayer> TG_RENDERLAYER_FX_ADDITIVE = Util.memoize((texture) -> {
-		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().shader(TG_PARTICLE_SHADER).texture(new RenderPhase.Texture(texture, true, true)).transparency(TGFX_ADDITIVE_TRANSPARENCY).target(PARTICLES_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.COLOR_MASK).cull(DISABLE_CULLING).build(false);
+		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().program(TG_PARTICLE_SHADER).texture(new RenderPhase.Texture(texture, true, true)).transparency(TGFX_ADDITIVE_TRANSPARENCY).target(PARTICLES_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.COLOR_MASK).cull(DISABLE_CULLING).build(false);
 		return RenderLayer.of("techguns_fx_additive", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, false, true, multiPhaseParameters);
 	});
 
 	public static Function<Identifier, RenderLayer> TG_RENDERLAYER_PARTICLE = Util.memoize((texture) -> {
-		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().shader(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_SHADER).texture(new RenderPhase.Texture(texture, false, false)).transparency(LIGHTNING_TRANSPARENCY).target(PARTICLES_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.COLOR_MASK).cull(DISABLE_CULLING).build(false);
+		RenderLayer.MultiPhaseParameters multiPhaseParameters = RenderLayer.MultiPhaseParameters.builder().program(RenderPhase.POSITION_COLOR_TEXTURE_LIGHTMAP_PROGRAM).texture(new RenderPhase.Texture(texture, false, false)).transparency(LIGHTNING_TRANSPARENCY).target(PARTICLES_TARGET).lightmap(ENABLE_LIGHTMAP).writeMaskState(RenderPhase.COLOR_MASK).cull(DISABLE_CULLING).build(false);
 		return RenderLayer.of("techguns_particle", VertexFormats.POSITION_COLOR_TEXTURE_LIGHT, VertexFormat.DrawMode.QUADS, 256, false, true, multiPhaseParameters);
 	});
 

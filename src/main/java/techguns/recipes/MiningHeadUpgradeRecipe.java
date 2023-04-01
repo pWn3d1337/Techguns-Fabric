@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.*;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
@@ -23,7 +24,7 @@ public class MiningHeadUpgradeRecipe extends ShapelessRecipe {
     public static MiningHeadUpgradeRecipe.Serializer SERIALIZER=null;
 
     public MiningHeadUpgradeRecipe(Identifier id, String group, ItemStack output, DefaultedList<Ingredient> input) {
-        super(id, group, output, input);
+        super(id, group, CraftingRecipeCategory.EQUIPMENT, output, input);
     }
 
     private static class RecipeResult {

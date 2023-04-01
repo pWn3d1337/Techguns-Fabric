@@ -41,7 +41,7 @@ public abstract class ClientPlayNetworkHandlerMixin implements ClientPlayPacketL
 			shooter = (LivingEntity) entity;
 		}
 
-		EntityType<?> type = packet.getEntityTypeId();
+		EntityType<?> type = packet.getEntityType();
 		if(TGEntities.ENTITY_SPAWN_PACKET_MAP.containsKey(type)){
 			ent = TGEntities.ENTITY_SPAWN_PACKET_MAP.get(type).create(type, this.world, shooter);
 		}

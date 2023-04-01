@@ -135,7 +135,7 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 		Vec3d ray = shooter.getRotationVector().multiply((double)LOCK_RANGE);
 		
 		List<Entity> list = shooter.world.getOtherEntities(shooter, shooter.getBoundingBox().expand(ray.x, ray.y, ray.z).expand(1.0D), (ent) -> {
-			if (!ent.isSpectator() && ent.isAlive() && ent.collides()) {
+			if (!ent.isSpectator() && ent.isAlive() && ent.isCollidable()) {
 		         return shooter == null || !shooter.isConnectedThroughVehicle(ent);
 		      } else {
 		         return false;

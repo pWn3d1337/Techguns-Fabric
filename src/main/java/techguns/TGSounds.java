@@ -237,7 +237,7 @@ public class TGSounds implements ITGInitializer {
 		
 	private static SoundEvent createSoundEvent(String name){
 		Identifier id = new TGIdentifier(name);
-		SoundEvent event = new SoundEvent(id);
+		SoundEvent event = SoundEvent.of(id);
 		events.add(new TGSoundEvent(id,event));
 		return event;
 	}

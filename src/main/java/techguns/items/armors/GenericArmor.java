@@ -69,11 +69,11 @@ public class GenericArmor extends ArmorItem implements FabricItem, ITGItemRender
     protected boolean hideGloveslot=false;
 
     public GenericArmor(TGArmorMaterial material, EquipmentSlot slot) {
-        super(material, slot, new Item.Settings().group(TGItems.ITEM_GROUP_TECHGUNS));
+        super(material, slot, new Item.Settings());
     }
 
     public GenericArmor(TGArmorMaterial material, EquipmentSlot slot, boolean hasInvRenderhack, boolean hasEntityModelRenderhack, boolean shouldRenderDefaultArmor) {
-        super(material, slot, new Item.Settings().group(TGItems.ITEM_GROUP_TECHGUNS));
+        super(material, slot, new Item.Settings());
         this.hasInvRenderhack = hasInvRenderhack;
         this.hasEntityModelRenderhack = hasEntityModelRenderhack;
         this.shouldRenderDefaultArmor = shouldRenderDefaultArmor;

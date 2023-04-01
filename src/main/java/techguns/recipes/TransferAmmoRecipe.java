@@ -8,6 +8,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.RecipeSerializer;
+import net.minecraft.recipe.book.CraftingRecipeCategory;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
@@ -26,8 +27,8 @@ public class TransferAmmoRecipe extends NBTShapedRecipe {
 
     public static techguns.recipes.TransferAmmoRecipe.Serializer SERIALIZER;
 
-    public TransferAmmoRecipe(Identifier id, String group, int width, int height, DefaultedList<Ingredient> ingredients, ItemStack output) {
-        super(id, group, width, height, ingredients, output);
+    public TransferAmmoRecipe(Identifier id, String group, CraftingRecipeCategory category, int width, int height, DefaultedList<Ingredient> ingredients, ItemStack output) {
+        super(id, group, category, width, height, ingredients, output);
     }
 
     @Override
@@ -95,7 +96,7 @@ public class TransferAmmoRecipe extends NBTShapedRecipe {
             int j = strings.length;
             DefaultedList<Ingredient> defaultedList = ShapedRecipeAccessor.invokeCreatePatternMatrix(strings, map, i, j);
             ItemStack itemStack = NBTShapedRecipe.getItemStack(JsonHelper.getObject(jsonObject, "result"));
-            return new TransferAmmoRecipe(identifier, string, i, j, defaultedList, itemStack);
+            return new TransferAmmoRecipe(identifier, string, CraftingRecipeCategory.EQUIPMENT, i, j, defaultedList, itemStack);
         }
 
         @Override
@@ -110,7 +111,7 @@ public class TransferAmmoRecipe extends NBTShapedRecipe {
             }
 
             ItemStack itemStack = packetByteBuf.readItemStack();
-            return new TransferAmmoRecipe(identifier, string, i, j, defaultedList, itemStack);
+            return new TransferAmmoRecipe(identifier, string, CraftingRecipeCategory.EQUIPMENT, i, j, defaultedList, itemStack);
         }
 
         @Override

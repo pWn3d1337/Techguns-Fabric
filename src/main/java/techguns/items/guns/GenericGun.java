@@ -191,7 +191,7 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 	public HoldType holdType = HoldType.CROSSBOW;
 		
 	private GenericGun() {
-		super(new Item.Settings().maxCount(1).group(ItemGroup.COMBAT));
+		super(new Item.Settings().maxCount(1));
 	}
 
 	public GenericGun(String name, @SuppressWarnings("rawtypes") ProjectileSelector projectileSelector, boolean semiAuto, int minFiretime, int clipsize, int reloadtime, float damage, SoundEvent firesound, SoundEvent reloadsound, int TTL, float accuracy){
@@ -885,14 +885,15 @@ public class GenericGun extends GenericItem implements IGenericGun, ITGItemRende
 		tags.putShort("ammo", (short) (ammo+amount));
 	}
 	
-	@Override
+	/*@Override
+	//TODO check onCraft needed
 	public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
 		if (this.isIn(group)) {
 			ItemStack gun = new ItemStack(this, 1);
 			this.onCraft(gun, null, null);
 			stacks.add(gun);
 		}
-	}
+	}*/
 
 	public double getPercentAmmoLeft(ItemStack stack) {
 		return ((double)this.getCurrentAmmo(stack))/((double)this.clipsize);

@@ -235,7 +235,8 @@ public class PoweredArmor extends GenericArmor {
         tags.putInt(KEY_POWER, 0);
     }
 
-    @Override
+    /*@Override
+    //TODO check if handling needed
     public void appendStacks(ItemGroup group, DefaultedList<ItemStack> stacks) {
         if (this.isIn(group)) {
             ItemStack armor = new ItemStack(this, 1);
@@ -243,7 +244,7 @@ public class PoweredArmor extends GenericArmor {
             tags.putInt(KEY_POWER, this.maxpower);
             stacks.add(armor);
         }
-    }
+    }*/
 
     @Override
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(ItemStack stack, EquipmentSlot slot) {

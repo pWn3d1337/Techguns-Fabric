@@ -57,7 +57,7 @@ public class TGArmorRenderer implements ArmorRenderer {
     private void renderArmor(MatrixStack matrices, VertexConsumerProvider vertexConsumers, LivingEntity entity, EquipmentSlot armorSlot, int light, BipedEntityModel<LivingEntity> model, BipedEntityModel<LivingEntity> contextModel) {
         ItemStack armor = entity.getEquippedStack(armorSlot);
         if(model != null) {
-            contextModel.setAttributes(model);
+            contextModel.copyBipedStateTo(model);
             this.setVisible(model, armorSlot);
             //this cast is save, getModel will return null when not an ArmorItem
             ArmorItem armorItem = (ArmorItem) armor.getItem();
