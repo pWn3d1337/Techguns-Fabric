@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/upgrade_blast_protection_1"
+    "layer0": "techguns:item/upgrade_blast_protection_1"
   }
 }

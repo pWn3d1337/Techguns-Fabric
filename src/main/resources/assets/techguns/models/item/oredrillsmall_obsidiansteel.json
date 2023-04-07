@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/oredrillsmall_obsidiansteel"
+    "layer0": "techguns:item/oredrillsmall_obsidiansteel"
   }
 }

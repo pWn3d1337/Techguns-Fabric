@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/raw_titanium"
+    "layer0": "techguns:item/raw_titanium"
   }
 }

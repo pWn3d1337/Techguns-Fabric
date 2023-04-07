@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/magic_bullet_fire"
+    "layer0": "techguns:item/magic_bullet_fire"
   }
 }

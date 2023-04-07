@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/t3_miner_boots_layer1",
-    "layer1": "techguns:items/t3_miner_boots_layer2"
+    "layer0": "techguns:item/t3_miner_boots_layer1",
+    "layer1": "techguns:item/t3_miner_boots_layer2"
   }
 }

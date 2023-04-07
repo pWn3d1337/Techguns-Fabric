@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/t1_miner_chestplate",
-    "layer1": "techguns:items/t1_miner_chestplate_overlay"
+    "layer0": "techguns:item/t1_miner_chestplate",
+    "layer1": "techguns:item/t1_miner_chestplate_overlay"
   }
 }

@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/riflerounds_incendiary"
+    "layer0": "techguns:item/riflerounds_incendiary"
   }
 }

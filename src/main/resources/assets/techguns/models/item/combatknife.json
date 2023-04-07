@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "techguns:items/combatknife"
+    "layer0": "techguns:item/combatknife"
   }
 }

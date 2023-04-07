@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/compressedairtankempty"
+    "layer0": "techguns:item/compressedairtankempty"
   }
 }

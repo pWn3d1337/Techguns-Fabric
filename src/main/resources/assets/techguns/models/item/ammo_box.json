@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
 	"textures": {
-		"particle": "techguns:items/ammo_box",
-		"layer0": "techguns:items/ammo_box"
+		"particle": "techguns:item/ammo_box",
+		"layer0": "techguns:item/ammo_box"
 	},
 	"elements": [
 		{

@@ -1,9 +1,9 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/t3_combat_helmet_layer1",
-    "layer1": "techguns:items/t3_exo_helmet_layer2",
-    "layer2": "techguns:items/t3_combat_helmet_layer3",
-    "layer3": "techguns:items/t3_exo_helmet_layer4"
+    "layer0": "techguns:item/t3_combat_helmet_layer1",
+    "layer1": "techguns:item/t3_exo_helmet_layer2",
+    "layer2": "techguns:item/t3_combat_helmet_layer3",
+    "layer3": "techguns:item/t3_exo_helmet_layer4"
   }
 }

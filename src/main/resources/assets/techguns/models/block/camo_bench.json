@@ -1,12 +1,12 @@
 {
 	"parent": "block/cube",
 	"textures": {
-		"particle": "techguns:blocks/paintmachine_side",
-		"north": "techguns:blocks/paintmachine_front",
-		"south": "techguns:blocks/paintmachine_side",
-		"east": "techguns:blocks/paintmachine_side",
-		"west": "techguns:blocks/paintmachine_side",
-		"up": "techguns:blocks/paintmachine_top",
-		"down": "techguns:blocks/paintmachine_side"
+		"particle": "techguns:block/paintmachine_side",
+		"north": "techguns:block/paintmachine_front",
+		"south": "techguns:block/paintmachine_side",
+		"east": "techguns:block/paintmachine_side",
+		"west": "techguns:block/paintmachine_side",
+		"up": "techguns:block/paintmachine_top",
+		"down": "techguns:block/paintmachine_side"
 	}
 }

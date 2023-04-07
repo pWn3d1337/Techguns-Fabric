@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/obsidian_steel_ingot"
+    "layer0": "techguns:item/obsidian_steel_ingot"
   }
 }

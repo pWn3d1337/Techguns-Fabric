@@ -1,11 +1,11 @@
 {
 	"parent": "block/thin_block",
 	"textures": {
-		"1": "techguns:blocks/ammo_bench_back_top",
-		"2": "techguns:blocks/ammo_bench_top_plate",
-		"3": "techguns:blocks/ammo_bench_back_block",
-		"4": "techguns:blocks/ammo_bench_details",
-		"particle": "techguns:blocks/ammo_bench_top_plate"
+		"1": "techguns:block/ammo_bench_back_top",
+		"2": "techguns:block/ammo_bench_top_plate",
+		"3": "techguns:block/ammo_bench_back_block",
+		"4": "techguns:block/ammo_bench_details",
+		"particle": "techguns:block/ammo_bench_top_plate"
 	},
 	"elements": [
 		{

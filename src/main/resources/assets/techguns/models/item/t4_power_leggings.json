@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/t4_power_leggings"
+    "layer0": "techguns:item/t4_power_leggings"
   }
 }

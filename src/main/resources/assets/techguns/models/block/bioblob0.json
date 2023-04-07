@@ -1,7 +1,7 @@
 {   "parent": "block/thin_block",
 	"ambientocclusion": false,
     "textures": {
-        "particle": "techguns:blocks/bioblob"
+        "particle": "techguns:block/bioblob"
     },
     "elements": [
         {   "from": [ 5, 0, 5 ],

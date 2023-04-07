@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/t2_riot_helmet"
+    "layer0": "techguns:item/t2_riot_helmet"
   }
 }

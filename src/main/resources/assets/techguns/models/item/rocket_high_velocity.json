@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "techguns:items/rocket_high_velocity"
+    "layer0": "techguns:item/rocket_high_velocity"
   }
 }
