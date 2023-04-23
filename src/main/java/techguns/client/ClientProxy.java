@@ -626,7 +626,7 @@ public class ClientProxy implements ClientModInitializer {
 			registry.register(SlotTagItem.SLOT_BG_INGOT);
 			registry.register(SlotTagItem.SLOT_BG_POWDER);
 		});*/
-		//TODO 1.19.3 check for texture stitching
+		//Replaced with atlas json in 1.19.3
 	}
 
 	public void register_ammo_itemrenderers() {

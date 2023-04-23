@@ -63,7 +63,8 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 	}
 	
 	protected void traceTarget(LivingEntity shooter) {
-		Vec3d vec3d1 = new Vec3d(shooter.getPos().x, shooter.getPos().y+((ITGLivingEntity)shooter).getEyeHeight_ServerSide(shooter.getPose()), shooter.getPos().z);
+		//Vec3d vec3d1 = new Vec3d(shooter.getPos().x, shooter.getPos().y+((ITGLivingEntity)shooter).getEyeHeight_ServerSide(shooter.getPose()), shooter.getPos().z);
+		Vec3d vec3d1 = new Vec3d(shooter.getPos().x, shooter.getPos().y+shooter.getEyeHeight(shooter.getPose()), shooter.getPos().z);
 		Vec3d vec3d = vec3d1.add(shooter.getRotationVector().multiply(LOCK_RANGE));
 		
 		
@@ -135,7 +136,7 @@ public class GuidedMissileLauncher extends GenericGunCharge {
 		Vec3d ray = shooter.getRotationVector().multiply((double)LOCK_RANGE);
 		
 		List<Entity> list = shooter.world.getOtherEntities(shooter, shooter.getBoundingBox().expand(ray.x, ray.y, ray.z).expand(1.0D), (ent) -> {
-			if (!ent.isSpectator() && ent.isAlive() && ent.isCollidable()) {
+			if (!ent.isSpectator() && ent.isAlive() && ent.canHit()) {
 		         return shooter == null || !shooter.isConnectedThroughVehicle(ent);
 		      } else {
 		         return false;

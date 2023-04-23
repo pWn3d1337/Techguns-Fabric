@@ -1,18 +1,14 @@
 package techguns.client.modelloader;
 
-import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.renderer.v1.RendererAccess;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MeshBuilder;
 import net.fabricmc.fabric.api.renderer.v1.mesh.MutableQuadView;
 import net.fabricmc.fabric.api.renderer.v1.mesh.QuadEmitter;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.model.*;
 import net.minecraft.client.render.model.json.ModelTransformation;
 import net.minecraft.client.resource.metadata.AnimationResourceMetadata;
 import net.minecraft.client.texture.*;
 import net.minecraft.client.util.SpriteIdentifier;
-//import net.minecraft.client.util.math.Vector3d;
-import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
@@ -27,9 +23,6 @@ import java.util.*;
 import java.util.function.Function;
 
 public class TGObjModel implements UnbakedModel {
-
-    protected static final SpriteIdentifier BLOCK_ATLAS_SPRITE = new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, null);
-
     protected ArrayList<Vector3f> vertices;
     protected ArrayList<Vector3f> normals;
     protected ArrayList<Vec2f> uvs;
@@ -147,7 +140,7 @@ public class TGObjModel implements UnbakedModel {
                                 model.normals.add(new Vector3f(nx,ny,nz));
                                 break;
                             case "g":
-                                //groud -ignored
+                                //group -ignored
                                 break;
                             case "o":
                                 //object -ignored
@@ -183,23 +176,11 @@ public class TGObjModel implements UnbakedModel {
     }
 
     @Override
-    public Collection<Identifier> getModelDependencies() {
-        return Collections.emptySet();
-    }
+    public Collection<Identifier> getModelDependencies() {return Collections.emptySet();}
 
     @Override
     public void setParents(Function<Identifier, UnbakedModel> modelLoader) {
-       //TODO ? needed?
     }
-
-    // @Override
-  // public Collection<SpriteIdentifier> getTextureDependencies(Function<Identifier, UnbakedModel> unbakedModelGetter, Set<Pair<String, String>> unresolvedTextureReferences) {
-  //     List<SpriteIdentifier> sprites = new ArrayList<>();
-  //     for (TGObjMtl mtl : this.mtls.values()){
-  //         sprites.add(new SpriteIdentifier(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE, mtl.map_kd));
-  //     }
-  //     return sprites;
-  // }
 
    public static class DummySprite extends Sprite
    {
@@ -207,7 +188,7 @@ public class TGObjModel implements UnbakedModel {
         * Just to get a public constructor
         */
        protected DummySprite(Identifier atlasId, SpriteContents contents, int maxLevel, int atlasWidth, int atlasHeight, int x) {
-           super(atlasId, contents, maxLevel, atlasHeight, atlasHeight, x);
+           super(atlasId, contents, maxLevel, atlasWidth, atlasHeight, x);
        }
    }
 
@@ -229,7 +210,8 @@ public class TGObjModel implements UnbakedModel {
                 //dummy
                 NativeImage img = new NativeImage(16,16,false);
                 SpriteContents contents = new SpriteContents(material.map_kd, new SpriteDimensions(16,16), img, AnimationResourceMetadata.EMPTY);
-                sprite = new DummySprite(material.map_kd, contents, 0, 16, 16, 0);
+                //parameter names seem to be incorrect in 1.19.3, the goal of the dummy sprite is to have the texture fill the whole image from 0 to 16 and u/v min/max are 0.0/1.0
+                sprite = new DummySprite(material.map_kd, contents, 16, 16, 0, 0);
             }
 
             for (int i=0; i< obj.faces.size(); i++){

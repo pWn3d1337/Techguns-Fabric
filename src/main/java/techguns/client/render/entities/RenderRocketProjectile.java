@@ -56,7 +56,6 @@ public class RenderRocketProjectile extends EntityRenderer<RocketProjectile>{
 
 	@Override
 	public Identifier getTexture(RocketProjectile entity) {
-		//TODO
 		/*if(entity instanceof RocketProjectileNuke) {
 			return textureLocNuke;
 		} else if (entity instanceof RocketProjectileHV || entity instanceof GuidedMissileProjectileHV) {

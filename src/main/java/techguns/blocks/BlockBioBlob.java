@@ -86,7 +86,7 @@ public class BlockBioBlob extends Block {
     @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         int facing = state.get(FACING).ordinal();
-        return boundingShapes[facing > 1 ? 0 : facing][state.get(SIZE)];
+        return boundingShapes[facing][state.get(SIZE)];
     }
 
     @Override
@@ -110,7 +110,6 @@ public class BlockBioBlob extends Block {
      */
     public void scheduleTick(World world, BlockPos pos, Random rnd){
         world.scheduleBlockTick(pos, this, MathHelper.nextInt(rnd, 80, 120), TickPriority.LOW);
-        //world.createAndScheduleBlockTick(pos, this, MathHelper.nextInt(rnd, 80, 120), TickPriority.LOW); //TODO check 1.19.3
     }
 
     @Override

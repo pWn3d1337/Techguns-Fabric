@@ -1,0 +1,16 @@
+{
+    "sources": [
+        {
+            "type": "single",
+            "resource": "techguns:gui/emptyslots/emptyslot_ingot"
+        },
+        {
+            "type": "single",
+            "resource": "techguns:gui/emptyslots/emptyslot_ingot_dark"
+        },
+		{
+            "type": "single",
+            "resource": "techguns:gui/emptyslots/emptyslot_powder"
+        }
+    ]
+}

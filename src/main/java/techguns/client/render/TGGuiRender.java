@@ -206,7 +206,6 @@ public class TGGuiRender {
 		RenderSystem.setShader(GameRenderer::getPositionTexProgram);
 		RenderSystem.setShaderTexture(0, DrawableHelper.GUI_ICONS_TEXTURE);
 		RenderSystem.enableBlend();
-		//RenderSystem.enableAlphaTest(); //FIXME 1.17 see changes
 	}
 	
 	private static void drawGunAmmoCount(MatrixStack matrices, MinecraftClient mc,int scaledWidth, int scaledHeight, GenericGun gun, ItemStack item, PlayerEntity ply, ITGExtendedPlayer props, int offsetY) {
