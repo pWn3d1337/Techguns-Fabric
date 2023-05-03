@@ -4,7 +4,7 @@ package techguns.client.models.guns;
 import techguns.client.models.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -174,7 +174,7 @@ public class ModelGuidedMissileLauncher extends ModelMultipart {
 
 	@Override
 	public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
-			float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
+			float reloadProgress, ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light,
 			int overlay) {
 		if (part==0) {
 		this.Optics07.render(matrices, vertices, light, overlay);
@@ -223,7 +223,7 @@ public class ModelGuidedMissileLauncher extends ModelMultipart {
 			/*matrices.translate(-this.Holo2.pivotX * scale, -this.Holo2.pivotY * scale,
 					-this.Holo2.pivotZ * scale);*/
 			boolean locked = false;
-			if (transformType == Mode.FIRST_PERSON_LEFT_HAND || transformType == Mode.FIRST_PERSON_RIGHT_HAND ) {
+			if (transformType == ModelTransformationMode.FIRST_PERSON_LEFT_HAND || transformType == ModelTransformationMode.FIRST_PERSON_RIGHT_HAND ) {
 				if (entityIn != null && entityIn instanceof PlayerEntity) {
 					PlayerEntity player = (PlayerEntity) entityIn;
 					ITGExtendedPlayer tge = (ITGExtendedPlayer) player;

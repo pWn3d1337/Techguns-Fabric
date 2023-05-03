@@ -1,9 +1,9 @@
 package techguns.client.models.guns;
 
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import techguns.client.models.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -202,8 +202,8 @@ public class ModelMiningDrill extends ModelMultipart {
 
 	@Override
 	public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
-		float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
-	int overlay) {
+                       float reloadProgress, ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light,
+                       int overlay) {
 		if (part==0) {
 			this.Shape93.render(matrices, vertices, light, overlay);
 			this.Shape136.render(matrices, vertices, light, overlay);

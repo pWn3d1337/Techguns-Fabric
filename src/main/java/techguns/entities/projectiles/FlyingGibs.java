@@ -7,8 +7,8 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.Packet;
 import net.minecraft.network.listener.ClientPlayPacketListener;
+import net.minecraft.network.packet.Packet;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -88,7 +88,7 @@ public class FlyingGibs extends Entity{
         float velY = (float) (this.getVelocity().y - this.gravity);
         float velZ = (float) this.getVelocity().z;
 
-        if (this.world.getBlockState(new BlockPos(this.getPos())).getMaterial() == Material.LAVA)
+        if (this.world.getBlockState(this.getBlockPos()).getMaterial() == Material.LAVA)
         {
         	velX = 0.20000000298023224F;
         	velY = (this.random.nextFloat() - this.random.nextFloat()) * 0.2F;
@@ -108,7 +108,7 @@ public class FlyingGibs extends Entity{
         		hitGroundTTL = timeToLive;
                 trail_system.markDead();
         	}
-            f = (float) (this.world.getBlockState(new BlockPos(this.getPos())).getBlock().getSlipperiness() * 0.98);
+            f = (float) (this.world.getBlockState(this.getBlockPos()).getBlock().getSlipperiness() * 0.98);
 
         }
 

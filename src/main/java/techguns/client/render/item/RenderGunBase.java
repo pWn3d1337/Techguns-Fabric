@@ -6,7 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.BipedEntityModel.ArmPose;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -234,8 +234,8 @@ public class RenderGunBase extends RenderItemBase {
 	
 	
 	@Override
-	public void renderItem(LivingEntity entityIn, Mode transform, MatrixStack matrices, ItemStack stack, boolean leftHand,
-			VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel bakedModel) {
+	public void renderItem(LivingEntity entityIn, ModelTransformationMode transform, MatrixStack matrices, ItemStack stack, boolean leftHand,
+						   VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel bakedModel) {
 
 		
 		IGenericGun gun = ((IGenericGun) stack.getItem());
@@ -264,8 +264,8 @@ public class RenderGunBase extends RenderItemBase {
 		
 		boolean renderScope = false;
 		
-		if (values != null && (Mode.FIRST_PERSON_LEFT_HAND == transform || Mode.FIRST_PERSON_RIGHT_HAND == transform
-				|| Mode.THIRD_PERSON_LEFT_HAND == transform || Mode.THIRD_PERSON_RIGHT_HAND == transform)) {
+		if (values != null && (ModelTransformationMode.FIRST_PERSON_LEFT_HAND == transform || ModelTransformationMode.FIRST_PERSON_RIGHT_HAND == transform
+				|| ModelTransformationMode.THIRD_PERSON_LEFT_HAND == transform || ModelTransformationMode.THIRD_PERSON_RIGHT_HAND == transform)) {
 			AttackTime attack = values.getAttackTime(isOffhand);
 			attackType = attack.getAttackType();
 			
@@ -316,7 +316,7 @@ public class RenderGunBase extends RenderItemBase {
 				}
 			}
 			
-			if (Mode.FIRST_PERSON_LEFT_HAND == transform || Mode.FIRST_PERSON_RIGHT_HAND == transform  || Mode.THIRD_PERSON_LEFT_HAND == transform || Mode.THIRD_PERSON_RIGHT_HAND == transform){
+			if (ModelTransformationMode.FIRST_PERSON_LEFT_HAND == transform || ModelTransformationMode.FIRST_PERSON_RIGHT_HAND == transform  || ModelTransformationMode.THIRD_PERSON_LEFT_HAND == transform || ModelTransformationMode.THIRD_PERSON_RIGHT_HAND == transform){
 				//Calculate muzzleFlash progress
 								
 				if(attack.getMuzzleFlashTime()>0) {
@@ -335,7 +335,7 @@ public class RenderGunBase extends RenderItemBase {
 		
 		this.applyTranslation(matrices, transform);
 
-		if (Mode.FIRST_PERSON_LEFT_HAND == transform || Mode.FIRST_PERSON_RIGHT_HAND == transform) {
+		if (ModelTransformationMode.FIRST_PERSON_LEFT_HAND == transform || ModelTransformationMode.FIRST_PERSON_RIGHT_HAND == transform) {
 
 			//calculate zoomprogress
 			ClientProxy cp = ClientProxy.get();
@@ -363,19 +363,19 @@ public class RenderGunBase extends RenderItemBase {
 				this.transformADS(matrices, zoomProgress);
 			}
 
-			this.transformFirstPerson(matrices, fireProgress, reloadProgress, chargeProgress, Mode.FIRST_PERSON_LEFT_HAND == transform, sneaking && isOffhand, doADSrecoil);
+			this.transformFirstPerson(matrices, fireProgress, reloadProgress, chargeProgress, ModelTransformationMode.FIRST_PERSON_LEFT_HAND == transform, sneaking && isOffhand, doADSrecoil);
 
 
-		} else if (Mode.THIRD_PERSON_LEFT_HAND == transform || Mode.THIRD_PERSON_RIGHT_HAND == transform) {
-			this.transformThirdPerson(matrices, entityIn, fireProgress, reloadProgress, Mode.THIRD_PERSON_LEFT_HAND == transform, gun.getArmPose(akimbo));
+		} else if (ModelTransformationMode.THIRD_PERSON_LEFT_HAND == transform || ModelTransformationMode.THIRD_PERSON_RIGHT_HAND == transform) {
+			this.transformThirdPerson(matrices, entityIn, fireProgress, reloadProgress, ModelTransformationMode.THIRD_PERSON_LEFT_HAND == transform, gun.getArmPose(akimbo));
 
-		} else if (Mode.GUI == transform) {
+		} else if (ModelTransformationMode.GUI == transform) {
 			this.transformGUI(matrices);
 
-		} else if (Mode.GROUND == transform) {
+		} else if (ModelTransformationMode.GROUND == transform) {
 			this.transformGround(matrices);
 
-		} else if (Mode.FIXED == transform) {
+		} else if (ModelTransformationMode.FIXED == transform) {
 			this.transformFixed(matrices);
 		}
 
@@ -397,11 +397,7 @@ public class RenderGunBase extends RenderItemBase {
 					}
 				}
 
-				//this.bindTextureForPart(gun, i, stack);
-				//this.setGLColorForPart(gun, i, stack);
-				//model.render(entityIn, 0, 0, 0, 0, 0, SCALE, gun.getAmmoLeft(stack), reloadProgress, transform, i, fireProgress, chargeProgress);
 				model.render(entityIn, matrices, vertexConsumers.getBuffer(model.getLayerForPart(gun, stack, tex,i)), gun.getAmmoLeft(stack), reloadProgress, transform, i, fireProgress, chargeProgress, light, overlay);
-				//RenderSystem.color4f(1f, 1f, 1f, 1f);
 			}
 			matrices.pop();
 			
@@ -413,10 +409,8 @@ public class RenderGunBase extends RenderItemBase {
 			String ammoVariant = gun.getCurrentAmmoVariantKey(stack);
 			
 			//Draw muzzle FX
-			//System.out.println("muzzleFlashProgress = "+muzzleFlashProgress);
-
 			if (muzzleFlashProgress>0){
-				if (Mode.FIRST_PERSON_LEFT_HAND== transform || Mode.FIRST_PERSON_RIGHT_HAND == transform ) {
+				if (ModelTransformationMode.FIRST_PERSON_LEFT_HAND== transform || ModelTransformationMode.FIRST_PERSON_RIGHT_HAND == transform ) {
 
 					if (!isOffhand && gun.getZoomMult() > 0f && gun.isZooming()  && this.scope==null) {
 						this.transformADS(matrices, zoomProgress);
@@ -431,7 +425,7 @@ public class RenderGunBase extends RenderItemBase {
 				}
 			}else {
 				if (reloadProgress<=0){
-					if (Mode.FIRST_PERSON_LEFT_HAND== transform || Mode.FIRST_PERSON_RIGHT_HAND == transform ) {
+					if (ModelTransformationMode.FIRST_PERSON_LEFT_HAND== transform || ModelTransformationMode.FIRST_PERSON_RIGHT_HAND == transform ) {
 						this.drawIdleFx(entityIn, matrices, vertexConsumers, leftHand, ammoVariant);
 					} else {
 						matrices.push();
@@ -440,8 +434,7 @@ public class RenderGunBase extends RenderItemBase {
 						matrices.pop();
 					}
 				}if (chargeProgress > 0.0f && this.chargeEffect != null) {
-					//System.out.println("chargeProgess2 = "+chargeProgress);
-					if (Mode.FIRST_PERSON_LEFT_HAND== transform || Mode.FIRST_PERSON_RIGHT_HAND == transform ) {
+					if (ModelTransformationMode.FIRST_PERSON_LEFT_HAND== transform || ModelTransformationMode.FIRST_PERSON_RIGHT_HAND == transform ) {
 						this.drawChargeFx(matrices, vertexConsumers, chargeProgressFull, attackType, leftHand, ammoVariant);
 					} else {
 						matrices.push();
@@ -455,7 +448,7 @@ public class RenderGunBase extends RenderItemBase {
 		} else {
 			matrices.pop();
 			if (this.scopeRecoilAnim != null && fireProgress > 0f) {
-				this.scopeRecoilAnim.play(matrices, fireProgress, Mode.FIRST_PERSON_LEFT_HAND == transform, this.scopeRecoilParams);
+				this.scopeRecoilAnim.play(matrices, fireProgress, ModelTransformationMode.FIRST_PERSON_LEFT_HAND == transform, this.scopeRecoilParams);
 			}
 
 			this.renderScope(matrices,vertexConsumers, fireProgress, leftHand);
@@ -470,13 +463,13 @@ public class RenderGunBase extends RenderItemBase {
 		
 	};
 	
-	public void applyAnimForParticles(MatrixStack matrices, LivingEntity entity, float reloadProgress, Mode transform, boolean sneaking, boolean isOffhand, ArmPose armPose) {
+	public void applyAnimForParticles(MatrixStack matrices, LivingEntity entity, float reloadProgress, ModelTransformationMode transform, boolean sneaking, boolean isOffhand, ArmPose armPose) {
 		matrices.push();
 		if(reloadProgress==0) return;
-		if (transform==Mode.FIRST_PERSON_LEFT_HAND || transform==Mode.FIRST_PERSON_RIGHT_HAND) {
-			this.transformFirstPerson(matrices, 0f, reloadProgress, 0f, Mode.FIRST_PERSON_LEFT_HAND == transform, sneaking&&isOffhand, false);
-		} else if (transform==Mode.THIRD_PERSON_LEFT_HAND || transform==Mode.THIRD_PERSON_RIGHT_HAND) {
-			this.transformThirdPerson(matrices, entity, 0f, reloadProgress, Mode.THIRD_PERSON_LEFT_HAND == transform, armPose);
+		if (transform==ModelTransformationMode.FIRST_PERSON_LEFT_HAND || transform==ModelTransformationMode.FIRST_PERSON_RIGHT_HAND) {
+			this.transformFirstPerson(matrices, 0f, reloadProgress, 0f, ModelTransformationMode.FIRST_PERSON_LEFT_HAND == transform, sneaking&&isOffhand, false);
+		} else if (transform==ModelTransformationMode.THIRD_PERSON_LEFT_HAND || transform==ModelTransformationMode.THIRD_PERSON_RIGHT_HAND) {
+			this.transformThirdPerson(matrices, entity, 0f, reloadProgress, ModelTransformationMode.THIRD_PERSON_LEFT_HAND == transform, armPose);
 		}
 		
 	}

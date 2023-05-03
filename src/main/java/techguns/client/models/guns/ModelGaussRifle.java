@@ -3,7 +3,7 @@ package techguns.client.models.guns;
 import net.minecraft.client.render.RenderLayer;
 import techguns.client.models.ModelPart;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import techguns.client.models.ModelMultipart;
@@ -250,7 +250,7 @@ public class ModelGaussRifle extends ModelMultipart {
 
     @Override
     public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft, float reloadProgress,
-                       ModelTransformation.Mode transformType, int part, float fireProgress, float chargeProgress,
+                       ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress,
                        int light, int overlay) {
 
         this.Stock12.render(matrices, vertices, light, overlay);

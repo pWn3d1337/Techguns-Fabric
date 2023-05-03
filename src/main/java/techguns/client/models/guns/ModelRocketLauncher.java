@@ -2,10 +2,10 @@ package techguns.client.models.guns;
 
 import java.util.HashMap;
 
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import techguns.client.models.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -206,8 +206,8 @@ public class ModelRocketLauncher extends ModelMultipart {
 
 	@Override
 	public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
-			float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
-			int overlay) {
+					   float reloadProgress, ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light,
+					   int overlay) {
 
 		if(part==0) {
 			Shape1.render(matrices, vertices, light, overlay);
@@ -301,7 +301,7 @@ public class ModelRocketLauncher extends ModelMultipart {
 
 		@Override
 		public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
-				float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
+				float reloadProgress, ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light,
 				int overlay) {
 			R1.render(matrices, vertices, light, overlay);
 			R7.render(matrices, vertices, light, overlay);

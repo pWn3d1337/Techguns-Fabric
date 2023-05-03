@@ -1,10 +1,9 @@
 package techguns.client.render.item;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.model.BakedModel;
-import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EquipmentSlot;
 
@@ -74,7 +73,7 @@ public class RenderArmorItem extends RenderItemBase {
     }
 
     @Override
-    public void renderItem(LivingEntity elb, ModelTransformation.Mode transform, MatrixStack matrices, ItemStack stack, boolean leftHanded, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel bakedModel) {
+    public void renderItem(LivingEntity elb, ModelTransformationMode transform, MatrixStack matrices, ItemStack stack, boolean leftHanded, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel bakedModel) {
         matrices.push();
 
         Identifier usedTexture = texture;
@@ -96,16 +95,16 @@ public class RenderArmorItem extends RenderItemBase {
 
         this.applyTranslation(matrices, transform);
 
-        if (ModelTransformation.Mode.FIRST_PERSON_LEFT_HAND == transform || ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND == transform) {
+        if (ModelTransformationMode.FIRST_PERSON_LEFT_HAND == transform || ModelTransformationMode.FIRST_PERSON_RIGHT_HAND == transform) {
 
-        } else if (ModelTransformation.Mode.THIRD_PERSON_LEFT_HAND == transform || ModelTransformation.Mode.THIRD_PERSON_RIGHT_HAND == transform) {
+        } else if (ModelTransformationMode.THIRD_PERSON_LEFT_HAND == transform || ModelTransformationMode.THIRD_PERSON_RIGHT_HAND == transform) {
 
-        } else if (ModelTransformation.Mode.GUI == transform) {
+        } else if (ModelTransformationMode.GUI == transform) {
             TGMatrixOps.rotate(matrices, 180.0f, 0, 1f, 0);
 
-        } else if (ModelTransformation.Mode.GROUND == transform) {
+        } else if (ModelTransformationMode.GROUND == transform) {
 
-        } else if (ModelTransformation.Mode.FIXED == transform) {
+        } else if (ModelTransformationMode.FIXED == transform) {
 
         }
 

@@ -38,8 +38,8 @@ dependencies {
 
 	//add REI to DEV env
 	//modImplementation "me.shedaniel:RoughlyEnoughItems:${project.rei_version}"
-	modImplementation "curse.maven:Architectury-419699:4252900" //required for REI
-	modImplementation "curse.maven:RoughlyEnoughItems-310111:4167518"
+	modImplementation "curse.maven:Architectury-419699:4476085" //required for REI
+	modImplementation "curse.maven:RoughlyEnoughItems-310111:4440734"
 
 	//add connected textures mod to dev env
 	//not supported for 1.18

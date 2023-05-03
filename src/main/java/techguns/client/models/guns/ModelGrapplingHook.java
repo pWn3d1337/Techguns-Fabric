@@ -7,7 +7,7 @@ import techguns.api.entity.ITGExtendedPlayer;
 import techguns.client.models.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import techguns.client.models.ModelMultipart;
@@ -191,7 +191,7 @@ public class ModelGrapplingHook extends ModelMultipart {
 
     @Override
     public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
-                       float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
+                       float reloadProgress, ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light,
                        int overlay) {
         ImmutableList.of(this.grip05,  this.main03, this.grip01, this.tank01, this.main07, this.main08, this.main11, this.tank05, this.grip04, this.tank03, this.main05, this.main10, this.grip02, this.main02, this.tank08, this.main04, this.main09, this.main01, this.grip06, this.tank06, this.main12, this.grip03, this.main06, this.tank02,this.tank04, this.tank07).forEach((modelRenderer) -> {
             modelRenderer.render(matrices, vertices, light, overlay);

@@ -37,7 +37,7 @@ public class TGRenderHelper extends RenderPhase {
 	public static net.minecraft.client.gl.ShaderProgram getParticleShader(){
 		return particleShader;
 	};
-	public static final RenderPhase.ShaderProgram TG_PARTICLE_SHADER = new ShaderProgram(TGRenderHelper::getParticleShader);
+	public static final RenderPhase.ShaderProgram TG_PARTICLE_SHADER = new net.minecraft.client.render.RenderPhase.ShaderProgram(TGRenderHelper::getParticleShader);
 
 	protected static float lastBrightnessX=0;
 	protected static float lastBrightnessY=0;

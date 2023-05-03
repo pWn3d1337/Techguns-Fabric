@@ -1,9 +1,9 @@
 package techguns.client.models.guns;
 
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import techguns.client.models.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
@@ -324,7 +324,7 @@ public class ModelPowerHammer extends ModelMultipart {
 
 	@Override
 	public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
-		float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
+		float reloadProgress, ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light,
 	int overlay) {
 
 		if (part == 0) {
@@ -367,7 +367,7 @@ public class ModelPowerHammer extends ModelMultipart {
 			if(headProgress>0.5f) {
 				headProgress=1f-headProgress;
 			}
-			if (transformType==Mode.GUI|| transformType==Mode.FIXED || transformType==Mode.GROUND) {
+			if (transformType== ModelTransformationMode.GUI|| transformType==ModelTransformationMode.FIXED || transformType==ModelTransformationMode.GROUND) {
 				headProgress=0.25f;
 			}
 			

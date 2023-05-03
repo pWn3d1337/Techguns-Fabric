@@ -1,10 +1,10 @@
 package techguns.client.models.guns;
 
 import com.google.common.collect.ImmutableList;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import techguns.client.models.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import techguns.client.models.ModelMultipart;
@@ -178,7 +178,7 @@ public class ModelMagicRifle extends ModelMultipart {
 
     @Override
     public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
-                       float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
+                       float reloadProgress, ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light,
                        int overlay) {
             ImmutableList.of(this.b11, this.g2, this.b6, this.g5, this.m8, this.m1, this.m10, this.g6, this.m2, this.b7, this.b1, this.m4, this.m5, this.s2, this.g3, this.m9, this.s3, this.s4, this.s7, this.m6, this.b4, this.b10, this.g1, this.g4, this.g9, this.s6, this.b2, this.b3, this.m3, this.b5, this.b8, this.b9, this.s5, this.g8, this.m7, this.s1).forEach((modelRenderer) -> {
             modelRenderer.render(matrices, vertices, light, overlay);

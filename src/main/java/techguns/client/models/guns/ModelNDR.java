@@ -1,21 +1,15 @@
 package techguns.client.models.guns;
 
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.render.VertexConsumer;
-import org.lwjgl.opengl.GL11;
-
-import com.mojang.blaze3d.systems.RenderSystem;
-
 import techguns.client.models.ModelPart;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import techguns.api.guns.IGenericGun;
 import techguns.client.models.ModelMultipart;
-import techguns.client.render.TGRenderHelper;
-import techguns.client.render.fx.IScreenEffect.RenderType;
 import techguns.util.MathUtil;
 
 public class ModelNDR extends ModelMultipart {
@@ -361,10 +355,9 @@ public class ModelNDR extends ModelMultipart {
 
 	@Override
 	public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
-			float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
-			int overlay) {
+					   float reloadProgress, ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light,
+					   int overlay) {
 
-		//TGRenderHelper.enableBlendMode(RenderType.ALPHA);
 		
 		if (part == 0) {
 			this.shape14_1.render(matrices, vertices, light, overlay);
@@ -410,16 +403,10 @@ public class ModelNDR extends ModelMultipart {
 			this.shape58_2.render(matrices, vertices, light, overlay);
 			this.shape14_7.render(matrices, vertices, light, overlay);
 			this.shape1_5.render(matrices, vertices, light, overlay);
-	
-			//
-			// System.out.println("FireProgress= "+fireProgress);
-	
-	
+
 			this.GLOW.render(matrices, vertices, bright_light, overlay);
 		}
 		if (part == 1 && fireProgress > 0) {
-
-			//RenderSystem.disableCull();
 
 			matrices.push();
 			float s = (float) (0.90 + Math.sin(fireProgress * 2.0 * Math.PI) * 0.1);
@@ -444,11 +431,7 @@ public class ModelNDR extends ModelMultipart {
 			this.glowA1.pitch = 25.0f * ((float) MathUtil.D2R);
 
 			matrices.pop();
-
-			//RenderSystem.enableCull();
 		}
 
-		//TGRenderHelper.disableBlendMode(RenderType.ALPHA);
-		//
 	}
 }

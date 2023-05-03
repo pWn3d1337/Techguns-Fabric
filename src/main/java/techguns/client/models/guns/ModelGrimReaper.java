@@ -3,7 +3,7 @@ package techguns.client.models.guns;
 import techguns.client.models.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import techguns.client.models.ModelMultipart;
@@ -437,7 +437,7 @@ public class ModelGrimReaper extends ModelMultipart
   
 	@Override
 	public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
-			float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
+			float reloadProgress, ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light,
 			int overlay) {
 		matrices.push();
 		TGMatrixOps.rotate(matrices, 180.0f, 0, 1, 0);

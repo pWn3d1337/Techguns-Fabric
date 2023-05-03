@@ -3,7 +3,7 @@ package techguns.client.models.guns;
 import techguns.client.models.ModelPart;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import techguns.client.models.ModelMultipart;
@@ -316,10 +316,8 @@ public class ModelM4 extends ModelMultipart {
 
 	@Override
 	public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
-			float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
+			float reloadProgress, ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light,
 			int overlay) {
-		// setRotationAngles(f, f1, f2, f3, f4, f5, entity);
-
 		Grip1.render(matrices, vertices, light, overlay);
 		Receiver02.render(matrices, vertices, light, overlay);
 		Trigger01.render(matrices, vertices, light, overlay);

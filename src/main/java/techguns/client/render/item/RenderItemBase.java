@@ -4,6 +4,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.model.BakedModel;
 import net.minecraft.client.render.model.json.ModelTransformation;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -103,7 +104,7 @@ public class RenderItemBase implements IItemRenderer {
 		return this;
 	}
 
-	protected float getScaleFactorFromTransform(ModelTransformation.Mode transform) {
+	protected float getScaleFactorFromTransform(ModelTransformationMode transform) {
 		switch (transform) {
 		case FIRST_PERSON_LEFT_HAND:
 		case FIRST_PERSON_RIGHT_HAND:
@@ -128,7 +129,7 @@ public class RenderItemBase implements IItemRenderer {
 		}
 	}
 
-	protected void applyTranslation(MatrixStack matrices, ModelTransformation.Mode transform) {
+	protected void applyTranslation(MatrixStack matrices, ModelTransformationMode transform) {
 		int index = -1;
 		boolean flip = false;
 
@@ -179,7 +180,7 @@ public class RenderItemBase implements IItemRenderer {
 	
 	
 	@Override
-	public void renderItem(LivingEntity elb, ModelTransformation.Mode transform, MatrixStack matrices, ItemStack stack, boolean leftHanded, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel bakedModel) {
+	public void renderItem(LivingEntity elb, ModelTransformationMode transform, MatrixStack matrices, ItemStack stack, boolean leftHanded, VertexConsumerProvider vertexConsumers, int light, int overlay, BakedModel bakedModel) {
 		
 			matrices.push();
 
@@ -187,17 +188,17 @@ public class RenderItemBase implements IItemRenderer {
 			
 			this.applyTranslation(matrices, transform);
 
-			if (ModelTransformation.Mode.FIRST_PERSON_LEFT_HAND == transform || ModelTransformation.Mode.FIRST_PERSON_RIGHT_HAND == transform) {
+			if (ModelTransformationMode.FIRST_PERSON_LEFT_HAND == transform || ModelTransformationMode.FIRST_PERSON_RIGHT_HAND == transform) {
 
-			} else if (ModelTransformation.Mode.THIRD_PERSON_LEFT_HAND == transform || ModelTransformation.Mode.THIRD_PERSON_RIGHT_HAND == transform) {
+			} else if (ModelTransformationMode.THIRD_PERSON_LEFT_HAND == transform || ModelTransformationMode.THIRD_PERSON_RIGHT_HAND == transform) {
 
-			} else if (ModelTransformation.Mode.GUI == transform) {
+			} else if (ModelTransformationMode.GUI == transform) {
 				TGMatrixOps.rotate(matrices, 40.0f, 0, 1f, 0);
 				TGMatrixOps.rotate(matrices, 20.0f, 1f, 0, 0);
 
-			} else if (ModelTransformation.Mode.GROUND == transform) {
+			} else if (ModelTransformationMode.GROUND == transform) {
 
-			} else if (ModelTransformation.Mode.FIXED == transform) {
+			} else if (ModelTransformationMode.FIXED == transform) {
 				TGMatrixOps.rotate(matrices, -90.0f, 0, 1.0f, 0);
 			}
 
@@ -215,7 +216,7 @@ public class RenderItemBase implements IItemRenderer {
 
 	}
 
-	protected void setBaseScale(LivingEntity entity, MatrixStack matrices, ModelTransformation.Mode transform) {
+	protected void setBaseScale(LivingEntity entity, MatrixStack matrices, ModelTransformationMode transform) {
 		float scale = getScaleFactorFromTransform(transform);
 		
 		/*if( entity!=null && entity instanceof INPCTechgunsShooter) {
@@ -226,7 +227,7 @@ public class RenderItemBase implements IItemRenderer {
 		matrices.scale(scale, scale, scale);
 	}
 
-	protected void setBaseRotation(MatrixStack matrices, ModelTransformation.Mode transform) {
+	protected void setBaseRotation(MatrixStack matrices, ModelTransformationMode transform) {
 		TGMatrixOps.rotate(matrices, -180.0f, 1.0f, 0, 0);
 		TGMatrixOps.rotate(matrices, 180.0f, 0f, 1.0f, 0);
 	}

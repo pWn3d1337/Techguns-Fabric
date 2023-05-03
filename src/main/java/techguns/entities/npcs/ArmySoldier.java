@@ -67,7 +67,7 @@ public class ArmySoldier extends GenericHuman{
 
         RegistryEntry<Biome> biomeEntry = world.getBiome(this.getBlockPos());
         Identifier camo = TGCamos.getRandomCamoFor(TGArmors.T2_COMBAT_CHESTPLATE, random);
-        if (biomeEntry.value().getPrecipitation() == Biome.Precipitation.SNOW){
+        if (biomeEntry.value().getPrecipitation(this.getBlockPos()) == Biome.Precipitation.SNOW){
             camo = new TGIdentifier("arctic");
         } else if(biomeEntry.isIn(BiomeTags.IS_BADLANDS) || biomeEntry.isIn(BiomeTags.IS_SAVANNA)){
             camo = new TGIdentifier("desert");

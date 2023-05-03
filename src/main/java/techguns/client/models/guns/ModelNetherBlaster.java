@@ -1,10 +1,10 @@
 package techguns.client.models.guns;
 
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.render.VertexConsumer;
 import techguns.client.models.ModelPart;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
 import net.minecraft.entity.Entity;
 import techguns.client.models.ModelMultipart;
 import techguns.client.render.TGRenderHelper;
@@ -188,8 +188,8 @@ public class ModelNetherBlaster extends ModelMultipart {
 
 	@Override
 	public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft,
-		float reloadProgress, Mode transformType, int part, float fireProgress, float chargeProgress, int light,
-	int overlay) {
+					   float reloadProgress, ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light,
+					   int overlay) {
 	
 		Shape2.render(matrices, vertices, light, overlay);
 		Shape4.render(matrices, vertices, light, overlay);

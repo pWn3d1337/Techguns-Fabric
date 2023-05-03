@@ -3,7 +3,7 @@ package techguns.client.models.guns;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
-import net.minecraft.client.render.model.json.ModelTransformation.Mode;
+import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.entity.Entity;
 import techguns.client.models.ModelMultipart;
 import techguns.client.models.ModelPart;
@@ -133,7 +133,7 @@ public class ModelAUG extends ModelMultipart {
     	
     @Override
     public void render(Entity entityIn, MatrixStack matrices, VertexConsumer vertices, int ammoLeft, float reloadProgress,
-    		Mode transformType, int part, float fireProgress, float chargeProgress, int light, int overlay) {
+                       ModelTransformationMode transformType, int part, float fireProgress, float chargeProgress, int light, int overlay) {
     	if(part==0){
 	        this.ScopeMount1.render(matrices, vertices, light, overlay);
 	        this.Scope03.render(matrices, vertices, light, overlay);
